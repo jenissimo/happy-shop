@@ -1,0 +1,48 @@
+.field {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.label {
+  font-size: 11px;
+  color: var(--he-text-muted);
+}
+
+.swatchRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.swatch {
+  /* Size comes from ColorSwatchButton triggerMd; keep border radius aligned. */
+  border-radius: 4px;
+}
+
+.hex {
+  flex: 1;
+  min-width: 0;
+  padding: 0.25rem 0.35rem;
+  box-sizing: border-box;
+  background: var(--he-bg);
+  border: 1px solid var(--he-border);
+  border-radius: 4px;
+  color: var(--he-text);
+  font: inherit;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-transform: uppercase;
+}
+
+.hex:focus {
+  outline: 1px solid var(--he-focus);
+  border-color: var(--he-focus);
+}
+
+.hex:disabled {
+  opacity: 0.5;
+}

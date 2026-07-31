@@ -1,0 +1,28 @@
+{
+  "id": "c64",
+  "name": "Commodore 64",
+  "author": "Hardware palette",
+  "colorCount": 16,
+  "license": "Public domain (factual hardware colors)",
+  "licenseNote": "Standard Commodore 64 16-color hardware palette; factual hardware colors.",
+  "sourceUrl": "https://lospec.com/palette-list/c64",
+  "tags": ["16-color", "hardware"],
+  "colors": [
+    "#000000",
+    "#FFFFFF",
+    "#68372B",
+    "#70A4B2",
+    "#6F3D86",
+    "#588D43",
+    "#352879",
+    "#B8C76F",
+    "#6F4F25",
+    "#433900",
+    "#9A6759",
+    "#444444",
+    "#6C6C6C",
+    "#9AD284",
+    "#6C5EB5",
+    "#959595"
+  ]
+}

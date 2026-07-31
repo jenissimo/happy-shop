@@ -1,0 +1,42 @@
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--he-text-muted);
+  background: var(--he-panel-raised);
+  border: 1px solid var(--he-border);
+  border-radius: 4px;
+}
+
+.cacheList {
+  display: grid;
+  gap: 4px;
+  max-height: 144px;
+  margin: 6px 0;
+  overflow: auto;
+  padding: 0;
+  list-style: none;
+}
+
+.cacheList li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cacheList button,
+.badge > button {
+  border: 1px solid var(--he-border);
+  border-radius: var(--he-control-radius);
+  background: var(--he-bg);
+  color: var(--he-text);
+  font: inherit;
+  padding: 2px 5px;
+}
+
+.cacheList button:hover,
+.badge > button:hover {
+  background: var(--he-panel-raised);
+}

@@ -1,0 +1,33 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 72px 1fr 36px;
+  align-items: center;
+  gap: 6px;
+  color: var(--he-text-muted);
+  font-size: 11px;
+}
+
+.row input[type='range'] {
+  width: 100%;
+}
+
+.row output {
+  justify-self: end;
+  color: var(--he-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.caption {
+  color: var(--he-text-muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}

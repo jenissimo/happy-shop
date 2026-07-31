@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "revision": "3b292904c596",
+  "savedAt": "2026-07-31T16:50:09.356Z",
+  "document": {
+    "schemaVersion": 1,
+    "id": "96cc7096-f6ad-47eb-bbab-2d8c5f8bc1c3",
+    "name": "Untitled",
+    "canvas": {
+      "width": 1024,
+      "height": 768,
+      "colorSpace": "srgb",
+      "pixelFormat": "rgba8",
+      "background": "transparent"
+    },
+    "rootChildren": [],
+    "layers": {}
+  },
+  "assets": {}
+}

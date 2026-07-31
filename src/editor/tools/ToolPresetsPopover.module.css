@@ -1,0 +1,113 @@
+.barButton,
+.menuButton {
+  height: 22px;
+  padding: 0 6px;
+  border: 1px solid var(--he-border);
+  border-radius: var(--he-control-radius, 3px);
+  background: var(--he-bg);
+  color: var(--he-text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.barButton:hover,
+.menuButton:hover {
+  border-color: var(--he-panel-border);
+  background: var(--he-hover, rgba(255, 255, 255, 0.06));
+}
+
+.panel {
+  padding: var(--he-popover-pad, 8px);
+  font-size: var(--he-label-size, 11px);
+}
+
+.saveRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.saveRow input {
+  min-width: 0;
+  flex: 1;
+  height: var(--he-control-h-sm, 20px);
+  border: 1px solid var(--he-border);
+  border-radius: var(--he-control-radius, 3px);
+  background: var(--he-bg);
+  color: var(--he-text);
+  font: inherit;
+  padding: 0 5px;
+}
+
+.saveRow button {
+  height: var(--he-control-h-sm, 20px);
+  padding: 0 6px;
+  border: 1px solid var(--he-border);
+  border-radius: var(--he-control-radius, 3px);
+  background: var(--he-panel-raised);
+  color: var(--he-text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 10px;
+}
+
+.saveRow button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.empty {
+  margin: 6px 0 0;
+  color: var(--he-text-muted);
+  line-height: 1.35;
+}
+
+.list {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  max-height: 220px;
+  overflow: auto;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.apply {
+  min-width: 0;
+  flex: 1;
+  height: 22px;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: var(--he-text);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.apply:hover {
+  color: var(--he-text-bright);
+}
+
+.delete {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  background: transparent;
+  color: var(--he-text-muted);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+}
+
+.delete:hover {
+  color: var(--he-text-bright);
+}

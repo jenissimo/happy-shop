@@ -1,0 +1,73 @@
+.mascot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+.mascot img {
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  flex-shrink: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.interactive {
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.interactive:hover {
+  background: var(--he-mascot-hover);
+}
+
+.mood_thinking img {
+  animation: dog-pulse 0.9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.mood_success img {
+  animation: dog-wiggle 0.45s ease-in-out;
+  transform-origin: center bottom;
+}
+
+.mood_error img {
+  filter: grayscale(0.35) sepia(0.45) hue-rotate(-25deg) saturate(1.6);
+}
+
+.mood_unconfigured img {
+  opacity: 0.45;
+  filter: grayscale(1);
+}
+
+@keyframes dog-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.72;
+    transform: scale(0.92);
+  }
+}
+
+@keyframes dog-wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-8deg);
+  }
+  75% {
+    transform: rotate(8deg);
+  }
+}

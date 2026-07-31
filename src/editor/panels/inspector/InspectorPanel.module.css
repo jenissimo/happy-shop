@@ -1,0 +1,81 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.55rem;
+  height: 100%;
+  overflow: auto;
+}
+
+.empty {
+  color: var(--he-text-muted);
+  padding: 0.5rem 0.15rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--he-text-muted);
+}
+
+.hint {
+  margin: 0;
+  font-size: 11px;
+  color: var(--he-text-muted);
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.fieldLabel {
+  color: var(--he-text-muted);
+  font-size: 11px;
+}
+
+.readonlyValue {
+  color: var(--he-text);
+  font-size: 12px;
+}
+
+.input,
+.select,
+.fontButton {
+  width: 100%;
+  min-width: 0;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid var(--he-border);
+  border-radius: 3px;
+  background: var(--he-bg);
+  color: var(--he-text);
+}
+
+.input:focus,
+.select:focus,
+.fontButton:hover,
+.fontButton:focus-visible {
+  outline: 1px solid var(--he-focus);
+  border-color: var(--he-focus);
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+}

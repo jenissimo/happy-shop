@@ -1,0 +1,27 @@
+.button {
+  width: 100%;
+  min-width: 0;
+  height: 22px;
+  overflow: hidden;
+  border: 1px solid var(--he-border);
+  border-radius: 2px;
+  background: var(--he-bg);
+  color: var(--he-text);
+  cursor: pointer;
+  font: inherit;
+  padding: 0 1.1rem 0 5px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-image: linear-gradient(45deg, transparent 50%, var(--he-text-muted) 50%),
+    linear-gradient(135deg, var(--he-text-muted) 50%, transparent 50%);
+  background-position: calc(100% - 10px) calc(50% - 2px), calc(100% - 6px) calc(50% - 2px);
+  background-size: 4px 4px, 4px 4px;
+  background-repeat: no-repeat;
+}
+
+.button:hover,
+.button:focus-visible {
+  border-color: var(--he-focus);
+  outline: none;
+}

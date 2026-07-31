@@ -1,0 +1,79 @@
+.wrap {
+  position: relative;
+  width: 26px;
+  height: 32px;
+  margin: 0.1rem auto 0.15rem;
+  flex-shrink: 0;
+}
+
+.chipBtn {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--he-border);
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+.bg,
+.fg {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.bg {
+  right: 0;
+  bottom: 2px;
+  z-index: 1;
+}
+
+.fg {
+  left: 0;
+  top: 2px;
+  z-index: 2;
+}
+
+.swap,
+.defaults {
+  position: absolute;
+  z-index: 3;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.swap {
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  background:
+    linear-gradient(
+      135deg,
+      transparent 40%,
+      var(--he-text-muted) 40%,
+      var(--he-text-muted) 60%,
+      transparent 60%
+    );
+  opacity: 0.7;
+}
+
+.swap:hover,
+.defaults:hover {
+  opacity: 1;
+}
+
+.defaults {
+  left: 0;
+  bottom: 0;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--he-text-muted);
+  background: #fff;
+  box-shadow: 1px 1px 0 #000;
+  opacity: 0.75;
+}

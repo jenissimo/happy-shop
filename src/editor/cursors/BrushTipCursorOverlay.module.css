@@ -1,0 +1,30 @@
+.root {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.svg {
+  display: block;
+  overflow: visible;
+}
+
+.outer,
+.outerDashed {
+  fill: none;
+  stroke: #111;
+  stroke-width: 1;
+  paint-order: stroke;
+  filter: drop-shadow(0 0 0.6px #fff) drop-shadow(0 0 0.6px #fff);
+}
+
+.ghost {
+  fill: none;
+  stroke: #111;
+  stroke-width: 0.75;
+  opacity: 0.45;
+  filter: drop-shadow(0 0 0.5px #fff);
+}

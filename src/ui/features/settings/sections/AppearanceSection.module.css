@@ -1,0 +1,85 @@
+.intro {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--he-text-muted);
+}
+
+.intro code {
+  font-family: var(--he-font-mono);
+  font-size: 11px;
+  color: var(--he-text);
+}
+
+.palette {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.55rem;
+  border: 1px solid var(--he-border);
+  border-radius: 8px;
+  background: var(--he-panel-raised);
+  color: var(--he-text);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color 120ms ease,
+    background 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.card:hover {
+  border-color: var(--he-accent);
+  background: var(--he-panel);
+}
+
+.cardSelected {
+  border-color: var(--he-accent);
+  box-shadow: 0 0 0 1px var(--he-accent);
+}
+
+.swatch {
+  display: block;
+  height: 52px;
+  border-radius: 5px;
+  border: 1px solid var(--he-swatch-border);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-height: 2.4rem;
+}
+
+.cardLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  font-size: 13px;
+  color: var(--he-text-bright);
+}
+
+.cardDesc {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--he-text-muted);
+}
+
+.check {
+  color: var(--he-accent);
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .palette {
+    grid-template-columns: 1fr;
+  }
+}

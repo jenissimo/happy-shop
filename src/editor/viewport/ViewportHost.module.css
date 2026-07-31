@@ -1,0 +1,185 @@
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--he-bg);
+  touch-action: none;
+  cursor: default;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  /* Fill the host even when Pixi autoDensity sets inline CSS px sizes —
+     pointer mapping normalizes painted box → logical viewport size. */
+  width: 100% !important;
+  height: 100% !important;
+  /* Smooth CSS presentation; pixelated mode flips this via .canvasPixelated. */
+  image-rendering: auto;
+}
+
+.canvasPixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.rulerCorner,
+.rulerHorizontal,
+.rulerVertical {
+  position: absolute;
+  z-index: 3;
+  background: color-mix(in srgb, var(--he-panel-raised) 92%, #6e7a88);
+  border-color: var(--he-border);
+  color: var(--he-text-muted);
+  font: 9px/1 var(--he-font-mono);
+  user-select: none;
+}
+
+.rulerCorner {
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border-right: 1px solid var(--he-border);
+  border-bottom: 1px solid var(--he-border);
+}
+
+.rulerHorizontal {
+  top: 0;
+  left: 18px;
+  right: 0;
+  height: 18px;
+  border-bottom: 1px solid var(--he-border);
+  cursor: row-resize;
+  overflow: hidden;
+}
+
+.rulerVertical {
+  top: 18px;
+  bottom: 0;
+  left: 0;
+  width: 18px;
+  border-right: 1px solid var(--he-border);
+  cursor: col-resize;
+  overflow: hidden;
+}
+
+.rulerTick {
+  position: absolute;
+  display: block;
+  width: 1px;
+  height: 6px;
+  padding: 2px 0 0 2px;
+  border-left: 1px solid var(--he-text-muted);
+  white-space: nowrap;
+}
+
+.rulerVertical .rulerTick {
+  width: 16px;
+  height: 1px;
+  padding: 1px 0 0 2px;
+  border-top: 1px solid var(--he-text-muted);
+  border-left: 0;
+}
+
+.verticalGuide,
+.horizontalGuide {
+  position: absolute;
+  z-index: 3;
+  background: #34d8ff;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 35%);
+}
+
+.verticalGuide {
+  top: 18px;
+  bottom: 0;
+  width: 1px;
+  cursor: col-resize;
+}
+
+.horizontalGuide {
+  right: 0;
+  left: 18px;
+  height: 1px;
+  cursor: row-resize;
+}
+
+.brushShiftGuide {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.brushShiftGuideLight,
+.brushShiftGuideDark {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.brushShiftGuideLight {
+  stroke: #fff;
+  stroke-width: 2px;
+  opacity: 0.9;
+}
+
+.brushShiftGuideDark {
+  stroke: #111;
+  stroke-width: 1px;
+  opacity: 0.9;
+}
+
+.badge {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--he-border);
+  border-radius: 6px;
+  background: var(--he-panel-raised);
+  color: var(--he-text-muted);
+  font-family: var(--he-font-mono);
+  font-size: 11px;
+  line-height: 1;
+  box-shadow: var(--he-shadow-md);
+  pointer-events: none;
+  user-select: none;
+}
+
+.contextBanner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.4rem 0.7rem;
+  background: color-mix(in srgb, var(--he-warning, #c9a227) 18%, var(--he-panel-raised));
+  border-bottom: 1px solid var(--he-warning, #c9a227);
+  color: var(--he-text-bright, var(--he-text));
+  font-size: 12px;
+  line-height: 1.3;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.contextBannerMessage {
+  min-width: 0;
+  flex: 1;
+}
+
+.contextBannerActions {
+  display: flex;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  margin-left: auto;
+}

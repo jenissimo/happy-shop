@@ -1,0 +1,83 @@
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  height: calc(420px - 18px);
+  min-height: 0;
+  overflow: hidden;
+  color: var(--he-text);
+  font-size: var(--he-label-size);
+}
+
+.header, .packRow, .footer, .recents, .pair {
+  display: flex;
+  align-items: center;
+  gap: var(--he-control-gap);
+}
+
+.header input { flex: 1; min-width: 0; width: 100%; }
+.preview {
+  box-sizing: border-box;
+  width: 100%;
+  height: 64px;
+  flex: 0 0 auto;
+  border: 1px solid var(--he-border);
+  background: var(--he-panel);
+}
+.caption { margin-top: -5px; color: var(--he-text-muted); text-align: right; }
+.triplet {
+  --he-slider-label-width: 2.2rem;
+  --he-slider-input-width: 2.75rem;
+  --he-slider-gap: 0.3rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 7px;
+}
+.pair {
+  --he-angle-label-width: 2.35rem;
+  --he-angle-dial-size: 32px;
+  --he-angle-input-width: 3rem;
+  --he-angle-gap: 0.3rem;
+  --he-slider-label-width: 2.6rem;
+  --he-slider-input-width: 2.75rem;
+  --he-slider-gap: 0.3rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.pair > * { min-width: 0; }
+.packRow label { color: var(--he-text-muted); }
+.packRow select { flex: 1; }
+.importRow {
+  display: flex;
+  align-items: start;
+  gap: var(--he-control-gap);
+  color: var(--he-text-muted);
+  line-height: 1.25;
+}
+.importButton {
+  flex: 0 0 auto;
+  color: var(--he-text);
+  cursor: pointer;
+  text-decoration: underline;
+}
+.importButton input { display: none; }
+.disclaimer { font-size: 10px; }
+.importStatus { color: var(--he-text-muted); }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, var(--he-tip-chip));
+  gap: 4px;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  align-content: start;
+}
+.tipChip { width: var(--he-tip-chip); height: var(--he-tip-chip); padding: 1px; border: 1px solid transparent; border-radius: var(--he-control-radius); background: var(--he-panel); }
+.tipChip:hover, .selected { border-color: var(--he-accent); background: var(--he-panel-raised); }
+.tipChip canvas { width: 26px; height: 26px; }
+.footer { flex: 0 0 auto; justify-content: space-between; border-top: 1px solid var(--he-border); padding-top: 6px; }
+.recents { min-width: 0; overflow: hidden; }
+.recents > span { color: var(--he-text-muted); }
+.recents .tipChip { width: 22px; height: 22px; }
+.recents .tipChip canvas { width: 18px; height: 18px; }
+.footer > button { white-space: nowrap; }

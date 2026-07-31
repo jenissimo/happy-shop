@@ -1,0 +1,89 @@
+.root {
+  display: grid;
+  gap: 7px;
+  padding: 8px;
+  color: var(--he-text);
+  font-size: 11px;
+}
+
+.caption {
+  color: var(--he-text-bright);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  align-items: center;
+  gap: 5px;
+  color: var(--he-text-muted);
+}
+
+.row input {
+  width: 100%;
+  min-width: 0;
+  height: 22px;
+  padding: 0 5px;
+  border: 1px solid var(--he-border);
+  border-radius: 2px;
+  background: var(--he-bg);
+  color: var(--he-text);
+  font: inherit;
+}
+
+.fontButton {
+  color: var(--he-text) !important;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.button,
+.active {
+  display: inline-flex;
+  width: 23px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--he-border);
+  border-radius: 2px;
+  background: var(--he-bg);
+  color: var(--he-text);
+  cursor: pointer;
+}
+
+.active {
+  border-color: var(--he-focus);
+  background: var(--he-panel-raised);
+  color: var(--he-text-bright);
+}
+
+.color {
+  width: 22px;
+  height: 22px;
+  margin-right: 4px;
+}
+
+.note,
+.empty {
+  color: var(--he-text-muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.empty {
+  padding: 10px;
+}

@@ -1,0 +1,99 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1rem 1.15rem 1.15rem;
+}
+
+.current {
+  margin: 0;
+  font-size: 12px;
+  color: var(--he-text-muted);
+}
+
+.dimensionsRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.pixelUnit {
+  font-size: 11px;
+  color: var(--he-text-muted);
+  white-space: nowrap;
+  padding-bottom: 0.35rem;
+}
+
+.relativeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 13px;
+  color: var(--he-text);
+  cursor: pointer;
+}
+
+.anchorBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.label {
+  font-size: 12px;
+  color: var(--he-text-muted);
+}
+
+.anchorGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 22px);
+  grid-template-rows: repeat(3, 22px);
+  gap: 3px;
+  width: fit-content;
+}
+
+.anchorCell {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid var(--he-border);
+  border-radius: 3px;
+  background: var(--he-bg);
+  cursor: pointer;
+}
+
+.anchorCell:hover {
+  border-color: var(--he-text-muted);
+}
+
+.anchorCellActive {
+  background: var(--he-accent);
+  border-color: var(--he-accent);
+}
+
+.megapixelWarning {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.55rem 0.65rem;
+  background: color-mix(in srgb, var(--he-warning) 14%, var(--he-panel));
+  border: 1px solid var(--he-warning);
+  border-radius: 6px;
+  color: var(--he-text);
+  font-size: 12px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.megapixelWarning input {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.15rem;
+}

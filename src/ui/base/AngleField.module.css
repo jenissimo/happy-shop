@@ -1,0 +1,92 @@
+.field {
+  display: grid;
+  grid-template-columns: var(--he-angle-label-width, 5.5rem) var(--he-angle-dial-size, 40px) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--he-angle-gap, 0.55rem);
+  min-width: 0;
+}
+
+.label {
+  font-size: var(--he-label-size);
+  color: var(--he-text-muted);
+  user-select: none;
+}
+
+.dial {
+  position: relative;
+  width: var(--he-angle-dial-size, 40px);
+  height: var(--he-angle-dial-size, 40px);
+  border-radius: 50%;
+  border: 1px solid var(--he-border);
+  background:
+    radial-gradient(circle at center, var(--he-panel-raised) 55%, transparent 56%),
+    conic-gradient(from 0deg, var(--he-bg), var(--he-panel-raised));
+  cursor: crosshair;
+  touch-action: none;
+  flex-shrink: 0;
+}
+
+.dial:focus-visible {
+  outline: 1px solid var(--he-focus);
+  outline-offset: 2px;
+}
+
+.dialDisabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.needle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 14px;
+  margin-left: -1px;
+  margin-top: -14px;
+  border-radius: 1px;
+  background: var(--he-accent);
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+
+.hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%;
+  background: var(--he-text-bright, var(--he-text));
+  pointer-events: none;
+}
+
+.input {
+  width: var(--he-angle-input-width, 4.5rem);
+  min-width: var(--he-angle-input-width, 4.5rem);
+  box-sizing: border-box;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid var(--he-border);
+  border-radius: var(--he-control-radius);
+  background: var(--he-bg);
+  color: var(--he-text);
+  font: inherit;
+  font-size: var(--he-value-size);
+  font-variant-numeric: tabular-nums;
+}
+
+.input:focus {
+  outline: 1px solid var(--he-focus);
+  border-color: var(--he-focus);
+}
+
+.input:disabled {
+  opacity: 0.5;
+}
+
+.unit {
+  margin-left: 0.25rem;
+  font-size: var(--he-label-size);
+  color: var(--he-text-muted);
+}

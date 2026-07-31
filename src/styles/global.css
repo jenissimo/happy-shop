@@ -1,0 +1,49 @@
+@import './tokens.css';
+@import './fonts.css';
+@import './reset.css';
+
+body {
+  font-family: var(--he-font-ui);
+  font-size: 12px;
+  color: var(--he-text);
+  background: var(--he-bg);
+  overflow: hidden;
+}
+
+#root {
+  min-height: 100%;
+}
+
+.boot-screen {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  background: var(--he-bg);
+  color: var(--he-text-muted);
+}
+
+/* Dockview chrome — bind leftover defaults to theme tokens */
+.dockview-theme-dark,
+.dv-dockview {
+  --dv-background-color: var(--he-bg);
+  --dv-group-view-background-color: var(--he-bg);
+  --dv-tabs-and-actions-container-background-color: var(--he-panel-raised);
+  --dv-activegroup-visiblepanel-tab-background-color: var(--he-panel);
+  --dv-activegroup-hiddenpanel-tab-background-color: var(--he-panel-raised);
+  --dv-inactivegroup-visiblepanel-tab-background-color: var(--he-panel);
+  --dv-inactivegroup-hiddenpanel-tab-background-color: var(--he-panel-raised);
+  --dv-tab-divider-color: var(--he-panel-border);
+  --dv-separator-border: var(--he-panel-border);
+  --dv-paneview-header-border-color: var(--he-panel-border);
+  --dv-activegroup-visiblepanel-tab-color: var(--he-text-bright);
+  --dv-activegroup-hiddenpanel-tab-color: var(--he-text-muted);
+  --dv-inactivegroup-visiblepanel-tab-color: var(--he-text);
+  --dv-inactivegroup-hiddenpanel-tab-color: var(--he-text-muted);
+  color: var(--he-text);
+}
+
+.dv-content-container,
+.dv-groupview,
+.dv-view {
+  background: var(--he-panel);
+}

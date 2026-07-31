@@ -1,0 +1,491 @@
+/*
+  Design tokens — Happy Editor
+  ------------------------------------------------------------
+  Hex / rgba values live HERE only.
+  Themes switch via <html data-theme="…"> (see editor/theme).
+  Components reference semantic --he-* vars (and the surface
+  ladder --he-gray-* when a mid-tone is needed).
+*/
+
+:root {
+  --he-font-ui: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --he-font-mono: ui-monospace, 'Cascadia Code', 'Consolas', monospace;
+  --he-control-h-sm: 20px;
+  --he-control-h: 22px;
+  --he-control-h-lg: 26px;
+  --he-control-radius: 3px;
+  --he-control-gap: 0.35rem;
+  --he-group-gap: 0.75rem;
+  --he-popover-pad: 8px;
+  --he-popover-radius: 5px;
+  --he-swatch: 22px;
+  --he-tip-chip: 30px;
+  --he-label-size: 11px;
+  --he-value-size: 12px;
+
+  /* Dockview chrome — always bound to semantic surfaces */
+  --dv-group-view-background-color: var(--he-bg);
+  --dv-tabs-and-actions-container-background-color: var(--he-panel-raised);
+  --dv-activegroup-visiblepanel-tab-background-color: var(--he-panel);
+  --dv-activegroup-hiddenpanel-tab-background-color: var(--he-panel-raised);
+  --dv-inactivegroup-visiblepanel-tab-background-color: var(--he-panel);
+  --dv-inactivegroup-hiddenpanel-tab-background-color: var(--he-panel-raised);
+  --dv-tab-divider-color: var(--he-panel-border);
+  --dv-separator-border: var(--he-panel-border);
+  --dv-paneview-header-border-color: var(--he-panel-border);
+  --dv-activegroup-visiblepanel-tab-color: var(--he-text-bright);
+  --dv-activegroup-hiddenpanel-tab-color: var(--he-text-muted);
+  --dv-inactivegroup-visiblepanel-tab-color: var(--he-text);
+  --dv-inactivegroup-hiddenpanel-tab-color: var(--he-text-muted);
+}
+
+/* ——— Midnight (default): cool charcoal + soft steel blue ——— */
+:root,
+[data-theme='midnight'] {
+  color-scheme: dark;
+
+  --he-gray-950: #0c0d0f;
+  --he-gray-900: #14161a;
+  --he-gray-850: #1a1d23;
+  --he-gray-800: #1c1f26;
+  --he-gray-700: #2a2f38;
+  --he-gray-600: #3a4150;
+  --he-gray-500: #6b7280;
+  --he-gray-400: #9ca3af;
+  --he-gray-200: #e5e7eb;
+  --he-gray-100: #f3f4f6;
+
+  --he-accent: #5b9fd4;
+  --he-accent-strong: #3d7eb5;
+  --he-danger: #e35d6a;
+  --he-ok: #3d9a6a;
+  --he-warning: #d4a017;
+
+  --he-bg: var(--he-gray-950);
+  --he-panel: var(--he-gray-900);
+  --he-panel-raised: var(--he-gray-850);
+  --he-panel-border: var(--he-gray-800);
+  --he-border: var(--he-gray-700);
+  --he-text: var(--he-gray-200);
+  --he-text-bright: var(--he-gray-100);
+  --he-text-muted: var(--he-gray-500);
+  --he-focus: var(--he-accent);
+  --he-select: var(--he-accent-strong);
+  --he-on-accent: #f3f4f6;
+  --he-on-select: #f3f4f6;
+  --he-overlay: rgba(0, 0, 0, 0.5);
+  --he-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --he-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.55);
+  --he-guide: #ff6a3d;
+  --he-guide-soft: #4a9eff;
+  --he-grid-line: rgba(255, 255, 255, 0.1);
+  --he-handle-border: #ffffff;
+  --he-swatch-border: rgba(255, 255, 255, 0.15);
+  --he-conflict-bg: #3a2218;
+  --he-chat-user-bg: #2a3540;
+  --he-chat-user-border: #3a4a5a;
+  --he-chat-system-bg: #2a2420;
+  --he-chat-system-border: #4a3a30;
+  --he-chat-system-text: #d0b090;
+  --he-mascot-hover: rgba(255, 255, 255, 0.06);
+}
+
+/* ——— Paper: cool light slate (not cream / not purple) ——— */
+[data-theme='paper'] {
+  color-scheme: light;
+
+  --he-gray-950: #e6eaef;
+  --he-gray-900: #f3f5f7;
+  --he-gray-850: #ebf0f4;
+  --he-gray-800: #d5dce4;
+  --he-gray-700: #c8d0da;
+  --he-gray-600: #a8b2bf;
+  --he-gray-500: #5c6673;
+  --he-gray-400: #4a5563;
+  --he-gray-200: #252b33;
+  --he-gray-100: #14181e;
+
+  --he-accent: #3d7eb5;
+  --he-accent-strong: #2f6a9a;
+  --he-danger: #c23b4a;
+  --he-ok: #2f7a52;
+  --he-warning: #b8860b;
+
+  --he-bg: var(--he-gray-950);
+  --he-panel: var(--he-gray-900);
+  --he-panel-raised: var(--he-gray-850);
+  --he-panel-border: var(--he-gray-800);
+  --he-border: var(--he-gray-700);
+  --he-text: var(--he-gray-200);
+  --he-text-bright: var(--he-gray-100);
+  --he-text-muted: var(--he-gray-500);
+  --he-focus: var(--he-accent);
+  --he-select: var(--he-accent-strong);
+  --he-on-accent: #f8fafc;
+  --he-on-select: #f8fafc;
+  --he-overlay: rgba(20, 24, 30, 0.35);
+  --he-shadow-md: 0 8px 24px rgba(20, 24, 30, 0.12);
+  --he-shadow-lg: 0 16px 40px rgba(20, 24, 30, 0.16);
+  --he-guide: #e85a2a;
+  --he-guide-soft: #2f7fd4;
+  --he-grid-line: rgba(20, 24, 30, 0.1);
+  --he-handle-border: #ffffff;
+  --he-swatch-border: rgba(20, 24, 30, 0.2);
+  --he-conflict-bg: #f3e0d6;
+  --he-chat-user-bg: #d9e6f2;
+  --he-chat-user-border: #b7c9db;
+  --he-chat-system-bg: #f3ebe3;
+  --he-chat-system-border: #d9c4b0;
+  --he-chat-system-text: #6a4e38;
+  --he-mascot-hover: rgba(20, 24, 30, 0.06);
+}
+
+/* ——— Ember: midnight surfaces, warm copper accent ——— */
+[data-theme='ember'] {
+  color-scheme: dark;
+
+  --he-gray-950: #100e0c;
+  --he-gray-900: #181512;
+  --he-gray-850: #1f1b17;
+  --he-gray-800: #26201b;
+  --he-gray-700: #3a322a;
+  --he-gray-600: #52483c;
+  --he-gray-500: #8a7e70;
+  --he-gray-400: #b8a99a;
+  --he-gray-200: #ebe4dc;
+  --he-gray-100: #f7f1ea;
+
+  --he-accent: #d4a05a;
+  --he-accent-strong: #b8843c;
+  --he-danger: #e35d6a;
+  --he-ok: #4a9a6a;
+  --he-warning: #e0b040;
+
+  --he-bg: var(--he-gray-950);
+  --he-panel: var(--he-gray-900);
+  --he-panel-raised: var(--he-gray-850);
+  --he-panel-border: var(--he-gray-800);
+  --he-border: var(--he-gray-700);
+  --he-text: var(--he-gray-200);
+  --he-text-bright: var(--he-gray-100);
+  --he-text-muted: var(--he-gray-500);
+  --he-focus: var(--he-accent);
+  --he-select: var(--he-accent-strong);
+  --he-on-accent: #1a1410;
+  --he-on-select: #1a1410;
+  --he-overlay: rgba(0, 0, 0, 0.55);
+  --he-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --he-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
+  --he-guide: #ff7a45;
+  --he-guide-soft: #d4a05a;
+  --he-grid-line: rgba(255, 230, 200, 0.1);
+  --he-handle-border: #fff8f0;
+  --he-swatch-border: rgba(255, 240, 220, 0.18);
+  --he-conflict-bg: #3a2218;
+  --he-chat-user-bg: #3a3024;
+  --he-chat-user-border: #5a4a38;
+  --he-chat-system-bg: #2a2420;
+  --he-chat-system-border: #4a3a30;
+  --he-chat-system-text: #d0b090;
+  --he-mascot-hover: rgba(255, 240, 220, 0.07);
+}
+
+/* ——— Abyss: deep ocean teal-ink ——— */
+[data-theme='abyss'] {
+  color-scheme: dark;
+
+  --he-gray-950: #060b10;
+  --he-gray-900: #0c141c;
+  --he-gray-850: #111c26;
+  --he-gray-800: #162330;
+  --he-gray-700: #243848;
+  --he-gray-600: #365468;
+  --he-gray-500: #6a8496;
+  --he-gray-400: #9ab0bf;
+  --he-gray-200: #d4e2ea;
+  --he-gray-100: #eaf3f7;
+
+  --he-accent: #2eb8a8;
+  --he-accent-strong: #1f9a8c;
+  --he-danger: #e35d6a;
+  --he-ok: #3da87a;
+  --he-warning: #d4a84a;
+
+  --he-bg: var(--he-gray-950);
+  --he-panel: var(--he-gray-900);
+  --he-panel-raised: var(--he-gray-850);
+  --he-panel-border: var(--he-gray-800);
+  --he-border: var(--he-gray-700);
+  --he-text: var(--he-gray-200);
+  --he-text-bright: var(--he-gray-100);
+  --he-text-muted: var(--he-gray-500);
+  --he-focus: var(--he-accent);
+  --he-select: var(--he-accent-strong);
+  --he-on-accent: #041012;
+  --he-on-select: #041012;
+  --he-overlay: rgba(0, 8, 16, 0.55);
+  --he-shadow-md: 0 8px 24px rgba(0, 8, 16, 0.5);
+  --he-shadow-lg: 0 16px 48px rgba(0, 8, 16, 0.6);
+  --he-guide: #ff7a4a;
+  --he-guide-soft: #3ec8d4;
+  --he-grid-line: rgba(180, 220, 230, 0.1);
+  --he-handle-border: #eaf3f7;
+  --he-swatch-border: rgba(180, 220, 230, 0.16);
+  --he-conflict-bg: #2a2018;
+  --he-chat-user-bg: #163038;
+  --he-chat-user-border: #2a4a54;
+  --he-chat-system-bg: #1a2420;
+  --he-chat-system-border: #2e4038;
+  --he-chat-system-text: #a8c8b8;
+  --he-mascot-hover: rgba(180, 220, 230, 0.07);
+}
+
+/* ——— Moss: quiet forest studio ——— */
+[data-theme='moss'] {
+  color-scheme: dark;
+
+  --he-gray-950: #0a0f0c;
+  --he-gray-900: #121916;
+  --he-gray-850: #18201c;
+  --he-gray-800: #1e2923;
+  --he-gray-700: #2e3c34;
+  --he-gray-600: #45564a;
+  --he-gray-500: #7a8c80;
+  --he-gray-400: #a8b8ac;
+  --he-gray-200: #dde6df;
+  --he-gray-100: #eef4f0;
+
+  --he-accent: #7aad6e;
+  --he-accent-strong: #5f8f56;
+  --he-danger: #d95d68;
+  --he-ok: #5a9e6e;
+  --he-warning: #c9a84a;
+
+  --he-bg: var(--he-gray-950);
+  --he-panel: var(--he-gray-900);
+  --he-panel-raised: var(--he-gray-850);
+  --he-panel-border: var(--he-gray-800);
+  --he-border: var(--he-gray-700);
+  --he-text: var(--he-gray-200);
+  --he-text-bright: var(--he-gray-100);
+  --he-text-muted: var(--he-gray-500);
+  --he-focus: var(--he-accent);
+  --he-select: var(--he-accent-strong);
+  --he-on-accent: #0c120e;
+  --he-on-select: #0c120e;
+  --he-overlay: rgba(0, 8, 4, 0.55);
+  --he-shadow-md: 0 8px 24px rgba(0, 8, 4, 0.5);
+  --he-shadow-lg: 0 16px 48px rgba(0, 8, 4, 0.6);
+  --he-guide: #e07040;
+  --he-guide-soft: #8ec47a;
+  --he-grid-line: rgba(200, 230, 210, 0.1);
+  --he-handle-border: #eef4f0;
+  --he-swatch-border: rgba(200, 230, 210, 0.16);
+  --he-conflict-bg: #2e2418;
+  --he-chat-user-bg: #243028;
+  --he-chat-user-border: #3a4c40;
+  --he-chat-system-bg: #242820;
+  --he-chat-system-border: #3c4434;
+  --he-chat-system-text: #b8c8a0;
+  --he-mascot-hover: rgba(200, 230, 210, 0.07);
+}
+
+/* ——— Ink: near-black, sharp rose accent ——— */
+[data-theme='ink'] {
+  color-scheme: dark;
+
+  --he-gray-950: #050505;
+  --he-gray-900: #0e0e0e;
+  --he-gray-850: #141414;
+  --he-gray-800: #1c1c1c;
+  --he-gray-700: #2e2e2e;
+  --he-gray-600: #484848;
+  --he-gray-500: #7a7a7a;
+  --he-gray-400: #b0b0b0;
+  --he-gray-200: #e8e8e8;
+  --he-gray-100: #f5f5f5;
+
+  --he-accent: #ff2d55;
+  --he-accent-strong: #d42045;
+  --he-danger: #ff4d5e;
+  --he-ok: #34c77b;
+  --he-warning: #f0b429;
+
+  --he-bg: var(--he-gray-950);
+  --he-panel: var(--he-gray-900);
+  --he-panel-raised: var(--he-gray-850);
+  --he-panel-border: var(--he-gray-800);
+  --he-border: var(--he-gray-700);
+  --he-text: var(--he-gray-200);
+  --he-text-bright: var(--he-gray-100);
+  --he-text-muted: var(--he-gray-500);
+  --he-focus: var(--he-accent);
+  --he-select: var(--he-accent-strong);
+  --he-on-accent: #ffffff;
+  --he-on-select: #ffffff;
+  --he-overlay: rgba(0, 0, 0, 0.65);
+  --he-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --he-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.7);
+  --he-guide: #ff8a3d;
+  --he-guide-soft: #5ad0ff;
+  --he-grid-line: rgba(255, 255, 255, 0.12);
+  --he-handle-border: #ffffff;
+  --he-swatch-border: rgba(255, 255, 255, 0.18);
+  --he-conflict-bg: #2a1418;
+  --he-chat-user-bg: #1e1e22;
+  --he-chat-user-border: #36363c;
+  --he-chat-system-bg: #221818;
+  --he-chat-system-border: #3c2828;
+  --he-chat-system-text: #d0a0a8;
+  --he-mascot-hover: rgba(255, 255, 255, 0.06);
+}
+
+/* ——— Frost: soft nord polar night ——— */
+[data-theme='frost'] {
+  color-scheme: dark;
+
+  --he-gray-950: #1b1f26;
+  --he-gray-900: #242933;
+  --he-gray-850: #2b313d;
+  --he-gray-800: #343b49;
+  --he-gray-700: #434c5e;
+  --he-gray-600: #5a6478;
+  --he-gray-500: #8a93a6;
+  --he-gray-400: #b0b8c8;
+  --he-gray-200: #e0e4ec;
+  --he-gray-100: #eceff4;
+
+  --he-accent: #88c0d0;
+  --he-accent-strong: #6aa8bc;
+  --he-danger: #d06a76;
+  --he-ok: #8fbc8f;
+  --he-warning: #e0b86a;
+
+  --he-bg: var(--he-gray-950);
+  --he-panel: var(--he-gray-900);
+  --he-panel-raised: var(--he-gray-850);
+  --he-panel-border: var(--he-gray-800);
+  --he-border: var(--he-gray-700);
+  --he-text: var(--he-gray-200);
+  --he-text-bright: var(--he-gray-100);
+  --he-text-muted: var(--he-gray-500);
+  --he-focus: var(--he-accent);
+  --he-select: var(--he-accent-strong);
+  --he-on-accent: #1b1f26;
+  --he-on-select: #1b1f26;
+  --he-overlay: rgba(16, 20, 28, 0.55);
+  --he-shadow-md: 0 8px 24px rgba(16, 20, 28, 0.45);
+  --he-shadow-lg: 0 16px 48px rgba(16, 20, 28, 0.55);
+  --he-guide: #d08770;
+  --he-guide-soft: #81a1c1;
+  --he-grid-line: rgba(236, 239, 244, 0.1);
+  --he-handle-border: #eceff4;
+  --he-swatch-border: rgba(236, 239, 244, 0.14);
+  --he-conflict-bg: #3a2e28;
+  --he-chat-user-bg: #2e3a48;
+  --he-chat-user-border: #445266;
+  --he-chat-system-bg: #323028;
+  --he-chat-system-border: #4a4638;
+  --he-chat-system-text: #d0c0a0;
+  --he-mascot-hover: rgba(236, 239, 244, 0.06);
+}
+
+/* ——— Dusk: blue-hour slate + apricot ——— */
+[data-theme='dusk'] {
+  color-scheme: dark;
+
+  --he-gray-950: #0c0e16;
+  --he-gray-900: #141822;
+  --he-gray-850: #1a1f2c;
+  --he-gray-800: #222838;
+  --he-gray-700: #343c52;
+  --he-gray-600: #4c5670;
+  --he-gray-500: #858ea8;
+  --he-gray-400: #b0b8cc;
+  --he-gray-200: #e4e6f0;
+  --he-gray-100: #f2f3f8;
+
+  --he-accent: #e09a6c;
+  --he-accent-strong: #c47e52;
+  --he-danger: #e35d6a;
+  --he-ok: #5aaa7a;
+  --he-warning: #e0b050;
+
+  --he-bg: var(--he-gray-950);
+  --he-panel: var(--he-gray-900);
+  --he-panel-raised: var(--he-gray-850);
+  --he-panel-border: var(--he-gray-800);
+  --he-border: var(--he-gray-700);
+  --he-text: var(--he-gray-200);
+  --he-text-bright: var(--he-gray-100);
+  --he-text-muted: var(--he-gray-500);
+  --he-focus: var(--he-accent);
+  --he-select: var(--he-accent-strong);
+  --he-on-accent: #140e0c;
+  --he-on-select: #140e0c;
+  --he-overlay: rgba(4, 6, 14, 0.55);
+  --he-shadow-md: 0 8px 24px rgba(4, 6, 14, 0.5);
+  --he-shadow-lg: 0 16px 48px rgba(4, 6, 14, 0.6);
+  --he-guide: #ff7a55;
+  --he-guide-soft: #8aa0d4;
+  --he-grid-line: rgba(220, 220, 240, 0.1);
+  --he-handle-border: #f2f3f8;
+  --he-swatch-border: rgba(220, 220, 240, 0.15);
+  --he-conflict-bg: #322418;
+  --he-chat-user-bg: #282840;
+  --he-chat-user-border: #3e3e5a;
+  --he-chat-system-bg: #2a2420;
+  --he-chat-system-border: #4a3a30;
+  --he-chat-system-text: #d0b090;
+  --he-mascot-hover: rgba(220, 220, 240, 0.07);
+}
+
+/* ——— Mist: cool aqua light workspace ——— */
+[data-theme='mist'] {
+  color-scheme: light;
+
+  --he-gray-950: #dfe8ea;
+  --he-gray-900: #eef4f5;
+  --he-gray-850: #e6eef0;
+  --he-gray-800: #cdd9dc;
+  --he-gray-700: #b8c6ca;
+  --he-gray-600: #93a4a9;
+  --he-gray-500: #5a6b70;
+  --he-gray-400: #45555a;
+  --he-gray-200: #1e2a2e;
+  --he-gray-100: #121a1d;
+
+  --he-accent: #2a8f8a;
+  --he-accent-strong: #1f7570;
+  --he-danger: #c23b4a;
+  --he-ok: #2f7a52;
+  --he-warning: #a87a10;
+
+  --he-bg: var(--he-gray-950);
+  --he-panel: var(--he-gray-900);
+  --he-panel-raised: var(--he-gray-850);
+  --he-panel-border: var(--he-gray-800);
+  --he-border: var(--he-gray-700);
+  --he-text: var(--he-gray-200);
+  --he-text-bright: var(--he-gray-100);
+  --he-text-muted: var(--he-gray-500);
+  --he-focus: var(--he-accent);
+  --he-select: var(--he-accent-strong);
+  --he-on-accent: #f4fbfa;
+  --he-on-select: #f4fbfa;
+  --he-overlay: rgba(18, 26, 29, 0.35);
+  --he-shadow-md: 0 8px 24px rgba(18, 26, 29, 0.1);
+  --he-shadow-lg: 0 16px 40px rgba(18, 26, 29, 0.14);
+  --he-guide: #d95a2a;
+  --he-guide-soft: #2a8f8a;
+  --he-grid-line: rgba(18, 26, 29, 0.1);
+  --he-handle-border: #ffffff;
+  --he-swatch-border: rgba(18, 26, 29, 0.18);
+  --he-conflict-bg: #f0e4d8;
+  --he-chat-user-bg: #d4e8e6;
+  --he-chat-user-border: #b0d0cc;
+  --he-chat-system-bg: #e8ebe4;
+  --he-chat-system-border: #c8cdc0;
+  --he-chat-system-text: #4a5848;
+  --he-mascot-hover: rgba(18, 26, 29, 0.06);
+}

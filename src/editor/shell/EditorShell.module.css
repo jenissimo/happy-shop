@@ -1,0 +1,43 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--he-bg);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+.dock {
+  flex: 1;
+  min-height: 0;
+}
+
+.conflict {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--he-conflict-bg);
+  border-bottom: 1px solid var(--he-danger);
+  color: var(--he-text-bright);
+  font-size: 12px;
+}
+
+.conflictActions {
+  display: flex;
+  gap: 0.35rem;
+  margin-left: auto;
+}

@@ -1,0 +1,28 @@
+{
+  "id": "edg16",
+  "name": "Endesga 16",
+  "author": "Endesga",
+  "colorCount": 16,
+  "license": "CC0-1.0",
+  "licenseNote": "Dedicated to the public domain (CC0 1.0).",
+  "sourceUrl": "https://lospec.com/palette-list/edg16",
+  "tags": ["16-color"],
+  "colors": [
+    "#ADAFBC",
+    "#FFFFFF",
+    "#4397DE",
+    "#266198",
+    "#0D2A40",
+    "#000000",
+    "#2E222F",
+    "#3C3549",
+    "#574751",
+    "#946551",
+    "#626262",
+    "#FFB997",
+    "#D79664",
+    "#A23133",
+    "#521E1E",
+    "#EA6262"
+  ]
+}

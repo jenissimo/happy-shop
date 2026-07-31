@@ -1,0 +1,79 @@
+.strip {
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  height: 26px;
+  flex-shrink: 0;
+  padding: 0 0.25rem;
+  background: var(--he-bg);
+  border-bottom: 1px solid var(--he-panel-border);
+  overflow-x: auto;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 180px;
+  height: 22px;
+  padding: 0 0.55rem;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+  background: transparent;
+  color: var(--he-text-muted);
+  font-size: 11px;
+  cursor: default;
+}
+
+.tab:hover {
+  color: var(--he-text);
+  background: var(--he-gray-700);
+}
+
+.active {
+  background: var(--he-panel);
+  color: var(--he-text-bright);
+  border-color: var(--he-panel-border);
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dirty {
+  width: 0.55rem;
+  color: var(--he-accent);
+  font-size: 9px;
+  line-height: 1;
+}
+
+.close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  margin-left: 0.1rem;
+  border-radius: 2px;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--he-text-muted);
+  opacity: 0;
+}
+
+.tab:hover .close,
+.active .close {
+  opacity: 1;
+}
+
+.close:hover {
+  color: var(--he-text-bright);
+  background: var(--he-gray-600);
+}
+
+.dragOver {
+  box-shadow: inset 2px 0 0 var(--he-accent, #5b9bd5);
+}

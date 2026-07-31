@@ -1,0 +1,240 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--he-panel, #252525);
+  color: var(--he-text, #ddd);
+  font-size: 12px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--he-panel-border, #3b3b3b);
+}
+
+.title {
+  flex: 1;
+  color: var(--he-text-bright, #f2f2f2);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.toolbar button,
+.eye,
+.delete {
+  display: inline-grid;
+  place-items: center;
+  width: 23px;
+  height: 22px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--he-text-muted, #aaa);
+  cursor: pointer;
+}
+
+.toolbar button:hover:not(:disabled),
+.eye:hover,
+.delete:hover {
+  border-color: var(--he-panel-border, #4c4c4c);
+  background: var(--he-hover, rgba(255, 255, 255, 0.08));
+  color: var(--he-text, #eee);
+}
+
+.toolbar button:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.toolbar .presets {
+  display: block;
+  width: auto;
+  height: 22px;
+  padding: 0 4px;
+  font: inherit;
+  font-size: 10px;
+}
+
+.presetLibrary {
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--he-panel-border, #3b3b3b);
+  background: color-mix(in srgb, var(--he-panel, #252525) 88%, black);
+}
+
+.presetSave,
+.presetRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.presetSave input {
+  min-width: 0;
+  flex: 1;
+  height: 22px;
+  border: 1px solid var(--he-panel-border, #4c4c4c);
+  border-radius: 2px;
+  background: var(--he-input, #1c1c1c);
+  color: inherit;
+  font: inherit;
+  padding: 0 5px;
+}
+
+.presetSave button {
+  width: auto;
+  padding: 0 5px;
+  font: inherit;
+  font-size: 10px;
+}
+
+.presetList {
+  margin-top: 4px;
+  max-height: 132px;
+  overflow: auto;
+}
+
+.presetRow {
+  min-width: 0;
+}
+
+.presetApply {
+  min-width: 0;
+  flex: 1;
+  height: 22px;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.presetApply:hover {
+  color: var(--he-text-bright, #fff);
+}
+
+.presetDelete {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  background: transparent;
+  color: var(--he-text-muted, #aaa);
+  cursor: pointer;
+  font: inherit;
+}
+
+.presetDelete:hover {
+  color: #ef7979;
+}
+
+.presetEmpty {
+  padding-top: 5px;
+  color: var(--he-text-muted, #999);
+  font-size: 10px;
+}
+
+.layerName {
+  padding: 5px 8px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--he-panel-border, #3b3b3b);
+  color: var(--he-text-muted, #aaa);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.list {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 3px 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 28px;
+  padding: 0 5px;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.row:hover {
+  background: var(--he-hover, rgba(255, 255, 255, 0.06));
+}
+
+.row.dragOver {
+  border-top-color: var(--he-accent, #5b9bd5);
+}
+
+.row.disabled {
+  color: var(--he-text-muted, #888);
+  opacity: 0.62;
+}
+
+.handle {
+  width: 14px;
+  color: var(--he-text-muted, #888);
+  cursor: grab;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.effectName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.effectTitle {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.effectBlend {
+  display: block;
+  overflow: hidden;
+  color: var(--he-text-muted, #999);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.delete {
+  opacity: 0;
+}
+
+.row:hover .delete {
+  opacity: 1;
+}
+
+.empty {
+  padding: 12px 10px;
+  color: var(--he-text-muted, #999);
+  line-height: 1.45;
+}
+
+.footer {
+  padding: 6px 8px;
+  border-top: 1px solid var(--he-panel-border, #3b3b3b);
+  color: var(--he-text-muted, #999);
+  font-size: 10px;
+  line-height: 1.35;
+}

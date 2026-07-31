@@ -1,0 +1,97 @@
+.root {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  height: 20px;
+  max-width: 140px;
+  padding: 0 0.35rem;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--he-text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.trigger:hover,
+.trigger[aria-expanded='true'] {
+  border-color: var(--he-border);
+  background: var(--he-gray-700);
+  color: var(--he-text-bright);
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.caret {
+  flex-shrink: 0;
+  font-size: 9px;
+  color: var(--he-text-muted);
+}
+
+.menu {
+  padding: 0.25rem;
+  font-size: 11px;
+}
+
+.menu button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.3rem 0.45rem;
+  border: none;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--he-text);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+}
+
+.menu button:hover:not(:disabled) {
+  background: var(--he-gray-700);
+}
+
+.menu button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.menu button[aria-checked='true'] {
+  color: var(--he-text-bright);
+}
+
+.check {
+  flex-shrink: 0;
+  width: 0.75rem;
+  color: var(--he-text-muted);
+  text-align: center;
+}
+
+.sep {
+  height: 1px;
+  margin: 0.2rem 0.35rem;
+  border: none;
+  background: var(--he-border);
+}
+
+.sectionLabel {
+  padding: 0.25rem 0.45rem 0.1rem;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--he-text-muted);
+  pointer-events: none;
+  user-select: none;
+}

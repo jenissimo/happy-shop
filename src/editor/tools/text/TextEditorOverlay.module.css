@@ -1,0 +1,36 @@
+.editor {
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  resize: none;
+  /* Box text scrolls instead of clipping live content while it is edited. */
+  overflow: auto;
+  outline: none;
+  box-shadow: none;
+  caret-color: var(--he-text-bright);
+  /* Alignment positions the block; glyph order stays LTR for Latin text. */
+  direction: ltr;
+  unicode-bidi: isolate;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* Point text has no frame: preserve only explicit line breaks and let its
+   measured width grow with content. */
+.pointEditor {
+  overflow: visible;
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* Only paragraph text exposes a frame. */
+.boxEditor {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--he-focus) 70%, transparent);
+  background: color-mix(in srgb, var(--he-bg) 35%, transparent);
+}

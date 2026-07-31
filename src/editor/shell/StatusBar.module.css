@@ -1,0 +1,48 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  height: 22px;
+  padding: 0 0.55rem;
+  background: var(--he-panel-raised);
+  border-top: 1px solid var(--he-panel-border);
+  color: var(--he-text-muted);
+  font-size: 11px;
+  line-height: 1;
+  user-select: none;
+}
+
+.zoom {
+  font-family: var(--he-font-mono);
+  color: var(--he-text);
+  min-width: 2.5rem;
+}
+
+.sep {
+  width: 1px;
+  height: 12px;
+  background: var(--he-border);
+}
+
+.doc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.selection {
+  font-family: var(--he-font-mono);
+  color: var(--he-text);
+  white-space: nowrap;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.tool {
+  text-transform: capitalize;
+  opacity: 0.85;
+}

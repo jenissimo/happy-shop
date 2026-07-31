@@ -1,0 +1,222 @@
+[
+  {
+    "id": "dr-grain.bristle",
+    "name": "Bristle",
+    "pack": "dr-grain",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/dr-grain/bristle.png",
+      "width": 54,
+      "height": 52
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Media Grains",
+      "source": "https://www.davidrevoy.com/article1060/krita-brushes-2025-01-bundle",
+      "author": "David Revoy"
+    }
+  },
+  {
+    "id": "dr-grain.bristles-circle-medium",
+    "name": "Bristles Circle Medium",
+    "pack": "dr-grain",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/dr-grain/bristles-circle-medium.png",
+      "width": 200,
+      "height": 195
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Media Grains",
+      "source": "https://www.davidrevoy.com/article1060/krita-brushes-2025-01-bundle",
+      "author": "David Revoy"
+    }
+  },
+  {
+    "id": "dr-grain.bristles-compact-mini",
+    "name": "Bristles Compact Mini",
+    "pack": "dr-grain",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/dr-grain/bristles-compact-mini.png",
+      "width": 64,
+      "height": 64
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Media Grains",
+      "source": "https://www.davidrevoy.com/article1060/krita-brushes-2025-01-bundle",
+      "author": "David Revoy"
+    }
+  },
+  {
+    "id": "dr-grain.chalk",
+    "name": "Chalk",
+    "pack": "dr-grain",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/dr-grain/chalk.png",
+      "width": 256,
+      "height": 256
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Media Grains",
+      "source": "https://www.davidrevoy.com/article1060/krita-brushes-2025-01-bundle",
+      "author": "David Revoy"
+    }
+  },
+  {
+    "id": "dr-grain.chalk-round-hard",
+    "name": "Chalk Round Hard",
+    "pack": "dr-grain",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/dr-grain/chalk-round-hard.png",
+      "width": 300,
+      "height": 300
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Media Grains",
+      "source": "https://www.davidrevoy.com/article1060/krita-brushes-2025-01-bundle",
+      "author": "David Revoy"
+    }
+  },
+  {
+    "id": "dr-grain.chalk-sparse",
+    "name": "Chalk Sparse",
+    "pack": "dr-grain",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/dr-grain/chalk-sparse.png",
+      "width": 300,
+      "height": 300
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Media Grains",
+      "source": "https://www.davidrevoy.com/article1060/krita-brushes-2025-01-bundle",
+      "author": "David Revoy"
+    }
+  },
+  {
+    "id": "dr-grain.chisel-streaks",
+    "name": "Chisel Streaks",
+    "pack": "dr-grain",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/dr-grain/chisel-streaks.png",
+      "width": 150,
+      "height": 150
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Media Grains",
+      "source": "https://www.davidrevoy.com/article1060/krita-brushes-2025-01-bundle",
+      "author": "David Revoy"
+    }
+  },
+  {
+    "id": "dr-grain.deevad-painterly-brush-tip-2023c",
+    "name": "Deevad Painterly Brush Tip 2023c",
+    "pack": "dr-grain",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/dr-grain/deevad-painterly-brush-tip-2023c.png",
+      "width": 512,
+      "height": 512
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Media Grains",
+      "source": "https://www.davidrevoy.com/article1060/krita-brushes-2025-01-bundle",
+      "author": "David Revoy"
+    }
+  },
+  {
+    "id": "dr-grain.flat-tip-dirty",
+    "name": "Flat Tip Dirty",
+    "pack": "dr-grain",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/dr-grain/flat-tip-dirty.png",
+      "width": 153,
+      "height": 64
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Media Grains",
+      "source": "https://www.davidrevoy.com/article1060/krita-brushes-2025-01-bundle",
+      "author": "David Revoy"
+    }
+  },
+  {
+    "id": "dr-grain.splat-dots",
+    "name": "Splat Dots",
+    "pack": "dr-grain",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/dr-grain/splat-dots.png",
+      "width": 112,
+      "height": 111
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Media Grains",
+      "source": "https://www.davidrevoy.com/article1060/krita-brushes-2025-01-bundle",
+      "author": "David Revoy"
+    }
+  }
+]

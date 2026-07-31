@@ -1,0 +1,3 @@
+# Unit tests only under bare `bun test` (Playwright lives in e2e/, via `bun run test:e2e`).
+[test]
+root = "src"

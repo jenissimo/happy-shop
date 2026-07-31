@@ -1,0 +1,114 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  padding: 0 0.55rem;
+  background: var(--he-panel);
+  border-bottom: 1px solid var(--he-panel-border);
+  color: var(--he-text);
+  font-size: 12px;
+  overflow: hidden;
+}
+
+.toolName {
+  font-weight: 600;
+  color: var(--he-text-bright);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.hint {
+  color: var(--he-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.textOpts {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.select,
+.size {
+  height: 22px;
+  padding: 0 0.3rem;
+  border: 1px solid var(--he-border);
+  border-radius: 3px;
+  background: var(--he-bg);
+  color: var(--he-text);
+  font-size: 12px;
+}
+
+.select {
+  max-width: 9rem;
+}
+
+.fontButton {
+  max-width: 9rem;
+  height: 22px;
+  overflow: hidden;
+  border: 1px solid var(--he-border);
+  border-radius: 3px;
+  background: var(--he-bg);
+  color: var(--he-text);
+  cursor: pointer;
+  font: inherit;
+  padding: 0 1.1rem 0 0.3rem;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-image: linear-gradient(45deg, transparent 50%, var(--he-text-muted) 50%),
+    linear-gradient(135deg, var(--he-text-muted) 50%, transparent 50%);
+  background-position: calc(100% - 10px) calc(50% - 2px), calc(100% - 6px) calc(50% - 2px);
+  background-size: 4px 4px, 4px 4px;
+  background-repeat: no-repeat;
+}
+
+.fontButton:hover,
+.fontButton:focus-visible {
+  border-color: var(--he-focus);
+  outline: none;
+}
+
+.size {
+  width: 3.25rem;
+}
+
+.characterField {
+  composes: size;
+  width: 2.8rem;
+}
+
+.color {
+  /* ColorSwatchButton sm — keep options-bar footprint. */
+  width: 22px;
+  height: 22px;
+}
+
+.toggle,
+.toggleOn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 1px solid var(--he-border);
+  border-radius: 3px;
+  background: var(--he-bg);
+  color: var(--he-text);
+  cursor: pointer;
+}
+
+.toggleOn {
+  background: var(--he-panel-raised);
+  border-color: var(--he-focus);
+  color: var(--he-text-bright);
+}

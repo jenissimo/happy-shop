@@ -1,0 +1,33 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: calc(-1 * var(--he-popover-pad, 8px));
+  margin-bottom: var(--he-popover-pad, 8px);
+  padding: 0.35rem 0.35rem 0.35rem var(--he-popover-pad, 8px);
+  border-bottom: 1px solid var(--he-border);
+  background: var(--he-panel-raised);
+}
+
+.title {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--he-text-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}

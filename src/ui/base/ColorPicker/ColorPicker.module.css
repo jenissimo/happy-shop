@@ -1,0 +1,293 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 0.65rem 0.7rem 0.7rem;
+  min-width: 0;
+  color: var(--he-text);
+  font-size: 11px;
+}
+
+.stage {
+  display: flex;
+  gap: 0.45rem;
+  align-items: stretch;
+}
+
+.sv {
+  position: relative;
+  width: 180px;
+  height: 160px;
+  flex-shrink: 0;
+  border: 1px solid var(--he-border);
+  border-radius: 3px;
+  cursor: crosshair;
+  touch-action: none;
+  overflow: hidden;
+  background: #fff;
+}
+
+.svWhite {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, #fff, transparent);
+}
+
+.svBlack {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #000, transparent);
+}
+
+.svThumb {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.65);
+  pointer-events: none;
+}
+
+.hue {
+  position: relative;
+  width: 14px;
+  flex-shrink: 0;
+  border: 1px solid var(--he-border);
+  border-radius: 3px;
+  cursor: ns-resize;
+  touch-action: none;
+  background: linear-gradient(
+    to bottom,
+    #ff0000 0%,
+    #ffff00 17%,
+    #00ff00 33%,
+    #00ffff 50%,
+    #0000ff 67%,
+    #ff00ff 83%,
+    #ff0000 100%
+  );
+}
+
+.hueThumb {
+  position: absolute;
+  left: -3px;
+  right: -3px;
+  height: 4px;
+  margin-top: -2px;
+  border: 1px solid #fff;
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+  background: transparent;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.previewRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.preview {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border: 1px solid var(--he-border);
+  border-radius: 3px;
+  background-image:
+    linear-gradient(45deg, #666 25%, transparent 25%),
+    linear-gradient(-45deg, #666 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #666 75%),
+    linear-gradient(-45deg, transparent 75%, #666 75%);
+  background-size: 8px 8px;
+  background-position:
+    0 0,
+    0 4px,
+    4px -4px,
+    -4px 0;
+  overflow: hidden;
+}
+
+.previewFill {
+  width: 100%;
+  height: 100%;
+}
+
+.eyedrop {
+  flex-shrink: 0;
+}
+
+.eyedropActive {
+  color: var(--he-accent);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem 0.45rem;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: 1.1rem 1fr;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 0;
+  margin: 0;
+}
+
+.fieldLabel {
+  color: var(--he-text-muted);
+  font-size: 10px;
+  user-select: none;
+}
+
+.fieldInput {
+  width: 100%;
+  min-width: 0;
+  padding: 0.15rem 0.25rem;
+  box-sizing: border-box;
+  border: 1px solid var(--he-border);
+  border-radius: 3px;
+  background: var(--he-bg);
+  color: var(--he-text);
+  font: inherit;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.fieldInput:focus {
+  outline: 1px solid var(--he-focus);
+  border-color: var(--he-focus);
+}
+
+.hexRow {
+  display: grid;
+  grid-template-columns: 1.8rem 1fr;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.alphaRow {
+  display: grid;
+  grid-template-columns: 1.8rem 1fr 2.4rem;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.alphaSlider {
+  width: 100%;
+  accent-color: var(--he-accent);
+}
+
+.recent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.recentLabel {
+  color: var(--he-text-muted);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.recentRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.recentChip {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 1px solid var(--he-border);
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.recentChip:hover {
+  border-color: var(--he-text-muted);
+}
+
+.recentEmpty {
+  color: var(--he-text-muted);
+  font-size: 10px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.35rem;
+  padding-top: 0.15rem;
+  border-top: 1px solid var(--he-border);
+}
+
+/* Compact trigger swatch (options bar / ColorField). */
+.trigger {
+  display: block;
+  padding: 0;
+  border: 1px solid var(--he-border);
+  border-radius: 3px;
+  cursor: pointer;
+  flex-shrink: 0;
+  background-image:
+    linear-gradient(45deg, #666 25%, transparent 25%),
+    linear-gradient(-45deg, #666 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #666 75%),
+    linear-gradient(-45deg, transparent 75%, #666 75%);
+  background-size: 8px 8px;
+  background-position:
+    0 0,
+    0 4px,
+    4px -4px,
+    -4px 0;
+  overflow: hidden;
+}
+
+.trigger:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.trigger:focus-visible {
+  outline: 1px solid var(--he-focus);
+  outline-offset: 1px;
+}
+
+.triggerFill {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.triggerSm {
+  width: 22px;
+  height: 22px;
+}
+
+.triggerMd {
+  width: 2.5rem;
+  height: 28px;
+  border-radius: 4px;
+}
+
+.triggerChip {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+}

@@ -1,0 +1,48 @@
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--he-text);
+}
+
+.large {
+  width: 32px;
+  height: 32px;
+}
+
+.iconBtn:hover:not(:disabled) {
+  background: var(--he-gray-700);
+  color: var(--he-text-bright);
+}
+
+.iconBtn:focus-visible {
+  outline: 1px solid var(--he-focus);
+  outline-offset: 1px;
+}
+
+/* Quiet toggle — accent tint, not a solid loud fill. */
+.active {
+  background: color-mix(in srgb, var(--he-accent) 22%, transparent);
+  color: var(--he-accent);
+}
+
+.active:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--he-accent) 32%, transparent);
+  color: var(--he-accent);
+}
+
+.disabled,
+.iconBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.danger:hover:not(:disabled) {
+  color: var(--he-danger);
+}

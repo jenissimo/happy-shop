@@ -1,0 +1,30 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--he-panel);
+  color: var(--he-text);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.35rem 0.55rem;
+  border-bottom: 1px solid var(--he-panel-border);
+  background: var(--he-panel-raised);
+  color: var(--he-text-muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0.45rem;
+}

@@ -1,0 +1,101 @@
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--he-control-gap);
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.35rem 0.15rem 0.15rem;
+  min-width: 200px;
+}
+
+.tips {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+
+.tipButton {
+  display: inline-flex;
+  align-items: center;
+  height: var(--he-control-h);
+  width: var(--he-control-h);
+  justify-content: center;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--he-border);
+  border-radius: var(--he-control-radius);
+  background: var(--he-panel);
+  color: var(--he-text);
+  font-size: var(--he-label-size);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tipButton:hover { background: var(--he-panel-raised); }
+
+.tipThumbnail {
+  width: 18px;
+  height: 18px;
+  image-rendering: auto;
+}
+
+.field {
+  --he-numeric-input-width: 3rem;
+  width: 6rem;
+  flex-shrink: 0;
+}
+
+.angle {
+  --he-angle-label-width: 2.35rem;
+  --he-angle-dial-size: var(--he-control-h);
+  --he-angle-input-width: 3rem;
+  --he-angle-gap: 0.3rem;
+  width: 8.7rem;
+  flex-shrink: 0;
+}
+
+.color {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
+  margin: 0;
+  font-size: 11px;
+  color: var(--he-text-muted);
+}
+
+.colorLabel {
+  flex-shrink: 0;
+}
+
+.hint {
+  color: var(--he-text-muted);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.bar :global(input) {
+  box-sizing: border-box;
+  padding: 0.1rem 0.25rem;
+  font-size: 11px;
+  height: var(--he-control-h);
+}
+
+.menu .field {
+  width: 100%;
+  grid-template-columns: 2.6rem 1fr;
+}
+
+.menu .angle { width: 100%; }

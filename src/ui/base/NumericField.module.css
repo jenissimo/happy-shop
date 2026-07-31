@@ -1,0 +1,44 @@
+.field {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.inputOnly {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.label {
+  color: var(--he-text-muted);
+  font-size: var(--he-label-size);
+  user-select: none;
+}
+
+.input {
+  width: 100%;
+  min-width: var(--he-numeric-input-width, 3rem);
+  box-sizing: border-box;
+  padding: 0.2rem 0.35rem;
+  border: 1px solid var(--he-border);
+  border-radius: var(--he-control-radius);
+  background: var(--he-bg);
+  color: var(--he-text);
+  font-size: var(--he-value-size);
+  font-variant-numeric: tabular-nums;
+}
+
+.input:focus {
+  outline: 1px solid var(--he-focus);
+  border-color: var(--he-focus);
+}
+
+.input:disabled {
+  opacity: 0.5;
+}
+
+.unit {
+  color: var(--he-text-muted);
+  font-size: var(--he-label-size);
+}
