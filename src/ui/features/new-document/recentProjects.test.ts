@@ -1,5 +1,9 @@
 import { afterEach, beforeEach, describe, expect, test } from 'bun:test'
-import { addRecentProject } from './recentProjects'
+import {
+  addRecentProject,
+  getRecentProjects,
+  resetRecentProjectsCacheForTests,
+} from './recentProjects'
 
 const KEY = 'happy-shop.recent-projects'
 
@@ -34,6 +38,7 @@ describe('recentProjects', () => {
   beforeEach(() => {
     originalStorage = globalThis.localStorage
     installMemoryLocalStorage()
+    resetRecentProjectsCacheForTests()
   })
 
   afterEach(() => {
@@ -41,6 +46,7 @@ describe('recentProjects', () => {
       configurable: true,
       value: originalStorage,
     })
+    resetRecentProjectsCacheForTests()
   })
 
   test('prepends new entries and dedupes by path', () => {
@@ -71,5 +77,17 @@ describe('recentProjects', () => {
     expect(stored).toHaveLength(10)
     expect(stored[0]?.path).toBe('/p/11')
     expect(stored[9]?.path).toBe('/p/2')
+  })
+
+  test('getRecentProjects returns a stable reference until data changes', () => {
+    addRecentProject('/stable', 'Stable')
+    const first = getRecentProjects()
+    const second = getRecentProjects()
+    expect(second).toBe(first)
+
+    addRecentProject('/other', 'Other')
+    const third = getRecentProjects()
+    expect(third).not.toBe(first)
+    expect(third[0]?.path).toBe('/other')
   })
 })
