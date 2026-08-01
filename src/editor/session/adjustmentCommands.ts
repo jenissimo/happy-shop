@@ -70,4 +70,7 @@ export function registerAdjustmentCommands(registry: CommandRegistry): void {
         gamma: 1,
       }),
   })
+
+  // Curves documents remain readable, but creation stays unavailable until the
+  // same curve evaluator exists in both GPU preview and CPU export paths.
 }

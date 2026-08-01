@@ -14,6 +14,8 @@ import {
   type ContainerChild,
   type Filter,
 } from 'pixi.js'
+import { cssQuoteFontFamily } from '../../editor/tools/text/cssQuoteFontFamily'
+import { trackingToLetterSpacingPx, underlineMetrics } from '../../editor/tools/text/textLayout'
 import { shapePath } from '../../editor/tools/shape/shapeGeometry'
 import type {
   ExportRegionRequest,
@@ -35,7 +37,12 @@ import {
 import { applyLayerFxFilters } from '../effects/layerFxApply'
 import { documentTextureTransformForLayer } from '../effects/filters/BevelEmbossFilter'
 import type { RenderLayerMask } from '../contracts/RenderDocumentView'
-import { createCheckerboardTexture } from './checkerboard'
+import {
+  checkerColorsEqual,
+  createCheckerboardTexture,
+  readCheckerboardColors,
+  type CheckerboardColors,
+} from './checkerboard'
 import { attachWebGlContextLossListeners } from './contextLossRecovery'
 import {
   applyPreviewSampling,
@@ -198,14 +205,20 @@ function richTextHtml(layer: RenderTextLayerView): string {
   return runs.map((run) => {
     const underline = run.underline ?? layer.underline
     const tracking = run.tracking ?? layer.tracking
+    const baselineShift = run.baselineShift ?? layer.baselineShift
+    const letterSpacing = trackingToLetterSpacingPx(tracking, run.fontSize)
+    const underlineCss = underline
+      ? `text-decoration:underline;text-underline-offset:${underlineMetrics(run.fontSize).offsetY - run.fontSize}px;text-decoration-thickness:${underlineMetrics(run.fontSize).thickness}px`
+      : ''
     const style = [
-      `font-family:${escapeTextHtml(run.fontFamily)}`,
+      `font-family:${escapeTextHtml(cssQuoteFontFamily(run.fontFamily))}`,
       `font-size:${run.fontSize}px`,
       `font-weight:${run.fontWeight}`,
       `font-style:${run.italic ? 'italic' : 'normal'}`,
       `color:${run.color}`,
-      underline ? 'text-decoration:underline' : '',
-      tracking ? `letter-spacing:${tracking}px` : '',
+      underlineCss,
+      letterSpacing ? `letter-spacing:${letterSpacing}px` : '',
+      baselineShift ? `position:relative;top:${-baselineShift}px` : '',
     ].filter(Boolean).join(';')
     return `<span style="${style}">${escapeTextHtml(layer.content.slice(run.start, run.end)).replace(/\n/g, '<br>')}</span>`
   }).join('') || ' '
@@ -239,6 +252,7 @@ export class PixiRenderBackend implements RenderBackend {
   private overlay: OverlayPass | null = null
 
   private checkerSprite: TilingSprite | null = null
+  private checkerColors: CheckerboardColors | null = null
   private readonly layerEntries = new Map<string, LayerEntry>()
   private readonly urlTextureCache = new Map<string, Texture>()
 
@@ -327,8 +341,21 @@ export class PixiRenderBackend implements RenderBackend {
       this.checkerSprite.destroy(true)
       this.checkerSprite = null
     }
+    this.checkerColors = null
     if (this.lastView) {
       this.syncDocument(this.lastView)
+    }
+  }
+
+  /** Rebuild the transparency grid after theme tokens change. */
+  invalidateCheckerboard(): void {
+    if (this.checkerSprite) {
+      this.checkerSprite.destroy(true)
+      this.checkerSprite = null
+    }
+    this.checkerColors = null
+    if (this.lastView && this.app && !this.contextLost) {
+      this.syncCheckerboard(this.lastView)
     }
   }
 
@@ -390,15 +417,30 @@ export class PixiRenderBackend implements RenderBackend {
   }
 
   private syncCheckerboard(view: RenderDocumentView): void {
-    if (!this.checkerSprite) {
-      const texture = createCheckerboardTexture()
-      this.checkerSprite = new TilingSprite({ texture, width: view.width, height: view.height })
-      this.checkerSprite.label = 'checkerboard'
-      this.checkerSprite.roundPixels = false
-      this.documentLayer.addChildAt(this.checkerSprite, 0)
+    const colors = readCheckerboardColors()
+    const needsRebuild =
+      !this.checkerSprite ||
+      !this.checkerColors ||
+      !checkerColorsEqual(this.checkerColors, colors)
+
+    if (needsRebuild) {
+      if (this.checkerSprite) {
+        this.checkerSprite.destroy(true)
+        this.checkerSprite = null
+      }
+      const texture = createCheckerboardTexture(colors.light, colors.dark)
+      const sprite = new TilingSprite({ texture, width: view.width, height: view.height })
+      sprite.label = 'checkerboard'
+      sprite.roundPixels = false
+      this.documentLayer.addChildAt(sprite, 0)
+      this.checkerSprite = sprite
+      this.checkerColors = colors
     }
-    this.checkerSprite.width = view.width
-    this.checkerSprite.height = view.height
+
+    const sprite = this.checkerSprite
+    if (!sprite) return
+    sprite.width = view.width
+    sprite.height = view.height
   }
 
   private clearEntryMask(entry: LayerEntry, target: Container): void {
@@ -685,7 +727,7 @@ export class PixiRenderBackend implements RenderBackend {
       const lineHeight = layer.leading > 0 ? layer.leading : undefined
       text.text = richTextHtml(layer)
       text.style = {
-        fontFamily: layer.fontFamily,
+        fontFamily: cssQuoteFontFamily(layer.fontFamily),
         fontSize: layer.fontSize,
         fontWeight: String(Math.round(layer.fontWeight)) as
           | 'normal'
@@ -701,7 +743,7 @@ export class PixiRenderBackend implements RenderBackend {
           | '900',
         fontStyle: layer.italic ? 'italic' : 'normal',
         fill: layer.color,
-        align: layer.align,
+        align: layer.align === 'justify' ? 'left' : layer.align,
         letterSpacing: 0,
         lineHeight,
         wordWrap: layer.textMode === 'box' && layer.bounds.w > 0,
@@ -711,8 +753,7 @@ export class PixiRenderBackend implements RenderBackend {
             : 100,
         breakWords: true,
       }
-      // Underline via Pixi stroke underlay is limited; approximate with drop shadow-ish
-      // only when underline requested — full underline lands with canvas bake on rasterize.
+      // Underline / baselineShift / tracking live in rich HTML spans (see richTextHtml).
       entry.sourceKey = sourceKey
     }
     applyFxToEntry(entry, text, layer, filterTransformKey)
@@ -920,6 +961,7 @@ export class PixiRenderBackend implements RenderBackend {
     this.urlTextureCache.clear()
     this.checkerSprite?.destroy(true)
     this.checkerSprite = null
+    this.checkerColors = null
     this.overlay?.destroy()
     this.overlay = null
     this.app?.destroy(false, { children: true, texture: false })

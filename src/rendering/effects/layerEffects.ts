@@ -305,19 +305,10 @@ export function applyChromaKey(
 }
 
 /** CPU reference: color overlay (lerp RGB by opacity; alpha unchanged). */
-export type EffectBlendMode =
-  | 'normal'
-  | 'multiply'
-  | 'screen'
-  | 'overlay'
-  | 'darken'
-  | 'lighten'
-  | 'color-dodge'
-  | 'color-burn'
-  | 'hard-light'
-  | 'soft-light'
-  | 'difference'
-  | 'exclusion'
+import type { RenderBlendMode } from '../contracts/RenderDocumentView'
+
+/** CPU reference: color overlay (lerp RGB by opacity; alpha unchanged). */
+export type EffectBlendMode = RenderBlendMode
 
 function blendChannel(base: number, blend: number, mode: EffectBlendMode): number {
   switch (mode) {
@@ -335,6 +326,14 @@ function blendChannel(base: number, blend: number, mode: EffectBlendMode): numbe
       return blend >= 1 ? 1 : Math.min(1, base / Math.max(1 - blend, 1e-4))
     case 'color-burn':
       return blend <= 0 ? 0 : 1 - Math.min(1, (1 - base) / blend)
+    case 'linear-burn':
+      return Math.max(0, base + blend - 1)
+    case 'linear-dodge':
+      return Math.min(1, base + blend)
+    case 'darker-color':
+      return Math.min(base, blend)
+    case 'lighter-color':
+      return Math.max(base, blend)
     case 'hard-light':
       return blend < 0.5 ? 2 * base * blend : 1 - 2 * (1 - base) * (1 - blend)
     case 'soft-light': {
@@ -344,10 +343,24 @@ function blendChannel(base: number, blend: number, mode: EffectBlendMode): numbe
         ? base - (1 - 2 * blend) * base * (1 - base)
         : base + (2 * blend - 1) * (d - base)
     }
+    case 'vivid-light':
+      return blend < 0.5
+        ? (blend <= 0 ? 0 : 1 - Math.min(1, (1 - base) / (2 * blend)))
+        : (blend >= 1 ? 1 : Math.min(1, base / Math.max(1 - 2 * (blend - 0.5), 1e-4)))
+    case 'linear-light':
+      return Math.max(0, Math.min(1, base + 2 * blend - 1))
+    case 'pin-light':
+      return blend < 0.5 ? Math.min(base, 2 * blend) : Math.max(base, 2 * (blend - 0.5))
+    case 'hard-mix':
+      return base + blend < 1 ? 0 : 1
     case 'difference':
       return Math.abs(base - blend)
     case 'exclusion':
       return base + blend - 2 * base * blend
+    case 'subtract':
+      return Math.max(0, base - blend)
+    case 'divide':
+      return blend <= 0 ? 1 : Math.min(1, base / blend)
     case 'normal':
     default:
       return blend

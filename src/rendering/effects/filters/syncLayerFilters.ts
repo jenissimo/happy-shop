@@ -244,12 +244,14 @@ function syncFilterForEffect(
           params: [adj.hueDeg, adj.saturation, adj.lightness],
           padding: pad,
         })
-      } else {
+      } else if (adj.type === 'levels') {
         filter.setParams({
           mode: 'levels',
           params: [adj.black, adj.white, adj.gamma],
           padding: pad,
         })
+      } else {
+        return false
       }
       return true
     }

@@ -249,11 +249,15 @@ function buildFilterForEffect(
           padding: pad,
         })
       }
-      return new AdjustmentFilter({
-        mode: 'levels',
-        params: [adj.black, adj.white, adj.gamma],
-        padding: pad,
-      })
+      if (adj.type === 'levels') {
+        return new AdjustmentFilter({
+          mode: 'levels',
+          params: [adj.black, adj.white, adj.gamma],
+          padding: pad,
+        })
+      }
+      // curves: GPU filter not yet implemented — skip
+      return null
     }
     default:
       return null

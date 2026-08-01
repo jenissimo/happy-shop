@@ -231,9 +231,10 @@ function applyOneCpuEffect(
         applyBrightnessContrast(rgba, adj.brightness, adj.contrast)
       } else if (adj.type === 'hue-saturation') {
         applyHueSaturation(rgba, adj.hueDeg, adj.saturation, adj.lightness)
-      } else {
+      } else if (adj.type === 'levels') {
         applyLevels(rgba, adj.black, adj.white, adj.gamma)
       }
+      // curves: no CPU rasterizer yet – pass through unchanged
       return rgba
     }
     case 'noise': {

@@ -34,6 +34,36 @@ export function blendModeToUniform(mode: string | undefined): number {
       return 10
     case 'exclusion':
       return 11
+    case 'linear-burn':
+      return 12
+    case 'darker-color':
+      return 13
+    case 'linear-dodge':
+      return 14
+    case 'lighter-color':
+      return 15
+    case 'vivid-light':
+      return 16
+    case 'linear-light':
+      return 17
+    case 'pin-light':
+      return 18
+    case 'hard-mix':
+      return 19
+    case 'subtract':
+      return 20
+    case 'divide':
+      return 21
+    case 'hue':
+      return 22
+    case 'saturation':
+      return 23
+    case 'color':
+      return 24
+    case 'luminosity':
+      return 25
+    case 'dissolve':
+    case 'pass-through':
     case 'normal':
     default:
       return 0
@@ -73,9 +103,6 @@ float hsGaussianInverseAlpha(sampler2D tex, vec2 uv, vec2 px, float radius) {
 
 /**
  * GLSL: blend `effectRgb` over `baseRgb` with mode + coverage `t` in [0,1].
- * Modes mirror `RenderBlendMode`: normal, multiply, screen, overlay, darken,
- * lighten, color-dodge, color-burn, hard-light, soft-light, difference,
- * exclusion.
  */
 export const GLSL_BLEND_MODES = `
 vec3 hsBlendMultiply(vec3 base, vec3 blend) {
@@ -123,7 +150,97 @@ float hsBlendSoftLightChannel(float base, float blend) {
         : base + (2.0 * blend - 1.0) * (d - base);
 }
 
+float hsBlendVividLightChannel(float base, float blend) {
+    return blend < 0.5
+        ? hsBlendColorBurnChannel(base, 2.0 * blend)
+        : hsBlendColorDodgeChannel(base, 2.0 * (blend - 0.5));
+}
+
+float hsBlendLinearLightChannel(float base, float blend) {
+    return clamp(base + 2.0 * blend - 1.0, 0.0, 1.0);
+}
+
+float hsBlendPinLightChannel(float base, float blend) {
+    return blend < 0.5
+        ? min(base, 2.0 * blend)
+        : max(base, 2.0 * (blend - 0.5));
+}
+
+vec3 hsRgbToHsv(vec3 c) {
+    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+    float d = q.x - min(q.w, q.y);
+    float e = 1.0e-10;
+    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+}
+
+vec3 hsHsvToRgb(vec3 c) {
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+float hsLuminance(vec3 c) {
+    return dot(c, vec3(0.299, 0.587, 0.114));
+}
+
+vec3 hsSetLuminance(vec3 c, float l) {
+    float d = l - hsLuminance(c);
+    return c + vec3(d);
+}
+
+vec3 hsBlendChannelsExtended(float mode, vec3 base, vec3 blend) {
+    if (mode > 24.5) return hsSetLuminance(base, hsLuminance(blend)); // luminosity
+    if (mode > 23.5) { // color
+        vec3 hsvBase = hsRgbToHsv(base);
+        vec3 hsvBlend = hsRgbToHsv(blend);
+        return hsHsvToRgb(vec3(hsvBlend.x, hsvBlend.y, hsvBase.z));
+    }
+    if (mode > 22.5) { // saturation
+        vec3 hsvBase = hsRgbToHsv(base);
+        vec3 hsvBlend = hsRgbToHsv(blend);
+        return hsHsvToRgb(vec3(hsvBase.x, hsvBlend.y, hsvBase.z));
+    }
+    if (mode > 21.5) { // hue
+        vec3 hsvBase = hsRgbToHsv(base);
+        vec3 hsvBlend = hsRgbToHsv(blend);
+        return hsHsvToRgb(vec3(hsvBlend.x, hsvBase.y, hsvBase.z));
+    }
+    if (mode > 20.5) return clamp(base / max(blend, vec3(0.0001)), 0.0, 1.0); // divide
+    if (mode > 19.5) return max(vec3(0.0), base - blend); // subtract
+    if (mode > 18.5) { // hard-mix
+        vec3 vl = vec3(
+            hsBlendVividLightChannel(base.r, blend.r),
+            hsBlendVividLightChannel(base.g, blend.g),
+            hsBlendVividLightChannel(base.b, blend.b)
+        );
+        return vec3(step(0.5, vl.r), step(0.5, vl.g), step(0.5, vl.b));
+    }
+    if (mode > 17.5) return vec3(
+        hsBlendPinLightChannel(base.r, blend.r),
+        hsBlendPinLightChannel(base.g, blend.g),
+        hsBlendPinLightChannel(base.b, blend.b)
+    );
+    if (mode > 16.5) return vec3(
+        hsBlendLinearLightChannel(base.r, blend.r),
+        hsBlendLinearLightChannel(base.g, blend.g),
+        hsBlendLinearLightChannel(base.b, blend.b)
+    );
+    if (mode > 15.5) return vec3(
+        hsBlendVividLightChannel(base.r, blend.r),
+        hsBlendVividLightChannel(base.g, blend.g),
+        hsBlendVividLightChannel(base.b, blend.b)
+    );
+    if (mode > 14.5) return hsLuminance(base) > hsLuminance(blend) ? base : blend; // lighter-color
+    if (mode > 13.5) return min(vec3(1.0), base + blend); // linear-dodge (add)
+    if (mode > 12.5) return hsLuminance(base) < hsLuminance(blend) ? base : blend; // darker-color
+    if (mode > 11.5) return max(vec3(0.0), base + blend - vec3(1.0)); // linear-burn
+    return vec3(-1.0);
+}
+
 vec3 hsBlendChannels(float mode, vec3 base, vec3 blend) {
+    if (mode > 11.5) return hsBlendChannelsExtended(mode, base, blend);
     if (mode > 10.5) return base + blend - 2.0 * base * blend; // exclusion
     if (mode > 9.5) return abs(base - blend); // difference
     if (mode > 8.5) return vec3(

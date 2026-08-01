@@ -15,6 +15,7 @@ import {
   rasterizeShapeLayerToBitmap,
 } from '../../tools/shape/shapeRasterize'
 import { rasterizeTextLayerToBitmap } from '../../tools/text/textRasterize'
+import { readCheckerboardColors } from '../../../rendering/pixi/checkerboard'
 
 const DEG = Math.PI / 180
 
@@ -125,12 +126,13 @@ export async function buildNavigatorPreview(
     | null
   if (!ctx) return null
 
-  // Checkerboard under transparent areas.
+  // Checkerboard under transparent areas (theme tokens).
+  const { light, dark } = readCheckerboardColors()
   const cell = Math.max(4, Math.round(6 * scale))
   for (let y = 0; y < previewHeight; y += cell) {
     for (let x = 0; x < previewWidth; x += cell) {
       const odd = ((x / cell) | 0) + ((y / cell) | 0)
-      ctx.fillStyle = odd % 2 === 0 ? '#c8c8c8' : '#a8a8a8'
+      ctx.fillStyle = odd % 2 === 0 ? light : dark
       ctx.fillRect(x, y, cell, cell)
     }
   }

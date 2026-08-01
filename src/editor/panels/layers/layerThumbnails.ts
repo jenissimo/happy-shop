@@ -8,6 +8,7 @@ import type { Layer } from '../../../core/document'
 import { getRasterSurface } from '../../../imaging'
 import { bakeShapeLayer, rasterizeShapeLayerToBitmap } from '../../tools/shape'
 import { rasterizeTextLayerToBitmap } from '../../tools/text'
+import { readCheckerboardColors } from '../../../rendering/pixi/checkerboard'
 
 export const LAYER_THUMB_SIZE = 40
 
@@ -94,11 +95,12 @@ function drawChecker(
   ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   size: number,
 ): void {
+  const { light, dark } = readCheckerboardColors()
   const cell = 5
   for (let y = 0; y < size; y += cell) {
     for (let x = 0; x < size; x += cell) {
       const odd = ((x / cell) | 0) + ((y / cell) | 0)
-      ctx.fillStyle = odd % 2 === 0 ? '#d0d0d0' : '#b0b0b0'
+      ctx.fillStyle = odd % 2 === 0 ? light : dark
       ctx.fillRect(x, y, cell, cell)
     }
   }

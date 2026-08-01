@@ -36,6 +36,7 @@ export const ADJUSTMENT_TYPE_LABELS: Record<Adjustment['type'], string> = {
   'brightness-contrast': 'Brightness/Contrast',
   'hue-saturation': 'Hue/Saturation',
   levels: 'Levels',
+  curves: 'Curves',
 }
 
 export function adjustmentTypeLabel(adjustment: Adjustment): string {

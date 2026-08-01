@@ -209,62 +209,76 @@ export function ContentEffectParamPanels({ active, disabled, onChange }: Props) 
       )
     }
 
-    return (
-      <Section title="Levels">
-        <NumericField
-          label="Black"
-          value={adj.black}
-          min={0}
-          max={255}
-          disabled={d}
-          onChange={(v) =>
-            onChange({
-              adjustment: {
-                type: 'levels',
-                black: v,
-                white: adj.white,
-                gamma: adj.gamma,
-              },
-            })
-          }
-        />
-        <NumericField
-          label="White"
-          value={adj.white}
-          min={0}
-          max={255}
-          disabled={d}
-          onChange={(v) =>
-            onChange({
-              adjustment: {
-                type: 'levels',
-                black: adj.black,
-                white: v,
-                gamma: adj.gamma,
-              },
-            })
-          }
-        />
-        <SliderField
-          label="Gamma"
-          value={adj.gamma}
-          min={0.1}
-          max={10}
-          step={0.01}
-          disabled={d}
-          onChange={(v) =>
-            onChange({
-              adjustment: {
-                type: 'levels',
-                black: adj.black,
-                white: adj.white,
-                gamma: Math.max(0.01, v),
-              },
-            })
-          }
-        />
-      </Section>
-    )
+    if (adj.type === 'levels') {
+      return (
+        <Section title="Levels">
+          <NumericField
+            label="Black"
+            value={adj.black}
+            min={0}
+            max={255}
+            disabled={d}
+            onChange={(v) =>
+              onChange({
+                adjustment: {
+                  type: 'levels',
+                  black: v,
+                  white: adj.white,
+                  gamma: adj.gamma,
+                },
+              })
+            }
+          />
+          <NumericField
+            label="White"
+            value={adj.white}
+            min={0}
+            max={255}
+            disabled={d}
+            onChange={(v) =>
+              onChange({
+                adjustment: {
+                  type: 'levels',
+                  black: adj.black,
+                  white: v,
+                  gamma: adj.gamma,
+                },
+              })
+            }
+          />
+          <SliderField
+            label="Gamma"
+            value={adj.gamma}
+            min={0.1}
+            max={10}
+            step={0.01}
+            disabled={d}
+            onChange={(v) =>
+              onChange({
+                adjustment: {
+                  type: 'levels',
+                  black: adj.black,
+                  white: adj.white,
+                  gamma: Math.max(0.01, v),
+                },
+              })
+            }
+          />
+        </Section>
+      )
+    }
+
+    if (adj.type === 'curves') {
+      return (
+        <Section title="Curves">
+          <div style={{ fontSize: 11, color: 'var(--color-text-subtle)' }}>
+            Curves points: {adj.master.length}
+          </div>
+        </Section>
+      )
+    }
+
+    return null
   }
 
   return null
