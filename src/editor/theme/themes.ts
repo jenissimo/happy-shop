@@ -43,10 +43,10 @@ export const THEMES: ReadonlyArray<{
     label: 'Graphite',
     description: 'Neutral graphite pro-editor workspace',
     preview: {
-      bg: '#202020',
+      bg: '#252525',
       panel: '#323232',
-      raised: '#3b3b3b',
-      accent: '#3b8edb',
+      raised: '#2f2f2f',
+      accent: '#2680eb',
       checkerA: '#b8b8b8',
       checkerB: '#8e8e8e',
     },

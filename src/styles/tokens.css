@@ -55,35 +55,37 @@
 [data-theme='graphite'] {
   color-scheme: dark;
 
-  --he-gray-950: #202020;
-  --he-gray-900: #2b2b2b;
-  --he-gray-850: #363636;
-  --he-gray-800: #454545;
-  --he-gray-700: #555555;
+  /* Calibrated from the locally installed editor's bundled dark Spectrum
+     variables: pasteboard #252525, primary #323232, secondary #2f2f2f. */
+  --he-gray-950: #252525;
+  --he-gray-900: #2f2f2f;
+  --he-gray-850: #323232;
+  --he-gray-800: #3e3e3e;
+  --he-gray-700: #505050;
   --he-gray-600: #747474;
   --he-gray-500: #a6a6a6;
   --he-gray-400: #c8c8c8;
   --he-gray-200: #e5e5e5;
   --he-gray-100: #ffffff;
 
-  --he-accent: #4da3e8;
-  --he-accent-strong: #2878b7;
+  --he-accent: #2680eb;
+  --he-accent-strong: #0d66d0;
   --he-accent-muted: color-mix(in srgb, var(--he-accent) 24%, transparent);
   --he-danger: #e56a6a;
   --he-ok: #61b985;
   --he-warning: #d6a843;
 
-  --he-bg: #202020;
-  --he-workspace: #202020;
-  --he-panel: #2b2b2b;
-  --he-panel-raised: #363636;
-  --he-panel-border: #484848;
-  --he-border: #5a5a5a;
-  --he-text: #e5e5e5;
+  --he-bg: #323232;
+  --he-workspace: #252525;
+  --he-panel: #323232;
+  --he-panel-raised: #2f2f2f;
+  --he-panel-border: #3e3e3e;
+  --he-border: #505050;
+  --he-text: #e3e3e3;
   --he-text-bright: #ffffff;
-  --he-text-muted: #b7b7b7;
-  --he-focus: #70b9ef;
-  --he-select: #3b78a8;
+  --he-text-muted: #b9b9b9;
+  --he-focus: #2680eb;
+  --he-select: #1473e6;
   --he-on-accent: #ffffff;
   --he-on-select: #ffffff;
   --he-overlay: rgb(0 0 0 / 55%);
@@ -101,7 +103,7 @@
   --he-chat-system-border: #625538;
   --he-chat-system-text: #e2c890;
   --he-mascot-hover: rgb(255 255 255 / 8%);
-  --he-chrome-line: #4b4b4b;
+  --he-chrome-line: #3e3e3e;
   --he-backdrop: none;
   --he-atmosphere: none;
   --he-checker-a: #b8b8b8;
