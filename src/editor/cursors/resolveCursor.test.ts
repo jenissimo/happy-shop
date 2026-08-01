@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test'
 import { tipDiameterScreenPx } from './brushCursor'
 import { resizeCursorIdForHandle } from './resizeCursor'
 import { resolveViewportCursor, type ViewportCursorInput } from './resolveCursor'
+import { TOOLS } from '../toolbar/tools'
 
 function base(over: Partial<ViewportCursorInput> = {}): ViewportCursorInput {
   return {
@@ -50,8 +51,71 @@ describe('resolveViewportCursor', () => {
     expect(resolveViewportCursor(base({ activeToolId: 'magicWand' })).id).toBe(
       'wand',
     )
+    expect(resolveViewportCursor(base({ activeToolId: 'paintBucket' })).id).toBe(
+      'paint-bucket',
+    )
     expect(resolveViewportCursor(base({ activeToolId: 'crop' })).id).toBe('crop')
     expect(resolveViewportCursor(base({ activeToolId: 'move' })).id).toBe('move')
+  })
+
+  test('every toolbar tool maps to a dedicated canvas cursor', () => {
+    const expected: Record<string, string> = {
+      move: 'move',
+      marquee: 'marquee',
+      lasso: 'lasso',
+      magicWand: 'wand',
+      crop: 'crop',
+      eyedropper: 'eyedropper',
+      brush: 'brush',
+      pencil: 'brush',
+      eraser: 'eraser',
+      paintBucket: 'paint-bucket',
+      gradient: 'gradient',
+      cloneStamp: 'stamp',
+      historyBrush: 'stamp',
+      patternStamp: 'stamp',
+      spotHealing: 'spot-heal',
+      healingBrush: 'heal',
+      smudge: 'smudge',
+      blur: 'blur',
+      sharpen: 'sharpen',
+      dodge: 'dodge',
+      burn: 'burn',
+      sponge: 'sponge',
+      liquifyWarp: 'liquify',
+      liquifyReconstruct: 'liquify-reconstruct',
+      liquifyBloat: 'liquify-bloat',
+      liquifyPucker: 'liquify-pucker',
+      liquifyTwirl: 'liquify-twirl',
+      liquifyFreeze: 'liquify-freeze',
+      liquifyThaw: 'liquify-thaw',
+      text: 'text',
+      pathSelection: 'path-selection',
+      directSelection: 'direct-selection',
+      pen: 'pen',
+      freeformPen: 'pen',
+      addAnchor: 'pen',
+      deleteAnchor: 'pen',
+      convertPoint: 'pen',
+      shape: 'shape',
+      hand: 'grab',
+      rotateView: 'rotate',
+      zoom: 'zoom-in',
+      quickMask: 'quick-mask',
+    }
+
+    for (const [tool, cursorId] of Object.entries(expected)) {
+      const resolved = resolveViewportCursor(
+        base({ activeToolId: tool as ViewportCursorInput['activeToolId'] }),
+      )
+      expect(resolved.id, tool).toBe(cursorId)
+      expect(resolved.id, tool).not.toBe('default')
+    }
+
+    // Keep the table in sync with TOOLS — missing/extra entries fail the review.
+    expect(Object.keys(expected).sort()).toEqual(
+      TOOLS.map((tool) => tool.id).sort(),
+    )
   })
 
   test('zoom Alt flips out', () => {
@@ -68,7 +132,18 @@ describe('resolveViewportCursor', () => {
     expect(brush.id).toBe('brush')
     expect(brush.css).toBe('none')
     expect(brush.tipRing?.diameterPx).toBe(40)
+    expect(brush.tipRing?.shape).toBe('circle')
     expect(brush.tipRing?.hardnessGhostPx).toBeCloseTo(34, 5)
+
+    const pencil = resolveViewportCursor(
+      base({ activeToolId: 'pencil', zoom: 2, brushSizeDocPx: 3.4 }),
+    )
+    expect(pencil.id).toBe('brush')
+    expect(pencil.tipRing?.mode).toBe('pencil')
+    expect(pencil.tipRing?.shape).toBe('square')
+    // Integer document stamp side × zoom (3 × 2).
+    expect(pencil.tipRing?.diameterPx).toBe(6)
+    expect(pencil.tipRing?.hardnessGhostPx).toBeNull()
 
     expect(
       resolveViewportCursor(

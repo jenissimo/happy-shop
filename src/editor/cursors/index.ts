@@ -3,8 +3,10 @@ export {
   MAX_CSS_CURSOR_DIAMETER_PX,
   brushTipCursorCss,
   buildBrushTipRing,
+  pencilTipSideScreenPx,
   tipDiameterScreenPx,
   type BrushTipCursorMode,
+  type BrushTipShape,
   type BrushTipRing,
 } from './brushCursor'
 export { BrushTipCursorOverlay } from './BrushTipCursorOverlay'

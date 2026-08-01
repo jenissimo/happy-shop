@@ -4,9 +4,14 @@ import arrowsInCardinalSvg from '@phosphor-icons/core/regular/arrows-in-cardinal
 import arrowsOutCardinalSvg from '@phosphor-icons/core/regular/arrows-out-cardinal.svg?raw'
 import cropSvg from '@phosphor-icons/core/regular/crop.svg?raw'
 import crosshairSvg from '@phosphor-icons/core/regular/crosshair.svg?raw'
+import eraserSvg from '@phosphor-icons/core/regular/eraser.svg?raw'
+import eyeSvg from '@phosphor-icons/core/regular/eye.svg?raw'
 import eyedropperSvg from '@phosphor-icons/core/regular/eyedropper.svg?raw'
+import gradientSvg from '@phosphor-icons/core/regular/gradient.svg?raw'
 import lassoSvg from '@phosphor-icons/core/regular/lasso.svg?raw'
 import magicWandSvg from '@phosphor-icons/core/regular/magic-wand.svg?raw'
+import paintBucketSvg from '@phosphor-icons/core/regular/paint-bucket.svg?raw'
+import paintBrushSvg from '@phosphor-icons/core/regular/paint-brush.svg?raw'
 import magnifyingGlassMinusSvg from '@phosphor-icons/core/regular/magnifying-glass-minus.svg?raw'
 import magnifyingGlassPlusSvg from '@phosphor-icons/core/regular/magnifying-glass-plus.svg?raw'
 import plusSvg from '@phosphor-icons/core/regular/plus.svg?raw'
@@ -41,7 +46,11 @@ const PHOSPHOR: Partial<
   },
   lasso: { svg: lassoSvg, x: 4, y: 20, fallback: 'crosshair' },
   wand: { svg: magicWandSvg, x: 4, y: 20, fallback: 'crosshair' },
+  'paint-bucket': { svg: paintBucketSvg, x: 4, y: 20, fallback: 'crosshair' },
+  gradient: { svg: gradientSvg, x: 4, y: 20, fallback: 'crosshair' },
   crop: { svg: cropSvg, x: 12, y: 12, fallback: 'crosshair' },
+  brush: { svg: paintBrushSvg, x: 4, y: 20, fallback: 'crosshair' },
+  eraser: { svg: eraserSvg, x: 4, y: 20, fallback: 'crosshair' },
   shape: { svg: plusSvg, x: 12, y: 12, fallback: 'crosshair' },
   pen: { svg: penNibSvg, x: 4, y: 20, fallback: 'crosshair' },
   'path-selection': { svg: pathSvg, x: 4, y: 20, fallback: 'crosshair' },
@@ -60,6 +69,7 @@ const PHOSPHOR: Partial<
   },
   eyedropper: { svg: eyedropperSvg, x: 2, y: 22, fallback: 'cell' },
   rotate: { svg: arrowClockwiseSvg, x: 12, y: 12, fallback: 'crosshair' },
+  'quick-mask': { svg: eyeSvg, x: 12, y: 12, fallback: 'crosshair' },
   precision: { svg: crosshairSvg, x: 12, y: 12, fallback: 'crosshair' },
   stamp: { svg: stampSvg, x: 5, y: 20, fallback: 'crosshair' },
   smudge: { svg: fingerprintSvg, x: 12, y: 12, fallback: 'crosshair' },

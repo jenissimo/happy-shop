@@ -49,11 +49,13 @@ function toolCursorId(tool: EditorToolId): CursorId {
     case 'magicWand':
       return 'wand'
     case 'paintBucket':
-      return 'wand'
+      return 'paint-bucket'
     case 'gradient':
-      return 'crosshair'
+      return 'gradient'
     case 'crop':
       return 'crop'
+    case 'eyedropper':
+      return 'eyedropper'
     case 'brush':
     case 'pencil':
       return 'brush'
@@ -83,19 +85,29 @@ function toolCursorId(tool: EditorToolId): CursorId {
       return 'text'
     case 'hand':
       return 'hand'
+    case 'rotateView':
+      return 'rotate'
     case 'zoom':
       return 'zoom-in'
     case 'shape':
       return 'shape'
     case 'pen':
     case 'freeformPen':
+    case 'addAnchor':
+    case 'deleteAnchor':
+    case 'convertPoint':
       return 'pen'
     case 'pathSelection':
       return 'path-selection'
     case 'directSelection':
       return 'direct-selection'
-    default:
+    case 'quickMask':
+      return 'quick-mask'
+    default: {
+      const _exhaustive: never = tool
+      void _exhaustive
       return 'default'
+    }
   }
 }
 
@@ -105,7 +117,7 @@ function staticResolution(id: CursorId): CursorResolution {
 
 function tipResolution(
   id: CursorId,
-  mode: 'brush' | 'eraser',
+  mode: 'brush' | 'eraser' | 'pencil',
   input: ViewportCursorInput,
 ): CursorResolution {
   // Always overlay: CSS url() cursors clip above ~128px and can't track zoom live as cleanly.
@@ -176,11 +188,13 @@ export function resolveViewportCursor(
     return staticResolution('precision')
   }
   if (tipLike && !(retouchLike && input.altHeld)) {
-    return tipResolution(
-      toolCursorId(input.activeToolId),
-      input.activeToolId === 'eraser' ? 'eraser' : 'brush',
-      input,
-    )
+    const tipMode =
+      input.activeToolId === 'eraser'
+        ? 'eraser'
+        : input.activeToolId === 'pencil'
+          ? 'pencil'
+          : 'brush'
+    return tipResolution(toolCursorId(input.activeToolId), tipMode, input)
   }
 
   return staticResolution(toolCursorId(input.activeToolId))
