@@ -6,7 +6,8 @@ body {
   font-family: var(--he-font-ui);
   font-size: 12px;
   color: var(--he-text);
-  background: var(--he-bg);
+  background-color: var(--he-bg);
+  background-image: var(--he-atmosphere);
   overflow: hidden;
 }
 
@@ -42,8 +43,16 @@ body {
   color: var(--he-text);
 }
 
+.dv-tabs-and-actions-container {
+  backdrop-filter: var(--he-backdrop);
+  -webkit-backdrop-filter: var(--he-backdrop);
+  border-bottom: 1px solid var(--he-chrome-line);
+}
+
 .dv-content-container,
 .dv-groupview,
 .dv-view {
   background: var(--he-panel);
+  backdrop-filter: var(--he-backdrop);
+  -webkit-backdrop-filter: var(--he-backdrop);
 }

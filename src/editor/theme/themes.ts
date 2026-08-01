@@ -8,6 +8,8 @@ export const THEME_IDS = [
   'frost',
   'dusk',
   'mist',
+  'vapor',
+  'crystal',
 ] as const
 
 export type ThemeId = (typeof THEME_IDS)[number]
@@ -19,7 +21,12 @@ export const DEFAULT_THEME: ThemeId = 'midnight'
 export type ThemePreview = {
   bg: string
   panel: string
+  raised: string
   accent: string
+  checkerA: string
+  checkerB: string
+  /** Liquid-glass material — Appearance mockup shows frosted chrome. */
+  glass?: boolean
 }
 
 export const THEMES: ReadonlyArray<{
@@ -33,55 +40,146 @@ export const THEMES: ReadonlyArray<{
     id: 'midnight',
     label: 'Midnight',
     description: 'Cool charcoal with steel-blue accent',
-    preview: { bg: '#0c0d0f', panel: '#14161a', accent: '#5b9fd4' },
+    preview: {
+      bg: '#0a0c10',
+      panel: '#12161d',
+      raised: '#181d27',
+      accent: '#5aa8e0',
+      checkerA: '#30343d',
+      checkerB: '#22252b',
+    },
   },
   {
     id: 'paper',
     label: 'Paper',
-    description: 'Light slate workspace',
-    preview: { bg: '#e6eaef', panel: '#f3f5f7', accent: '#3d7eb5' },
+    description: 'Crisp cool light slate workspace',
+    preview: {
+      bg: '#dce3eb',
+      panel: '#f4f7fa',
+      raised: '#eef2f6',
+      accent: '#2f74b0',
+      checkerA: '#e8ecf1',
+      checkerB: '#cfd6de',
+    },
   },
   {
     id: 'ember',
     label: 'Ember',
-    description: 'Warm dark with copper accent',
-    preview: { bg: '#100e0c', panel: '#181512', accent: '#d4a05a' },
+    description: 'Warm brown-ink with copper accent',
+    preview: {
+      bg: '#120e0a',
+      panel: '#1c1611',
+      raised: '#261e17',
+      accent: '#e0a45c',
+      checkerA: '#3a322c',
+      checkerB: '#28221c',
+    },
   },
   {
     id: 'abyss',
     label: 'Abyss',
-    description: 'Deep ocean teal-ink',
-    preview: { bg: '#060b10', panel: '#0c141c', accent: '#2eb8a8' },
+    description: 'Deep teal-ink navy studio',
+    preview: {
+      bg: '#040a10',
+      panel: '#0a121c',
+      raised: '#0f1a28',
+      accent: '#2ec4b6',
+      checkerA: '#243440',
+      checkerB: '#182430',
+    },
   },
   {
     id: 'moss',
     label: 'Moss',
-    description: 'Quiet forest studio',
-    preview: { bg: '#0a0f0c', panel: '#121916', accent: '#7aad6e' },
+    description: 'Forest olive workspace',
+    preview: {
+      bg: '#080e0a',
+      panel: '#101814',
+      raised: '#16201a',
+      accent: '#7cba6e',
+      checkerA: '#2c3830',
+      checkerB: '#1e2822',
+    },
   },
   {
     id: 'ink',
     label: 'Ink',
     description: 'Near-black with sharp rose accent',
-    preview: { bg: '#050505', panel: '#0e0e0e', accent: '#ff2d55' },
+    preview: {
+      bg: '#050505',
+      panel: '#0c0c0c',
+      raised: '#141414',
+      accent: '#ff2d55',
+      checkerA: '#2e2e2e',
+      checkerB: '#1a1a1a',
+    },
   },
   {
     id: 'frost',
     label: 'Frost',
     description: 'Soft nord polar night',
-    preview: { bg: '#1b1f26', panel: '#242933', accent: '#88c0d0' },
+    preview: {
+      bg: '#1a1f28',
+      panel: '#252b36',
+      raised: '#2e3544',
+      accent: '#8fd0e0',
+      checkerA: '#3a4250',
+      checkerB: '#2a323e',
+    },
   },
   {
     id: 'dusk',
     label: 'Dusk',
-    description: 'Blue-hour slate with apricot',
-    preview: { bg: '#0c0e16', panel: '#141822', accent: '#e09a6c' },
+    description: 'Violet-blue hour with apricot',
+    preview: {
+      bg: '#0c0c18',
+      panel: '#151522',
+      raised: '#1c1c2e',
+      accent: '#e8a070',
+      checkerA: '#32324a',
+      checkerB: '#222234',
+    },
   },
   {
     id: 'mist',
     label: 'Mist',
-    description: 'Cool aqua light workspace',
-    preview: { bg: '#dfe8ea', panel: '#eef4f5', accent: '#2a8f8a' },
+    description: 'Soft aqua-gray light workspace',
+    preview: {
+      bg: '#d4e2e4',
+      panel: '#f0f7f8',
+      raised: '#e6f0f2',
+      accent: '#248f88',
+      checkerA: '#e4eef0',
+      checkerB: '#c8d6da',
+    },
+  },
+  {
+    id: 'vapor',
+    label: 'Vapor',
+    description: 'Dark liquid glass with frosted chrome',
+    preview: {
+      bg: '#080c14',
+      panel: 'rgba(28, 38, 58, 0.72)',
+      raised: 'rgba(36, 48, 72, 0.82)',
+      accent: '#6ec8e8',
+      checkerA: '#2e3a4c',
+      checkerB: '#1e2838',
+      glass: true,
+    },
+  },
+  {
+    id: 'crystal',
+    label: 'Crystal',
+    description: 'Light liquid glass with milky frost',
+    preview: {
+      bg: '#d4e4ec',
+      panel: 'rgba(255, 255, 255, 0.7)',
+      raised: 'rgba(255, 255, 255, 0.85)',
+      accent: '#2a9aaa',
+      checkerA: '#e8f0f4',
+      checkerB: '#c8d8e0',
+      glass: true,
+    },
   },
 ]
 

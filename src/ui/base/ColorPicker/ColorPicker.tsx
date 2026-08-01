@@ -291,7 +291,7 @@ export function ColorPicker({
       open={open}
       title={title}
       onClose={cancelAndClose}
-      width={320}
+      width={420}
       bare
       closeOnEscape={false}
       defaultPosition={defaultPosition}
@@ -353,6 +353,7 @@ export function ColorPicker({
             </div>
             <div className={styles.fields}>
               <NumericField
+                className={styles.compactField}
                 label="H"
                 value={local.hsb.h}
                 min={0}
@@ -360,6 +361,7 @@ export function ColorPicker({
                 onChange={(h) => setFromHsb({ ...local.hsb, h: clampHue(h) })}
               />
               <NumericField
+                className={styles.compactField}
                 label="R"
                 value={local.rgb.r}
                 min={0}
@@ -369,6 +371,7 @@ export function ColorPicker({
                 }
               />
               <NumericField
+                className={styles.compactField}
                 label="S"
                 value={local.hsb.s}
                 min={0}
@@ -378,6 +381,7 @@ export function ColorPicker({
                 }
               />
               <NumericField
+                className={styles.compactField}
                 label="G"
                 value={local.rgb.g}
                 min={0}
@@ -387,6 +391,7 @@ export function ColorPicker({
                 }
               />
               <NumericField
+                className={styles.compactField}
                 label="Br"
                 value={local.hsb.b}
                 min={0}
@@ -396,6 +401,7 @@ export function ColorPicker({
                 }
               />
               <NumericField
+                className={styles.compactField}
                 label="B"
                 value={local.rgb.b}
                 min={0}

@@ -3,7 +3,8 @@
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  background: var(--he-bg);
+  background-color: var(--he-bg);
+  background-image: var(--he-atmosphere);
 }
 
 .body {

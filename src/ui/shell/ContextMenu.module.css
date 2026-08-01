@@ -7,6 +7,8 @@
   border-radius: 6px;
   background: var(--he-panel);
   box-shadow: var(--he-shadow-md);
+  backdrop-filter: var(--he-backdrop);
+  -webkit-backdrop-filter: var(--he-backdrop);
 }
 
 .item {

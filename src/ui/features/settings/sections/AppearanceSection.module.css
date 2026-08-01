@@ -44,11 +44,83 @@
   box-shadow: 0 0 0 1px var(--he-accent);
 }
 
-.swatch {
-  display: block;
-  height: 52px;
+.cardGlass .mock {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.mock {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 72px;
   border-radius: 5px;
   border: 1px solid var(--he-swatch-border);
+  overflow: hidden;
+}
+
+.mockTitle {
+  display: block;
+  height: 10px;
+  flex-shrink: 0;
+  border-bottom: 1px solid transparent;
+}
+
+.mockBody {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.mockTools {
+  width: 10px;
+  flex-shrink: 0;
+  border-right: 1px solid transparent;
+}
+
+.mockViewport {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+}
+
+.mockDoc {
+  width: 70%;
+  height: 70%;
+  border-radius: 1px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.mockPanel {
+  width: 18px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6px;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.mockAccent {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.glassBadge {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(20, 30, 45, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .cardBody {

@@ -134,6 +134,13 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.25rem 0.45rem;
+  /* Compact scrub fields so H/S/Br + RGB fit beside the SV square. */
+  --he-numeric-input-width: 2.6rem;
+}
+
+.fields .compactField {
+  grid-template-columns: 1.35rem minmax(0, 1fr);
+  gap: 0.2rem;
 }
 
 .field {

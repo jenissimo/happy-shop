@@ -16,23 +16,58 @@ export function AppearanceSection() {
       <div className={styles.palette} role="radiogroup" aria-label="Theme">
         {themes.map((t) => {
           const selected = theme === t.id
+          const { preview: p } = t
           return (
             <button
               key={t.id}
               type="button"
-              className={`${styles.card}${selected ? ` ${styles.cardSelected}` : ''}`}
+              className={`${styles.card}${selected ? ` ${styles.cardSelected}` : ''}${p.glass ? ` ${styles.cardGlass}` : ''}`}
               role="radio"
               aria-checked={selected}
               title={t.description}
               onClick={() => setTheme(t.id)}
             >
               <span
-                className={styles.swatch}
-                style={{
-                  background: `linear-gradient(135deg, ${t.preview.bg} 40%, ${t.preview.panel} 40%, ${t.preview.panel} 70%, ${t.preview.accent} 70%)`,
-                }}
+                className={styles.mock}
+                style={{ background: p.bg }}
                 aria-hidden
-              />
+              >
+                <span
+                  className={styles.mockTitle}
+                  style={{
+                    background: p.raised,
+                    borderBottomColor: p.accent,
+                  }}
+                />
+                <span className={styles.mockBody}>
+                  <span
+                    className={styles.mockTools}
+                    style={{
+                      background: p.raised,
+                      borderRightColor: p.accent,
+                    }}
+                  />
+                  <span className={styles.mockViewport}>
+                    <span
+                      className={styles.mockDoc}
+                      style={{
+                        backgroundImage: `linear-gradient(45deg, ${p.checkerA} 25%, ${p.checkerB} 25%, ${p.checkerB} 50%, ${p.checkerA} 50%, ${p.checkerA} 75%, ${p.checkerB} 75%)`,
+                        backgroundSize: '8px 8px',
+                      }}
+                    />
+                  </span>
+                  <span
+                    className={styles.mockPanel}
+                    style={{ background: p.panel }}
+                  >
+                    <span
+                      className={styles.mockAccent}
+                      style={{ background: p.accent }}
+                    />
+                  </span>
+                </span>
+                {p.glass ? <span className={styles.glassBadge}>Glass</span> : null}
+              </span>
               <span className={styles.cardBody}>
                 <span className={styles.cardLabel}>
                   {t.label}

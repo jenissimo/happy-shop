@@ -6,7 +6,9 @@
   height: 28px;
   flex-shrink: 0;
   background: var(--he-panel-raised);
-  border-bottom: 1px solid var(--he-panel-border);
+  border-bottom: 1px solid var(--he-chrome-line);
+  backdrop-filter: var(--he-backdrop);
+  -webkit-backdrop-filter: var(--he-backdrop);
   z-index: 20;
 }
 
@@ -18,12 +20,6 @@
   flex-shrink: 0;
   font-weight: 600;
   color: var(--he-text-bright);
-}
-
-.appLogo {
-  flex-shrink: 0;
-  display: block;
-  border-radius: 3px;
 }
 
 .mascot {
@@ -70,6 +66,8 @@
   border: 1px solid var(--he-border);
   border-radius: 4px;
   box-shadow: var(--he-shadow-md);
+  backdrop-filter: var(--he-backdrop);
+  -webkit-backdrop-filter: var(--he-backdrop);
   z-index: 50;
 }
 

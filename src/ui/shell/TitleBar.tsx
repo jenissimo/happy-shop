@@ -9,7 +9,6 @@ import {
 } from 'react'
 import type { CommandRegistry } from '../../core/commands/registry'
 import { CaretRight } from '@phosphor-icons/react'
-import appLogo from '../../assets/app-logo.svg'
 import { AssistantMascot } from '../features/AssistantMascot'
 import {
   listBuiltinWorkspaceItems,
@@ -490,15 +489,6 @@ export function TitleBar({
   return (
     <header className={styles.bar}>
       <span className={styles.brand} title={title}>
-        <img
-          className={styles.appLogo}
-          src={appLogo}
-          alt=""
-          width={16}
-          height={16}
-          draggable={false}
-          aria-hidden
-        />
         <AssistantMascot size={18} title="Happy Shop mascot" className={styles.mascot} />
         <span className={styles.title}>{title}</span>
       </span>
