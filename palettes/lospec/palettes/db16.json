@@ -1,0 +1,28 @@
+{
+  "id": "db16",
+  "name": "DawnBringer 16",
+  "author": "DawnBringer",
+  "colorCount": 16,
+  "license": "CC0-1.0",
+  "licenseNote": "Dedicated to the public domain (CC0 1.0).",
+  "sourceUrl": "https://lospec.com/palette-list/db16",
+  "tags": ["classic", "16-color"],
+  "colors": [
+    "#140C1C",
+    "#442434",
+    "#30346D",
+    "#4E4A4E",
+    "#854C30",
+    "#346524",
+    "#D04648",
+    "#757161",
+    "#597DCE",
+    "#D27D2C",
+    "#8595A1",
+    "#6DAA2C",
+    "#D2AA99",
+    "#6DC2CA",
+    "#DAD45E",
+    "#DEEED6"
+  ]
+}

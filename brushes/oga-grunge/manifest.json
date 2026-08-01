@@ -1,0 +1,222 @@
+[
+  {
+    "id": "oga-grunge.brush000",
+    "name": "Brush000",
+    "pack": "oga-grunge",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-grunge/brush000.png",
+      "width": 416,
+      "height": 512
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Grunge & Splatter",
+      "source": "https://opengameart.org/content/100-grunge-brushstrokes-and-splatters-set",
+      "author": "OpenGameArt contributor (anonymous)"
+    }
+  },
+  {
+    "id": "oga-grunge.brush001",
+    "name": "Brush001",
+    "pack": "oga-grunge",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-grunge/brush001.png",
+      "width": 512,
+      "height": 252
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Grunge & Splatter",
+      "source": "https://opengameart.org/content/100-grunge-brushstrokes-and-splatters-set",
+      "author": "OpenGameArt contributor (anonymous)"
+    }
+  },
+  {
+    "id": "oga-grunge.brush002",
+    "name": "Brush002",
+    "pack": "oga-grunge",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-grunge/brush002.png",
+      "width": 409,
+      "height": 512
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Grunge & Splatter",
+      "source": "https://opengameart.org/content/100-grunge-brushstrokes-and-splatters-set",
+      "author": "OpenGameArt contributor (anonymous)"
+    }
+  },
+  {
+    "id": "oga-grunge.brush003",
+    "name": "Brush003",
+    "pack": "oga-grunge",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-grunge/brush003.png",
+      "width": 455,
+      "height": 512
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Grunge & Splatter",
+      "source": "https://opengameart.org/content/100-grunge-brushstrokes-and-splatters-set",
+      "author": "OpenGameArt contributor (anonymous)"
+    }
+  },
+  {
+    "id": "oga-grunge.brush004",
+    "name": "Brush004",
+    "pack": "oga-grunge",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-grunge/brush004.png",
+      "width": 362,
+      "height": 512
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Grunge & Splatter",
+      "source": "https://opengameart.org/content/100-grunge-brushstrokes-and-splatters-set",
+      "author": "OpenGameArt contributor (anonymous)"
+    }
+  },
+  {
+    "id": "oga-grunge.brush005",
+    "name": "Brush005",
+    "pack": "oga-grunge",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-grunge/brush005.png",
+      "width": 238,
+      "height": 512
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Grunge & Splatter",
+      "source": "https://opengameart.org/content/100-grunge-brushstrokes-and-splatters-set",
+      "author": "OpenGameArt contributor (anonymous)"
+    }
+  },
+  {
+    "id": "oga-grunge.brush006",
+    "name": "Brush006",
+    "pack": "oga-grunge",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-grunge/brush006.png",
+      "width": 145,
+      "height": 512
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Grunge & Splatter",
+      "source": "https://opengameart.org/content/100-grunge-brushstrokes-and-splatters-set",
+      "author": "OpenGameArt contributor (anonymous)"
+    }
+  },
+  {
+    "id": "oga-grunge.brush007",
+    "name": "Brush007",
+    "pack": "oga-grunge",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-grunge/brush007.png",
+      "width": 202,
+      "height": 512
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Grunge & Splatter",
+      "source": "https://opengameart.org/content/100-grunge-brushstrokes-and-splatters-set",
+      "author": "OpenGameArt contributor (anonymous)"
+    }
+  },
+  {
+    "id": "oga-grunge.brush008",
+    "name": "Brush008",
+    "pack": "oga-grunge",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-grunge/brush008.png",
+      "width": 221,
+      "height": 455
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Grunge & Splatter",
+      "source": "https://opengameart.org/content/100-grunge-brushstrokes-and-splatters-set",
+      "author": "OpenGameArt contributor (anonymous)"
+    }
+  },
+  {
+    "id": "oga-grunge.brush009",
+    "name": "Brush009",
+    "pack": "oga-grunge",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-grunge/brush009.png",
+      "width": 324,
+      "height": 512
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Grunge & Splatter",
+      "source": "https://opengameart.org/content/100-grunge-brushstrokes-and-splatters-set",
+      "author": "OpenGameArt contributor (anonymous)"
+    }
+  }
+]

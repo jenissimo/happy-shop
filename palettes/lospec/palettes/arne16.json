@@ -1,0 +1,28 @@
+{
+  "id": "arne16",
+  "name": "Arne 16",
+  "author": "Arne",
+  "colorCount": 16,
+  "license": "CC0-1.0",
+  "licenseNote": "Dedicated to the public domain (CC0 1.0).",
+  "sourceUrl": "https://lospec.com/palette-list/arne16",
+  "tags": ["16-color"],
+  "colors": [
+    "#000000",
+    "#9D9D9D",
+    "#FFFFFF",
+    "#BE2633",
+    "#E06F8B",
+    "#493C2B",
+    "#A46422",
+    "#EB8931",
+    "#F7E26B",
+    "#2F484E",
+    "#44891A",
+    "#A3CE27",
+    "#1B2632",
+    "#005784",
+    "#31A7F7",
+    "#B2DCE6"
+  ]
+}

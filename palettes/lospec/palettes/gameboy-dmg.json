@@ -1,0 +1,16 @@
+{
+  "id": "gameboy-dmg",
+  "name": "Game Boy DMG",
+  "author": "Hardware palette",
+  "colorCount": 4,
+  "license": "Public domain (factual hardware colors)",
+  "licenseNote": "Standard four-shade Game Boy DMG LCD palette; factual hardware colors.",
+  "sourceUrl": "https://lospec.com/palette-list/gameboy-dmg",
+  "tags": ["4-color", "hardware"],
+  "colors": [
+    "#0F380F",
+    "#306230",
+    "#8BAC0F",
+    "#9BBC0F"
+  ]
+}

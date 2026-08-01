@@ -1,0 +1,266 @@
+[
+  {
+    "id": "oga-rd.bark",
+    "name": "Bark",
+    "pack": "oga-rd",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-rd/bark.png",
+      "width": 200,
+      "height": 500
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Structure & Texture",
+      "source": "https://opengameart.org/content/60-free-gimp-krita-brushes",
+      "author": "rubberduck"
+    }
+  },
+  {
+    "id": "oga-rd.cracks",
+    "name": "Cracks",
+    "pack": "oga-rd",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-rd/cracks.png",
+      "width": 273,
+      "height": 300
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Structure & Texture",
+      "source": "https://opengameart.org/content/60-free-gimp-krita-brushes",
+      "author": "rubberduck"
+    }
+  },
+  {
+    "id": "oga-rd.crystals",
+    "name": "Crystals",
+    "pack": "oga-rd",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-rd/crystals.png",
+      "width": 330,
+      "height": 320
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Structure & Texture",
+      "source": "https://opengameart.org/content/60-free-gimp-krita-brushes",
+      "author": "rubberduck"
+    }
+  },
+  {
+    "id": "oga-rd.dirt",
+    "name": "Dirt",
+    "pack": "oga-rd",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-rd/dirt.png",
+      "width": 292,
+      "height": 281
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Structure & Texture",
+      "source": "https://opengameart.org/content/60-free-gimp-krita-brushes",
+      "author": "rubberduck"
+    }
+  },
+  {
+    "id": "oga-rd.fine-grain",
+    "name": "Fine Grain",
+    "pack": "oga-rd",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-rd/fine-grain.png",
+      "width": 248,
+      "height": 219
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Structure & Texture",
+      "source": "https://opengameart.org/content/60-free-gimp-krita-brushes",
+      "author": "rubberduck"
+    }
+  },
+  {
+    "id": "oga-rd.fractale1",
+    "name": "Fractale1",
+    "pack": "oga-rd",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-rd/fractale1.png",
+      "width": 124,
+      "height": 137
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Structure & Texture",
+      "source": "https://opengameart.org/content/60-free-gimp-krita-brushes",
+      "author": "rubberduck"
+    }
+  },
+  {
+    "id": "oga-rd.lava",
+    "name": "Lava",
+    "pack": "oga-rd",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-rd/lava.png",
+      "width": 300,
+      "height": 300
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Structure & Texture",
+      "source": "https://opengameart.org/content/60-free-gimp-krita-brushes",
+      "author": "rubberduck"
+    }
+  },
+  {
+    "id": "oga-rd.radioactive",
+    "name": "Radioactive",
+    "pack": "oga-rd",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-rd/radioactive.png",
+      "width": 512,
+      "height": 489
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Structure & Texture",
+      "source": "https://opengameart.org/content/60-free-gimp-krita-brushes",
+      "author": "rubberduck"
+    }
+  },
+  {
+    "id": "oga-rd.rippled-glass",
+    "name": "Rippled Glass",
+    "pack": "oga-rd",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-rd/rippled-glass.png",
+      "width": 297,
+      "height": 295
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Structure & Texture",
+      "source": "https://opengameart.org/content/60-free-gimp-krita-brushes",
+      "author": "rubberduck"
+    }
+  },
+  {
+    "id": "oga-rd.structure-glass",
+    "name": "Structure Glass",
+    "pack": "oga-rd",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-rd/structure-glass.png",
+      "width": 300,
+      "height": 277
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Structure & Texture",
+      "source": "https://opengameart.org/content/60-free-gimp-krita-brushes",
+      "author": "rubberduck"
+    }
+  },
+  {
+    "id": "oga-rd.wall-struct",
+    "name": "Wall Struct",
+    "pack": "oga-rd",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-rd/wall-struct.png",
+      "width": 330,
+      "height": 350
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Structure & Texture",
+      "source": "https://opengameart.org/content/60-free-gimp-krita-brushes",
+      "author": "rubberduck"
+    }
+  },
+  {
+    "id": "oga-rd.wood1",
+    "name": "Wood1",
+    "pack": "oga-rd",
+    "kind": "stamp",
+    "hardness": 0.85,
+    "roundness": 1,
+    "angle": 0,
+    "spacing": 0.25,
+    "texture": {
+      "src": "/brushes/oga-rd/wood1.png",
+      "width": 400,
+      "height": 400
+    },
+    "defaults": {},
+    "license": {
+      "spdx": "CC0-1.0",
+      "pack": "Structure & Texture",
+      "source": "https://opengameart.org/content/60-free-gimp-krita-brushes",
+      "author": "rubberduck"
+    }
+  }
+]

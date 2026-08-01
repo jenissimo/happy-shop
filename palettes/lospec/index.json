@@ -1,0 +1,74 @@
+[
+  {
+    "id": "db16",
+    "name": "DawnBringer 16",
+    "author": "DawnBringer",
+    "colorCount": 16,
+    "license": "CC0-1.0",
+    "sourceUrl": "https://lospec.com/palette-list/db16",
+    "tags": ["classic", "16-color"]
+  },
+  {
+    "id": "db32",
+    "name": "DawnBringer 32",
+    "author": "DawnBringer",
+    "colorCount": 32,
+    "license": "CC0-1.0",
+    "sourceUrl": "https://lospec.com/palette-list/db32",
+    "tags": ["classic", "32-color"]
+  },
+  {
+    "id": "sweetie-16",
+    "name": "Sweetie 16",
+    "author": "GrafxKid",
+    "colorCount": 16,
+    "license": "CC0-1.0",
+    "sourceUrl": "https://lospec.com/palette-list/sweetie-16",
+    "tags": ["16-color", "pastel"]
+  },
+  {
+    "id": "arne16",
+    "name": "Arne 16",
+    "author": "Arne",
+    "colorCount": 16,
+    "license": "CC0-1.0",
+    "sourceUrl": "https://lospec.com/palette-list/arne16",
+    "tags": ["16-color"]
+  },
+  {
+    "id": "edg16",
+    "name": "Endesga 16",
+    "author": "Endesga",
+    "colorCount": 16,
+    "license": "CC0-1.0",
+    "sourceUrl": "https://lospec.com/palette-list/edg16",
+    "tags": ["16-color"]
+  },
+  {
+    "id": "edg32",
+    "name": "Endesga 32",
+    "author": "Endesga",
+    "colorCount": 32,
+    "license": "CC0-1.0",
+    "sourceUrl": "https://lospec.com/palette-list/edg32",
+    "tags": ["32-color"]
+  },
+  {
+    "id": "gameboy-dmg",
+    "name": "Game Boy DMG",
+    "author": "Hardware palette",
+    "colorCount": 4,
+    "license": "Public domain (factual hardware colors)",
+    "sourceUrl": "https://lospec.com/palette-list/gameboy-dmg",
+    "tags": ["4-color", "hardware"]
+  },
+  {
+    "id": "c64",
+    "name": "Commodore 64",
+    "author": "Hardware palette",
+    "colorCount": 16,
+    "license": "Public domain (factual hardware colors)",
+    "sourceUrl": "https://lospec.com/palette-list/c64",
+    "tags": ["16-color", "hardware"]
+  }
+]
