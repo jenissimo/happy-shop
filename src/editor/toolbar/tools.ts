@@ -10,6 +10,7 @@ import {
   DropHalf,
   Crop,
   Eraser,
+  Eyedropper,
   FirstAid,
   Fingerprint,
   Gradient,
@@ -24,8 +25,12 @@ import {
   Path,
   PenNib,
   PencilSimple,
+  PlusCircle,
+  MinusCircle,
+  ArrowsLeftRight,
   Polygon,
   Rectangle,
+  ArrowsClockwise,
   ScribbleLoop,
   Selection,
   Snowflake,
@@ -35,6 +40,7 @@ import {
   Sun,
   TextT,
   WaveSine,
+  Eye,
   type Icon,
 } from '@phosphor-icons/react'
 import type { LassoMode, MarqueeShape } from '../session/selectionToolStore'
@@ -49,6 +55,7 @@ export type EditorToolId =
   | 'lasso'
   | 'magicWand'
   | 'crop'
+  | 'eyedropper'
   | 'brush'
   | 'pencil'
   | 'eraser'
@@ -77,9 +84,14 @@ export type EditorToolId =
   | 'directSelection'
   | 'pen'
   | 'freeformPen'
+  | 'addAnchor'
+  | 'deleteAnchor'
+  | 'convertPoint'
   | 'shape'
   | 'hand'
+  | 'rotateView'
   | 'zoom'
+  | 'quickMask'
 
 export type ToolGroup =
   | 'paint'
@@ -142,6 +154,13 @@ export const TOOLS: readonly ToolDef[] = [
     title: 'Crop Tool',
     commandId: 'tool.crop',
     icon: Crop,
+  },
+  {
+    id: 'eyedropper',
+    letter: 'I',
+    title: 'Eyedropper Tool',
+    commandId: 'tool.eyedropper',
+    icon: Eyedropper,
   },
   {
     id: 'brush',
@@ -224,7 +243,7 @@ export const TOOLS: readonly ToolDef[] = [
   },
   {
     id: 'smudge',
-    letter: 'R',
+    letter: '',
     title: 'Smudge Tool',
     commandId: 'tool.smudge',
     icon: Fingerprint,
@@ -232,7 +251,7 @@ export const TOOLS: readonly ToolDef[] = [
   },
   {
     id: 'blur',
-    letter: 'R',
+    letter: '',
     title: 'Blur Tool',
     commandId: 'tool.blur',
     icon: Drop,
@@ -240,7 +259,7 @@ export const TOOLS: readonly ToolDef[] = [
   },
   {
     id: 'sharpen',
-    letter: 'R',
+    letter: '',
     title: 'Sharpen Tool',
     commandId: 'tool.sharpen',
     icon: Sparkle,
@@ -272,7 +291,7 @@ export const TOOLS: readonly ToolDef[] = [
   },
   {
     id: 'liquifyWarp',
-    letter: 'Q',
+    letter: '',
     title: 'Forward Warp Tool',
     commandId: 'tool.liquifyWarp',
     icon: WaveSine,
@@ -280,7 +299,7 @@ export const TOOLS: readonly ToolDef[] = [
   },
   {
     id: 'liquifyReconstruct',
-    letter: 'Q',
+    letter: '',
     title: 'Reconstruct Tool',
     commandId: 'tool.liquifyReconstruct',
     icon: ArrowCounterClockwise,
@@ -288,7 +307,7 @@ export const TOOLS: readonly ToolDef[] = [
   },
   {
     id: 'liquifyBloat',
-    letter: 'Q',
+    letter: '',
     title: 'Bloat Tool',
     commandId: 'tool.liquifyBloat',
     icon: ArrowsOutCardinal,
@@ -296,7 +315,7 @@ export const TOOLS: readonly ToolDef[] = [
   },
   {
     id: 'liquifyPucker',
-    letter: 'Q',
+    letter: '',
     title: 'Pucker Tool',
     commandId: 'tool.liquifyPucker',
     icon: ArrowsInCardinal,
@@ -304,7 +323,7 @@ export const TOOLS: readonly ToolDef[] = [
   },
   {
     id: 'liquifyTwirl',
-    letter: 'Q',
+    letter: '',
     title: 'Twirl Tool',
     commandId: 'tool.liquifyTwirl',
     icon: Spiral,
@@ -312,7 +331,7 @@ export const TOOLS: readonly ToolDef[] = [
   },
   {
     id: 'liquifyFreeze',
-    letter: 'Q',
+    letter: '',
     title: 'Freeze Mask Tool',
     commandId: 'tool.liquifyFreeze',
     icon: Snowflake,
@@ -320,7 +339,7 @@ export const TOOLS: readonly ToolDef[] = [
   },
   {
     id: 'liquifyThaw',
-    letter: 'Q',
+    letter: '',
     title: 'Thaw Mask Tool',
     commandId: 'tool.liquifyThaw',
     icon: Sun,
@@ -366,6 +385,30 @@ export const TOOLS: readonly ToolDef[] = [
     group: 'pen',
   },
   {
+    id: 'addAnchor',
+    letter: 'P',
+    title: 'Add Anchor Point Tool',
+    commandId: 'tool.addAnchor',
+    icon: PlusCircle,
+    group: 'pen',
+  },
+  {
+    id: 'deleteAnchor',
+    letter: 'P',
+    title: 'Delete Anchor Point Tool',
+    commandId: 'tool.deleteAnchor',
+    icon: MinusCircle,
+    group: 'pen',
+  },
+  {
+    id: 'convertPoint',
+    letter: 'P',
+    title: 'Convert Point Tool',
+    commandId: 'tool.convertPoint',
+    icon: ArrowsLeftRight,
+    group: 'pen',
+  },
+  {
     id: 'shape',
     letter: 'U',
     title: 'Shape Tool',
@@ -381,11 +424,25 @@ export const TOOLS: readonly ToolDef[] = [
     separatorBefore: true,
   },
   {
+    id: 'rotateView',
+    letter: 'R',
+    title: 'Rotate View Tool',
+    commandId: 'tool.rotateView',
+    icon: ArrowsClockwise,
+  },
+  {
     id: 'zoom',
     letter: 'Z',
     title: 'Zoom Tool',
     commandId: 'tool.zoom',
     icon: MagnifyingGlass,
+  },
+  {
+    id: 'quickMask',
+    letter: 'Q',
+    title: 'Edit in Quick Mask Mode',
+    commandId: 'tool.quickMask',
+    icon: Eye,
   },
 ] as const
 
@@ -427,12 +484,60 @@ export function pathSelectTitle(id: PathSelectToolId): string {
   return id === 'directSelection' ? 'Direct Selection Tool' : 'Path Selection Tool'
 }
 
-export type PenToolId = 'pen' | 'freeformPen'
+export type PenToolId =
+  | 'pen'
+  | 'freeformPen'
+  | 'addAnchor'
+  | 'deleteAnchor'
+  | 'convertPoint'
+
+export const PEN_TOOL_CYCLE: readonly PenToolId[] = [
+  'pen',
+  'freeformPen',
+  'addAnchor',
+  'deleteAnchor',
+  'convertPoint',
+]
 
 export function penIcon(id: PenToolId): Icon {
-  return id === 'freeformPen' ? ScribbleLoop : PenNib
+  switch (id) {
+    case 'freeformPen':
+      return ScribbleLoop
+    case 'addAnchor':
+      return PlusCircle
+    case 'deleteAnchor':
+      return MinusCircle
+    case 'convertPoint':
+      return ArrowsLeftRight
+    default:
+      return PenNib
+  }
 }
 
 export function penTitle(id: PenToolId): string {
-  return id === 'freeformPen' ? 'Freeform Pen Tool' : 'Pen Tool'
+  switch (id) {
+    case 'freeformPen':
+      return 'Freeform Pen Tool'
+    case 'addAnchor':
+      return 'Add Anchor Point Tool'
+    case 'deleteAnchor':
+      return 'Delete Anchor Point Tool'
+    case 'convertPoint':
+      return 'Convert Point Tool'
+    default:
+      return 'Pen Tool'
+  }
+}
+
+export function isPenToolId(id: string): id is PenToolId {
+  return (PEN_TOOL_CYCLE as readonly string[]).includes(id)
+}
+
+export function cyclePenTool(id: string, reverse = false): PenToolId {
+  const index = PEN_TOOL_CYCLE.indexOf(id as PenToolId)
+  const from = index >= 0 ? index : 0
+  const next = reverse
+    ? (from - 1 + PEN_TOOL_CYCLE.length) % PEN_TOOL_CYCLE.length
+    : (from + 1) % PEN_TOOL_CYCLE.length
+  return PEN_TOOL_CYCLE[next]!
 }

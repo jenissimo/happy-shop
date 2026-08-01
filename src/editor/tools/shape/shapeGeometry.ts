@@ -42,9 +42,14 @@ export function parseSimpleSvgPath(data: string): ShapePath | null {
 }
 
 function penPathToShapePath(path: PenPath): ShapePath {
+  // ShapePath predates compound paths and has no contour/fill-rule model.
+  // Keep only a single contour here rather than silently drawing connector
+  // segments between independent SVG `M` commands.
+  const subpaths = path.subpaths.filter((subpath) => subpath.anchors.length > 0)
+  if (subpaths.length !== 1) return { points: [], closed: false }
   return {
-    points: tessellatePenPath(path, 16),
-    closed: path.closed,
+    points: tessellatePenPath({ ...path, subpaths }, 16),
+    closed: subpaths[0]!.closed,
   }
 }
 
@@ -72,8 +77,12 @@ export function pathToSvgData(path: ShapePath, offsetX = 0, offsetY = 0): string
   if (path.points.length === 0) return ''
   return penPathToSvgData(
     {
-      anchors: path.points.map((point) => ({ x: point.x, y: point.y })),
-      closed: path.closed,
+      subpaths: [
+        {
+          anchors: path.points.map((point) => ({ x: point.x, y: point.y })),
+          closed: path.closed,
+        },
+      ],
     },
     offsetX,
     offsetY,

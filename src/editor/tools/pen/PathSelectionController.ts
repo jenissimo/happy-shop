@@ -5,7 +5,13 @@ import { documentHistory } from '../../session/documentHistory'
 import { useEditorSessionStore } from '../../session/EditorSessionStore'
 import { penPathToVectorPath } from '../paths/pathBridge'
 import { persistWorkPathToDocument, resolvePenPathForOps } from '../paths/pathDocumentSync'
-import { tessellatePenPath, type PenPath } from './penPath'
+import {
+  clonePenPath,
+  getSubpath,
+  penPathIsEmpty,
+  tessellatePenSubpath,
+  type PenPath,
+} from './penPath'
 import { useWorkPathStore } from './workPathStore'
 
 type Gesture = {
@@ -13,12 +19,19 @@ type Gesture = {
   lastDoc: { x: number; y: number }
   startPath: PenPath
   documentPathId: string | null
+  subpathIndex: number
 }
 
 const HIT_PX = 8
 
-function pathBodyHit(path: PenPath, docX: number, docY: number, zoom: number): boolean {
-  const poly = tessellatePenPath(path, 12)
+function subpathBodyHit(
+  path: PenPath,
+  subpathIndex: number,
+  docX: number,
+  docY: number,
+  zoom: number,
+): boolean {
+  const poly = tessellatePenSubpath(path, subpathIndex, 12)
   const threshold = HIT_PX / Math.max(zoom, 0.25)
   for (let i = 1; i < poly.length; i++) {
     const a = poly[i - 1]!
@@ -36,15 +49,17 @@ function pathBodyHit(path: PenPath, docX: number, docY: number, zoom: number): b
   return false
 }
 
-function clonePenPath(path: PenPath): PenPath {
-  return {
-    closed: path.closed,
-    anchors: path.anchors.map((anchor) => ({
-      ...anchor,
-      in: anchor.in ? { ...anchor.in } : undefined,
-      out: anchor.out ? { ...anchor.out } : undefined,
-    })),
+function hitActiveSubpath(
+  path: PenPath,
+  docX: number,
+  docY: number,
+  zoom: number,
+): number | null {
+  for (let si = path.subpaths.length - 1; si >= 0; si--) {
+    if (getSubpath(path, si).anchors.length === 0) continue
+    if (subpathBodyHit(path, si, docX, docY, zoom)) return si
   }
+  return null
 }
 
 function commitDocumentPath(label: string, pathId: string, nextPen: PenPath): void {
@@ -83,8 +98,9 @@ export class PathSelectionController {
 
   pointerDown(docX: number, docY: number, pointerId: number, zoom: number): boolean {
     const path = resolvePenPathForOps()
-    if (!path || path.anchors.length === 0) return false
-    if (!pathBodyHit(path, docX, docY, zoom)) return false
+    if (!path || penPathIsEmpty(path)) return false
+    const subpathIndex = hitActiveSubpath(path, docX, docY, zoom)
+    if (subpathIndex == null) return false
 
     const docPath = resolveActivePath(useEditorSessionStore.getState().document.paths)
     this.gesture = {
@@ -92,9 +108,12 @@ export class PathSelectionController {
       lastDoc: { x: docX, y: docY },
       startPath: clonePenPath(path),
       documentPathId: docPath?.id ?? null,
+      subpathIndex,
     }
-    useWorkPathStore.getState().setSelectedAnchor(null)
+    useWorkPathStore.getState().setSelectedAnchors([])
+    useWorkPathStore.getState().setPrimaryAnchor(null)
     useWorkPathStore.getState().setActiveHandle(null)
+    useWorkPathStore.getState().setActiveSubpathIndex(subpathIndex)
     return true
   }
 
@@ -106,18 +125,22 @@ export class PathSelectionController {
     const dy = docY - gesture.lastDoc.y
     if (dx === 0 && dy === 0) return
 
-    const moved = {
-      closed: gesture.startPath.closed,
-      anchors: gesture.startPath.anchors.map((anchor) => ({
-        ...anchor,
-        x: anchor.x + dx,
-        y: anchor.y + dy,
-        in: anchor.in ? { x: anchor.in.x + dx, y: anchor.in.y + dy } : undefined,
-        out: anchor.out ? { x: anchor.out.x + dx, y: anchor.out.y + dy } : undefined,
-      })),
+    const moved = clonePenPath(gesture.startPath)
+    const sp = moved.subpaths[gesture.subpathIndex]
+    if (sp) {
+      moved.subpaths[gesture.subpathIndex] = {
+        ...sp,
+        anchors: sp.anchors.map((anchor) => ({
+          ...anchor,
+          x: anchor.x + dx,
+          y: anchor.y + dy,
+          in: anchor.in ? { x: anchor.in.x + dx, y: anchor.in.y + dy } : undefined,
+          out: anchor.out ? { x: anchor.out.x + dx, y: anchor.out.y + dy } : undefined,
+        })),
+      }
     }
 
-    useWorkPathStore.getState().setPath(moved)
+    useWorkPathStore.getState().setPath(moved, { preserveSelection: true })
     gesture.lastDoc = { x: docX, y: docY }
     gesture.startPath = clonePenPath(moved)
   }

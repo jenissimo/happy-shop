@@ -9,7 +9,7 @@ import {
 } from '../../../core/document'
 import { documentHistory } from '../../session/documentHistory'
 import { useEditorSessionStore } from '../../session/EditorSessionStore'
-import type { PenPath } from '../pen/penPath'
+import { penPathAnchorCount, penPathIsEmpty, type PenPath } from '../pen/penPath'
 import { useWorkPathStore } from '../pen/workPathStore'
 import { penPathToVectorPath, vectorPathToPenPath } from './pathBridge'
 
@@ -30,7 +30,7 @@ function commitDocument(label: string, after: HappyDocument): void {
 
 /** Persist the session work path into `document.paths.workPath`. */
 export function persistWorkPathToDocument(path: PenPath, label = 'Work Path'): void {
-  if (path.anchors.length === 0) return
+  if (penPathIsEmpty(path)) return
   const doc = useEditorSessionStore.getState().document
   const existingId = normalizePathStore(doc.paths).workPath?.id
   const vector = penPathToVectorPath(path, 'Work Path', existingId)
@@ -55,10 +55,10 @@ export function hydrateWorkPathFromDocument(document: HappyDocument): void {
 /** Resolve the path targeted by panel commands and path ops. */
 export function resolvePenPathForOps(): PenPath | null {
   const draft = useWorkPathStore.getState().draft
-  if (draft && draft.anchors.length > 0) return draft
+  if (draft && penPathAnchorCount(draft) > 0) return draft
 
   const sessionPath = useWorkPathStore.getState().path
-  if (sessionPath && sessionPath.anchors.length > 0) return sessionPath
+  if (sessionPath && penPathAnchorCount(sessionPath) > 0) return sessionPath
 
   const doc = useEditorSessionStore.getState().document
   const active = resolveActivePath(doc.paths)

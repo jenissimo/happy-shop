@@ -1,5 +1,6 @@
 import { BrushToolController } from './brush/BrushToolController'
 import { readPencilEngineSettings } from './brush/brushSettingsStore'
+import { useBrushSettingsStore } from './brush/brushSettingsStore'
 import { RetouchToolController } from './retouch/RetouchToolController'
 import { LiquifyToolController } from './liquify/LiquifyToolController'
 import { isLiquifyTool, liquifyKindForTool } from './liquify/liquifyTools'
@@ -8,6 +9,12 @@ import { PenToolController } from './pen/PenToolController'
 import { FreeformPenToolController } from './pen/FreeformPenToolController'
 import { DirectSelectionController } from './pen/DirectSelectionController'
 import { PathSelectionController } from './pen/PathSelectionController'
+import {
+  AddAnchorController,
+  ConvertPointController,
+  DeleteAnchorController,
+} from './pen/AddDeleteConvertControllers'
+import { isPenToolId } from '../toolbar/tools'
 import { TextToolController } from './text/TextToolController'
 import { GradientToolController } from './gradient/GradientToolController'
 import { SelectionToolController } from './selection/SelectionToolController'
@@ -81,6 +88,9 @@ type DragKind =
   | 'shape'
   | 'pen'
   | 'freeformPen'
+  | 'addAnchor'
+  | 'deleteAnchor'
+  | 'convertPoint'
   | 'pathSelection'
   | 'directSelection'
   | 'selection'
@@ -92,6 +102,7 @@ type DragKind =
   | 'retouch'
   | 'liquify'
   | 'gradient'
+  | 'brushAdjust'
 
 /**
  * Routes viewport pointer events to the active tool controller.
@@ -157,6 +168,9 @@ export class ToolInputRouter {
   private shape = new ShapeToolController()
   private pen = new PenToolController()
   private freeformPen = new FreeformPenToolController()
+  private addAnchor = new AddAnchorController()
+  private deleteAnchor = new DeleteAnchorController()
+  private convertPoint = new ConvertPointController()
   private pathSelection = new PathSelectionController()
   private directSelection = new DirectSelectionController()
   private gradient = new GradientToolController()
@@ -175,6 +189,7 @@ export class ToolInputRouter {
     pointerId: number
   } | null = null
   private modifiersAtDown = NO_MODIFIERS
+  private brushAdjustStart: { x: number; y: number; size: number; hardness: number } | null = null
 
   get brushSettings() {
     return this.brush.settings
@@ -189,6 +204,10 @@ export class ToolInputRouter {
     this.brush.settings = { ...this.brush.settings, ...patch }
   }
 
+  setSpaceHeld(active: boolean): void {
+    this.selection.setRepositioning(active)
+  }
+
   private invalidateRetouch(_surfaceId: string): void {
     useEditorSessionStore.getState().bumpRasterEpoch()
   }
@@ -200,7 +219,7 @@ export class ToolInputRouter {
     this.pen.cancelDraft()
     this.freeformPen.cancelDraft()
     useSelectionToolStore.getState().clearPreview()
-    if (this.drag === 'pen' || this.drag === 'freeformPen' || this.drag === 'pathSelection' || this.drag === 'directSelection') {
+    if (this.drag === 'pen' || this.drag === 'freeformPen' || this.drag === 'pathSelection' || this.drag === 'directSelection' || this.drag === 'addAnchor' || this.drag === 'deleteAnchor' || this.drag === 'convertPoint') {
       this.drag = 'none'
       this.pointerId = null
     }
@@ -280,8 +299,12 @@ export class ToolInputRouter {
     }
     if (nextToolId !== 'brush' && nextToolId !== 'eraser') this.brush.clearAnchor()
     if (nextToolId !== 'gradient') this.gradient.cancel()
-    if (nextToolId !== 'pen' && nextToolId !== 'freeformPen') {
-      this.pen.cancelDraft()
+    if (!isPenToolId(nextToolId)) {
+      if (this.pen.hasOpenDraft) {
+        this.pen.commitOpenDraft()
+      } else {
+        this.pen.cancelDraft()
+      }
       this.freeformPen.cancelDraft()
     }
     this.lastSample = null
@@ -298,13 +321,17 @@ export class ToolInputRouter {
     } else if (this.drag === 'shape') {
       this.shape.pointerMove(x, y, sample.pointerId, mods)
     } else if (this.drag === 'pen') {
-      this.pen.pointerMove(x, y, sample.pointerId)
+      this.pen.pointerMove(x, y, sample.pointerId, mods)
     } else if (this.drag === 'freeformPen') {
       this.freeformPen.pointerMove(x, y, sample.pointerId)
     } else if (this.drag === 'pathSelection') {
       this.pathSelection.pointerMove(x, y, sample.pointerId)
-    } else if (this.drag === 'directSelection') {
-      this.directSelection.pointerMove(x, y, sample.pointerId)
+    } else if (this.drag === 'directSelection' || this.drag === 'convertPoint') {
+      if (this.drag === 'convertPoint') {
+        this.convertPoint.pointerMove(x, y, sample.pointerId, mods)
+      } else {
+        this.directSelection.pointerMove(x, y, sample.pointerId, mods)
+      }
     } else if (this.drag === 'selection') {
       this.selection.pointerMove(x, y, sample.pointerId, mods)
     } else if (this.drag === 'selectionTransform') {
@@ -338,7 +365,7 @@ export class ToolInputRouter {
   private snappedDocPoint(point: { x: number; y: number }, ctx: ToolPointerContext) {
     // Painting stays continuous; geometry tools and transforms receive a
     // guide/edge-aligned pointer in document space.
-    if (!['shape', 'crop', 'selection', 'selectionTransform', 'cageTransform', 'move', 'pen', 'freeformPen', 'pathSelection', 'directSelection'].includes(this.drag)) {
+    if (!['shape', 'crop', 'selection', 'selectionTransform', 'cageTransform', 'move', 'pen', 'freeformPen', 'pathSelection', 'directSelection', 'addAnchor', 'deleteAnchor', 'convertPoint'].includes(this.drag)) {
       return point
     }
     const { settings } = useSnapPreferencesStore.getState()
@@ -355,8 +382,17 @@ export class ToolInputRouter {
     event: PointerEvent,
     ctx: ToolPointerContext,
   ): Promise<boolean> {
-    if (event.button !== 0) return false
     const tool = useEditorSessionStore.getState().activeToolId
+    const brushTool = tool === 'brush' || tool === 'eraser' || tool === 'pencil'
+    if (brushTool && event.button === 2 && event.altKey) {
+      const prefs = useBrushSettingsStore.getState()
+      this.drag = 'brushAdjust'
+      this.pointerId = event.pointerId
+      this.brushAdjustStart = { x: event.clientX, y: event.clientY, size: prefs.size, hardness: prefs.hardness }
+      ctx.host.setPointerCapture(event.pointerId)
+      return true
+    }
+    if (event.button !== 0) return false
     const doc = this.snappedDocPoint(this.docPoint(event, ctx), ctx)
     const mods = readModifiers(event)
 
@@ -536,6 +572,65 @@ export class ToolInputRouter {
       if (!ok) return false
       this.drag = 'freeformPen'
       this.pointerId = event.pointerId
+      this.modifiersAtDown = mods
+      this.lastSample = { doc, pressure: event.pressure || 1, pointerId: event.pointerId }
+      ctx.host.setPointerCapture(event.pointerId)
+      return true
+    }
+
+    if (tool === 'addAnchor') {
+      const ok = this.addAnchor.pointerDown(doc.x, doc.y, event.pointerId, ctx.camera.getState().zoom)
+      if (!ok) return false
+      this.drag = 'addAnchor'
+      this.pointerId = event.pointerId
+      ctx.host.setPointerCapture(event.pointerId)
+      return true
+    }
+
+    if (tool === 'deleteAnchor') {
+      const ok = this.deleteAnchor.pointerDown(doc.x, doc.y, event.pointerId, ctx.camera.getState().zoom)
+      if (!ok) return false
+      this.drag = 'deleteAnchor'
+      this.pointerId = event.pointerId
+      ctx.host.setPointerCapture(event.pointerId)
+      return true
+    }
+
+    if (tool === 'convertPoint' && !(mods.ctrl || mods.meta)) {
+      const ok = this.convertPoint.pointerDown(
+        doc.x,
+        doc.y,
+        event.pointerId,
+        ctx.camera.getState().zoom,
+        mods,
+      )
+      if (!ok) return false
+      this.drag = 'convertPoint'
+      this.pointerId = event.pointerId
+      this.modifiersAtDown = mods
+      this.lastSample = { doc, pressure: event.pressure || 1, pointerId: event.pointerId }
+      ctx.host.setPointerCapture(event.pointerId)
+      return true
+    }
+
+    // Pen + Cmd/Ctrl (or Convert Point + Cmd) → temporary Direct Selection
+    if (
+      (tool === 'pen' || tool === 'convertPoint') &&
+      (mods.ctrl || mods.meta)
+    ) {
+      const ok = this.directSelection.pointerDown(
+        doc.x,
+        doc.y,
+        event.pointerId,
+        ctx.camera.getState().zoom,
+        mods,
+      )
+      if (!ok) return false
+      this.drag = 'directSelection'
+      this.pointerId = event.pointerId
+      this.modifiersAtDown = mods
+      this.lastSample = { doc, pressure: event.pressure || 1, pointerId: event.pointerId }
+      this.updateConstraintStatus(mods)
       ctx.host.setPointerCapture(event.pointerId)
       return true
     }
@@ -551,10 +646,13 @@ export class ToolInputRouter {
         this.pen.closeDraft()
         return true
       }
-      const ok = this.pen.pointerDown(doc.x, doc.y, event.pointerId)
+      const ok = this.pen.pointerDown(doc.x, doc.y, event.pointerId, mods)
       if (!ok) return false
       this.drag = 'pen'
       this.pointerId = event.pointerId
+      this.modifiersAtDown = mods
+      this.lastSample = { doc, pressure: event.pressure || 1, pointerId: event.pointerId }
+      this.updateConstraintStatus(mods)
       ctx.host.setPointerCapture(event.pointerId)
       return true
     }
@@ -579,10 +677,14 @@ export class ToolInputRouter {
         doc.y,
         event.pointerId,
         ctx.camera.getState().zoom,
+        mods,
       )
       if (!ok) return false
       this.drag = 'directSelection'
       this.pointerId = event.pointerId
+      this.modifiersAtDown = mods
+      this.lastSample = { doc, pressure: event.pressure || 1, pointerId: event.pointerId }
+      this.updateConstraintStatus(mods)
       ctx.host.setPointerCapture(event.pointerId)
       return true
     }
@@ -716,6 +818,11 @@ export class ToolInputRouter {
       )
     }
 
+    // Pen idle rubber-band while a draft is open (no capture required).
+    if (tool === 'pen' && this.drag === 'none' && this.pen.hasOpenDraft) {
+      this.pen.pointerMove(doc.x, doc.y, event.pointerId, mods)
+    }
+
     if (this.pointerId !== event.pointerId) return
     this.lastSample = {
       doc,
@@ -730,6 +837,15 @@ export class ToolInputRouter {
         doc.y,
       )
       if (rgb) useColorStore.getState().setForeground(rgbToCssHex(rgb))
+      return
+    }
+
+    if (this.drag === 'brushAdjust' && this.brushAdjustStart) {
+      const start = this.brushAdjustStart
+      useBrushSettingsStore.getState().setPrefs({
+        size: start.size + event.clientX - start.x,
+        hardness: start.hardness - (event.clientY - start.y) / 200,
+      })
       return
     }
 
@@ -785,7 +901,8 @@ export class ToolInputRouter {
     }
 
     if (this.drag === 'pen') {
-      this.pen.pointerMove(doc.x, doc.y, event.pointerId)
+      this.pen.pointerMove(doc.x, doc.y, event.pointerId, mods)
+      this.updateConstraintStatus(mods)
       return
     }
 
@@ -800,7 +917,14 @@ export class ToolInputRouter {
     }
 
     if (this.drag === 'directSelection') {
-      this.directSelection.pointerMove(doc.x, doc.y, event.pointerId)
+      this.directSelection.pointerMove(doc.x, doc.y, event.pointerId, mods)
+      this.updateConstraintStatus(mods)
+      return
+    }
+
+    if (this.drag === 'convertPoint') {
+      this.convertPoint.pointerMove(doc.x, doc.y, event.pointerId, mods)
+      this.updateConstraintStatus(mods)
       return
     }
 
@@ -854,6 +978,7 @@ export class ToolInputRouter {
 
     const doc = this.docPoint(event, ctx)
 
+    if (this.drag === 'brushAdjust') this.brushAdjustStart = null
     if (this.drag === 'brush') {
       await this.brush.pointerUp()
     }
@@ -890,7 +1015,7 @@ export class ToolInputRouter {
       this.shape.pointerUp(doc.x, doc.y, event.pointerId, readModifiers(event))
     }
     if (this.drag === 'pen') {
-      this.pen.pointerUp(doc.x, doc.y, event.pointerId)
+      this.pen.pointerUp(doc.x, doc.y, event.pointerId, readModifiers(event))
     }
     if (this.drag === 'freeformPen') {
       this.freeformPen.pointerUp(doc.x, doc.y, event.pointerId)
@@ -900,6 +1025,9 @@ export class ToolInputRouter {
     }
     if (this.drag === 'directSelection') {
       this.directSelection.pointerUp(doc.x, doc.y, event.pointerId)
+    }
+    if (this.drag === 'convertPoint') {
+      this.convertPoint.pointerUp(doc.x, doc.y, event.pointerId)
     }
     if (this.drag === 'gradient') {
       await this.gradient.pointerUp(doc.x, doc.y)
@@ -944,6 +1072,11 @@ export class ToolInputRouter {
     let active: string | null = null
     if (this.drag === 'brush' && mods.shift) {
       active = this.modifiersAtDown.shift ? 'Straight line' : '45°'
+    }
+    if (this.drag === 'pen' || this.drag === 'directSelection' || this.drag === 'convertPoint') {
+      if (mods.shift) active = '45°'
+      else if (mods.alt) active = 'Cusp'
+      else if (mods.ctrl || mods.meta) active = 'Direct Select'
     }
     if (this.drag === 'shape' || this.drag === 'crop') {
       active = mods.shift ? 'Square' : mods.alt ? 'From center' : null

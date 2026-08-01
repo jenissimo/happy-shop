@@ -8,10 +8,14 @@ describe('sampleVectorPath', () => {
     const path: VectorPath = {
       id: createPathId(),
       name: 'Line',
-      closed: false,
-      knots: [
-        { x: 0, y: 0, handleIn: null, handleOut: null },
-        { x: 100, y: 0, handleIn: null, handleOut: null },
+      subpaths: [
+        {
+          closed: false,
+          knots: [
+            { x: 0, y: 0, handleIn: null, handleOut: null },
+            { x: 100, y: 0, handleIn: null, handleOut: null },
+          ],
+        },
       ],
     }
     const points = sampleVectorPath(path, { stepPx: 25 })
@@ -24,15 +28,39 @@ describe('sampleVectorPath', () => {
     const path: VectorPath = {
       id: createPathId(),
       name: 'Curve',
-      closed: false,
-      knots: [
-        { x: 0, y: 0, handleIn: null, handleOut: { x: 40, y: 0 } },
-        { x: 100, y: 100, handleIn: { x: -40, y: 0 }, handleOut: null },
+      subpaths: [
+        {
+          closed: false,
+          knots: [
+            { x: 0, y: 0, handleIn: null, handleOut: { x: 40, y: 0 } },
+            { x: 100, y: 100, handleIn: { x: -40, y: 0 }, handleOut: null },
+          ],
+        },
       ],
     }
     const points = sampleVectorPath(path, { stepPx: 10 })
     expect(points.length).toBeGreaterThan(8)
     const mid = points[Math.floor(points.length / 2)]!
     expect(mid.y).toBeGreaterThan(10)
+  })
+
+  test('samples one-sided handle as a curve', () => {
+    const path: VectorPath = {
+      id: createPathId(),
+      name: 'OneSided',
+      subpaths: [
+        {
+          closed: false,
+          knots: [
+            { x: 0, y: 0, handleIn: null, handleOut: { x: 40, y: 40 } },
+            { x: 100, y: 0, handleIn: null, handleOut: null },
+          ],
+        },
+      ],
+    }
+    const points = sampleVectorPath(path, { stepPx: 10 })
+    expect(points.length).toBeGreaterThan(4)
+    const mid = points[Math.floor(points.length / 2)]!
+    expect(mid.y).toBeGreaterThan(5)
   })
 })

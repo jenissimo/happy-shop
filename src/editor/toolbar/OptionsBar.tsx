@@ -5,6 +5,7 @@ import {
   TextAlignLeft,
   TextAlignCenter,
   TextAlignRight,
+  TextAlignJustify,
   IntersectSquare,
   MinusSquare,
   PlusSquare,
@@ -27,6 +28,7 @@ import {
   pathToSelection,
   strokePathWithBrush,
 } from '../tools/pen/penPathOps'
+import { penPathIsFillable, penPathIsStrokable } from '../tools/pen/penPath'
 import { resolvePenPathForOps } from '../tools/paths/pathDocumentSync'
 import { FlyoutSliderField } from '../../ui/base/FlyoutSliderField'
 import {
@@ -138,6 +140,9 @@ export function OptionsBar() {
   const showPenOptions =
     activeToolId === 'pen' ||
     activeToolId === 'freeformPen' ||
+    activeToolId === 'addAnchor' ||
+    activeToolId === 'deleteAnchor' ||
+    activeToolId === 'convertPoint' ||
     activeToolId === 'directSelection' ||
     activeToolId === 'pathSelection'
   const showSelectionOptions =
@@ -152,7 +157,11 @@ export function OptionsBar() {
         ? lassoTitle(lassoMode)
         : activeToolId === 'pathSelection' || activeToolId === 'directSelection'
           ? pathSelectTitle(activeToolId)
-          : activeToolId === 'pen' || activeToolId === 'freeformPen'
+          : activeToolId === 'pen' ||
+              activeToolId === 'freeformPen' ||
+              activeToolId === 'addAnchor' ||
+              activeToolId === 'deleteAnchor' ||
+              activeToolId === 'convertPoint'
             ? penTitle(activeToolId)
             : (tool?.title ?? 'Tool')
   const documentScripts = detectDocumentScripts(
@@ -688,7 +697,7 @@ export function OptionsBar() {
           <button
             type="button"
             className={styles.hint}
-            disabled={!opsPath?.closed || (opsPath?.anchors.length ?? 0) < 3}
+            disabled={!opsPath || !penPathIsFillable(opsPath)}
             onClick={() => {
               const path = resolvePenPathForOps()
               if (path) pathToSelection(path)
@@ -699,7 +708,7 @@ export function OptionsBar() {
           <button
             type="button"
             className={styles.hint}
-            disabled={!opsPath?.closed || (opsPath?.anchors.length ?? 0) < 3}
+            disabled={!opsPath || !penPathIsFillable(opsPath)}
             onClick={() => {
               const path = resolvePenPathForOps()
               if (path) fillPath(path)
@@ -710,7 +719,7 @@ export function OptionsBar() {
           <button
             type="button"
             className={styles.hint}
-            disabled={!opsPath || opsPath.anchors.length < 2}
+            disabled={!opsPath || !penPathIsStrokable(opsPath)}
             onClick={() => {
               const path = resolvePenPathForOps()
               if (path) void strokePathWithBrush(path)
@@ -719,7 +728,7 @@ export function OptionsBar() {
             Stroke Path
           </button>
           <span className={styles.hint}>
-            Click add · drag handles · Enter/dbl-click close · Esc cancel
+            Click add · drag handles · Shift 45° · Alt cusp · Cmd select · Enter/dbl-click close · Esc cancel
           </span>
         </div>
       )}
@@ -753,14 +762,28 @@ export function OptionsBar() {
           <input
             className={styles.characterField}
             type="number"
-            min={-50}
-            max={200}
+            min={-200}
+            max={500}
             value={options.tracking}
-            title="Tracking"
-            aria-label="Tracking"
+            title="Tracking (1/1000 em)"
+            aria-label="Tracking (1/1000 em)"
             onChange={(e) =>
               applyTextOptionsToSelected({
-                tracking: Math.max(-50, Math.min(200, Number(e.target.value) || 0)),
+                tracking: Math.max(-200, Math.min(500, Number(e.target.value) || 0)),
+              })
+            }
+          />
+          <input
+            className={styles.characterField}
+            type="number"
+            min={-200}
+            max={200}
+            value={options.baselineShift}
+            title="Baseline shift (px)"
+            aria-label="Baseline shift"
+            onChange={(e) =>
+              applyTextOptionsToSelected({
+                baselineShift: Math.max(-200, Math.min(200, Number(e.target.value) || 0)),
               })
             }
           />
@@ -825,6 +848,7 @@ export function OptionsBar() {
               ['left', TextAlignLeft],
               ['center', TextAlignCenter],
               ['right', TextAlignRight],
+              ['justify', TextAlignJustify],
             ] as const
           ).map(([align, Icon]) => (
             <button

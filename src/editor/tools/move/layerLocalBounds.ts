@@ -1,6 +1,7 @@
 import type { HappyDocument, Layer } from '../../../core/document'
 import { isLayerPositionLocked } from '../../../core/document'
 import { getRasterSurface } from '../../../imaging'
+import { measureTextBoundsSync } from '../text/textLayout'
 import type { LocalBounds } from './transformMath'
 
 /**
@@ -24,15 +25,16 @@ export function getLayerLocalBounds(
     return { x, y, w, h }
   }
   if (layer.type === 'text') {
-    let { x, y, w, h } = layer.bounds
-    if (w < 1) {
-      const chars = Math.max(1, layer.content.length)
-      w = Math.max(24, chars * layer.fontSize * 0.55)
+    if (layer.textMode === 'box' && layer.bounds.w >= 1 && layer.bounds.h >= 1) {
+      return { x: layer.bounds.x, y: layer.bounds.y, w: layer.bounds.w, h: layer.bounds.h }
     }
-    if (h < 1) {
-      h = Math.max(layer.fontSize * 1.2, layer.leading || 0)
+    const measured = measureTextBoundsSync(layer)
+    return {
+      x: measured.offsetX,
+      y: measured.offsetY,
+      w: measured.width,
+      h: measured.height,
     }
-    return { x, y, w, h }
   }
   return null
 }

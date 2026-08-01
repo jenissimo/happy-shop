@@ -1,24 +1,29 @@
 import { describe, expect, test } from 'bun:test'
 import { createPathId } from '../../../core/document/ids'
 import type { PenPath } from '../pen/penPath'
+import { getSubpath } from '../pen/penPath'
 import { knotToPenAnchor, penAnchorToKnot, penPathToVectorPath, vectorPathToPenPath } from './pathBridge'
 
 describe('pathBridge', () => {
   test('round-trips pen and vector path models', () => {
     const pen: PenPath = {
-      closed: true,
-      anchors: [
-        { x: 10, y: 20, out: { x: 30, y: 20 } },
-        { x: 50, y: 40, in: { x: 40, y: 30 } },
+      subpaths: [
+        {
+          closed: true,
+          anchors: [
+            { x: 10, y: 20, out: { x: 30, y: 20 } },
+            { x: 50, y: 40, in: { x: 40, y: 30 } },
+          ],
+        },
       ],
     }
     const vector = penPathToVectorPath(pen, 'Work Path', createPathId())
-    expect(vector.knots[0]?.handleOut).toEqual({ x: 20, y: 0 })
-    expect(vector.knots[1]?.handleIn).toEqual({ x: -10, y: -10 })
+    expect(vector.subpaths[0]?.knots[0]?.handleOut).toEqual({ x: 20, y: 0 })
+    expect(vector.subpaths[0]?.knots[1]?.handleIn).toEqual({ x: -10, y: -10 })
 
     const back = vectorPathToPenPath(vector)
-    expect(back.anchors[0]?.out).toEqual({ x: 30, y: 20 })
-    expect(back.anchors[1]?.in).toEqual({ x: 40, y: 30 })
+    expect(getSubpath(back).anchors[0]?.out).toEqual({ x: 30, y: 20 })
+    expect(getSubpath(back).anchors[1]?.in).toEqual({ x: 40, y: 30 })
   })
 
   test('converts single anchor handle offsets', () => {

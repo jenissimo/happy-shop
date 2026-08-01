@@ -1,5 +1,6 @@
 import type { CommandRegistry } from '../../../core/commands/registry'
 import { useEditorSessionStore } from '../../session/EditorSessionStore'
+import { cyclePenTool, isPenToolId } from '../../toolbar/tools'
 import { commitWorkPathFromPen, getActiveWorkPath } from './penPathOps'
 import { canUndoPenDraftAnchor, undoPenDraftAnchor } from './penWorkPathUndo'
 import { useWorkPathStore } from './workPathStore'
@@ -13,10 +14,8 @@ export function registerPenCommands(registry: CommandRegistry): void {
     enabled: () => true,
     run: () => {
       const session = useEditorSessionStore.getState()
-      if (session.activeToolId === 'pen') {
-        session.setActiveToolId('freeformPen')
-      } else if (session.activeToolId === 'freeformPen') {
-        session.setActiveToolId('pen')
+      if (isPenToolId(session.activeToolId)) {
+        session.setActiveToolId(cyclePenTool(session.activeToolId))
       } else {
         session.setActiveToolId('pen')
       }
@@ -30,9 +29,8 @@ export function registerPenCommands(registry: CommandRegistry): void {
     enabled: () => true,
     run: () => {
       const session = useEditorSessionStore.getState()
-      session.setActiveToolId(
-        session.activeToolId === 'freeformPen' ? 'pen' : 'freeformPen',
-      )
+      const current = isPenToolId(session.activeToolId) ? session.activeToolId : 'pen'
+      session.setActiveToolId(cyclePenTool(current, true))
     },
   })
 
@@ -41,6 +39,27 @@ export function registerPenCommands(registry: CommandRegistry): void {
     title: 'Freeform Pen Tool',
     enabled: () => true,
     run: () => useEditorSessionStore.getState().setActiveToolId('freeformPen'),
+  })
+
+  registry.register({
+    id: 'tool.addAnchor',
+    title: 'Add Anchor Point Tool',
+    enabled: () => true,
+    run: () => useEditorSessionStore.getState().setActiveToolId('addAnchor'),
+  })
+
+  registry.register({
+    id: 'tool.deleteAnchor',
+    title: 'Delete Anchor Point Tool',
+    enabled: () => true,
+    run: () => useEditorSessionStore.getState().setActiveToolId('deleteAnchor'),
+  })
+
+  registry.register({
+    id: 'tool.convertPoint',
+    title: 'Convert Point Tool',
+    enabled: () => true,
+    run: () => useEditorSessionStore.getState().setActiveToolId('convertPoint'),
   })
 
   registry.register({

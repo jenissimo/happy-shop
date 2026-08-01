@@ -1,4 +1,4 @@
-import type { PathKnot, VectorPath } from '../../core/document/pathSchema'
+import type { PathKnot, PathSubpath, VectorPath } from '../../core/document/pathSchema'
 
 export type SamplePoint = { x: number; y: number }
 
@@ -66,13 +66,8 @@ function sampleCubicSegment(
   return points
 }
 
-/** Flatten a persisted vector path to a document-space polyline. */
-export function sampleVectorPath(
-  path: VectorPath,
-  options: SampleVectorPathOptions = {},
-): SamplePoint[] {
-  const stepPx = Math.max(0.5, options.stepPx ?? DEFAULT_STEP_PX)
-  const { knots, closed } = path
+function sampleSubpath(sp: PathSubpath, stepPx: number): SamplePoint[] {
+  const { knots, closed } = sp
   if (knots.length === 0) return []
   if (knots.length === 1) return [{ x: knots[0]!.x, y: knots[0]!.y }]
 
@@ -86,8 +81,23 @@ export function sampleVectorPath(
     const p1 = { x: next.x, y: next.y }
     const c1 = absHandle(current, current.handleOut)
     const c2 = absHandle(next, next.handleIn)
-    for (const point of sampleCubicSegment(p0, c1, c2, p1, stepPx, false)) {
-      points.push(point)
+    // Always sample as cubic; missing handles coincide with knot (one-sided OK).
+    const hasCurve = current.handleOut != null || next.handleIn != null
+    if (hasCurve) {
+      for (const point of sampleCubicSegment(p0, c1, c2, p1, stepPx, false)) {
+        points.push(point)
+      }
+    } else {
+      // Sample straight segments at stepPx so stroke spacing stays uniform.
+      const length = Math.hypot(p1.x - p0.x, p1.y - p0.y)
+      const steps = Math.max(1, Math.ceil(length / stepPx))
+      for (let s = 1; s <= steps; s++) {
+        const t = s / steps
+        points.push({
+          x: p0.x + (p1.x - p0.x) * t,
+          y: p0.y + (p1.y - p0.y) * t,
+        })
+      }
     }
   }
 
@@ -102,10 +112,24 @@ export function sampleVectorPath(
   return points
 }
 
+/** Flatten a persisted vector path to a document-space polyline. */
+export function sampleVectorPath(
+  path: VectorPath,
+  options: SampleVectorPathOptions = {},
+): SamplePoint[] {
+  const stepPx = Math.max(0.5, options.stepPx ?? DEFAULT_STEP_PX)
+  const points: SamplePoint[] = []
+  for (const sp of path.subpaths) {
+    points.push(...sampleSubpath(sp, stepPx))
+  }
+  return points
+}
+
 export function pathRequiresClosedFill(path: VectorPath): boolean {
-  return path.closed && path.knots.length >= 3
+  const fillable = path.subpaths.filter((sp) => sp.knots.length >= 3)
+  return fillable.length > 0 && fillable.every((sp) => sp.closed)
 }
 
 export function pathCanStroke(path: VectorPath): boolean {
-  return path.knots.length >= 2
+  return path.subpaths.some((sp) => sp.knots.length >= 2)
 }

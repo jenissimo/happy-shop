@@ -42,6 +42,14 @@ export class SelectionToolController {
   private magneticField: EdgeField | null = null
   private modifiersAtDown = NO_MODIFIERS
   private combineOverride: 'add' | 'subtract' | 'intersect' | null = null
+  private repositioning = false
+  private repositionPoint: SelectionPoint | null = null
+
+  /** Space during an active marquee moves its origin without resizing it. */
+  setRepositioning(active: boolean): void {
+    this.repositioning = active
+    if (!active) this.repositionPoint = null
+  }
 
   /** Preload merged-canvas edge field before magnetic lasso gestures. */
   setMagneticField(field: EdgeField | null): void {
@@ -123,6 +131,15 @@ export class SelectionToolController {
     const tools = useSelectionToolStore.getState()
 
     if (this.drag === 'marquee' && this.pointerId === pointerId) {
+      if (this.repositioning) {
+        if (this.repositionPoint) {
+          this.start.x += docX - this.repositionPoint.x
+          this.start.y += docY - this.repositionPoint.y
+        }
+        this.repositionPoint = { x: docX, y: docY }
+      } else {
+        this.repositionPoint = null
+      }
       const rect = this.marqueeRect(docX, docY, mods)
       const useEllipse =
         tools.marqueeShape === 'ellipse' &&

@@ -1,4 +1,4 @@
-import { buildFreeformPenPath, type PenPath, type PenPoint } from './penPath'
+import { buildFreeformPenPath, penPathAnchorCount, type PenPath, type PenPoint } from './penPath'
 import { useWorkPathStore } from './workPathStore'
 import { persistWorkPathToDocument } from '../paths/pathDocumentSync'
 
@@ -35,7 +35,7 @@ export class FreeformPenToolController {
     this.pointerId = null
     const path = buildFreeformPenPath(this.samples)
     this.samples = []
-    if (path.anchors.length < 2) {
+    if (penPathAnchorCount(path) < 2) {
       useWorkPathStore.getState().setDraft(null)
       return
     }

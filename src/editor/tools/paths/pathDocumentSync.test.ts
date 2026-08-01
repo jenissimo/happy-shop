@@ -4,6 +4,7 @@ import { setWorkPath } from '../../../core/document/pathOperations'
 import { createPathId } from '../../../core/document/ids'
 import type { VectorPath } from '../../../core/document/pathSchema'
 import { useEditorSessionStore } from '../../session/EditorSessionStore'
+import { getSubpath } from '../pen/penPath'
 import { useWorkPathStore } from '../pen/workPathStore'
 import { vectorPathToPenPath } from './pathBridge'
 import { resolvePenPathForOps } from './pathDocumentSync'
@@ -12,10 +13,14 @@ function linePath(): VectorPath {
   return {
     id: createPathId(),
     name: 'Work Path',
-    closed: false,
-    knots: [
-      { x: 0, y: 0, handleIn: null, handleOut: null },
-      { x: 100, y: 0, handleIn: null, handleOut: null },
+    subpaths: [
+      {
+        closed: false,
+        knots: [
+          { x: 0, y: 0, handleIn: null, handleOut: null },
+          { x: 100, y: 0, handleIn: null, handleOut: null },
+        ],
+      },
     ],
   }
 }
@@ -25,16 +30,18 @@ describe('resolvePenPathForOps', () => {
     const doc = setWorkPath(createEmptyDocument(), linePath())
     useEditorSessionStore.setState({ document: doc })
     useWorkPathStore.setState({
-      draft: { closed: false, anchors: [{ x: 5, y: 5 }] },
+      draft: { subpaths: [{ closed: false, anchors: [{ x: 5, y: 5 }] }] },
       path: null,
       rubberBand: null,
-      selectedAnchor: null,
+      activeSubpathIndex: 0,
+      selectedAnchors: [],
+      primaryAnchor: null,
       activeHandle: null,
     })
 
     const resolved = resolvePenPathForOps()
-    expect(resolved?.anchors).toHaveLength(1)
-    expect(resolved?.anchors[0]?.x).toBe(5)
+    expect(getSubpath(resolved!).anchors).toHaveLength(1)
+    expect(getSubpath(resolved!).anchors[0]?.x).toBe(5)
   })
 
   test('falls back to document active path', () => {
@@ -45,7 +52,9 @@ describe('resolvePenPathForOps', () => {
       draft: null,
       path: null,
       rubberBand: null,
-      selectedAnchor: null,
+      activeSubpathIndex: 0,
+      selectedAnchors: [],
+      primaryAnchor: null,
       activeHandle: null,
     })
 

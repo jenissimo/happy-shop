@@ -136,7 +136,15 @@ export function registerToolCommands(registry: CommandRegistry): void {
       continue
     }
 
-    if (toolId === 'pen' || toolId === 'freeformPen' || toolId === 'directSelection' || toolId === 'pathSelection') {
+    if (
+      toolId === 'pen' ||
+      toolId === 'freeformPen' ||
+      toolId === 'addAnchor' ||
+      toolId === 'deleteAnchor' ||
+      toolId === 'convertPoint' ||
+      toolId === 'directSelection' ||
+      toolId === 'pathSelection'
+    ) {
       continue
     }
 

@@ -24,8 +24,8 @@ import {
   penPathIsFillable,
   penPathIsStrokable,
   penPathToSvgData,
-  samplePenPath,
-  tessellatePenPath,
+  samplePenSubpath,
+  tessellatePenSubpath,
   type PenPath,
 } from './penPath'
 import { useWorkPathStore } from './workPathStore'
@@ -44,12 +44,22 @@ export function getActiveWorkPath(): PenPath | null {
   return useWorkPathStore.getState().path
 }
 
-/** Closed path → document selection (tessellated polygon). */
+/** Closed compound path → document selection (one polygon per contour). */
 export function pathToSelection(path: PenPath): boolean {
   if (!penPathIsFillable(path)) return false
   const { width, height } = useEditorSessionStore.getState().document.canvas
-  const points = tessellatePenPath(path, 24)
-  const mask = SelectionMask.fromPolygon(width, height, points, { antiAlias: true })
+  let mask = SelectionMask.empty(width, height)
+  let outerOrientation: number | null = null
+  for (let index = 0; index < path.subpaths.length; index++) {
+    const points = tessellatePenSubpath(path, index, 24)
+    if (points.length < 3) continue
+    const incoming = SelectionMask.fromPolygon(width, height, points, { antiAlias: true })
+    const orientation = signedArea(points)
+    if (outerOrientation == null && Math.abs(orientation) > 1e-6) outerOrientation = orientation
+    // Non-zero SVG fill treats contours with the opposing winding as holes.
+    const mode = outerOrientation != null && orientation * outerOrientation < 0 ? 'subtract' : 'add'
+    mask = mask.combine(incoming, mode)
+  }
   if (mask.isEmpty()) return false
   useSelectionStore.getState().applyMask(mask)
   return true
@@ -111,28 +121,31 @@ export async function strokePathWithBrush(path: PenPath): Promise<boolean> {
   const transform = { ...layer.transform }
 
   const spacingPx = Math.max(0.5, settings.size * settings.spacing)
-  const samples = samplePenPath(path, spacingPx)
-  if (samples.length === 0) {
+  const samplesBySubpath = path.subpaths
+    .map((_, index) => samplePenSubpath(path, index, spacingPx))
+    .filter((samples) => samples.length > 0)
+  if (samplesBySubpath.length === 0) {
     surface.endStrokeCapture()
     return false
   }
 
-  let lastLocal = documentToLayerLocal(samples[0]!, transform)
-  stamp(surface, settings, tipAlpha, lastLocal.x, lastLocal.y, clip)
-
-  let residual = 0
-  for (let i = 1; i < samples.length; i++) {
-    const docPt = samples[i]!
-    const local = documentToLayerLocal(docPt, transform)
-    const result = walkStroke(
-      lastLocal,
-      local,
-      spacingPx,
-      residual,
-      (point) => stamp(surface, settings, tipAlpha, point.x, point.y, clip),
-    )
-    residual = result.residual
-    lastLocal = result.end
+  for (const samples of samplesBySubpath) {
+    let lastLocal = documentToLayerLocal(samples[0]!, transform)
+    stamp(surface, settings, tipAlpha, lastLocal.x, lastLocal.y, clip)
+    let residual = 0
+    for (let i = 1; i < samples.length; i++) {
+      const docPt = samples[i]!
+      const local = documentToLayerLocal(docPt, transform)
+      const result = walkStroke(
+        lastLocal,
+        local,
+        spacingPx,
+        residual,
+        (point) => stamp(surface, settings, tipAlpha, point.x, point.y, clip),
+      )
+      residual = result.residual
+      lastLocal = result.end
+    }
   }
 
   const patch = surface.endStrokeCapture()
@@ -151,6 +164,13 @@ export async function strokePathWithBrush(path: PenPath): Promise<boolean> {
     })
   }
   return true
+}
+
+function signedArea(points: readonly { x: number; y: number }[]): number {
+  return points.reduce((area, point, index) => {
+    const next = points[(index + 1) % points.length]!
+    return area + point.x * next.y - next.x * point.y
+  }, 0)
 }
 
 function stamp(

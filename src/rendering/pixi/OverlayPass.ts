@@ -24,7 +24,7 @@ import {
 } from '../../editor/tools/transform/cageTransform'
 import { buildGridTriangles } from '../../imaging/warp/cageWarp'
 import { useWorkPathStore } from '../../editor/tools/pen/workPathStore'
-import type { PenAnchor, PenPath } from '../../editor/tools/pen/penPath'
+import type { PenPath } from '../../editor/tools/pen/penPath'
 import {
   documentGridLinePositions,
   documentGridStep,
@@ -231,9 +231,10 @@ export class OverlayPass {
   }
 
   private syncWorkPath(): void {
-    const { draft, path, rubberBand, selectedAnchor } = useWorkPathStore.getState()
+    const { draft, path, rubberBand, selectedAnchors, primaryAnchor, activeSubpathIndex } =
+      useWorkPathStore.getState()
     const active = draft ?? path
-    if (!active || active.anchors.length === 0) {
+    if (!active || active.subpaths.every((sp) => sp.anchors.length === 0)) {
       if (this.lastWorkPathKey !== '') {
         this.workPathGfx.clear()
         this.lastWorkPathKey = ''
@@ -241,31 +242,31 @@ export class OverlayPass {
       return
     }
 
-    const previewPath: PenPath = rubberBand
-      ? {
-          ...active,
-          anchors: [...active.anchors],
-        }
-      : active
-
     const key =
-      `${previewPath.closed ? 1 : 0}:` +
-      previewPath.anchors
-        .map((a) =>
-          `${a.x.toFixed(1)},${a.y.toFixed(1)}:` +
-          `${a.in ? `${a.in.x.toFixed(1)},${a.in.y.toFixed(1)}` : ''}:` +
-          `${a.out ? `${a.out.x.toFixed(1)},${a.out.y.toFixed(1)}` : ''}`,
+      active.subpaths
+        .map(
+          (sp) =>
+            `${sp.closed ? 1 : 0}:` +
+            sp.anchors
+              .map(
+                (a) =>
+                  `${a.x.toFixed(1)},${a.y.toFixed(1)}:` +
+                  `${a.in ? `${a.in.x.toFixed(1)},${a.in.y.toFixed(1)}` : ''}:` +
+                  `${a.out ? `${a.out.x.toFixed(1)},${a.out.y.toFixed(1)}` : ''}`,
+              )
+              .join('|'),
         )
-        .join('|') +
+        .join('||') +
       `:${rubberBand ? `${rubberBand.x.toFixed(1)},${rubberBand.y.toFixed(1)}` : ''}:` +
-      `${selectedAnchor ?? ''}`
+      `${selectedAnchors.map((s) => `${s.subpathIndex}.${s.index}`).join(',')}:` +
+      `${activeSubpathIndex}`
     if (key === this.lastWorkPathKey) return
     this.lastWorkPathKey = key
 
     const g = this.workPathGfx
     g.clear()
-    drawPenPathSegments(g, previewPath, rubberBand)
-    drawPenAnchors(g, previewPath.anchors, selectedAnchor)
+    drawPenPathSegments(g, active, rubberBand, activeSubpathIndex)
+    drawPenAnchors(g, active, selectedAnchors, primaryAnchor)
   }
 
   private syncTransformHandles(): void {
@@ -487,57 +488,96 @@ function drawPenPathSegments(
   g: Graphics,
   path: PenPath,
   rubberBand: { x: number; y: number } | null,
+  activeSubpathIndex: number,
 ): void {
-  const anchors = path.anchors
-  if (anchors.length === 0) return
-  const segCount = path.closed ? anchors.length : anchors.length - 1
-  for (let i = 0; i < segCount; i++) {
-    const from = anchors[i]!
-    const to = anchors[(i + 1) % anchors.length]!
-    g.moveTo(from.x, from.y)
-    if (from.out && to.in) {
-      g.bezierCurveTo(from.out.x, from.out.y, to.in.x, to.in.y, to.x, to.y)
-    } else {
-      g.lineTo(to.x, to.y)
+  for (let si = 0; si < path.subpaths.length; si++) {
+    const sp = path.subpaths[si]!
+    const anchors = sp.anchors
+    if (anchors.length === 0) continue
+    const segCount = sp.closed ? anchors.length : anchors.length - 1
+    for (let i = 0; i < segCount; i++) {
+      const from = anchors[i]!
+      const to = anchors[(i + 1) % anchors.length]!
+      g.moveTo(from.x, from.y)
+      if (from.out || to.in) {
+        const c1 = from.out ?? { x: from.x, y: from.y }
+        const c2 = to.in ?? { x: to.x, y: to.y }
+        g.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, to.x, to.y)
+      } else {
+        g.lineTo(to.x, to.y)
+      }
+      g.stroke({ width: 1, color: 0x4a9eff, alpha: 0.95, pixelLine: true })
     }
-    g.stroke({ width: 1, color: 0x4a9eff, alpha: 0.95, pixelLine: true })
-  }
-  if (!path.closed && rubberBand && anchors.length > 0) {
-    const last = anchors[anchors.length - 1]!
-    g.moveTo(last.x, last.y)
-    g.lineTo(rubberBand.x, rubberBand.y)
-    g.stroke({ width: 1, color: 0x4a9eff, alpha: 0.55, pixelLine: true })
+    if (!sp.closed && rubberBand && anchors.length > 0 && si === activeSubpathIndex) {
+      const last = anchors[anchors.length - 1]!
+      g.moveTo(last.x, last.y)
+      if (last.out) {
+        const mid = {
+          x: rubberBand.x,
+          y: rubberBand.y,
+        }
+        g.bezierCurveTo(last.out.x, last.out.y, mid.x, mid.y, rubberBand.x, rubberBand.y)
+      } else {
+        g.lineTo(rubberBand.x, rubberBand.y)
+      }
+      g.stroke({ width: 1, color: 0x4a9eff, alpha: 0.55, pixelLine: true })
+    }
   }
 }
 
 function drawPenAnchors(
   g: Graphics,
-  anchors: PenAnchor[],
-  selected: number | null,
+  path: PenPath,
+  selected: { subpathIndex: number; index: number }[],
+  primary: { subpathIndex: number; index: number } | null,
 ): void {
-  for (let i = 0; i < anchors.length; i++) {
-    const anchor = anchors[i]!
-    const selectedAnchor = i === selected
-    if (anchor.in) {
-      g.moveTo(anchor.x, anchor.y)
-      g.lineTo(anchor.in.x, anchor.in.y)
-      g.stroke({ width: 1, color: 0x888888, alpha: 0.9, pixelLine: true })
-      g.circle(anchor.in.x, anchor.in.y, 2.5)
-      g.fill({ color: 0xffffff })
-      g.stroke({ width: 1, color: 0x333333, alpha: 1, pixelLine: true })
+  for (let si = 0; si < path.subpaths.length; si++) {
+    const anchors = path.subpaths[si]!.anchors
+    for (let i = 0; i < anchors.length; i++) {
+      const anchor = anchors[i]!
+      const isSelected = selected.some((s) => s.subpathIndex === si && s.index === i)
+      const isPrimary = primary?.subpathIndex === si && primary.index === i
+      const showHandles = isPrimary || isSelected
+      if (showHandles && anchor.in) {
+        g.moveTo(anchor.x, anchor.y)
+        g.lineTo(anchor.in.x, anchor.in.y)
+        g.stroke({ width: 1, color: 0x888888, alpha: 0.9, pixelLine: true })
+        g.circle(anchor.in.x, anchor.in.y, 2.5)
+        g.fill({ color: 0xffffff })
+        g.stroke({ width: 1, color: 0x333333, alpha: 1, pixelLine: true })
+      }
+      if (showHandles && anchor.out) {
+        g.moveTo(anchor.x, anchor.y)
+        g.lineTo(anchor.out.x, anchor.out.y)
+        g.stroke({ width: 1, color: 0x888888, alpha: 0.9, pixelLine: true })
+        g.circle(anchor.out.x, anchor.out.y, 2.5)
+        g.fill({ color: 0xffffff })
+        g.stroke({ width: 1, color: 0x333333, alpha: 1, pixelLine: true })
+      }
+      // Always show handles while drafting (all anchors) for pen creation feedback.
+      if (!showHandles && (anchor.in || anchor.out)) {
+        if (anchor.in) {
+          g.moveTo(anchor.x, anchor.y)
+          g.lineTo(anchor.in.x, anchor.in.y)
+          g.stroke({ width: 1, color: 0x888888, alpha: 0.7, pixelLine: true })
+          g.circle(anchor.in.x, anchor.in.y, 2)
+          g.fill({ color: 0xffffff })
+          g.stroke({ width: 1, color: 0x333333, alpha: 1, pixelLine: true })
+        }
+        if (anchor.out) {
+          g.moveTo(anchor.x, anchor.y)
+          g.lineTo(anchor.out.x, anchor.out.y)
+          g.stroke({ width: 1, color: 0x888888, alpha: 0.7, pixelLine: true })
+          g.circle(anchor.out.x, anchor.out.y, 2)
+          g.fill({ color: 0xffffff })
+          g.stroke({ width: 1, color: 0x333333, alpha: 1, pixelLine: true })
+        }
+      }
+      const size = isSelected ? 4 : 3
+      g.rect(anchor.x - size, anchor.y - size, size * 2, size * 2)
+      g.fill({ color: isSelected ? 0xffcc00 : 0xffffff })
+      g.stroke({ width: 1, color: 0x1a1a1a, alpha: 1, pixelLine: true })
     }
-    if (anchor.out) {
-      g.moveTo(anchor.x, anchor.y)
-      g.lineTo(anchor.out.x, anchor.out.y)
-      g.stroke({ width: 1, color: 0x888888, alpha: 0.9, pixelLine: true })
-      g.circle(anchor.out.x, anchor.out.y, 2.5)
-      g.fill({ color: 0xffffff })
-      g.stroke({ width: 1, color: 0x333333, alpha: 1, pixelLine: true })
-    }
-    const size = selectedAnchor ? 4 : 3
-    g.rect(anchor.x - size, anchor.y - size, size * 2, size * 2)
-    g.fill({ color: selectedAnchor ? 0xffcc00 : 0xffffff })
-    g.stroke({ width: 1, color: 0x1a1a1a, alpha: 1, pixelLine: true })
   }
 }
 

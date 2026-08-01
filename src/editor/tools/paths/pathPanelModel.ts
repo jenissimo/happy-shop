@@ -1,5 +1,7 @@
 import {
   normalizePathStore,
+  vectorPathIsClosed,
+  vectorPathKnotCount,
   type DocumentPathStore,
   type PathId,
   type VectorPath,
@@ -32,8 +34,8 @@ function toRow(path: VectorPath, kind: PathPanelRowKind): PathPanelRow {
     id: path.id,
     label: kind === 'work' ? 'Work Path' : path.name,
     kind,
-    knotCount: path.knots.length,
-    closed: path.closed,
+    knotCount: vectorPathKnotCount(path),
+    closed: vectorPathIsClosed(path),
   }
 }
 

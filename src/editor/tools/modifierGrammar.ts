@@ -14,4 +14,14 @@ export const MODIFIER_GRAMMAR: ModifierGrammarRow[] = [
   { tool: 'Crop', shift: 'Square', alt: 'From center' },
   { tool: 'Transform', shift: 'Keep aspect', alt: '—' },
   { tool: 'Move', shift: '—', alt: 'Drag: duplicate layer' },
+  {
+    tool: 'Pen',
+    shift: 'Constrain handles / rubber-band to 45°',
+    alt: 'Place/drag: cusp (unlink handles)',
+  },
+  {
+    tool: 'Direct Selection',
+    shift: 'Toggle multi-select; constrain handle 45°',
+    alt: 'Drag handle: break smooth link',
+  },
 ]

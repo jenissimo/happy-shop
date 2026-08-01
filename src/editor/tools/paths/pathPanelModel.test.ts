@@ -9,11 +9,15 @@ function samplePath(): VectorPath {
   return {
     id: createPathId(),
     name: 'Path 1',
-    closed: true,
-    knots: [
-      { x: 0, y: 0, handleIn: null, handleOut: null },
-      { x: 10, y: 0, handleIn: null, handleOut: null },
-      { x: 10, y: 10, handleIn: null, handleOut: null },
+    subpaths: [
+      {
+        closed: true,
+        knots: [
+          { x: 0, y: 0, handleIn: null, handleOut: null },
+          { x: 10, y: 0, handleIn: null, handleOut: null },
+          { x: 10, y: 10, handleIn: null, handleOut: null },
+        ],
+      },
     ],
   }
 }
@@ -26,6 +30,8 @@ describe('pathPanelModel', () => {
     expect(rows).toHaveLength(1)
     expect(rows[0]?.kind).toBe('work')
     expect(rows[0]?.label).toBe('Work Path')
+    expect(rows[0]?.knotCount).toBe(3)
+    expect(rows[0]?.closed).toBe(true)
   })
 
   test('active id prefers explicit selection', () => {

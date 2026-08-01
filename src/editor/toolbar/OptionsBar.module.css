@@ -8,6 +8,8 @@
   padding: 0 0.55rem;
   background: var(--he-panel);
   border-bottom: 1px solid var(--he-panel-border);
+  backdrop-filter: var(--he-backdrop);
+  -webkit-backdrop-filter: var(--he-backdrop);
   color: var(--he-text);
   font-size: 12px;
   overflow: hidden;
