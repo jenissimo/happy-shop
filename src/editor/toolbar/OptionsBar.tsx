@@ -17,6 +17,7 @@ import { ColorSwatchButton } from '../../ui/base/ColorPicker'
 import type { SelectionCombineMode } from '../session/SelectionMask'
 import { BrushOptionsControls } from '../tools/brush/BrushOptionsControls'
 import { ToolPresetsPopover } from '../tools/ToolPresetsPopover'
+import { OptionsMore } from './OptionsMore'
 import { useRetouchSettingsStore } from '../tools/retouch/retouchSettingsStore'
 import { isLiquifyTool, liquifyHintForTool } from '../tools/liquify/liquifyTools'
 import { MoveOptionsControls } from '../tools/move/MoveOptionsControls'
@@ -257,14 +258,6 @@ export function OptionsBar() {
                 <option value="midtones">Midtones</option>
                 <option value="highlights">Highlights</option>
               </select>
-              <label className={styles.hint} title="Preserve hue while adjusting exposure">
-                <input
-                  type="checkbox"
-                  checked={retouchProtectTones}
-                  onChange={(e) => setRetouchPrefs({ protectTones: e.target.checked })}
-                />
-                Protect Tones
-              </label>
             </>
           )}
           {activeToolId === 'sponge' && (
@@ -279,47 +272,37 @@ export function OptionsBar() {
               <option value="saturate">Saturate</option>
             </select>
           )}
-          {activeToolId === 'historyBrush' && (
-            <select
-              className={styles.select}
-              value={retouchHistorySourceDepth === 'capture' ? 'capture' : String(retouchHistorySourceDepth)}
-              title="History source"
-              aria-label="History source"
-              onChange={(e) => {
-                const value = e.target.value
-                setRetouchPrefs({
-                  historySourceDepth: value === 'capture' ? 'capture' : Math.max(0, Number(value) || 0),
-                })
-              }}
-            >
-              <option value="capture">Capture on first use</option>
-              <option value="0">Document Open</option>
-              {historyUndoLabels.map((label, index) => (
-                <option key={`${index}:${label}`} value={String(index + 1)}>{label}</option>
-              ))}
-            </select>
-          )}
-          {activeToolId === 'patternStamp' && (
-            <PatternGrid
-              pattern={retouchPatternKind}
-              scale={retouchPatternScale}
-              angle={retouchPatternAngle}
-              invert={retouchPatternInvert}
-              onChange={(patch) => setRetouchPrefs({
-                ...(patch.pattern !== undefined ? { patternKind: patch.pattern } : {}),
-                ...(patch.scale !== undefined ? { patternScale: patch.scale } : {}),
-                ...(patch.angle !== undefined ? { patternAngle: patch.angle } : {}),
-                ...(patch.invert !== undefined ? { patternInvert: patch.invert } : {}),
-              })}
-            />
-          )}
           {activeToolId === 'cloneStamp' || activeToolId === 'healingBrush'
-            ? <><label className={styles.hint}><input type="checkbox" checked={retouchAligned} onChange={(e) => setRetouchPrefs({ aligned: e.target.checked })} /> Aligned</label><label className={styles.hint}><input type="checkbox" checked={retouchSampleAllLayers} onChange={(e) => setRetouchPrefs({ sampleAllLayers: e.target.checked })} /> Sample All Layers</label><span className={styles.hint}>Alt-click source · Paint destination</span></>
+            ? <span className={styles.hint}>Alt-click source · Paint destination</span>
             : activeToolId === 'historyBrush'
               ? <span className={styles.hint}>{retouchHistorySourceDepth === 'capture' ? 'Captures this layer on first use · paints that snapshot' : 'Paints from the selected history state'}</span>
               : activeToolId === 'patternStamp'
                 ? <span className={styles.hint}>Paint the selected procedural pattern</span>
                 : <span className={styles.hint}>{activeToolId === 'sharpen' ? 'Paint to sharpen local detail' : activeToolId === 'sponge' ? (retouchSpongeMode === 'saturate' ? 'Paint to saturate local color' : 'Paint to desaturate local color') : isLiquifyTool(activeToolId) ? liquifyHintForTool(activeToolId) : activeToolId === 'dodge' || activeToolId === 'burn' ? `Paint ${retouchRange}${retouchProtectTones ? ' · protect tones' : ''}` : `Paint to ${activeToolId === 'spotHealing' ? 'blend local texture' : activeToolId}`}</span>}
+          <OptionsMore label={`${toolName} details`}>
+            {(activeToolId === 'dodge' || activeToolId === 'burn') && (
+              <label className={styles.hint} title="Preserve hue while adjusting exposure">
+                <input type="checkbox" checked={retouchProtectTones} onChange={(e) => setRetouchPrefs({ protectTones: e.target.checked })} />
+                Protect Tones
+              </label>
+            )}
+            {activeToolId === 'historyBrush' && (
+              <select className={styles.select} value={retouchHistorySourceDepth === 'capture' ? 'capture' : String(retouchHistorySourceDepth)} aria-label="History source" onChange={(e) => {
+                const value = e.target.value
+                setRetouchPrefs({ historySourceDepth: value === 'capture' ? 'capture' : Math.max(0, Number(value) || 0) })
+              }}>
+                <option value="capture">Capture on first use</option><option value="0">Document Open</option>
+                {historyUndoLabels.map((label, index) => <option key={`${index}:${label}`} value={String(index + 1)}>{label}</option>)}
+              </select>
+            )}
+            {activeToolId === 'patternStamp' && (
+              <PatternGrid pattern={retouchPatternKind} scale={retouchPatternScale} angle={retouchPatternAngle} invert={retouchPatternInvert} onChange={(patch) => setRetouchPrefs({ ...(patch.pattern !== undefined ? { patternKind: patch.pattern } : {}), ...(patch.scale !== undefined ? { patternScale: patch.scale } : {}), ...(patch.angle !== undefined ? { patternAngle: patch.angle } : {}), ...(patch.invert !== undefined ? { patternInvert: patch.invert } : {}) })} />
+            )}
+            {(activeToolId === 'cloneStamp' || activeToolId === 'healingBrush') && <>
+              <label className={styles.hint}><input type="checkbox" checked={retouchAligned} onChange={(e) => setRetouchPrefs({ aligned: e.target.checked })} /> Aligned</label>
+              <label className={styles.hint}><input type="checkbox" checked={retouchSampleAllLayers} onChange={(e) => setRetouchPrefs({ sampleAllLayers: e.target.checked })} /> Sample All Layers</label>
+            </>}
+          </OptionsMore>
           <ToolPresetsPopover layout="bar" />
         </div>
       )}
@@ -392,12 +375,6 @@ export function OptionsBar() {
                   </label>
                 </>
               )}
-              <SelectionEdgeOptions
-                featherRadius={featherRadius}
-                antiAlias={antiAlias}
-                onFeatherChange={setFeatherRadius}
-                onAntiAliasChange={setAntiAlias}
-              />
               <span className={styles.hint}>
                 M / Shift+M cycle Rectangular ↔ Elliptical · Shift-before add · Shift-drag 1:1 · Alt-before subtract · Alt-drag center
               </span>
@@ -405,12 +382,6 @@ export function OptionsBar() {
           )}
           {activeToolId === 'lasso' && (
             <>
-              <SelectionEdgeOptions
-                featherRadius={featherRadius}
-                antiAlias={antiAlias}
-                onFeatherChange={setFeatherRadius}
-                onAntiAliasChange={setAntiAlias}
-              />
               <span className={styles.hint}>
                 {lassoMode === 'polygonal'
                   ? 'Click points · Double-click / Enter close · Esc cancel'
@@ -435,15 +406,12 @@ export function OptionsBar() {
                   }
                 />
               </label>
-              <SelectionEdgeOptions
-                featherRadius={featherRadius}
-                antiAlias={antiAlias}
-                onFeatherChange={setFeatherRadius}
-                onAntiAliasChange={setAntiAlias}
-              />
               <span className={styles.hint}>Click to select similar</span>
             </>
           )}
+          <OptionsMore label="Selection edge details">
+            <SelectionEdgeOptions featherRadius={featherRadius} antiAlias={antiAlias} onFeatherChange={setFeatherRadius} onAntiAliasChange={setAntiAlias} />
+          </OptionsMore>
         </div>
       )}
       {activeToolId === 'paintBucket' && (
@@ -459,15 +427,13 @@ export function OptionsBar() {
               onChange={(e) => setFillPrefs({ tolerance: Number(e.target.value) || 0 })}
             />
           </label>
-          <label className={styles.hint} title="Soften the tolerance edge">
-            <input
-              type="checkbox"
-              checked={fillAntiAlias}
-              onChange={(e) => setFillPrefs({ antiAlias: e.target.checked })}
-            />{' '}
-            Anti-alias
-          </label>
           <span className={styles.hint}>Click a contiguous region · uses foreground color</span>
+          <OptionsMore label="Paint Bucket details">
+            <label className={styles.hint} title="Soften the tolerance edge">
+              <input type="checkbox" checked={fillAntiAlias} onChange={(e) => setFillPrefs({ antiAlias: e.target.checked })} />
+              Anti-alias
+            </label>
+          </OptionsMore>
         </div>
       )}
       {activeToolId === 'crop' && (
@@ -495,14 +461,6 @@ export function OptionsBar() {
             <option value="linear">Linear</option>
             <option value="radial">Radial</option>
           </select>
-          <label className={styles.hint}>
-            <input
-              type="checkbox"
-              checked={gradientOptions.reverse}
-              onChange={(event) => setGradientOptions({ reverse: event.target.checked })}
-            />{' '}
-            Reverse
-          </label>
           <FlyoutSliderField
             label="Opacity"
             value={Math.round(gradientOptions.opacity * 100)}
@@ -514,6 +472,12 @@ export function OptionsBar() {
             onChange={(opacity) => setGradientOptions({ opacity: opacity / 100 })}
           />
           <span className={styles.hint}>Drag to fill active layer or selection</span>
+          <OptionsMore label="Gradient details">
+            <label className={styles.hint}>
+              <input type="checkbox" checked={gradientOptions.reverse} onChange={(event) => setGradientOptions({ reverse: event.target.checked })} />
+              Reverse
+            </label>
+          </OptionsMore>
         </div>
       )}
       {activeToolId === 'move' && <MoveOptionsControls />}
@@ -548,7 +512,6 @@ export function OptionsBar() {
             <option value="line">Line</option>
             <option value="arrow">Arrow</option>
           </select>
-          <SvgShapeImportButton />
           <label className={styles.hint} title="Fill">
             <input
               type="checkbox"
@@ -585,65 +548,21 @@ export function OptionsBar() {
             pickerTitle="Stroke Color"
             onChange={(c) => setShapeOptions({ strokeColor: c as CssColor })}
           />
-          <input
-            className={styles.size}
-            type="number"
-            min={0}
-            max={256}
-            value={shapeOptions.strokeWidth}
-            title="Stroke width"
-            disabled={!shapeOptions.strokeEnabled}
-            onChange={(e) =>
-              setShapeOptions({
-                strokeWidth: Math.max(0, Number(e.target.value) || 0),
-              })
-            }
-          />
-          {shapeOptions.primitive === 'rect' && (
-            <FlyoutSliderField
-              label="Radius"
-              value={shapeOptions.cornerRadius}
-              min={0}
-              max={512}
-              unit="px"
-              defaultValue={0}
-              onChange={(cornerRadius) => setShapeOptions({ cornerRadius })}
-            />
-          )}
-          {shapeOptions.primitive === 'polygon' && (
-            <FlyoutSliderField
-              label="Sides"
-              value={shapeOptions.sides}
-              min={3}
-              max={32}
-              defaultValue={5}
-              onChange={(sides) => setShapeOptions({ sides: Math.round(sides) })}
-            />
-          )}
-          {shapeOptions.primitive === 'star' && (
-            <>
-              <FlyoutSliderField
-                label="Points"
-                value={shapeOptions.starPoints}
-                min={3}
-                max={32}
-                defaultValue={5}
-                onChange={(starPoints) => setShapeOptions({ starPoints: Math.round(starPoints) })}
-              />
-              <FlyoutSliderField
-                label="Inset"
-                value={Math.round(shapeOptions.starInset * 100)}
-                min={5}
-                max={95}
-                unit="%"
-                defaultValue={50}
-                onChange={(inset) => setShapeOptions({ starInset: inset / 100 })}
-              />
-            </>
-          )}
           <span className={styles.hint}>
             Drag · Shift 1:1 · Alt from center · Click for default size
           </span>
+          <OptionsMore label="Shape details">
+            <SvgShapeImportButton />
+            <label className={styles.hint}>Stroke width
+              <input className={styles.size} type="number" min={0} max={256} value={shapeOptions.strokeWidth} disabled={!shapeOptions.strokeEnabled} onChange={(e) => setShapeOptions({ strokeWidth: Math.max(0, Number(e.target.value) || 0) })} />
+            </label>
+            {shapeOptions.primitive === 'rect' && <FlyoutSliderField label="Radius" value={shapeOptions.cornerRadius} min={0} max={512} unit="px" defaultValue={0} onChange={(cornerRadius) => setShapeOptions({ cornerRadius })} />}
+            {shapeOptions.primitive === 'polygon' && <FlyoutSliderField label="Sides" value={shapeOptions.sides} min={3} max={32} defaultValue={5} onChange={(sides) => setShapeOptions({ sides: Math.round(sides) })} />}
+            {shapeOptions.primitive === 'star' && <>
+              <FlyoutSliderField label="Points" value={shapeOptions.starPoints} min={3} max={32} defaultValue={5} onChange={(starPoints) => setShapeOptions({ starPoints: Math.round(starPoints) })} />
+              <FlyoutSliderField label="Inset" value={Math.round(shapeOptions.starInset * 100)} min={5} max={95} unit="%" defaultValue={50} onChange={(inset) => setShapeOptions({ starInset: inset / 100 })} />
+            </>}
+          </OptionsMore>
         </div>
       )}
       {showPenOptions && (
@@ -682,54 +601,17 @@ export function OptionsBar() {
             pickerTitle="Stroke Color"
             onChange={(c) => setPenOptions({ strokeColor: c as CssColor })}
           />
-          <input
-            className={styles.size}
-            type="number"
-            min={0}
-            max={256}
-            value={penOptions.strokeWidth}
-            title="Stroke width"
-            disabled={!penOptions.strokeEnabled}
-            onChange={(e) =>
-              setPenOptions({ strokeWidth: Math.max(0, Number(e.target.value) || 0) })
-            }
-          />
-          <button
-            type="button"
-            className={styles.hint}
-            disabled={!opsPath || !penPathIsFillable(opsPath)}
-            onClick={() => {
-              const path = resolvePenPathForOps()
-              if (path) pathToSelection(path)
-            }}
-          >
-            Make Selection
-          </button>
-          <button
-            type="button"
-            className={styles.hint}
-            disabled={!opsPath || !penPathIsFillable(opsPath)}
-            onClick={() => {
-              const path = resolvePenPathForOps()
-              if (path) fillPath(path)
-            }}
-          >
-            Fill Path
-          </button>
-          <button
-            type="button"
-            className={styles.hint}
-            disabled={!opsPath || !penPathIsStrokable(opsPath)}
-            onClick={() => {
-              const path = resolvePenPathForOps()
-              if (path) void strokePathWithBrush(path)
-            }}
-          >
-            Stroke Path
-          </button>
           <span className={styles.hint}>
             Click add · drag handles · Shift 45° · Alt cusp · Cmd select · Enter/dbl-click close · Esc cancel
           </span>
+          <OptionsMore label="Pen path details">
+            <label className={styles.hint}>Stroke width
+              <input className={styles.size} type="number" min={0} max={256} value={penOptions.strokeWidth} disabled={!penOptions.strokeEnabled} onChange={(e) => setPenOptions({ strokeWidth: Math.max(0, Number(e.target.value) || 0) })} />
+            </label>
+            <button type="button" className={styles.hint} disabled={!opsPath || !penPathIsFillable(opsPath)} onClick={() => { const path = resolvePenPathForOps(); if (path) pathToSelection(path) }}>Make Selection</button>
+            <button type="button" className={styles.hint} disabled={!opsPath || !penPathIsFillable(opsPath)} onClick={() => { const path = resolvePenPathForOps(); if (path) fillPath(path) }}>Fill Path</button>
+            <button type="button" className={styles.hint} disabled={!opsPath || !penPathIsStrokable(opsPath)} onClick={() => { const path = resolvePenPathForOps(); if (path) void strokePathWithBrush(path) }}>Stroke Path</button>
+          </OptionsMore>
         </div>
       )}
       {showTextOptions && (
@@ -756,48 +638,6 @@ export function OptionsBar() {
             onChange={(e) =>
               applyTextOptionsToSelected({
                 fontSize: Math.max(1, Number(e.target.value) || 1),
-              })
-            }
-          />
-          <input
-            className={styles.characterField}
-            type="number"
-            min={-200}
-            max={500}
-            value={options.tracking}
-            title="Tracking (1/1000 em)"
-            aria-label="Tracking (1/1000 em)"
-            onChange={(e) =>
-              applyTextOptionsToSelected({
-                tracking: Math.max(-200, Math.min(500, Number(e.target.value) || 0)),
-              })
-            }
-          />
-          <input
-            className={styles.characterField}
-            type="number"
-            min={-200}
-            max={200}
-            value={options.baselineShift}
-            title="Baseline shift (px)"
-            aria-label="Baseline shift"
-            onChange={(e) =>
-              applyTextOptionsToSelected({
-                baselineShift: Math.max(-200, Math.min(200, Number(e.target.value) || 0)),
-              })
-            }
-          />
-          <input
-            className={styles.characterField}
-            type="number"
-            min={0}
-            max={400}
-            value={options.leading}
-            title="Leading (0 = Auto)"
-            aria-label="Leading (0 = Auto)"
-            onChange={(e) =>
-              applyTextOptionsToSelected({
-                leading: Math.max(0, Math.min(400, Number(e.target.value) || 0)),
               })
             }
           />
@@ -833,16 +673,6 @@ export function OptionsBar() {
           >
             <TextItalic size={14} />
           </button>
-          <button
-            type="button"
-            className={options.underline ? styles.toggleOn : styles.toggle}
-            title="Underline"
-            onClick={() =>
-              applyTextOptionsToSelected({ underline: !options.underline })
-            }
-          >
-            <TextUnderline size={14} />
-          </button>
           {(
             [
               ['left', TextAlignLeft],
@@ -868,6 +698,20 @@ export function OptionsBar() {
           {activeToolId === 'text' && (
             <span className={styles.hint}>Click point · Drag box · Ctrl/Cmd+B/I/U style · Ctrl/Cmd+Shift+L/C/R align · Enter commits</span>
           )}
+          <OptionsMore label="Text details">
+            <label className={styles.hint}>Tracking
+              <input className={styles.characterField} type="number" min={-200} max={500} value={options.tracking} aria-label="Tracking (1/1000 em)" onChange={(e) => applyTextOptionsToSelected({ tracking: Math.max(-200, Math.min(500, Number(e.target.value) || 0)) })} />
+            </label>
+            <label className={styles.hint}>Baseline
+              <input className={styles.characterField} type="number" min={-200} max={200} value={options.baselineShift} aria-label="Baseline shift" onChange={(e) => applyTextOptionsToSelected({ baselineShift: Math.max(-200, Math.min(200, Number(e.target.value) || 0)) })} />
+            </label>
+            <label className={styles.hint}>Leading
+              <input className={styles.characterField} type="number" min={0} max={400} value={options.leading} aria-label="Leading (0 = Auto)" onChange={(e) => applyTextOptionsToSelected({ leading: Math.max(0, Math.min(400, Number(e.target.value) || 0)) })} />
+            </label>
+            <button type="button" className={options.underline ? styles.toggleOn : styles.toggle} title="Underline" onClick={() => applyTextOptionsToSelected({ underline: !options.underline })}>
+              <TextUnderline size={14} /> Underline
+            </button>
+          </OptionsMore>
         </div>
       )}
       {!showTextOptions &&

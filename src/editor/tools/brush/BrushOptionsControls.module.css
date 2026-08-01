@@ -49,7 +49,8 @@
 
 .field {
   --he-numeric-input-width: 3rem;
-  width: 6rem;
+  --he-flyout-label-width: 2.1rem;
+  width: 6.5rem;
   flex-shrink: 0;
 }
 
@@ -86,9 +87,8 @@
   flex: 1 1 auto;
 }
 
-.bar :global(input) {
+.bar :global(input[type='number']) {
   box-sizing: border-box;
-  padding: 0.1rem 0.25rem;
   font-size: 11px;
   height: var(--he-control-h);
 }

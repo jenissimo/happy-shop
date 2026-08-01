@@ -15,6 +15,7 @@ import {
 import { getTip } from '../../../imaging/brushes/tipRegistry'
 import { PENCIL_TIP_ID } from '../../../imaging/brushes/presets/proc'
 import { MODIFIER_GRAMMAR } from '../modifierGrammar'
+import { OptionsMore } from '../../toolbar/OptionsMore'
 import styles from './BrushOptionsControls.module.css'
 
 type Props = {
@@ -169,7 +170,7 @@ export function BrushOptionsControls({ layout = 'bar', variant = 'brush' }: Prop
         onChange={(v) => setPrefs({ flow: v / 100 })}
         className={styles.field}
       />
-      {!isPencil ? (
+      {!isPencil && layout === 'menu' ? (
         <>
           <ValueField
             label="Spac"
@@ -200,7 +201,7 @@ export function BrushOptionsControls({ layout = 'bar', variant = 'brush' }: Prop
             className={styles.field}
           />
         </>
-      ) : (
+      ) : isPencil && layout === 'menu' ? (
         <label className={styles.hint} title="Avoid diagonal double-thick pixels">
           <input
             type="checkbox"
@@ -211,7 +212,7 @@ export function BrushOptionsControls({ layout = 'bar', variant = 'brush' }: Prop
           />
           Pixel Perfect
         </label>
-      )}
+      ) : null}
       {layout === 'menu' ? (
         <PressureCurveControls
           pressureControlsSize={pressureControlsSize}
@@ -224,17 +225,33 @@ export function BrushOptionsControls({ layout = 'bar', variant = 'brush' }: Prop
         />
       ) : null}
       {layout === 'bar' ? (
-        <span
-          className={styles.hint}
-          title="Pen pressure mapping for size, opacity, and flow. Brush modifiers: Shift and Alt."
-        >
-          {formatPressureHint(
-            pressureControlsSize,
-            pressureControlsOpacity,
-            pressureControlsFlow,
+        <OptionsMore label={isPencil ? 'Pencil details' : 'Brush details'}>
+          {!isPencil ? (
+            <>
+              <ValueField label="Spacing" value={Math.round(spacing * 100)} min={5} max={100} step={1} unit="%" defaultValue={25} onChange={(v) => setPrefs({ spacing: v / 100 })} className={styles.field} />
+              <AngleField label="Angle" value={angle} onChange={(v) => setPrefs({ angle: v })} className={styles.angle} />
+              <ValueField label="Roundness" value={Math.round(roundness * 100)} min={5} max={100} step={1} unit="%" defaultValue={100} onChange={(v) => setPrefs({ roundness: v / 100 })} className={styles.field} />
+            </>
+          ) : (
+            <label className={styles.hint} title="Avoid diagonal double-thick pixels">
+              <input type="checkbox" checked={pencilPixelPerfect} onChange={(event) => setPrefs({ pencilPixelPerfect: event.target.checked })} />
+              Pixel Perfect
+            </label>
           )}
-          Shift: {brushModifiers.shift} · Alt: {brushModifiers.alt}
-        </span>
+          <PressureCurveControls
+            pressureControlsSize={pressureControlsSize}
+            pressureControlsOpacity={pressureControlsOpacity}
+            pressureControlsFlow={pressureControlsFlow}
+            pressureSizeCurve={pressureSizeCurve}
+            pressureOpacityCurve={pressureOpacityCurve}
+            pressureFlowCurve={pressureFlowCurve}
+            onChange={setPrefs}
+          />
+          <span className={styles.hint}>
+            {formatPressureHint(pressureControlsSize, pressureControlsOpacity, pressureControlsFlow)}
+            Shift: {brushModifiers.shift} · Alt: {brushModifiers.alt}
+          </span>
+        </OptionsMore>
       ) : null}
     </div>
   )
