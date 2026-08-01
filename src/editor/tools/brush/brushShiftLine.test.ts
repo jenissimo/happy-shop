@@ -153,6 +153,31 @@ describe('BrushToolController Shift-line', () => {
     expect(radii.length).toBeGreaterThan(2)
   })
 
+  test('omits a pixel-perfect corner even when its cells arrive in separate moves', async () => {
+    const controller = new BrushToolController({
+      size: 1,
+      paintEngine: 'pencil',
+      pixelPerfect: true,
+    })
+    const editable = getEditableSurface('brush-line-surface')!
+    const stamps: Array<{ x: number; y: number }> = []
+    const stampSquare = editable.stampSquare.bind(editable)
+    editable.stampSquare = ((options) => {
+      stamps.push({ x: options.x, y: options.y })
+      return stampSquare(options)
+    }) as typeof editable.stampSquare
+
+    await controller.pointerDown(0, 0)
+    controller.pointerMove(1, 0)
+    controller.pointerMove(1, 1)
+    await controller.pointerUp()
+
+    expect(stamps).toEqual([
+      { x: 0.5, y: 0.5 },
+      { x: 1.5, y: 1.5 },
+    ])
+  })
+
   test('can paint the selected initial raster from a new document', async () => {
     const document = createDocumentFromDialog(createDefaultFormState())
     const layerId = document.rootChildren[0]!

@@ -54,7 +54,7 @@ export function bresenhamLine(
   return points
 }
 
-function isCornerDouble(a: GridPoint, b: GridPoint, c: GridPoint): boolean {
+export function isPixelCornerDouble(a: GridPoint, b: GridPoint, c: GridPoint): boolean {
   return (
     (a.x === b.x || a.y === b.y) &&
     (c.x === b.x || c.y === b.y) &&
@@ -74,7 +74,7 @@ export function omitCornerDoubles(points: GridPoint[]): GridPoint[] {
     const a = result[result.length - 1]!
     const b = points[i]!
     const c = points[i + 1]!
-    if (isCornerDouble(a, b, c)) continue
+    if (isPixelCornerDouble(a, b, c)) continue
     result.push(b)
   }
   result.push(points[points.length - 1]!)
@@ -91,7 +91,7 @@ function omitCornerDoublesFromPrev(
   for (let i = 0; i < points.length; i++) {
     const b = points[i]!
     const c = points[i + 1]
-    if (c && isCornerDouble(a, b, c)) continue
+    if (c && isPixelCornerDouble(a, b, c)) continue
     result.push(b)
     a = b
   }

@@ -1,7 +1,14 @@
-import { describe, expect, test } from 'bun:test'
-import { readPencilEngineSettings } from './brushSettingsStore'
+import { beforeEach, describe, expect, test } from 'bun:test'
+import {
+  readPencilEngineSettings,
+  useBrushSettingsStore,
+} from './brushSettingsStore'
 
 describe('readPencilEngineSettings', () => {
+  beforeEach(() => {
+    useBrushSettingsStore.setState({ pencilPixelPerfect: true })
+  })
+
   test('returns hard square pixel engine settings', () => {
     const settings = readPencilEngineSettings()
     expect(settings.paintEngine).toBe('pencil')

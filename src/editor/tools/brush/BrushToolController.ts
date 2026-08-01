@@ -7,7 +7,11 @@ import {
 } from '../../../imaging/surfaces/EditableSurfaceStore'
 import { TiledRasterSurface } from '../../../imaging/surfaces/TiledRasterSurface'
 import { walkStroke } from '../../../imaging/brushes/strokeWalk'
-import { walkPixelPerfectLine } from '../../../imaging/brushes/pixelPerfectStroke'
+import {
+  isPixelCornerDouble,
+  pixelCellFromCenter,
+  walkPixelPerfectLine,
+} from '../../../imaging/brushes/pixelPerfectStroke'
 import {
   snapPixelBrushSize,
   snapPixelPoint,
@@ -136,6 +140,13 @@ export class BrushToolController {
   private tipAlpha: TipAlpha | null = null
   /** Last stamped pixel center while drawing with pixel-perfect pencil. */
   private lastPixelCenter = { x: 0, y: 0 }
+  /** Last cell that is known not to be an inner corner. */
+  private pixelPerfectPrevious = { x: 0, y: 0 }
+  /**
+   * The final cell remains unpainted until the next cell is known: it may be
+   * the inner cell of a pixel-perfect corner and must then be omitted.
+   */
+  private pendingPixel: { x: number; y: number; pressure: number } | null = null
 
   constructor(
     settings: Partial<BrushSettings> = {},
@@ -216,6 +227,8 @@ export class BrushToolController {
       this.lastX = from.x
       this.lastY = from.y
       this.lastPixelCenter = { x: from.x, y: from.y }
+      this.pixelPerfectPrevious = { x: from.x, y: from.y }
+      this.pendingPixel = null
       this.residual = 0
       this.strokeToward(start.x, start.y, 1)
       // Ensure the click lands even when spacing residual never hit the end.
@@ -232,6 +245,8 @@ export class BrushToolController {
       this.lastX = start.x
       this.lastY = start.y
       this.lastPixelCenter = { x: start.x, y: start.y }
+      this.pixelPerfectPrevious = { x: start.x, y: start.y }
+      this.pendingPixel = null
       this.residual = 0
       this.stamp(surface, start.x, start.y, pressure)
     }
@@ -279,6 +294,7 @@ export class BrushToolController {
     const assetId = this.surfaceId
     const surface = this.surface
     cancelEditableSurfaceFlush(assetId)
+    if (this.settings.paintEngine === 'pencil') this.flushPendingPixel()
     const patch = surface.endStrokeCapture()
     await syncEditableSurfaceToBitmap(assetId)
     this.callbacks.onInvalidated?.(assetId)
@@ -357,8 +373,8 @@ export class BrushToolController {
       walkPixelPerfectLine(
         this.lastPixelCenter,
         { x: localX, y: localY },
-        this.settings.pixelPerfect,
-        (x, y) => this.stamp(surface, x, y, pressure),
+        false,
+        (x, y) => this.queuePixelPerfectStamp(surface, x, y, pressure),
       )
       this.lastPixelCenter = { x: localX, y: localY }
       this.lastX = localX
@@ -381,6 +397,65 @@ export class BrushToolController {
     this.residual = residual
     this.lastX = end.x
     this.lastY = end.y
+  }
+
+  private queuePixelPerfectStamp(
+    surface: TiledRasterSurface,
+    x: number,
+    y: number,
+    pressure: number,
+  ): void {
+    if (!this.settings.pixelPerfect) {
+      this.stamp(surface, x, y, pressure)
+      return
+    }
+
+    const next = { x, y, pressure }
+    if (!this.pendingPixel) {
+      this.pendingPixel = next
+      return
+    }
+
+    const previousCell = pixelCellFromCenter(
+      this.pixelPerfectPrevious.x,
+      this.pixelPerfectPrevious.y,
+    )
+    const pendingCell = pixelCellFromCenter(
+      this.pendingPixel.x,
+      this.pendingPixel.y,
+    )
+    const followingCell = pixelCellFromCenter(next.x, next.y)
+    const previous = { x: previousCell.ix, y: previousCell.iy }
+    const pending = { x: pendingCell.ix, y: pendingCell.iy }
+    const following = { x: followingCell.ix, y: followingCell.iy }
+    if (!isPixelCornerDouble(previous, pending, following)) {
+      this.stamp(
+        surface,
+        this.pendingPixel.x,
+        this.pendingPixel.y,
+        this.pendingPixel.pressure,
+      )
+      this.pixelPerfectPrevious = {
+        x: this.pendingPixel.x,
+        y: this.pendingPixel.y,
+      }
+    }
+    this.pendingPixel = next
+  }
+
+  private flushPendingPixel(): void {
+    if (!this.pendingPixel || !this.surface) return
+    this.stamp(
+      this.surface,
+      this.pendingPixel.x,
+      this.pendingPixel.y,
+      this.pendingPixel.pressure,
+    )
+    this.pixelPerfectPrevious = {
+      x: this.pendingPixel.x,
+      y: this.pendingPixel.y,
+    }
+    this.pendingPixel = null
   }
 
   private effectiveBrushSize(pressure: number): number {
