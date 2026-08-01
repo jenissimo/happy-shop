@@ -35,6 +35,7 @@ function toPanelLayer(
     hasMask: layer.mask != null,
     maskEnabled: layer.maskEnabled ?? true,
     maskHidesEffects: layer.maskHidesEffects ?? false,
+    clipping: layer.clipping ?? false,
     ...(layer.type === 'group' ? { isolated: layer.isolated } : {}),
   }
 }
@@ -77,6 +78,7 @@ export function useSessionLayersAdapter(): LayersPanelAdapter {
   const setBlendMode = useEditorSessionStore((s) => s.setBlendMode)
   const setGroupIsolated = useEditorSessionStore((s) => s.setGroupIsolated)
   const setMaskHidesEffects = useEditorSessionStore((s) => s.setMaskHidesEffects)
+  const toggleClippingMask = useEditorSessionStore((s) => s.toggleClippingMask)
   const reorderLayer = useEditorSessionStore((s) => s.reorderLayer)
 
   const layers = useMemo(
@@ -100,6 +102,7 @@ export function useSessionLayersAdapter(): LayersPanelAdapter {
     setGroupIsolated: (id, isolated) => setGroupIsolated(asLayerId(id), isolated),
     setMaskHidesEffects: (id, maskHidesEffects) =>
       setMaskHidesEffects(asLayerId(id), maskHidesEffects),
+    toggleClippingMask: (id) => toggleClippingMask(asLayerId(id)),
     toggleLayerEffect: (layerId, effectId) => {
       const id = asLayerId(layerId)
       const layer = document.layers[id]

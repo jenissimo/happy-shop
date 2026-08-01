@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   persistBrushCursorModePref,
   persistToolsStripLayoutPref,
   readBrushCursorModePref,
   readToolsStripLayoutPref,
+  TOOLS_STRIP_LAYOUT_CHANGED_EVENT,
   type BrushCursorMode,
   type ToolsStripLayout,
 } from '../prefs'
@@ -18,6 +19,12 @@ import styles from './PlaceholderSection.module.css'
 export function ToolsSection() {
   const [brushCursorMode, setBrushCursorMode] = useState(readBrushCursorModePref)
   const [stripLayout, setStripLayout] = useState(readToolsStripLayoutPref)
+
+  useEffect(() => {
+    const sync = () => setStripLayout(readToolsStripLayoutPref())
+    window.addEventListener(TOOLS_STRIP_LAYOUT_CHANGED_EVENT, sync)
+    return () => window.removeEventListener(TOOLS_STRIP_LAYOUT_CHANGED_EVENT, sync)
+  }, [])
 
   const chooseMode = (mode: BrushCursorMode) => {
     setBrushCursorMode(mode)
@@ -34,7 +41,7 @@ export function ToolsSection() {
       <SettingsHeading>Tools</SettingsHeading>
       <SettingsRow
         title="Tool strip columns"
-        hint="Two columns matches classic Photoshop muscle memory. Single column saves horizontal space."
+        hint="Two columns matches classic Photoshop muscle memory. Drag or double-click the tools strip’s right edge to switch; single column saves horizontal space."
       >
         <fieldset className={styles.badge} aria-label="Tool strip columns">
           <label>

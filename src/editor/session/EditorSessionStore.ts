@@ -11,6 +11,7 @@ import {
   setFillOpacity as setFillOpacityOp,
   setGroupIsolated as setGroupIsolatedOp,
   setMaskHidesEffects as setMaskHidesEffectsOp,
+  toggleClippingMask as toggleClippingMaskOp,
   setLayerLockFlag as setLayerLockFlagOp,
   setTransform as setTransformOp,
   setVisibility as setVisibilityOp,
@@ -29,6 +30,7 @@ import {
 import type { CameraState } from '../viewport/ViewportCamera'
 import { documentHistory } from './documentHistory'
 import { hydrateWorkPathFromDocument } from '../tools/paths/pathDocumentSync'
+import { rehydrateDocumentGoogleFonts } from '../tools/text/rehydrateDocumentGoogleFonts'
 
 /** Optional hook installed by DocumentTabManager to mirror active-tab dirty/doc. */
 let activeTabSync: (() => void) | null = null
@@ -90,6 +92,7 @@ export interface EditorSessionState {
   setBlendMode: (id: LayerId, mode: BlendMode) => void
   setGroupIsolated: (id: LayerId, isolated: boolean) => void
   setMaskHidesEffects: (id: LayerId, maskHidesEffects: boolean) => void
+  toggleClippingMask: (id: LayerId) => void
   renameLayer: (id: LayerId, name: string) => void
   setTransform: (id: LayerId, patch: Partial<Transform>) => void
   /** `visualIndex` is top-to-bottom UI order (Photoshop convention), not the
@@ -187,6 +190,7 @@ export const useEditorSessionStore = create<EditorSessionState>((set, get) => ({
       historyVersion: documentHistory.version,
     })
     hydrateWorkPathFromDocument(document)
+    void rehydrateDocumentGoogleFonts(document)
   },
 
   markClean: () => {
@@ -289,6 +293,14 @@ export const useEditorSessionStore = create<EditorSessionState>((set, get) => ({
     commit(
       maskHidesEffects ? 'Mask Clips Effects' : 'Mask Respects Effects',
       (doc) => setMaskHidesEffectsOp(doc, id, maskHidesEffects),
+    )
+  },
+
+  toggleClippingMask: (id) => {
+    const layer = get().document.layers[id]
+    if (!layer) return
+    commit(layer.clipping ? 'Release Clipping Mask' : 'Create Clipping Mask', (doc) =>
+      toggleClippingMaskOp(doc, id),
     )
   },
 

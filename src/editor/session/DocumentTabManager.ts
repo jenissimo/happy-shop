@@ -18,6 +18,7 @@ import {
   setActiveTabSyncHandler,
   useEditorSessionStore,
 } from './EditorSessionStore'
+import { rehydrateDocumentGoogleFonts } from '../tools/text/rehydrateDocumentGoogleFonts'
 
 export type DocumentTabId = string
 
@@ -244,6 +245,7 @@ export const useDocumentTabManager = create<DocumentTabManagerState>(
         },
         historyVersion: tab.history.version,
       })
+      void rehydrateDocumentGoogleFonts(tab.document)
     },
   }),
 )

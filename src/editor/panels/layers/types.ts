@@ -31,6 +31,8 @@ export type LayersPanelLayer = {
   maskEnabled: boolean
   /** When hasMask, whether the mask clips post-FX output (PS "Mask Hides Effects"). */
   maskHidesEffects: boolean
+  /** True when this layer clips to the sibling immediately beneath it. */
+  clipping?: boolean
   /** Only meaningful for groups: false = pass-through, true = flatten-then-FX. */
   isolated?: boolean
 }
@@ -60,6 +62,7 @@ export type LayersPanelAdapter = {
   setBlendMode: (id: string, mode: BlendMode) => void
   setGroupIsolated: (id: string, isolated: boolean) => void
   setMaskHidesEffects: (id: string, maskHidesEffects: boolean) => void
+  toggleClippingMask: (id: string) => void
   toggleLayerEffect: (layerId: string, effectId: string) => void
   reorderLayerEffect: (layerId: string, fromIndex: number, toIndex: number) => void
   /**

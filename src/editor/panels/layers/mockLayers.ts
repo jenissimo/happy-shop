@@ -127,6 +127,13 @@ export function useMockLayersAdapter(
         prev.map((l) => (l.id === id ? { ...l, maskHidesEffects } : l)),
       )
     },
+    toggleClippingMask: (id) => {
+      setLayers((prev) =>
+        prev.map((layer) =>
+          layer.id === id ? { ...layer, clipping: !layer.clipping } : layer,
+        ),
+      )
+    },
     toggleLayerEffect: (layerId, effectId) => {
       setLayers((prev) =>
         prev.map((layer) => {

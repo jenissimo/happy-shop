@@ -1,8 +1,9 @@
 # Viewport (M1b)
 
-`ViewportHost.tsx` is a self-contained Pixi viewport: canvas mount, wheel zoom,
-space/middle-drag pan, resize observer, and a checkerboard + layers rendered
-through `RenderDocumentView` / `PixiRenderBackend`. `EditorShell` mounts it as
+`ViewportHost.tsx` is a self-contained Pixi viewport: canvas mount, trackpad
+pan (two-finger scroll) and zoom (pinch / Mod+scroll), space/middle-drag pan,
+resize observer, and a checkerboard + layers rendered through
+`RenderDocumentView` / `PixiRenderBackend`. `EditorShell` mounts it as
 the `viewport` dockview panel and feeds `documentView` from
 `toRenderDocumentView(session.document)`.
 

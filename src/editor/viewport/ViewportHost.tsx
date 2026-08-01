@@ -46,6 +46,7 @@ import { useTransformStore } from '../tools/move/transformStore'
 import { TextEditorOverlay } from '../tools/text/TextEditorOverlay'
 import { useEditorSessionStore } from '../session/EditorSessionStore'
 import { useEditorContext } from '../state/EditorContext'
+import { useTheme } from '../theme/ThemeProvider'
 import { mapClientToViewport } from './mapClientToViewport'
 import { bindViewportCamera } from './viewportCameraAccess'
 import { useViewportZoomStore } from './viewportZoomStore'
@@ -53,6 +54,7 @@ import { useCursorStatusStore } from './cursorStatusStore'
 import { ViewportCamera } from './ViewportCamera'
 import { createDemoDocumentView } from './demoDocument'
 import { useGuidesStore } from './guides'
+import { resolveWheelNavigation } from './wheelNavigation'
 import styles from './ViewportHost.module.css'
 
 export interface ViewportHostProps {
@@ -60,7 +62,6 @@ export interface ViewportHostProps {
   documentView?: RenderDocumentView
 }
 
-const ZOOM_WHEEL_SENSITIVITY = 0.0015
 const FIT_PADDING = 32
 
 type PanState = { pointerId: number; lastX: number; lastY: number } | null
@@ -76,13 +77,14 @@ function isEditableTarget(target: EventTarget | null): boolean {
 }
 
 /**
- * Mounts the Pixi canvas, drives the camera from wheel/pointer input, and
- * keeps the backend in sync with `documentView`. Deliberately not wired into
- * `EditorShell`/dockview yet — see the module-level notes in
- * `src/editor/viewport/README.md` for how a future agent should mount this
- * as the real "viewport" dockview component.
+ * Mounts the Pixi canvas, drives the camera from wheel/pointer input
+ * (scroll = pan, pinch/Mod+scroll = zoom), and keeps the backend in sync with
+ * `documentView`. Deliberately not wired into `EditorShell`/dockview yet — see
+ * the module-level notes in `src/editor/viewport/README.md` for how a future
+ * agent should mount this as the real "viewport" dockview component.
  */
 export function ViewportHost({ documentView }: ViewportHostProps) {
+  const { theme } = useTheme()
   const hostRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const backendRef = useRef<PixiRenderBackend | null>(null)
@@ -404,6 +406,12 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
     backendRef.current?.syncDocument(view)
   }, [ready, view])
 
+  // Transparency grid follows theme checker tokens (light vs dark).
+  useEffect(() => {
+    if (!ready) return
+    backendRef.current?.invalidateCheckerboard()
+  }, [ready, theme])
+
   // Fit new documents, but retain a validated restored camera on boot/HMR.
   useEffect(() => {
     if (!ready) return
@@ -414,22 +422,33 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
     cameraRef.current.fitToViewport(view.width, view.height, width, height, FIT_PADDING)
   }, [ready, view.id, view.width, view.height, fitOnLoad])
 
-  // Wheel = zoom. Added as a native listener so preventDefault reliably stops page scroll.
+  // Wheel: plain scroll = pan; pinch / Mod+scroll = zoom toward cursor.
+  // Native listener so preventDefault reliably stops page scroll.
   useEffect(() => {
     const host = hostRef.current
     if (!host) return
     const handleWheel = (event: WheelEvent) => {
       event.preventDefault()
-      const { width, height } = sizeRef.current
-      const anchor = mapClientToViewport(
-        event.clientX,
-        event.clientY,
-        host,
-        width,
-        height,
-      )
-      const factor = Math.exp(-event.deltaY * ZOOM_WHEEL_SENSITIVITY)
-      cameraRef.current.zoomBy(factor, anchor)
+      const action = resolveWheelNavigation({
+        deltaX: event.deltaX,
+        deltaY: event.deltaY,
+        deltaMode: event.deltaMode,
+        ctrlKey: event.ctrlKey,
+        metaKey: event.metaKey,
+      })
+      if (action.type === 'pan') {
+        cameraRef.current.panBy(action.dx, action.dy)
+      } else {
+        const { width, height } = sizeRef.current
+        const anchor = mapClientToViewport(
+          event.clientX,
+          event.clientY,
+          host,
+          width,
+          height,
+        )
+        cameraRef.current.zoomBy(action.factor, anchor)
+      }
       refreshCamera()
     }
     host.addEventListener('wheel', handleWheel, { passive: false })
@@ -456,6 +475,7 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
       if (isEditableTarget(event.target)) return
       if (event.code === 'Space') {
         setSpaceHeld(true)
+        toolRouterRef.current.setSpaceHeld(true)
         return
       }
       if (event.key === 'Alt') {
@@ -482,11 +502,15 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
         toolRouterRef.current.modifiersChanged(readModifiers(event))
       }
       if (event.key === 'Shift') setShiftHeld(false)
-      if (event.code === 'Space') setSpaceHeld(false)
+      if (event.code === 'Space') {
+        setSpaceHeld(false)
+        toolRouterRef.current.setSpaceHeld(false)
+      }
       if (event.key === 'Alt') setAltHeld(false)
     }
     const onBlur = () => {
       setSpaceHeld(false)
+      toolRouterRef.current.setSpaceHeld(false)
       setShiftHeld(false)
       setAltHeld(false)
       setPrecisionHeld(false)
@@ -603,6 +627,7 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
 
   const onContextMenu = (event: ReactMouseEvent<HTMLDivElement>) => {
     event.preventDefault()
+    if (event.altKey && (activeToolId === 'brush' || activeToolId === 'eraser' || activeToolId === 'pencil')) return
     if (activeToolId === 'brush' || activeToolId === 'eraser') {
       setCanvasMenu(null)
       setBrushMenu({ x: event.clientX, y: event.clientY })

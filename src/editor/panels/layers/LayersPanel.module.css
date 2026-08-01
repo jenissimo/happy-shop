@@ -125,6 +125,39 @@
   border-top: 2px solid transparent;
 }
 
+.clipping {
+  padding-left: calc(0.35rem + 0.75rem) !important;
+}
+
+.thumbnailWrap {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.clippingIcon {
+  position: absolute;
+  right: calc(100% + 0.15rem);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--he-text-muted);
+}
+
+.clippingBoundary {
+  display: block;
+  width: 100%;
+  height: 4px;
+  margin: -2px 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: default;
+}
+
+.clippingBoundary:hover {
+  background: var(--he-focus);
+}
+
 .row:hover {
   background: var(--he-gray-700);
 }

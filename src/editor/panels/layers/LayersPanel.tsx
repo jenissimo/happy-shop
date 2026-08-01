@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState, type DragEvent, type KeyboardEvent } from 'react'
 import {
   ArrowsOutCardinal,
+  ArrowBendDownRight,
   CaretDown,
   CaretRight,
   Eye,
@@ -380,6 +381,8 @@ export function LayersPanel({
               <div
                 className={`${styles.row}${selected ? ` ${styles.selected}` : ''}${
                   dragOverIndex === index ? ` ${styles.dragOver}` : ''
+                }${
+                  layer.clipping ? ` ${styles.clipping}` : ''
                 }`}
                 style={{ paddingLeft: `${0.35 + layer.depth * 0.85}rem` }}
                 draggable
@@ -444,10 +447,13 @@ export function LayersPanel({
                     <FolderSimple size={18} weight="fill" />
                   </span>
                 ) : (
-                  <LayerThumbnail
-                    layerId={layer.id}
-                    fallbackSwatch={layerSwatchColor(layer)}
-                  />
+                  <span className={styles.thumbnailWrap}>
+                    {layer.clipping ? <ArrowBendDownRight className={styles.clippingIcon} size={13} aria-label="Clipping mask" /> : null}
+                    <LayerThumbnail
+                      layerId={layer.id}
+                      fallbackSwatch={layerSwatchColor(layer)}
+                    />
+                  </span>
                 )}
                 {hasTextLayerBadge(layer) ? (
                   <span
