@@ -3,9 +3,16 @@
 This checked-in offline index contains 2022 metadata entries derived from the authoritative `google/fonts` repository and no font binaries.
 Every entry records its SPDX license and the exact google/fonts commit, top-level license directory, and canonical license URL used as provenance.
 
-Downloadability remains intentionally narrower: only reviewed OFL-1.1 or Apache-2.0 per-family manifests under `families/` may contain pinned direct WOFF2 URLs and license text. UFL metadata is browse-only; it is never promoted by this repository policy.
+Downloadable families ship reviewed OFL-1.1 or Apache-2.0 manifests under `families/` with pinned direct WOFF2 URLs and license text. Generate or refresh them with:
 
-Refresh manually with `bun scripts/google-fonts/build-index.ts --github`, inspect the metadata/provenance diff, then run `bun scripts/google-fonts/build-index.ts --curated` to preserve reviewed manifests and regenerate script shards and NOTICE. This vendoring step is never CI or runtime work.
+```bash
+bun scripts/google-fonts/generate-family-manifests.ts
+bun scripts/google-fonts/build-index.ts --curated
+```
+
+`downloadable.json` lists every id that has a manifest. UFL metadata and CJK families (unicode-range–partitioned delivery) remain browse-only until multi-face caching exists. This vendoring step is never CI or runtime work — the app never calls the Google CSS API at runtime.
+
+Refresh the browse index manually with `bun scripts/google-fonts/build-index.ts --github`, inspect the metadata/provenance diff, then re-run manifest generation and `--curated`.
 
 ## Popularity / trending ranks
 

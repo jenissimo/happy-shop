@@ -15,17 +15,33 @@ export type RenderLayerId = string
  * never imports the domain module. */
 export type RenderBlendMode =
   | 'normal'
-  | 'multiply'
-  | 'screen'
-  | 'overlay'
+  | 'dissolve'
+  | 'pass-through'
   | 'darken'
-  | 'lighten'
-  | 'color-dodge'
+  | 'multiply'
   | 'color-burn'
-  | 'hard-light'
+  | 'linear-burn'
+  | 'darker-color'
+  | 'lighten'
+  | 'screen'
+  | 'color-dodge'
+  | 'linear-dodge'
+  | 'lighter-color'
+  | 'overlay'
   | 'soft-light'
+  | 'hard-light'
+  | 'vivid-light'
+  | 'linear-light'
+  | 'pin-light'
+  | 'hard-mix'
   | 'difference'
   | 'exclusion'
+  | 'subtract'
+  | 'divide'
+  | 'hue'
+  | 'saturation'
+  | 'color'
+  | 'luminosity'
 
 /** Mirrors `Transform` from SPEC §8.1. */
 export interface RenderLayerTransform {
@@ -277,6 +293,7 @@ export type RenderLayerEffect = {
         | { type: 'brightness-contrast'; brightness: number; contrast: number }
         | { type: 'hue-saturation'; hueDeg: number; saturation: number; lightness: number }
         | { type: 'levels'; black: number; white: number; gamma: number }
+        | { type: 'curves'; master: { x: number; y: number }[]; red?: { x: number; y: number }[]; green?: { x: number; y: number }[]; blue?: { x: number; y: number }[] }
     }
   | {
       type: 'noise'
@@ -340,10 +357,12 @@ export interface RenderTextLayerView {
     color: string
     underline?: boolean
     tracking?: number
+    baselineShift?: number
   }>
   tracking: number
   leading: number
-  align: 'left' | 'center' | 'right'
+  baselineShift: number
+  align: 'left' | 'center' | 'right' | 'justify'
   textMode: 'point' | 'box'
   /** Box wrap size; ignored for point mode except as optional max. */
   bounds: { w: number; h: number }

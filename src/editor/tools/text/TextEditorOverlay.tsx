@@ -14,6 +14,12 @@ import {
   measureContentOffset,
   restoreContentSelection,
 } from './textEditorDomSync'
+import { cssQuoteFontFamily } from './cssQuoteFontFamily'
+import {
+  resolveRunBaselineShift,
+  trackingToLetterSpacingPx,
+  underlineMetrics,
+} from './textLayout'
 import {
   getTextEditingSelection,
   setTextEditingSelection,
@@ -60,13 +66,13 @@ export function TextEditorOverlay({ hostRef, cameraRef }: Props) {
         ? layer.bounds.h * zoom
         : 1
 
-    el.style.fontFamily = layer.fontFamily
+    el.style.fontFamily = cssQuoteFontFamily(layer.fontFamily)
     el.style.fontSize = `${layer.fontSize * zoom}px`
     el.style.fontWeight = String(layer.fontWeight)
     el.style.fontStyle = layer.italic ? 'italic' : 'normal'
     el.style.textDecoration = 'none'
     el.style.color = layer.color
-    el.style.textAlign = layer.align
+    el.style.textAlign = layer.align === 'justify' ? 'justify' : layer.align
     el.style.direction = 'ltr'
     el.style.letterSpacing = '0'
     el.style.lineHeight =
@@ -176,16 +182,23 @@ function runsMarkup(layer: TextLayer): string {
   return normalizedTextRuns(layer).map((run) => {
     const underline = resolveRunUnderline(run, layer)
     const tracking = resolveRunTracking(run, layer)
+    const baselineShift = resolveRunBaselineShift(run, layer)
+    const letterSpacing = trackingToLetterSpacingPx(tracking, run.fontSize)
+    const metrics = underlineMetrics(run.fontSize)
+    const underlineCss = underline
+      ? `text-decoration:underline;text-underline-offset:${metrics.offsetY - run.fontSize}px;text-decoration-thickness:${metrics.thickness}px`
+      : ''
     const style = [
-      `font-family:${run.fontFamily}`,
+      `font-family:${cssQuoteFontFamily(run.fontFamily)}`,
       `font-size:${run.fontSize}px`,
       `font-weight:${run.fontWeight}`,
       `font-style:${run.italic ? 'italic' : 'normal'}`,
       `color:${run.color}`,
-      underline ? 'text-decoration:underline' : '',
-      tracking ? `letter-spacing:${tracking}px` : '',
+      underlineCss,
+      letterSpacing ? `letter-spacing:${letterSpacing}px` : '',
+      baselineShift ? `position:relative;top:${-baselineShift}px` : '',
     ].filter(Boolean).join(';')
-    return `<span data-font-family="${escapeHtml(run.fontFamily)}" data-font-size="${run.fontSize}" data-font-weight="${run.fontWeight}" data-italic="${run.italic}" data-color="${run.color}" data-underline="${underline}" data-tracking="${tracking}" style="${escapeHtml(style)}">${escapeHtml(layer.content.slice(run.start, run.end)).replace(/\n/g, '<br>')}</span>`
+    return `<span data-font-family="${escapeHtml(run.fontFamily)}" data-font-size="${run.fontSize}" data-font-weight="${run.fontWeight}" data-italic="${run.italic}" data-color="${run.color}" data-underline="${underline}" data-tracking="${tracking}" data-baseline-shift="${baselineShift}" style="${escapeHtml(style)}">${escapeHtml(layer.content.slice(run.start, run.end)).replace(/\n/g, '<br>')}</span>`
   }).join('')
 }
 
@@ -198,6 +211,7 @@ function parseEditorRuns(element: HTMLDivElement, layer: TextLayer) {
     if (!text) continue
     const underline = span.dataset.underline === 'true'
     const tracking = Number(span.dataset.tracking) || 0
+    const baselineShift = Number(span.dataset.baselineShift) || 0
     runs.push({
       start: offset,
       end: offset + text.length,
@@ -208,6 +222,7 @@ function parseEditorRuns(element: HTMLDivElement, layer: TextLayer) {
       color: (span.dataset.color || layer.color) as TextLayer['color'],
       ...(underline !== layer.underline ? { underline } : {}),
       ...(tracking !== layer.tracking ? { tracking } : {}),
+      ...(baselineShift !== (layer.baselineShift ?? 0) ? { baselineShift } : {}),
     })
     offset += text.length
   }

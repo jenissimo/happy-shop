@@ -54,6 +54,7 @@ export function describeText(layer: RenderTextLayerView): string {
     JSON.stringify(layer.runs),
     layer.tracking,
     layer.leading,
+    layer.baselineShift,
     layer.align,
     layer.textMode,
     layer.bounds.w,

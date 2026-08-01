@@ -31,7 +31,7 @@ export function TextSection() {
       <SettingsHeading>Text</SettingsHeading>
       <SettingsRow
         title="Google Fonts"
-        hint="Off keeps this app fully offline and never contacts Google. Browse only loads the bundled catalog. Live preview fetches visible font files from fonts.gstatic.com; adding a font explicitly caches its WOFF2 bytes for deterministic export. Open the font picker from the Type options bar or Window → Character and choose the Google Fonts tab (enable Browse here first)."
+        hint="Off keeps this app fully offline and never contacts Google. Browse only loads the bundled catalog. Live preview (default) fetches visible font files from fonts.gstatic.com; adding a font explicitly caches its WOFF2 bytes for deterministic export. Open the font picker from the Type options bar or Window → Character and choose the Google Fonts tab."
       >
         <fieldset className={styles.badge} aria-label="Google Fonts">
           <label>

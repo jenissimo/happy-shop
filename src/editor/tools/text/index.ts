@@ -8,8 +8,14 @@ export {
   finishTextEditSession,
   cancelTextEditSession,
   rasterizeTextLayer,
+  convertTextMode,
   applyTextOptionsToSelected,
   syncTextOptionsFromLayer,
   registerTextCommands,
 } from './textCommands'
 export { measureTextBounds, rasterizeTextLayerToBitmap } from './textRasterize'
+export {
+  measureTextBoundsSync,
+  trackingToLetterSpacingPx,
+  pointTextAlignOffset,
+} from './textLayout'

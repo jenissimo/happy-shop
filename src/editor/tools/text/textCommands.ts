@@ -22,6 +22,7 @@ import {
 } from '../../session/EditorSessionStore'
 import { useTextToolStore } from './textToolStore'
 import { measureTextBounds, rasterizeTextLayerToBitmap } from './textRasterize'
+import { convertBoxPadPx, pointTextAlignOffset } from './textLayout'
 import { getTextEditingSelection } from './textEditingSelection'
 import { styleTextRange, type CharacterStylePatch } from './textRuns'
 
@@ -230,6 +231,7 @@ export function syncTextOptionsFromLayer(layer: TextLayer): void {
     align: layer.align,
     tracking: layer.tracking,
     leading: layer.leading,
+    baselineShift: layer.baselineShift ?? 0,
   })
 }
 
@@ -244,6 +246,13 @@ export function applyTextOptionsToSelected(patch: {
   align?: TextLayer['align']
   tracking?: number
   leading?: number
+  baselineShift?: number
+  horizontalScale?: number
+  verticalScale?: number
+  fauxBold?: boolean
+  fauxItalic?: boolean
+  allCaps?: boolean
+  smallCaps?: boolean
 }): void {
   useTextToolStore.getState().setOptions(patch)
   const { selectedLayerIds, document } = useEditorSessionStore.getState()
@@ -263,6 +272,13 @@ export function applyTextOptionsToSelected(patch: {
       ...(patch.color !== undefined ? { color: patch.color } : {}),
       ...(patch.underline !== undefined ? { underline: patch.underline } : {}),
       ...(patch.tracking !== undefined ? { tracking: patch.tracking } : {}),
+      ...(patch.baselineShift !== undefined ? { baselineShift: patch.baselineShift } : {}),
+      ...(patch.horizontalScale !== undefined ? { horizontalScale: patch.horizontalScale } : {}),
+      ...(patch.verticalScale !== undefined ? { verticalScale: patch.verticalScale } : {}),
+      ...(patch.fauxBold !== undefined ? { fauxBold: patch.fauxBold } : {}),
+      ...(patch.fauxItalic !== undefined ? { fauxItalic: patch.fauxItalic } : {}),
+      ...(patch.allCaps !== undefined ? { allCaps: patch.allCaps } : {}),
+      ...(patch.smallCaps !== undefined ? { smallCaps: patch.smallCaps } : {}),
     }
     // A non-collapsed DOM selection receives character styling (including
     // underline and tracking). At a caret, those become layer typing defaults.
@@ -281,6 +297,88 @@ export function applyTextOptionsToSelected(patch: {
   pushMetadata('Edit Text', before, after, `text-props:${id}`, 400)
 }
 
+/**
+ * Convert between point text and paragraph (box) text, preserving visual origin
+ * for left/center/right and hard newlines. Soft wraps are not materialized.
+ */
+export async function convertTextMode(
+  layerId: LayerId,
+  target: 'point' | 'box',
+): Promise<boolean> {
+  const edit = useTextToolStore.getState().edit
+  if (edit?.layerId === layerId) finishTextEditSession()
+
+  const before = useEditorSessionStore.getState().document
+  const layer = before.layers[layerId]
+  if (!layer || layer.type !== 'text') return false
+  if (layer.textMode === target) return false
+
+  const measured = await measureTextBounds(layer)
+  const pad = convertBoxPadPx()
+
+  if (target === 'box') {
+    const w = Math.max(1, measured.width + pad)
+    const h = Math.max(1, measured.height)
+    // Point uses an alignment anchor; box frames from the left edge.
+    const shiftX = -pointTextAlignOffset(layer.align, measured.width)
+    const after = updateTextLayer(before, layerId, {
+      textMode: 'box',
+      bounds: { x: 0, y: 0, w, h },
+    })
+    const withTransform = (() => {
+      if (shiftX === 0) return after
+      const next = after.layers[layerId]
+      if (!next || next.type !== 'text') return after
+      return {
+        ...after,
+        layers: {
+          ...after.layers,
+          [layerId]: {
+            ...next,
+            transform: { ...next.transform, x: next.transform.x + shiftX },
+          },
+        },
+      }
+    })()
+    pushMetadata('Convert to Paragraph Text', before, withTransform, `text-convert:${layerId}`)
+    const updated = withTransform.layers[layerId]
+    if (updated?.type === 'text') syncTextOptionsFromLayer(updated)
+    return true
+  }
+
+  // box → point
+  const asPoint: TextLayer = {
+    ...layer,
+    textMode: 'point',
+    bounds: { x: 0, y: 0, w: 0, h: 0 },
+  }
+  const pointMeasured = await measureTextBounds(asPoint)
+  const shiftX = pointTextAlignOffset(layer.align, pointMeasured.width)
+  const after = updateTextLayer(before, layerId, {
+    textMode: 'point',
+    bounds: { x: 0, y: 0, w: 0, h: 0 },
+  })
+  const withTransform = (() => {
+    if (shiftX === 0) return after
+    const next = after.layers[layerId]
+    if (!next || next.type !== 'text') return after
+    return {
+      ...after,
+      layers: {
+        ...after.layers,
+        [layerId]: {
+          ...next,
+          transform: { ...next.transform, x: next.transform.x + shiftX },
+        },
+      },
+    }
+  })()
+  pushMetadata('Convert to Point Text', before, withTransform, `text-convert:${layerId}`)
+  const updated = withTransform.layers[layerId]
+  if (updated?.type === 'text') syncTextOptionsFromLayer(updated)
+  return true
+}
+
 export function registerTextCommands(registry: CommandRegistry): void {
   registry.register({
     id: 'layer.newText',
@@ -294,6 +392,23 @@ export function registerTextCommands(registry: CommandRegistry): void {
         y: Math.round(doc.canvas.height / 2 - 24),
         content: 'Text',
       })
+    },
+  })
+
+  registry.register({
+    id: 'layer.convertTextMode',
+    title: 'Convert Text Mode',
+    enabled: () => {
+      const { selectedLayerIds, document } = useEditorSessionStore.getState()
+      if (selectedLayerIds.length !== 1) return false
+      return document.layers[selectedLayerIds[0]!]?.type === 'text'
+    },
+    run: async () => {
+      const id = useEditorSessionStore.getState().selectedLayerIds[0]
+      if (!id) return
+      const layer = useEditorSessionStore.getState().document.layers[id]
+      if (!layer || layer.type !== 'text') return
+      await convertTextMode(id, layer.textMode === 'point' ? 'box' : 'point')
     },
   })
 

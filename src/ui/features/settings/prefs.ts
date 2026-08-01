@@ -95,9 +95,11 @@ export function persistToolsStripLayoutPref(layout: ToolsStripLayout): void {
 export function readGoogleFontsModePref(): GoogleFontsMode {
   try {
     const value = localStorage.getItem(GOOGLE_FONTS_MODE_KEY)
-    return value === 'browse' || value === 'live-preview' ? value : 'off'
+    if (value === 'off' || value === 'browse' || value === 'live-preview') return value
+    // Default: browse with live preview so Google Fonts works out of the box.
+    return 'live-preview'
   } catch {
-    return 'off'
+    return 'live-preview'
   }
 }
 

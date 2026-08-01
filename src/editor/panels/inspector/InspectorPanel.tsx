@@ -29,6 +29,7 @@ import { documentHistory } from '../../session/documentHistory'
 import { useEditorSessionStore } from '../../session/EditorSessionStore'
 import {
   applyTextOptionsToSelected,
+  convertTextMode,
   previewTextProps,
   syncTextOptionsFromLayer,
 } from '../../tools/text/textCommands'
@@ -263,9 +264,16 @@ export function InspectorPanel() {
               <NumericField
                 label="Track"
                 value={text.tracking}
-                min={-50}
-                max={200}
+                min={-200}
+                max={500}
                 onChange={(v) => commitText({ tracking: v })}
+              />
+              <NumericField
+                label="Baseline"
+                value={text.baselineShift ?? 0}
+                min={-200}
+                max={200}
+                onChange={(v) => commitText({ baselineShift: v })}
               />
             </div>
             <div className={styles.section}>
@@ -295,7 +303,17 @@ export function InspectorPanel() {
               />
               <div className={styles.field}>
                 <span className={styles.fieldLabel}>Mode</span>
-                <span className={styles.readonlyValue}>{text.textMode}</span>
+                <select
+                  className={styles.select}
+                  value={text.textMode}
+                  onChange={(e) => {
+                    const next = e.target.value as 'point' | 'box'
+                    if (next !== text.textMode) void convertTextMode(text.id, next)
+                  }}
+                >
+                  <option value="point">point</option>
+                  <option value="box">box</option>
+                </select>
               </div>
               {text.textMode === 'box' && (
                 <div className={styles.grid2}>

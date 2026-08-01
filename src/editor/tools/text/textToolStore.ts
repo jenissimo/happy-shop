@@ -18,6 +18,13 @@ export type TextToolOptions = {
   align: TextAlign
   tracking: number
   leading: number
+  baselineShift: number
+  horizontalScale: number
+  verticalScale: number
+  fauxBold: boolean
+  fauxItalic: boolean
+  allCaps: boolean
+  smallCaps: boolean
 }
 
 export type TextEditSession = {
@@ -55,6 +62,13 @@ export const useTextToolStore = create<TextToolState>((set) => ({
     align: 'left',
     tracking: 0,
     leading: 0,
+    baselineShift: 0,
+    horizontalScale: 100,
+    verticalScale: 100,
+    fauxBold: false,
+    fauxItalic: false,
+    allCaps: false,
+    smallCaps: false,
   },
   edit: null,
   selection: null,

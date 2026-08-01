@@ -8,16 +8,22 @@ afterEach(() => {
   clearGoogleFontCatalogCacheForTests()
 })
 
-describe('Google Fonts curated manifests', () => {
-  test('resolves a committed non-Roboto family manifest', async () => {
+describe('Google Fonts family manifests', () => {
+  test('resolves Inter and Montserrat downloadable manifests', async () => {
     globalThis.fetch = async (input) => {
-      expect(String(input)).toBe('/google-fonts/families/montserrat.json')
-      return new Response(await Bun.file('public/google-fonts/families/montserrat.json').text())
+      const url = String(input)
+      expect(url === '/google-fonts/families/montserrat.json' || url === '/google-fonts/families/inter.json').toBe(true)
+      const id = url.includes('inter') ? 'inter' : 'montserrat'
+      return new Response(await Bun.file(`public/google-fonts/families/${id}.json`).text())
     }
 
-    const family = await loadGoogleFontFamily('montserrat')
+    const montserrat = await loadGoogleFontFamily('montserrat')
+    expect(montserrat.family).toBe('Montserrat')
+    expect(montserrat.files[0]?.url).toEndWith('.woff2')
 
-    expect(family.family).toBe('Montserrat')
-    expect(family.files[0]?.url).toEndWith('.woff2')
+    clearGoogleFontCatalogCacheForTests()
+    const inter = await loadGoogleFontFamily('inter')
+    expect(inter.family).toBe('Inter')
+    expect(inter.files[0]?.url).toEndWith('.woff2')
   })
 })

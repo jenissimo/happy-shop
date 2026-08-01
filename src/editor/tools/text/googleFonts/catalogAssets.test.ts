@@ -1,6 +1,13 @@
 import { describe, expect, test } from 'bun:test'
 import { GoogleFontCatalogEntrySchema, GoogleFontIndexEntrySchema } from './catalogTypes'
 
+const CJK_SUBSETS = new Set([
+  'japanese',
+  'korean',
+  'chinese-simplified',
+  'chinese-traditional',
+])
+
 describe('Google Fonts offline metadata catalog', () => {
   test('ships a provenance-backed full catalog with accurate script shards', async () => {
     const index = GoogleFontIndexEntrySchema.array().parse(
@@ -47,11 +54,17 @@ describe('Google Fonts offline metadata catalog', () => {
     expect(assetPaths.filter((path) => /\.(?:otf|ttf|woff2?)$/i.test(path))).toEqual([])
   })
 
-  test('keeps downloadable manifests reviewed and CSS-hotlink free', async () => {
+  test('keeps downloadable manifests license-pinned and CSS-hotlink free', async () => {
     const index = GoogleFontIndexEntrySchema.array().parse(
       JSON.parse(await Bun.file('public/google-fonts/index.json').text()),
     )
     const indexById = new Map(index.map((entry) => [entry.id, entry]))
+    const downloadable = JSON.parse(
+      await Bun.file('public/google-fonts/downloadable.json').text(),
+    ) as string[]
+    expect(downloadable).toContain('inter')
+    expect(downloadable.length).toBeGreaterThan(100)
+
     const glob = new Bun.Glob('families/*.json')
     const manifests = []
     for await (const path of glob.scan({ cwd: 'public/google-fonts' })) {
@@ -60,7 +73,10 @@ describe('Google Fonts offline metadata catalog', () => {
       ))
     }
 
-    expect(manifests).toHaveLength(15)
+    expect(manifests.length).toBe(downloadable.length)
+    expect(new Set(manifests.map((manifest) => manifest.id))).toEqual(new Set(downloadable))
+    expect(manifests.some((manifest) => manifest.id === 'inter')).toBe(true)
+
     for (const manifest of manifests) {
       expect(['OFL-1.1', 'Apache-2.0']).toContain(manifest.license)
       expect(manifest.licenseText.trim()).not.toBe('')
@@ -77,7 +93,15 @@ describe('Google Fonts offline metadata catalog', () => {
         expect(manifest.axes).toEqual([])
         expect(manifest.variableFile).toBeUndefined()
       }
-      expect(indexById.get(manifest.id)?.license).toBe(manifest.license)
+      const indexEntry = indexById.get(manifest.id)
+      expect(indexEntry?.license).toBe(manifest.license)
+      expect(indexEntry?.subsets.some((subset) => CJK_SUBSETS.has(subset))).toBe(false)
+    }
+
+    for (const entry of index) {
+      if (entry.license === 'UFL-1.0' || entry.subsets.some((subset) => CJK_SUBSETS.has(subset))) {
+        expect(downloadable).not.toContain(entry.id)
+      }
     }
   })
 })

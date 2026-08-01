@@ -11,6 +11,13 @@ export type CharacterStylePatch = Partial<
     | 'color'
     | 'underline'
     | 'tracking'
+    | 'baselineShift'
+    | 'horizontalScale'
+    | 'verticalScale'
+    | 'fauxBold'
+    | 'fauxItalic'
+    | 'allCaps'
+    | 'smallCaps'
   >
 >
 
@@ -20,6 +27,10 @@ export function resolveRunUnderline(run: TextRun, layer: TextLayer): boolean {
 
 export function resolveRunTracking(run: TextRun, layer: TextLayer): number {
   return run.tracking ?? layer.tracking
+}
+
+export function resolveRunBaselineShift(run: TextRun, layer: TextLayer): number {
+  return run.baselineShift ?? layer.baselineShift ?? 0
 }
 
 export function defaultTextRun(layer: TextLayer, start = 0, end = layer.content?.length ?? 0): TextRun {
@@ -66,6 +77,7 @@ function sameStyle(a: TextRun, b: TextRun, layer: TextLayer): boolean {
     && a.color === b.color
     && resolveRunUnderline(a, layer) === resolveRunUnderline(b, layer)
     && resolveRunTracking(a, layer) === resolveRunTracking(b, layer)
+    && resolveRunBaselineShift(a, layer) === resolveRunBaselineShift(b, layer)
 }
 
 export function mergeAdjacentRuns(runs: readonly TextRun[], layer: TextLayer): TextRun[] {

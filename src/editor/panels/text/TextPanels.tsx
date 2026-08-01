@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
   TextAlignCenter,
+  TextAlignJustify,
   TextAlignLeft,
   TextAlignRight,
   TextB,
@@ -12,6 +13,7 @@ import { ColorSwatchButton } from '../../../ui/base/ColorPicker'
 import { useEditorSessionStore } from '../../session/EditorSessionStore'
 import {
   applyTextOptionsToSelected,
+  convertTextMode,
   syncTextOptionsFromLayer,
 } from '../../tools/text/textCommands'
 import { GoogleFontAxisEditor } from '../../tools/text/googleFonts/GoogleFontAxisEditor'
@@ -137,9 +139,13 @@ export function CharacterPanel() {
         </label>
         <label className={styles.row}>
           <span>Track</span>
-          <input type="number" min={-50} max={200} value={tracking ?? ''} placeholder="—" onChange={(event) => applyTextOptionsToSelected({ tracking: Math.max(-50, Math.min(200, Number(event.target.value) || 0)) })} />
+          <input type="number" min={-200} max={500} value={tracking ?? ''} placeholder="—" title="Tracking (1/1000 em)" onChange={(event) => applyTextOptionsToSelected({ tracking: Math.max(-200, Math.min(500, Number(event.target.value) || 0)) })} />
         </label>
       </div>
+      <label className={styles.row}>
+        <span>Baseline</span>
+        <input type="number" min={-200} max={200} value={hasRange ? sharedValue(layer.baselineShift ?? 0, selectedRuns.map((run) => run.baselineShift ?? layer.baselineShift ?? 0)) ?? '' : (layer.baselineShift ?? 0)} placeholder="—" title="Baseline shift (px)" onChange={(event) => applyTextOptionsToSelected({ baselineShift: Math.max(-200, Math.min(200, Number(event.target.value) || 0)) })} />
+      </label>
       <div className={styles.controls}>
         <ColorSwatchButton
           className={styles.color}
@@ -182,6 +188,7 @@ export function ParagraphPanel() {
           ['left', TextAlignLeft],
           ['center', TextAlignCenter],
           ['right', TextAlignRight],
+          ['justify', TextAlignJustify],
         ] as const).map(([align, Icon]) => (
           <button key={align} type="button" className={layer.align === align ? styles.active : styles.button} title={`Align ${align}`} onClick={() => applyTextOptionsToSelected({ align: align as TextAlign })}><Icon size={15} /></button>
         ))}
@@ -190,6 +197,16 @@ export function ParagraphPanel() {
         <span>Leading</span>
         <input type="number" min={0} max={400} value={layer.leading} title="0 = Auto" onChange={(event) => applyTextOptionsToSelected({ leading: Math.max(0, Math.min(400, Number(event.target.value) || 0)) })} />
       </label>
+      <div className={styles.controls}>
+        <button
+          type="button"
+          className={styles.button}
+          title={layer.textMode === 'point' ? 'Convert to Paragraph Text' : 'Convert to Point Text'}
+          onClick={() => void convertTextMode(layer.id, layer.textMode === 'point' ? 'box' : 'point')}
+        >
+          {layer.textMode === 'point' ? 'Convert to Box' : 'Convert to Point'}
+        </button>
+      </div>
       <div className={styles.note}>{layer.leading === 0 ? 'Auto leading (120%)' : `${layer.leading}px leading`} · {layer.textMode === 'box' ? 'Box text' : 'Point text'}</div>
     </div>
   )

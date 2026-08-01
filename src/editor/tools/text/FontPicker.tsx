@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject }
 import { PickerSurface } from '../../../ui/base/PickerSurface'
 import { BUNDLED_FONTS } from './fontCatalog'
 import { availableSystemFonts, type SystemFont } from './systemFonts'
-import { loadGoogleFontFamily, loadGoogleFontIndex } from './googleFonts/catalogIndex'
+import { loadDownloadableGoogleFontIds, loadGoogleFontFamily, loadGoogleFontIndex } from './googleFonts/catalogIndex'
 import { commitGoogleFontWithAxes, registerCommittedGoogleFont, uiAxes } from './googleFonts/googleFontDownload'
 import { isNetworkFetchError } from './googleFonts/googleFontConnectivity'
 import { listCachedGoogleFonts } from './googleFonts/fontCache'
@@ -102,6 +102,7 @@ function GoogleFontRow({
   adding,
   offline,
   cached,
+  downloadable,
   onSelect,
 }: {
   font: GoogleFontIndexEntry
@@ -110,6 +111,7 @@ function GoogleFontRow({
   adding: boolean
   offline: boolean
   cached: boolean
+  downloadable: boolean
   onSelect: () => void
 }) {
   const rowRef = useRef<HTMLButtonElement>(null)
@@ -117,7 +119,7 @@ function GoogleFontRow({
   const [previewState, setPreviewState] = useState<'idle' | 'loading' | 'unavailable'>('idle')
 
   useEffect(() => {
-    if (!livePreview || previewFamily) return
+    if (!livePreview || !downloadable || previewFamily) return
     let controller: AbortController | undefined
     let requested = false
     const load = () => {
@@ -156,28 +158,32 @@ function GoogleFontRow({
       observer?.disconnect()
       controller?.abort()
     }
-  }, [font.id, livePreview, previewFamily])
+  }, [font.id, livePreview, downloadable, previewFamily])
 
   const requiresConnection = offline && !cached
+  const disabled = adding || requiresConnection || !downloadable
 
   return (
     <button
       ref={rowRef}
       type="button"
-      className={`${styles.row}${requiresConnection ? ` ${styles.rowMuted}` : ''}`}
+      className={`${styles.row}${requiresConnection || !downloadable ? ` ${styles.rowMuted}` : ''}`}
       onClick={onSelect}
-      disabled={adding || requiresConnection}
-      aria-disabled={requiresConnection || undefined}
+      disabled={disabled}
+      aria-disabled={disabled || undefined}
     >
       <span className={styles.name}>{font.family}</span>
       <span className={styles.category}>{font.category} · {font.license}</span>
       <span className={styles.preview} style={previewFamily ? { fontFamily: `"${previewFamily}"` } : undefined}>
         {sample}
       </span>
-      {requiresConnection ? (
+      {!downloadable ? (
+        <span className={styles.previewStatus}>Browse only</span>
+      ) : null}
+      {downloadable && requiresConnection ? (
         <span className={styles.previewStatus}>Requires connection</span>
       ) : null}
-      {livePreview && !previewFamily && !requiresConnection && (
+      {downloadable && livePreview && !previewFamily && !requiresConnection && (
         <span className={styles.previewStatus}>
           {previewState === 'loading' ? 'Loading preview…' : previewState === 'unavailable' ? 'Preview unavailable' : 'Live preview'}
         </span>
@@ -193,6 +199,7 @@ export function FontPicker({ open, anchorRef, value, documentScripts = [], onCha
   const [recents, setRecents] = useState<string[]>([])
   const [googleMode, setGoogleMode] = useState<GoogleFontsMode>(readGoogleFontsModePref)
   const [googleIndex, setGoogleIndex] = useState<GoogleFontIndexEntry[]>([])
+  const [downloadableIds, setDownloadableIds] = useState<ReadonlySet<string>>(() => new Set())
   const [googleError, setGoogleError] = useState('')
   const [googleLoading, setGoogleLoading] = useState(false)
   const [googleTab, setGoogleTab] = useState(false)
@@ -219,8 +226,12 @@ export function FontPicker({ open, anchorRef, value, documentScripts = [], onCha
     setGoogleError('')
     setGoogleNetworkError(false)
     setGoogleIndex([])
-    void loadGoogleFontIndex()
-      .then(setGoogleIndex)
+    setDownloadableIds(new Set())
+    void Promise.all([loadGoogleFontIndex(), loadDownloadableGoogleFontIds()])
+      .then(([index, downloadable]) => {
+        setGoogleIndex(index)
+        setDownloadableIds(downloadable)
+      })
       .catch((error: unknown) => {
         setGoogleError(error instanceof Error ? error.message : 'Could not load catalog')
         if (isNetworkFetchError(error)) setGoogleNetworkError(true)
@@ -293,6 +304,10 @@ export function FontPicker({ open, anchorRef, value, documentScripts = [], onCha
     onClose()
   }
   const prepareGoogleFont = async (indexEntry: GoogleFontIndexEntry) => {
+    if (!downloadableIds.has(indexEntry.id)) {
+      setGoogleError(`"${indexEntry.family}" is browse-only (not available for download yet).`)
+      return
+    }
     setAdding(indexEntry.id)
     setGoogleError('')
     try {
@@ -402,6 +417,7 @@ export function FontPicker({ open, anchorRef, value, documentScripts = [], onCha
                   adding={adding !== null}
                   offline={googleOffline}
                   cached={cachedCatalogIds.has(font.id)}
+                  downloadable={downloadableIds.has(font.id)}
                   onSelect={() => void prepareGoogleFont(font)}
                 />
               ))}
