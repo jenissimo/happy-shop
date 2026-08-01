@@ -4,13 +4,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 30px;
+  width: 34px;
   flex-shrink: 0;
   padding: 0.2rem 0.15rem;
   background: var(--he-panel-raised);
+  background-image: var(--he-surface-sheen);
   border-right: 1px solid var(--he-chrome-line);
-  backdrop-filter: var(--he-backdrop);
   -webkit-backdrop-filter: var(--he-backdrop);
+  backdrop-filter: var(--he-backdrop);
   /* The previous overflow-x:hidden clipped every right-opening flyout. */
   overflow: visible;
   z-index: 10;
@@ -34,7 +35,7 @@
 }
 
 .stripDouble {
-  width: 54px;
+  width: 66px;
   padding-inline: 0.1rem;
 }
 
@@ -101,6 +102,14 @@
   z-index: 2;
 }
 
+.disclosure:hover,
+.disclosure:focus-visible {
+  color: var(--he-text-bright);
+  background: var(--he-hover);
+  outline: 1px solid var(--he-focus);
+  outline-offset: 1px;
+}
+
 .flyout {
   position: absolute;
   left: calc(100% + 1px);
@@ -110,10 +119,11 @@
   flex-direction: column;
   padding: 2px;
   background: var(--he-panel-raised);
+  background-image: var(--he-surface-sheen);
   border: 1px solid var(--he-panel-border);
   box-shadow: var(--he-shadow-md);
-  backdrop-filter: var(--he-backdrop);
   -webkit-backdrop-filter: var(--he-backdrop);
+  backdrop-filter: var(--he-backdrop);
 }
 
 .flyout button {
@@ -141,20 +151,24 @@
   width: 32px;
 }
 
-/* ~24px hit target; override IconButton default 26px without using .large (32px). */
+/* 30px target keeps the compact desktop strip keyboard/pointer friendly. */
 .tool {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
   border-radius: 3px;
 }
 
 .tool[aria-pressed='true'] {
-  background: var(--he-accent-muted);
-  color: var(--he-accent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--he-accent) 55%, transparent);
+  background: var(--he-select);
+  color: var(--he-on-select);
+  box-shadow: inset 3px 0 0 var(--he-accent), inset 0 0 0 1px color-mix(in srgb, var(--he-accent) 65%, transparent);
 }
 
 .tool[aria-pressed='true']:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--he-accent) 38%, transparent);
-  color: var(--he-accent);
+  background: var(--he-select);
+  color: var(--he-on-select);
 }
+
+.tool:hover:not(:disabled) { background: var(--he-hover); }
+
+.tool:focus-visible { outline: 1px solid var(--he-focus); outline-offset: 1px; }

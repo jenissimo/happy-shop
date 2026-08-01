@@ -1,8 +1,8 @@
 import type { ToolsStripLayout } from '../../ui/features/settings/prefs'
 
 /** Discrete CSS widths for the docked tools strip (matches ToolsStrip.module.css). */
-export const TOOLS_STRIP_SINGLE_WIDTH = 30
-export const TOOLS_STRIP_DOUBLE_WIDTH = 54
+export const TOOLS_STRIP_SINGLE_WIDTH = 34
+export const TOOLS_STRIP_DOUBLE_WIDTH = 66
 
 /** Midpoint between single and double — drag past this snaps to the other column count. */
 export const TOOLS_STRIP_SNAP_THRESHOLD =

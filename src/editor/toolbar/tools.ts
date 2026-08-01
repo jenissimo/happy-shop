@@ -37,6 +37,7 @@ import {
   Sparkle,
   Spiral,
   Stamp,
+  Checkerboard,
   Sun,
   TextT,
   WaveSine,
@@ -222,7 +223,7 @@ export const TOOLS: readonly ToolDef[] = [
     letter: 'S',
     title: 'Pattern Stamp Tool',
     commandId: 'tool.patternStamp',
-    icon: Stamp,
+    icon: Checkerboard,
     group: 'stamp',
   },
   {

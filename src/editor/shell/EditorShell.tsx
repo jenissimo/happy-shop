@@ -193,6 +193,9 @@ const MAX_CUSTOM_WORKSPACES = 8
 type SavedWorkspace = { name: string; layout: unknown }
 
 function readSavedWorkspaces(preferences: Record<string, unknown> | undefined): SavedWorkspace[] {
+  // Layout v12 is a deliberate clean break. Do not surface stale named
+  // workspaces for a frame before the refreshed Essentials layout is saved.
+  if (readDockLayoutVersion(preferences) !== DOCK_LAYOUT_VERSION) return []
   const value = preferences?.[CUSTOM_WORKSPACES_KEY]
   if (!Array.isArray(value)) return []
   const names = new Set<string>()
@@ -218,7 +221,9 @@ export function EditorShell() {
   const lastRasterEpoch = useRef(rasterEpoch)
   const wroteRecoveryThisSession = useRef(false)
   const layoutIdRef = useRef<WorkspaceLayoutId>(
-    readWorkspaceLayoutId(editor.workspace?.preferences),
+    shouldApplyDefaultLayout(editor.workspace?.layout, editor.workspace?.preferences)
+      ? 'essentials'
+      : readWorkspaceLayoutId(editor.workspace?.preferences),
   )
   const [activeWorkspaceCommandId, setActiveWorkspaceCommandId] = useState<string>(
     () => workspaceCommandIdForPreset(layoutIdRef.current),
@@ -278,7 +283,9 @@ export function EditorShell() {
       apiRef.current = event.api
       const layout = editor.workspace?.layout
       const prefs = editor.workspace?.preferences
-      layoutIdRef.current = readWorkspaceLayoutId(prefs)
+      layoutIdRef.current = shouldApplyDefaultLayout(layout, prefs)
+        ? 'essentials'
+        : readWorkspaceLayoutId(prefs)
       try {
         if (shouldApplyDefaultLayout(layout, prefs)) {
           applyLayoutAndPersist(event.api, layoutIdRef.current)
@@ -677,17 +684,10 @@ export function EditorShell() {
     return <div className="boot-screen">Loading project…</div>
   }
 
-  const statusParts = [
-    sessionDocument.name,
-    sessionDirty ? '●' : '○',
-    editor.status,
-  ]
-
   return (
     <div className={styles.shell}>
       <TitleBar
         title="Happy Shop"
-        status={statusParts.join(' · ')}
         commands={editor.commands}
         trailing={
           <WorkspaceLayoutDropdown

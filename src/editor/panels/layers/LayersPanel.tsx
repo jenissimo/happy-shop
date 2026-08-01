@@ -41,6 +41,10 @@ function layerSwatchColor(layer: LayersPanelLayer): string {
   return `hsl(${hue}, 45%, 45%)`
 }
 
+function blendModeLabel(mode: BlendMode): string {
+  return mode.replace(/(^|[-_])(\w)/g, (_match, _prefix, letter: string) => letter.toUpperCase())
+}
+
 function visibleRows(
   layers: LayersPanelLayer[],
   collapsed: ReadonlySet<string>,
@@ -99,6 +103,7 @@ export function LayersPanel({
   const [expandedFx, setExpandedFx] = useState<Set<string>>(() => new Set())
   const dragIdRef = useRef<string | null>(null)
   const dragFxRef = useRef<{ layerId: string; effectId: string } | null>(null)
+  const rowRefs = useRef(new Map<string, HTMLDivElement>())
 
   const rows = useMemo(() => visibleRows(layers, collapsed), [layers, collapsed])
 
@@ -261,7 +266,7 @@ export function LayersPanel({
         >
           {BLEND_MODES.map((mode) => (
             <option key={mode} value={mode}>
-              {mode}
+              {blendModeLabel(mode)}
             </option>
           ))}
         </select>
@@ -364,6 +369,8 @@ export function LayersPanel({
 
       <div
         className={styles.list}
+        role="listbox"
+        aria-label="Layers"
         onContextMenu={(e) => {
           e.preventDefault()
           setMenu({ kind: 'empty', x: e.clientX, y: e.clientY })
@@ -379,18 +386,44 @@ export function LayersPanel({
           return (
             <div key={layer.id}>
               <div
+                ref={(node) => {
+                  if (node) rowRefs.current.set(layer.id, node)
+                  else rowRefs.current.delete(layer.id)
+                }}
                 className={`${styles.row}${selected ? ` ${styles.selected}` : ''}${
                   dragOverIndex === index ? ` ${styles.dragOver}` : ''
                 }${
                   layer.clipping ? ` ${styles.clipping}` : ''
                 }`}
                 style={{ paddingLeft: `${0.35 + layer.depth * 0.85}rem` }}
+                role="option"
+                aria-selected={selected}
+                aria-label={`${layer.name}${layer.visible ? '' : ', hidden'}${layer.locked ? ', locked' : ''}`}
+                tabIndex={selected ? 0 : -1}
                 draggable
                 onDragStart={(e) => onDragStart(e, layer.id)}
                 onDragOver={(e) => onDragOver(e, index)}
                 onDrop={(e) => onDrop(e, index)}
                 onDragEnd={onDragEnd}
                 onClick={(e) => selectLayer(layer.id, e.shiftKey || e.metaKey || e.ctrlKey)}
+                onKeyDown={(e) => {
+                  if (e.target !== e.currentTarget) return
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    selectLayer(layer.id, e.shiftKey)
+                    return
+                  }
+                  if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return
+                  e.preventDefault()
+                  const nextIndex = Math.max(
+                    0,
+                    Math.min(rows.length - 1, index + (e.key === 'ArrowUp' ? -1 : 1)),
+                  )
+                  const next = rows[nextIndex]
+                  if (!next) return
+                  selectLayer(next.id, e.shiftKey)
+                  rowRefs.current.get(next.id)?.focus()
+                }}
                 onDoubleClick={() => {
                   if (hasTextLayerBadge(layer)) beginTextEditSession(layer.id as LayerId)
                   else beginRename(layer)
@@ -424,6 +457,7 @@ export function LayersPanel({
                   type="button"
                   className={styles.iconToggle}
                   title={layer.visible ? 'Hide layer' : 'Show layer'}
+                  aria-label={layer.visible ? 'Hide layer' : 'Show layer'}
                   onClick={(e) => {
                     e.stopPropagation()
                     toggleVisibility(layer.id)
@@ -435,6 +469,7 @@ export function LayersPanel({
                   type="button"
                   className={styles.iconToggle}
                   title={layer.locked ? 'Unlock layer' : 'Lock layer'}
+                  aria-label={layer.locked ? 'Unlock layer' : 'Lock layer'}
                   onClick={(e) => {
                     e.stopPropagation()
                     toggleLocked(layer.id)

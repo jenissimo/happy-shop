@@ -19,24 +19,24 @@ describe('shouldApplyDefaultLayout', () => {
     expect(shouldApplyDefaultLayout(undefined, undefined)).toBe(true)
   })
 
-  test('migrates compatible old layouts in place', () => {
-    expect(shouldApplyDefaultLayout({ grid: {} }, {})).toBe(false)
+  test('replaces layouts from older desktop UX versions', () => {
+    expect(shouldApplyDefaultLayout({ grid: {} }, {})).toBe(true)
     expect(
       shouldApplyDefaultLayout({ grid: {} }, { dockLayoutVersion: 1 }),
-    ).toBe(false)
+    ).toBe(true)
     expect(
       shouldApplyDefaultLayout({ grid: {} }, { dockLayoutVersion: 2 }),
-    ).toBe(false)
+    ).toBe(true)
     expect(
       shouldApplyDefaultLayout({ grid: {} }, { dockLayoutVersion: 3 }),
-    ).toBe(false)
+    ).toBe(true)
     expect(
       shouldApplyDefaultLayout({ grid: {} }, { dockLayoutVersion: 4 }),
-    ).toBe(false)
+    ).toBe(true)
   })
 
   test('keeps layout when version matches current default', () => {
-    expect(DOCK_LAYOUT_VERSION).toBe(11)
+    expect(DOCK_LAYOUT_VERSION).toBe(12)
     expect(
       shouldApplyDefaultLayout(
         { grid: {} },
@@ -132,8 +132,8 @@ describe('shouldApplyDefaultLayout', () => {
           'brushes',
         ],
         'inspector',
-        { direction: 'right', initialWidth: 280 },
-        { direction: 'below', initialHeight: 420 },
+        { direction: 'right', initialWidth: 300 },
+        { direction: 'below', initialHeight: 440 },
       ],
       [
         'painting',
@@ -153,8 +153,8 @@ describe('shouldApplyDefaultLayout', () => {
           'inspector',
         ],
         'swatches',
-        { direction: 'right', initialWidth: 260 },
-        { direction: 'below', initialHeight: 400 },
+        { direction: 'right', initialWidth: 280 },
+        { direction: 'below', initialHeight: 420 },
       ],
       [
         'typography',
@@ -174,8 +174,8 @@ describe('shouldApplyDefaultLayout', () => {
           'brushes',
         ],
         'inspector',
-        { direction: 'right', initialWidth: 300 },
-        { direction: 'below', initialHeight: 380 },
+        { direction: 'right', initialWidth: 320 },
+        { direction: 'below', initialHeight: 410 },
       ],
       [
         'pixelArt',
@@ -195,8 +195,8 @@ describe('shouldApplyDefaultLayout', () => {
           'inspector',
         ],
         'hierarchy',
-        { direction: 'right', initialWidth: 260 },
-        { direction: 'below', initialHeight: 400 },
+        { direction: 'right', initialWidth: 280 },
+        { direction: 'below', initialHeight: 420 },
       ],
     ] as const) {
       const panels: string[] = []

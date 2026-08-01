@@ -1,7 +1,8 @@
 import type { DockviewApi, IDockviewPanel } from 'dockview-react'
 
 /** Bumped when the serialized dock layout contract changes. */
-export const DOCK_LAYOUT_VERSION = 11
+/** Version 12 deliberately replaces legacy saved layouts with refreshed Essentials. */
+export const DOCK_LAYOUT_VERSION = 12
 
 export const DOCK_LAYOUT_VERSION_KEY = 'dockLayoutVersion'
 export const WORKSPACE_LAYOUT_ID_KEY = 'workspaceLayoutId'
@@ -57,8 +58,8 @@ export const WORKSPACE_LAYOUTS = {
     /** Tab order within each stack; Properties-first in the lower well. */
     topStack: ['navigator', 'info', 'paths', 'effects', 'character', 'paragraph'] satisfies readonly RightDockPanelId[],
     bottomStack: ['inspector', 'hierarchy', 'history', 'swatches', 'brushes'] satisfies readonly RightDockPanelId[],
-    rightDockWidth: 280,
-    bottomStackHeight: 420,
+    rightDockWidth: 300,
+    bottomStackHeight: 440,
   },
   painting: {
     id: 'painting',
@@ -67,8 +68,8 @@ export const WORKSPACE_LAYOUTS = {
     /** Navigator-first in the upper well (classic painting stack). */
     topStack: ['navigator', 'info', 'paths', 'effects', 'character', 'paragraph'] satisfies readonly RightDockPanelId[],
     bottomStack: ['swatches', 'brushes', 'hierarchy', 'history', 'inspector'] satisfies readonly RightDockPanelId[],
-    rightDockWidth: 260,
-    bottomStackHeight: 400,
+    rightDockWidth: 280,
+    bottomStackHeight: 420,
   },
   typography: {
     id: 'typography',
@@ -76,8 +77,8 @@ export const WORKSPACE_LAYOUTS = {
     activePanel: 'character',
     topStack: ['character', 'paragraph', 'paths', 'navigator', 'info', 'effects'] satisfies readonly RightDockPanelId[],
     bottomStack: ['inspector', 'hierarchy', 'history', 'swatches', 'brushes'] satisfies readonly RightDockPanelId[],
-    rightDockWidth: 300,
-    bottomStackHeight: 380,
+    rightDockWidth: 320,
+    bottomStackHeight: 410,
   },
   pixelArt: {
     id: 'pixelArt',
@@ -87,8 +88,8 @@ export const WORKSPACE_LAYOUTS = {
     topStack: ['navigator', 'info', 'paths', 'effects', 'paragraph', 'character'] satisfies readonly RightDockPanelId[],
     /** Layers + color/tool wells first (classic pixel stack). */
     bottomStack: ['hierarchy', 'swatches', 'brushes', 'history', 'inspector'] satisfies readonly RightDockPanelId[],
-    rightDockWidth: 260,
-    bottomStackHeight: 400,
+    rightDockWidth: 280,
+    bottomStackHeight: 420,
   },
 } as const
 
@@ -263,13 +264,13 @@ export function readDockLayoutVersion(
 }
 
 /**
- * Old versions are migrated in place: Dockview JSON is still valid and may
- * contain a user's arrangement, so only an absent layout needs rebuilding.
- * `fromJSON` remains guarded by the caller for malformed data.
+ * This visual refresh intentionally replaces previous user layouts. The
+ * Dockview tree and custom preset catalogue were built around the old chrome,
+ * so retaining either would make the new first-run desktop UX inconsistent.
  */
 export function shouldApplyDefaultLayout(
   layout: unknown,
-  _preferences: Record<string, unknown> | undefined | null,
+  preferences: Record<string, unknown> | undefined | null,
 ): boolean {
-  return layout == null
+  return layout == null || readDockLayoutVersion(preferences) !== DOCK_LAYOUT_VERSION
 }

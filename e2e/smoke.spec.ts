@@ -9,7 +9,8 @@ test.describe('Happy Shop smoke', () => {
     await page.goto('/')
 
     await expect(page.getByText('Happy Shop').first()).toBeVisible({ timeout: 30_000 })
-    await expect(page.getByRole('toolbar', { name: 'Tools' }).or(page.getByLabel('Tools'))).toBeVisible()
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'graphite')
+    await expect(page.getByRole('complementary', { name: 'Tools' })).toBeVisible()
 
     // Demo / session document should expose a layers panel.
     await expect(page.getByText('Layers').first()).toBeVisible({ timeout: 15_000 })
@@ -21,20 +22,20 @@ test.describe('Happy Shop smoke', () => {
       const styleWin = page.getByRole('dialog', { name: /Layer Style/i })
       await expect(styleWin).toBeVisible()
       // Non-modal: no full-viewport scrim — tools strip still visible/interactable.
-      await expect(page.getByLabel('Tools')).toBeVisible()
+      await expect(page.getByRole('complementary', { name: 'Tools' })).toBeVisible()
       await page.keyboard.press('Escape')
       await expect(styleWin).toHaveCount(0)
     }
 
     // File → New opens floating New Document (non-modal).
-    await page.keyboard.press('Control+n')
+    await page.keyboard.press('Meta+n')
     const newDoc = page.getByRole('dialog', { name: 'New Document' })
     await expect(newDoc).toBeVisible({ timeout: 10_000 })
-    await expect(page.getByLabel('Tools')).toBeVisible()
+    await expect(page.getByRole('complementary', { name: 'Tools' })).toBeVisible()
     await page.keyboard.press('Escape')
 
     // Save command should be invokable (bridge may no-op or succeed).
-    await page.keyboard.press('Control+s')
+    await page.keyboard.press('Meta+s')
     await expect(page.getByText('Happy Shop').first()).toBeVisible()
   })
 })
