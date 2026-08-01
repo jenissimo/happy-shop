@@ -1,7 +1,7 @@
 import {
   collectSaveAssets,
   clearRasterRecoveryAfterSave,
-  getBridgeProjectStore,
+  getProjectStore,
   ProjectConflictError,
 } from '../../persistence'
 import { useEditorSessionStore } from './EditorSessionStore'
@@ -17,11 +17,12 @@ export type SaveProjectResult =
   | { ok: false; error: string }
 
 /**
- * Persist the active HappyDocument + raster layer PNGs via BridgeProjectStore.
- * Opens a default Untitled.happyshop project when none is bound yet.
+ * Persist the active HappyDocument + raster layer PNGs via the active
+ * ProjectStore (Vite bridge in DEV, IndexedDB on static hosts).
+ * Opens a default Untitled project when none is bound yet.
  */
 export async function saveActiveProject(): Promise<SaveProjectResult> {
-  const store = getBridgeProjectStore()
+  const store = getProjectStore()
   const session = useEditorSessionStore.getState()
   const document = session.document
 
@@ -29,10 +30,12 @@ export async function saveActiveProject(): Promise<SaveProjectResult> {
     let path = session.project.projectPath
     let expectedRevision = session.project.revision
 
-    if (!path || !store.openLocator) {
+    // ProjectStore is process-wide in the browser.  Re-open when switching
+    // tabs/projects so a save cannot use the locator left by another tab.
+    if (!path || store.openLocator?.path !== path) {
       const opened = await store.open({
         kind: 'directory',
-        path: path ?? '', // bridge defaults to projects/Untitled.happyshop
+        path: path ?? '', // bridge → Untitled.happyshop; browser → browser:Untitled
       })
       path = opened.locator.path
       // First bind: if we created a fresh project, allow overwrite of empty doc.

@@ -1,5 +1,5 @@
 import type { LayerId } from '../../core/document'
-import { getBridgeProjectStore } from '../../persistence'
+import { getProjectStore } from '../../persistence'
 import { readRecoveryJournal } from '../../persistence/recoveryJournal'
 import { registerRasterSurface } from '../../imaging/RasterSurfaceStore'
 import { useColorStore } from '../color/colorStore'
@@ -249,7 +249,7 @@ function applyUiSnapshot(snapshot: EditorSessionSnapshot): void {
 async function hydrateProjectAssets(
   assets: Record<string, { width?: number; height?: number }>,
 ): Promise<void> {
-  const store = getBridgeProjectStore()
+  const store = getProjectStore()
   await Promise.all(Object.entries(assets).map(async ([assetId, descriptor]) => {
     const blob = await store.readAsset(assetId)
     const bitmap = await createImageBitmap(blob)
@@ -276,7 +276,7 @@ export async function restoreSessionSnapshot(
   for (const [snapshotIndex, tab] of snapshot.tabs.entries()) {
     if (!tab.projectPath) continue
     try {
-      const project = await getBridgeProjectStore().open({
+      const project = await getProjectStore().open({
         kind: 'directory',
         path: tab.projectPath,
       })

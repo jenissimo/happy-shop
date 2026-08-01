@@ -10,15 +10,16 @@ import {
 } from '../../../editor/session/DocumentTabManager'
 import { requestCloseTab } from '../../../editor/session/tabClose'
 import { registerRasterSurface } from '../../../imaging'
-import { getBridgeProjectStore } from '../../../persistence'
+import { getProjectStore } from '../../../persistence'
 import { emitDocumentCreated, openNewDocumentDialog } from './controller'
 import { createDocumentFromClipboard, openImageFile, type NewDocumentResult } from './fileOpen'
 import { addRecentProject } from './recentProjects'
 
 export async function openProjectPath(path: string): Promise<void> {
-  const project = await getBridgeProjectStore().open({ kind: 'directory', path })
+  const store = getProjectStore()
+  const project = await store.open({ kind: 'directory', path })
   await Promise.all(Object.entries(project.assets).map(async ([assetId, descriptor]) => {
-    const blob = await getBridgeProjectStore().readAsset(assetId)
+    const blob = await store.readAsset(assetId)
     const bitmap = await createImageBitmap(blob)
     registerRasterSurface({
       assetId,

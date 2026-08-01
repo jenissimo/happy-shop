@@ -11,6 +11,15 @@ import { parseManifest } from './manifest'
 
 const API = '/__happyshop/api'
 
+/** Vite `configureServer` bridge — only present under `bun run dev`. */
+function assertBridgeEnabled(): void {
+  if (import.meta.env.DEV !== true) {
+    throw new Error(
+      'Project bridge is only available in local dev (`bun run dev`)',
+    )
+  }
+}
+
 export class ProjectConflictError extends Error {
   readonly currentRevision: ProjectRevision
   readonly document: ProjectSnapshot['document']
@@ -40,6 +49,12 @@ async function requestJson<T>(
       ...init?.headers,
     },
   })
+  const contentType = res.headers.get('content-type') ?? ''
+  if (!contentType.includes('application/json')) {
+    throw new Error(
+      `Project bridge unavailable (HTTP ${res.status}, expected JSON)`,
+    )
+  }
   const body = (await res.json()) as T
   return { status: res.status, body }
 }
@@ -56,6 +71,7 @@ export class BridgeProjectStore implements ProjectStore {
   }
 
   async open(locator: ProjectLocator): Promise<ProjectSnapshot> {
+    assertBridgeEnabled()
     const { status, body } = await requestJson<{
       error?: string
       locator?: ProjectLocator
@@ -80,6 +96,7 @@ export class BridgeProjectStore implements ProjectStore {
   }
 
   async readAsset(id: AssetId, signal?: AbortSignal): Promise<Blob> {
+    assertBridgeEnabled()
     const res = await fetch(`${API}/assets/${encodeURIComponent(id)}`, {
       signal,
       headers: { Accept: '*/*' },
@@ -95,6 +112,7 @@ export class BridgeProjectStore implements ProjectStore {
     transaction: ProjectSaveTransaction,
     signal?: AbortSignal,
   ): Promise<ProjectRevision> {
+    assertBridgeEnabled()
     // Stage binaries first, then commit the manifest transaction atomically.
     for (const asset of transaction.assets) {
       const buf = await asset.blob.arrayBuffer()
@@ -148,6 +166,7 @@ export class BridgeProjectStore implements ProjectStore {
   }
 
   async exportFile(request: ExportRequest, signal?: AbortSignal): Promise<void> {
+    assertBridgeEnabled()
     const buf = await request.blob.arrayBuffer()
     const res = await fetch(`${API}/export`, {
       method: 'POST',
@@ -167,6 +186,7 @@ export class BridgeProjectStore implements ProjectStore {
 
   /** Convenience: fetch the currently open project's snapshot. */
   async fetchActive(): Promise<ProjectSnapshot | null> {
+    if (import.meta.env.DEV !== true) return null
     const { status, body } = await requestJson<{
       open?: boolean
       locator?: ProjectLocator

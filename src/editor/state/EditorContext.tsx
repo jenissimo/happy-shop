@@ -23,6 +23,7 @@ import {
   projectClient,
   type DocumentListItem,
   type WorkspaceFile,
+  ProjectBridgeUnavailableError,
 } from '../project/ProjectClient'
 import { DEFAULT_SNAP, type SnapSettings } from '../geometry'
 import { useEditorSessionStore } from '../session/EditorSessionStore'
@@ -437,8 +438,23 @@ export function EditorProvider({ children }: { children: ReactNode }) {
         setReady(true)
       } catch (e) {
         if (cancelled) return
+        // Production / GitHub Pages has no Vite project bridge; boot in-memory.
+        setWorkspace({
+          version: 1,
+          layout: null,
+          preferences: {},
+          activeDocument: 'demo',
+        })
+        setDocuments([])
         setDocument(createEmptyDocument('demo'))
-        setStatus(e instanceof Error ? e.message : 'Failed to load project')
+        setRevision(null)
+        setStatus(
+          e instanceof ProjectBridgeUnavailableError
+            ? 'Ready'
+            : e instanceof Error
+              ? e.message
+              : 'Failed to load project',
+        )
         setReady(true)
       }
     })()

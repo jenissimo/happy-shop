@@ -69,6 +69,8 @@ export type ProjectConflictPayload = {
 }
 
 export interface ProjectStore {
+  /** Locator of the project opened in this store instance, if any. */
+  readonly openLocator: ProjectLocator | null
   open(locator: ProjectLocator): Promise<ProjectSnapshot>
   readAsset(id: AssetId, signal?: AbortSignal): Promise<Blob>
   save(

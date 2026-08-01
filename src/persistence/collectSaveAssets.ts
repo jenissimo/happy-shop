@@ -5,7 +5,7 @@ import type { StagedAssetWrite } from './types'
 
 /**
  * Walk the document for raster asset refs and encode dirty/present surfaces
- * into staged PNG writes for BridgeProjectStore.save.
+ * into staged PNG writes for ProjectStore.save.
  */
 export async function collectSaveAssets(
   document: HappyDocument,

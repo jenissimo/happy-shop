@@ -38,3 +38,9 @@ export {
   ProjectConflictError,
   getBridgeProjectStore,
 } from './BridgeProjectStore'
+export {
+  BrowserProjectStore,
+  getBrowserProjectStore,
+  resetBrowserProjectStoreForTests,
+} from './BrowserProjectStore'
+export { getProjectStore } from './projectStore'
