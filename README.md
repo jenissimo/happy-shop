@@ -46,20 +46,29 @@ E2E requires Chromium: `bunx playwright install chromium`.
 
 ## GitHub Pages
 
-The site deploys automatically from the `master` branch via [GitHub Actions](.github/workflows/deploy-pages.yml).
-
-1. In the repo on GitHub, open **Settings → Pages**.
-2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-3. Push to `master` (or run the **Deploy GitHub Pages** workflow manually).
-
 Live URL: **https://jenissimo.github.io/happy-shop/**
 
-Production builds set `GITHUB_PAGES=true`, which configures Vite `base` to `/happy-shop/` (derived from `package.json` `name`). Local `bun run dev` keeps `base: '/'`.
+GitHub Pages is published from the **`gh-pages` branch** (site root). Redeploy locally:
+
+```bash
+bun run deploy:pages
+```
+
+That runs `build:pages` (`GITHUB_PAGES=true`) and pushes `dist/` with [gh-pages](https://github.com/tschaub/gh-pages). On GitHub, **Settings → Pages → Build and deployment** should use **Deploy from a branch**, branch **`gh-pages`**, folder **`/` (root)**.
+
+Production builds set `GITHUB_PAGES=true`, which configures Vite `base` to `/happy-shop/` (derived from `package.json` `name`). Local `bun run dev` keeps `base: '/'.`
 
 Preview a Pages-style build locally:
 
+```powershell
+# Windows PowerShell
+$env:GITHUB_PAGES='true'; bun run build
+bun run preview -- --base /happy-shop/
+```
+
 ```bash
-GITHUB_PAGES=true bun run build
+# macOS / Linux
+bun run build:pages
 bun run preview -- --base /happy-shop/
 ```
 

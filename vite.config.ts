@@ -1,4 +1,4 @@
-import { copyFileSync, existsSync } from 'node:fs'
+import { copyFileSync, existsSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig, type Plugin } from 'vite'
@@ -31,6 +31,7 @@ function githubPagesSpaFallback(): Plugin {
       if (existsSync(indexPath)) {
         copyFileSync(indexPath, fallbackPath)
       }
+      writeFileSync(resolve(rootDir, 'dist/.nojekyll'), '')
     },
   }
 }
