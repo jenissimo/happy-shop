@@ -83,6 +83,7 @@ const SECTIONS: ShortcutSection[] = [
       { keys: 'Mod+1', action: 'Actual Pixels' },
       { keys: 'Trackpad scroll', action: 'Pan canvas' },
       { keys: 'Pinch / Mod+scroll', action: 'Zoom toward cursor' },
+      { keys: 'Two-finger touch', action: 'Pan + pinch-zoom' },
       { keys: "Mod+'", action: 'Toggle Grid' },
       { keys: 'Mod+R', action: 'Toggle Rulers' },
       { keys: 'Mod+K', action: 'Command Palette' },

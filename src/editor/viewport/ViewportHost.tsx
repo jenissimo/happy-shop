@@ -54,6 +54,11 @@ import { useCursorStatusStore } from './cursorStatusStore'
 import { ViewportCamera } from './ViewportCamera'
 import { createDemoDocumentView } from './demoDocument'
 import { useGuidesStore } from './guides'
+import {
+  pickTouchPair,
+  resolveTouchNavigation,
+  type TouchNavPoint,
+} from './touchNavigation'
 import { resolveWheelNavigation } from './wheelNavigation'
 import styles from './ViewportHost.module.css'
 
@@ -77,11 +82,9 @@ function isEditableTarget(target: EventTarget | null): boolean {
 }
 
 /**
- * Mounts the Pixi canvas, drives the camera from wheel/pointer input
- * (scroll = pan, pinch/Mod+scroll = zoom), and keeps the backend in sync with
- * `documentView`. Deliberately not wired into `EditorShell`/dockview yet — see
- * the module-level notes in `src/editor/viewport/README.md` for how a future
- * agent should mount this as the real "viewport" dockview component.
+ * Mounts the Pixi canvas, drives the camera from wheel/pointer/touch input
+ * (scroll = pan, pinch/Mod+scroll = zoom, two-finger touch = pan+pinch), and
+ * keeps the backend in sync with `documentView`.
  */
 export function ViewportHost({ documentView }: ViewportHostProps) {
   const { theme } = useTheme()
@@ -95,6 +98,15 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
   const hasFittedRef = useRef(false)
   const viewSizeRef = useRef({ width: 1, height: 1 })
   const panRef = useRef<PanState>(null)
+  /** Active touch contacts in viewport screen CSS px (for two-finger nav). */
+  const touchPointersRef = useRef(new Map<number, TouchNavPoint>())
+  /** True while two or more touches are driving pan/pinch. */
+  const touchNavActiveRef = useRef(false)
+  /**
+   * After a multi-touch gesture, ignore leftover single-touch until all
+   * fingers lift — avoids accidental tool strokes on pinch end.
+   */
+  const touchNavSuppressToolsRef = useRef(false)
   const guideDragRef = useRef<GuideDragState>(null)
   const tipRingRef = useRef<HTMLDivElement>(null)
   const guideRef = useRef<SVGSVGElement>(null)
@@ -115,6 +127,7 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
   const [altHeld, setAltHeld] = useState(false)
   const [precisionHeld, setPrecisionHeld] = useState(false)
   const [isPanning, setIsPanning] = useState(false)
+  const [isTouchNavigating, setIsTouchNavigating] = useState(false)
   const [pixelatedPreview, setPixelatedPreview] = useState(
     readPixelatedPreviewPref,
   )
@@ -173,7 +186,7 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
     activeToolId,
     overCanvas: true,
     spaceHeld,
-    isPanning,
+    isPanning: isPanning || isTouchNavigating,
     altHeld,
     precisionHeld,
     brushCursorPreference,
@@ -199,7 +212,7 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
       const dark = guideDarkRef.current
       const brushLike = activeToolId === 'brush' || activeToolId === 'eraser'
       const anchor =
-        shiftHeld && brushLike && !isPanning && !altHeld
+        shiftHeld && brushLike && !isPanning && !isTouchNavigating && !altHeld
           ? toolRouterRef.current.brushAnchor
           : null
       if (!guide || !light || !dark || !anchor) {
@@ -216,7 +229,7 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
       }
       guide.style.visibility = 'visible'
     },
-    [activeToolId, altHeld, cursor.tipRing, isPanning, shiftHeld],
+    [activeToolId, altHeld, cursor.tipRing, isPanning, isTouchNavigating, shiftHeld],
   )
 
   const hardReloadGraphics = useCallback(() => {
@@ -238,6 +251,82 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
   }, [])
 
   const refreshCamera = useCallback(() => setCameraVersion((version) => version + 1), [])
+
+  const toTouchNavPoint = (
+    event: ReactPointerEvent<HTMLDivElement>,
+  ): TouchNavPoint => {
+    const host = event.currentTarget
+    const { width, height } = sizeRef.current
+    const screen = mapClientToViewport(
+      event.clientX,
+      event.clientY,
+      host,
+      width,
+      height,
+    )
+    return { id: event.pointerId, x: screen.x, y: screen.y }
+  }
+
+  const endTouchNavigation = () => {
+    if (!touchNavActiveRef.current) return
+    touchNavActiveRef.current = false
+    setIsTouchNavigating(false)
+    touchNavSuppressToolsRef.current = true
+  }
+
+  const beginTouchNavigation = (
+    event: ReactPointerEvent<HTMLDivElement>,
+  ) => {
+    if (touchNavActiveRef.current) return
+    touchNavActiveRef.current = true
+    setIsTouchNavigating(true)
+    touchNavSuppressToolsRef.current = true
+
+    // Abort single-finger pan / in-progress tool so pinch owns the gesture.
+    if (panRef.current) {
+      panRef.current = null
+      setIsPanning(false)
+    }
+    const ctx = pointerCtx()
+    if (ctx) {
+      const first = touchPointersRef.current.values().next().value
+      if (first) {
+        const synthetic = {
+          ...event.nativeEvent,
+          pointerId: first.id,
+        } as PointerEvent
+        void toolRouterRef.current.pointerUp(synthetic, ctx)
+      }
+      toolRouterRef.current.cancelSelectionGesture()
+    }
+  }
+
+  const applyTouchNavigationMove = (
+    event: ReactPointerEvent<HTMLDivElement>,
+  ): boolean => {
+    const pointers = touchPointersRef.current
+    if (event.pointerType !== 'touch' || !pointers.has(event.pointerId)) {
+      return false
+    }
+    const prevPair = pickTouchPair(pointers)
+    pointers.set(event.pointerId, toTouchNavPoint(event))
+    if (!touchNavActiveRef.current) return false
+    const nextPair = pickTouchPair(pointers)
+    if (!prevPair || !nextPair) return true
+
+    const action = resolveTouchNavigation(prevPair, nextPair)
+    if (action.dx !== 0 || action.dy !== 0) {
+      cameraRef.current.panBy(action.dx, action.dy)
+    }
+    if (action.factor !== 1) {
+      cameraRef.current.zoomBy(action.factor, {
+        x: action.anchorX,
+        y: action.anchorY,
+      })
+    }
+    refreshCamera()
+    return true
+  }
 
   if (!documentView && !demoViewRef.current) {
     demoViewRef.current = createDemoDocumentView()
@@ -532,6 +621,24 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
   }, [activeToolId])
 
   const onPointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'touch') {
+      touchPointersRef.current.set(event.pointerId, toTouchNavPoint(event))
+      try {
+        event.currentTarget.setPointerCapture(event.pointerId)
+      } catch {
+        /* capture may fail if the pointer already ended */
+      }
+      if (touchPointersRef.current.size >= 2) {
+        event.preventDefault()
+        beginTouchNavigation(event)
+        return
+      }
+      if (touchNavSuppressToolsRef.current) {
+        event.preventDefault()
+        return
+      }
+    }
+
     const isMiddleButton = event.button === 1
     const isSpaceDrag = event.button === 0 && spaceHeld
     const isHandTool = event.button === 0 && activeToolId === 'hand'
@@ -568,7 +675,7 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
     if (!pointerInside) setPointerInside(true)
     updateCursorOverlays(x, y)
 
-    if (isPanning || spaceHeld) {
+    if (isPanning || isTouchNavigating || spaceHeld) {
       if (hoverHandle) setHoverHandle(null)
       return
     }
@@ -605,6 +712,10 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
       )
       return
     }
+    if (applyTouchNavigationMove(event)) {
+      syncCursorHover(event)
+      return
+    }
     syncCursorHover(event)
     const pan = panRef.current
     if (pan && pan.pointerId === event.pointerId) {
@@ -619,6 +730,9 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
       pan.lastY = event.clientY
       cameraRef.current.panBy(dx, dy)
       refreshCamera()
+      return
+    }
+    if (touchNavSuppressToolsRef.current && event.pointerType === 'touch') {
       return
     }
     const ctx = pointerCtx()
@@ -652,6 +766,31 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
       guideDragRef.current = null
       return
     }
+
+    if (event.pointerType === 'touch') {
+      const wasTracked = touchPointersRef.current.delete(event.pointerId)
+      const wasNavigating = touchNavActiveRef.current
+      const wasSuppressing = touchNavSuppressToolsRef.current
+      try {
+        event.currentTarget.releasePointerCapture(event.pointerId)
+      } catch {
+        /* pointer already released */
+      }
+      if (touchPointersRef.current.size < 2) {
+        endTouchNavigation()
+      }
+      if (touchPointersRef.current.size === 0) {
+        touchNavSuppressToolsRef.current = false
+      }
+      // Multi-touch owned the gesture — don't forward leftover ups to tools.
+      if (
+        wasTracked &&
+        (wasNavigating || wasSuppressing || touchNavActiveRef.current)
+      ) {
+        return
+      }
+    }
+
     const pan = panRef.current
     if (pan && pan.pointerId === event.pointerId) {
       try {
@@ -661,6 +800,9 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
       }
       panRef.current = null
       setIsPanning(false)
+      return
+    }
+    if (touchNavSuppressToolsRef.current && event.pointerType === 'touch') {
       return
     }
     const ctx = pointerCtx()
