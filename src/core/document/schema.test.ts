@@ -10,6 +10,8 @@ import {
   LayerEffectSchema,
   StrokeEffectSchema,
 } from './schema'
+import { CurvesAdjustmentSchema } from './adjustmentSchema'
+import { BLEND_MODES } from './schemaPrimitives'
 
 describe('LayerEffectSchema', () => {
   test('discriminates stroke vs color-overlay by type', () => {
@@ -148,6 +150,19 @@ describe('LayerEffectSchema', () => {
 })
 
 describe('HappyDocumentSchema', () => {
+  test('accepts Photoshop blend modes and curves control points', () => {
+    expect(BLEND_MODES).toEqual(expect.arrayContaining([
+      'hue', 'color', 'luminosity', 'linear-burn', 'linear-dodge',
+      'vivid-light', 'linear-light', 'pin-light', 'hard-mix',
+      'subtract', 'divide', 'pass-through',
+    ]))
+    expect(CurvesAdjustmentSchema.safeParse({
+      type: 'curves',
+      master: [{ x: 0, y: 0 }, { x: 255, y: 255 }],
+      red: [{ x: 0, y: 0 }, { x: 255, y: 255 }],
+    }).success).toBe(true)
+  })
+
   test('round-trips a document created via the factories', () => {
     const layerId = createLayerId()
     const layer = createRasterLayer({

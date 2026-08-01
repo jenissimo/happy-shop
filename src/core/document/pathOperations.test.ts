@@ -9,17 +9,21 @@ import {
   setWorkPath,
   upsertSavedPath,
 } from './pathOperations'
-import type { VectorPath } from './pathSchema'
+import { VectorPathSchema, type VectorPath } from './pathSchema'
 
 function samplePath(name: string, id = createPathId()): VectorPath {
   return {
     id,
     name,
-    closed: true,
-    knots: [
-      { x: 0, y: 0, handleIn: null, handleOut: { x: 10, y: 0 } },
-      { x: 20, y: 0, handleIn: { x: -10, y: 0 }, handleOut: null },
-      { x: 20, y: 20, handleIn: null, handleOut: null },
+    subpaths: [
+      {
+        closed: true,
+        knots: [
+          { x: 0, y: 0, handleIn: null, handleOut: { x: 10, y: 0 } },
+          { x: 20, y: 0, handleIn: { x: -10, y: 0 }, handleOut: null },
+          { x: 20, y: 20, handleIn: null, handleOut: null },
+        ],
+      },
     ],
   }
 }
@@ -55,5 +59,21 @@ describe('pathOperations', () => {
 
   test('nextSavedPathName skips occupied names', () => {
     expect(nextSavedPathName([samplePath('Path 1')])).toBe('Path 2')
+  })
+
+  test('VectorPathSchema normalizes legacy knots into subpaths', () => {
+    const legacy = {
+      id: createPathId(),
+      name: 'Legacy',
+      closed: true,
+      knots: [
+        { x: 0, y: 0, handleIn: null, handleOut: null },
+        { x: 1, y: 1, handleIn: null, handleOut: null },
+      ],
+    }
+    const parsed = VectorPathSchema.parse(legacy)
+    expect(parsed.subpaths).toHaveLength(1)
+    expect(parsed.subpaths[0]?.closed).toBe(true)
+    expect(parsed.subpaths[0]?.knots).toHaveLength(2)
   })
 })

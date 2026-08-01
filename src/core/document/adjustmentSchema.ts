@@ -28,10 +28,26 @@ export const LevelsAdjustmentSchema = z.object({
 })
 export type LevelsAdjustment = z.infer<typeof LevelsAdjustmentSchema>
 
+export const CurvePointSchema = z.object({
+  x: finiteNumber.min(0).max(255),
+  y: finiteNumber.min(0).max(255),
+})
+export type CurvePoint = z.infer<typeof CurvePointSchema>
+
+export const CurvesAdjustmentSchema = z.object({
+  type: z.literal('curves'),
+  master: z.array(CurvePointSchema),
+  red: z.array(CurvePointSchema).optional(),
+  green: z.array(CurvePointSchema).optional(),
+  blue: z.array(CurvePointSchema).optional(),
+})
+export type CurvesAdjustment = z.infer<typeof CurvesAdjustmentSchema>
+
 export const AdjustmentSchema = z.discriminatedUnion('type', [
   BrightnessContrastAdjustmentSchema,
   HueSaturationAdjustmentSchema,
   LevelsAdjustmentSchema,
+  CurvesAdjustmentSchema,
 ])
 export type Adjustment = z.infer<typeof AdjustmentSchema>
 export type AdjustmentType = Adjustment['type']

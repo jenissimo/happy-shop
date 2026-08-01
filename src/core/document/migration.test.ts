@@ -7,6 +7,7 @@ import {
   SCHEMA_VERSION_2,
   SCHEMA_VERSION_3,
   SCHEMA_VERSION_5,
+  SCHEMA_VERSION_6,
 } from './schema'
 import {
   openDocument,
@@ -16,6 +17,7 @@ import {
   migrateV3ToV4,
   migrateV4ToV5,
   migrateV5ToV6,
+  migrateV6ToV7,
 } from './migration'
 
 describe('openDocument', () => {
@@ -212,12 +214,37 @@ describe('openDocument', () => {
 
   test('migrates schemaVersion 5 to current additively', () => {
     const doc = { ...createEmptyDocument(), schemaVersion: SCHEMA_VERSION_5 }
-    const migrated = migrateV5ToV6(doc)
+    const v6 = migrateV5ToV6(doc)
+    expect(v6?.schemaVersion).toBe(SCHEMA_VERSION_6)
+    const migrated = v6 && migrateV6ToV7(v6)
     expect(migrated?.schemaVersion).toBe(CURRENT_SCHEMA_VERSION)
     const outcome = openDocument(doc)
     expect(outcome.status).toBe('ok')
     if (outcome.status === 'ok') {
       expect(outcome.document.schemaVersion).toBe(CURRENT_SCHEMA_VERSION)
+    }
+  })
+
+  test('migrates schemaVersion 6 tracking from px to 1/1000 em', () => {
+    const base = createEmptyDocument()
+    const text = createTextLayer({
+      content: 'Track',
+      fontSize: 48,
+      tracking: 4.8,
+    })
+    const doc = {
+      ...base,
+      schemaVersion: SCHEMA_VERSION_6,
+      layers: { ...base.layers, [text.id]: text },
+      rootChildren: [...base.rootChildren, text.id],
+    }
+    const migrated = migrateV6ToV7(doc)
+    expect(migrated?.schemaVersion).toBe(CURRENT_SCHEMA_VERSION)
+    const layer = migrated?.layers[text.id]
+    expect(layer?.type).toBe('text')
+    if (layer?.type === 'text') {
+      expect(layer.tracking).toBe(100)
+      expect(layer.baselineShift).toBe(0)
     }
   })
 

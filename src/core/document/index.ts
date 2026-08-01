@@ -43,7 +43,9 @@ export {
   HappyDocumentV3Schema,
   HappyDocumentV4Schema,
   HappyDocumentV5Schema,
+  HappyDocumentV6Schema,
   SCHEMA_VERSION_5,
+  SCHEMA_VERSION_6,
   LayerSchema,
   RasterLayerSchema,
   GroupLayerSchema,
@@ -126,6 +128,9 @@ export type {
   UnknownVersionEnvelope,
 } from './schema'
 
+export { CurvesAdjustmentSchema, CurvePointSchema } from './adjustmentSchema'
+export type { CurvesAdjustment, CurvePoint } from './adjustmentSchema'
+
 export {
   MAX_CANVAS_SIDE,
   SOFT_MEGAPIXEL_LIMIT,
@@ -171,15 +176,21 @@ export {
   EMPTY_PATH_STORE,
   normalizePathStore,
   resolveActivePath,
+  translateVectorPath,
+  translateSubpath,
+  vectorPathKnotCount,
+  vectorPathIsClosed,
   DocumentPathStoreSchema,
   PathIdSchema,
   PathKnotSchema,
+  PathSubpathSchema,
   VectorPathSchema,
 } from './pathSchema'
 export type {
   PathId,
   PathKnot,
   PathHandle,
+  PathSubpath,
   VectorPath,
   DocumentPathStore,
 } from './pathSchema'
@@ -240,6 +251,7 @@ export {
   migrateV2ToV3,
   migrateV4ToV5,
   migrateV5ToV6,
+  migrateV6ToV7,
 } from './migration'
 export type { OpenDocumentOutcome } from './migration'
 export {
@@ -280,6 +292,7 @@ export {
   setMask,
   setMaskEnabled,
   setMaskHidesEffects,
+  toggleClippingMask,
   groupLayers,
   ungroupLayer,
   addEffect,

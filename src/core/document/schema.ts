@@ -205,6 +205,11 @@ const LayerBaseSchema = z.object({
    * Hides Effects"). Default `false`: mask multiplies content alpha before FX.
    */
   maskHidesEffects: z.boolean().optional(),
+  /**
+   * When `true`, clips this layer's content and effects to the opacity mask of
+   * the underlying non-clipping layer in the stack (Photoshop Clipping Mask).
+   */
+  clipping: z.boolean().optional(),
   effects: z.array(LayerEffectSchema),
 })
 export type LayerBase = z.infer<typeof LayerBaseSchema>
@@ -229,7 +234,7 @@ export const AdjustmentLayerSchema = LayerBaseSchema.extend({
 })
 export type AdjustmentLayer = z.infer<typeof AdjustmentLayerSchema>
 
-export const TEXT_ALIGNS = ['left', 'center', 'right'] as const
+export const TEXT_ALIGNS = ['left', 'center', 'right', 'justify'] as const
 export const TextAlignSchema = z.enum(TEXT_ALIGNS)
 export type TextAlign = z.infer<typeof TextAlignSchema>
 
@@ -273,8 +278,16 @@ export const TextRunSchema = z.object({
   color: CssColorSchema,
   /** When omitted, inherits `TextLayer.underline`. */
   underline: z.boolean().optional(),
-  /** When omitted, inherits `TextLayer.tracking`. */
+  /** When omitted, inherits `TextLayer.tracking` (1/1000 em). */
   tracking: finiteNumber.optional(),
+  /** When omitted, inherits `TextLayer.baselineShift` (document px). */
+  baselineShift: finiteNumber.optional(),
+  horizontalScale: finiteNumber.min(1).max(1000).optional(),
+  verticalScale: finiteNumber.min(1).max(1000).optional(),
+  fauxBold: z.boolean().optional(),
+  fauxItalic: z.boolean().optional(),
+  allCaps: z.boolean().optional(),
+  smallCaps: z.boolean().optional(),
 }).refine((run) => run.end > run.start, {
   message: 'text run end must be after start',
 })
@@ -294,10 +307,18 @@ export const TextLayerSchema = LayerBaseSchema.extend({
   italic: z.boolean(),
   underline: z.boolean(),
   color: CssColorSchema,
-  /** Character spacing in document px. */
+  /** Character spacing in 1/1000 em (Photoshop tracking). */
   tracking: finiteNumber,
   /** Line height in document px; `0` = auto (~1.2 × fontSize). */
   leading: finiteNumber.min(0),
+  /** Baseline shift in document px (positive raises glyphs). */
+  baselineShift: finiteNumber.default(0),
+  horizontalScale: finiteNumber.default(100),
+  verticalScale: finiteNumber.default(100),
+  fauxBold: z.boolean().default(false),
+  fauxItalic: z.boolean().default(false),
+  allCaps: z.boolean().default(false),
+  smallCaps: z.boolean().default(false),
   align: TextAlignSchema,
   bounds: TextBoundsSchema,
   /** Missing means system/bundled resolution; present requires Tier-3 bytes. */
@@ -367,8 +388,8 @@ export const CanvasSchema = z.object({
 })
 export type Canvas = z.infer<typeof CanvasSchema>
 
-/** Current document schema (content-phase ND FX nodes). */
-export const CURRENT_SCHEMA_VERSION = 6 as const
+/** Current document schema (text tracking 1/1000 em + baselineShift + justify). */
+export const CURRENT_SCHEMA_VERSION = 7 as const
 
 /** Pre-text documents. */
 export const SCHEMA_VERSION_1 = 1 as const
@@ -380,6 +401,8 @@ export const SCHEMA_VERSION_3 = 3 as const
 export const SCHEMA_VERSION_4 = 4 as const
 /** Rich text runs, before content-phase FX nodes. */
 export const SCHEMA_VERSION_5 = 5 as const
+/** Paths + content-phase FX; tracking still document px. */
+export const SCHEMA_VERSION_6 = 6 as const
 
 /** @deprecated Use SCHEMA_VERSION_1 — kept for existing imports. */
 export const LEGACY_SCHEMA_VERSION = SCHEMA_VERSION_1
@@ -432,6 +455,18 @@ export const HappyDocumentSchema = z.object({
   paths: DocumentPathStoreSchema.optional(),
 })
 export type HappyDocument = z.infer<typeof HappyDocumentSchema>
+
+/** Frozen v6 documents (tracking still in document px; no baselineShift required). */
+export const HappyDocumentV6Schema = z.object({
+  schemaVersion: z.literal(SCHEMA_VERSION_6),
+  id: z.string().min(1),
+  name: z.string().min(1),
+  canvas: CanvasSchema,
+  rootChildren: z.array(LayerIdSchema),
+  layers: z.record(LayerIdSchema, LayerSchema),
+  paths: DocumentPathStoreSchema.optional(),
+})
+export type HappyDocumentV6 = z.infer<typeof HappyDocumentV6Schema>
 
 /**
  * v1 document shape for migration only. Layer union omits `text`/`shape`;

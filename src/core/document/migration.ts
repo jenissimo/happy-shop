@@ -7,28 +7,39 @@ import {
   HappyDocumentV3Schema,
   HappyDocumentV4Schema,
   HappyDocumentV5Schema,
+  HappyDocumentV6Schema,
   SCHEMA_VERSION_1,
   SCHEMA_VERSION_2,
   SCHEMA_VERSION_3,
   SCHEMA_VERSION_4,
   SCHEMA_VERSION_5,
+  SCHEMA_VERSION_6,
   UnknownVersionEnvelopeSchema,
   type HappyDocument,
   type HappyDocumentV5,
+  type HappyDocumentV6,
   type Layer,
+  type TextLayer,
 } from './schema'
 import { ensureDocumentHasPaintableLayer } from './factories'
 import { parseDocument } from './validate'
 import type { ValidationIssue } from './validate'
 
+/** Legacy document-px tracking → Photoshop 1/1000 em. */
+function trackingPxToEm(trackingPx: number, fontSize: number): number {
+  const size = Math.max(1, fontSize)
+  return Math.round((trackingPx / size) * 1000)
+}
+
 /**
  * Document open + migration (SPEC §8.2, SPECS/LAYER-STYLES.md).
- * - v6 → parse as current
- * - v5 → additive content-phase FX node types → v6
- * - v4 → add resolved text runs → v5 → v6
- * - v3 → additive vector shape parameters → v4 → v5 → v6
- * - v2 → migrate effects + fillOpacity → v3 → v4 → v5 → v6
- * - v1 → migrate to v2 shape then v3 → v4 → v5 → v6
+ * - v7 → parse as current
+ * - v6 → tracking px→1/1000em + baselineShift → v7
+ * - v5 → additive content-phase FX node types → v6 → v7
+ * - v4 → add resolved text runs → v5 → v6 → v7
+ * - v3 → additive vector shape parameters → v4 → v5 → v6 → v7
+ * - v2 → migrate effects + fillOpacity → v3 → v4 → v5 → v6 → v7
+ * - v1 → migrate to v2 shape then v3 → v4 → v5 → v6 → v7
  * - anything else → read-only unsupported (never silently coerced)
  */
 export type OpenDocumentOutcome =
@@ -165,17 +176,50 @@ export function migrateV4ToV5(input: unknown): HappyDocumentV5 | null {
 }
 
 /** Pure additive v5 → v6: content-phase FX node types; layer trees unchanged. */
-export function migrateV5ToV6(input: unknown): HappyDocument | null {
+export function migrateV5ToV6(input: unknown): HappyDocumentV6 | null {
   const parsed = HappyDocumentV5Schema.safeParse(input)
   if (!parsed.success) return null
-  return { ...parsed.data, schemaVersion: CURRENT_SCHEMA_VERSION }
+  return { ...parsed.data, schemaVersion: SCHEMA_VERSION_6 }
+}
+
+function upgradeTextTrackingToEm(layer: TextLayer): TextLayer {
+  const tracking = trackingPxToEm(layer.tracking, layer.fontSize)
+  const runs = layer.runs.map((run) =>
+    run.tracking === undefined
+      ? run
+      : { ...run, tracking: trackingPxToEm(run.tracking, run.fontSize) },
+  )
+  return {
+    ...layer,
+    tracking,
+    baselineShift: layer.baselineShift ?? 0,
+    runs,
+  }
+}
+
+/** v6 → v7: tracking document-px → 1/1000 em; ensure baselineShift. */
+export function migrateV6ToV7(input: unknown): HappyDocument | null {
+  const parsed = HappyDocumentV6Schema.safeParse(input)
+  if (!parsed.success) return null
+  const layers: HappyDocument['layers'] = { ...parsed.data.layers }
+  for (const [id, layer] of Object.entries(layers)) {
+    if (layer.type === 'text') {
+      layers[id as keyof typeof layers] = upgradeTextTrackingToEm(layer)
+    }
+  }
+  return {
+    ...parsed.data,
+    schemaVersion: CURRENT_SCHEMA_VERSION,
+    layers,
+  }
 }
 
 /** Historical convenience API: migrate a v3 document all the way to current. */
 export function migrateV3ToV4(input: unknown): HappyDocument | null {
   const v4 = migrateV3ToV4Raw(input)
   const v5 = v4 && migrateV4ToV5(v4)
-  return v5 && migrateV5ToV6(v5)
+  const v6 = v5 && migrateV5ToV6(v5)
+  return v6 && migrateV6ToV7(v6)
 }
 
 /**
@@ -210,14 +254,15 @@ export function openDocument(input: unknown): OpenDocumentOutcome {
     const v3 = migrateV2ToV3(v2)
     const v4 = v3 && migrateV3ToV4Raw({ ...v3, schemaVersion: SCHEMA_VERSION_3 })
     const v5 = v4 && migrateV4ToV5(v4)
-    const migrated = v5 && migrateV5ToV6(v5)
+    const v6 = v5 && migrateV5ToV6(v5)
+    const migrated = v6 && migrateV6ToV7(v6)
     if (!migrated) {
       return {
         status: 'invalid',
         issues: [
           {
             path: 'schemaVersion',
-            message: 'schemaVersion 1→2→3→4→5→6 migration failed',
+            message: 'schemaVersion 1→2→3→4→5→6→7 migration failed',
           },
         ],
         readOnly: true,
@@ -234,14 +279,15 @@ export function openDocument(input: unknown): OpenDocumentOutcome {
     const v3 = migrateV2ToV3(input)
     const v4 = v3 && migrateV3ToV4Raw({ ...v3, schemaVersion: SCHEMA_VERSION_3 })
     const v5 = v4 && migrateV4ToV5(v4)
-    const migrated = v5 && migrateV5ToV6(v5)
+    const v6 = v5 && migrateV5ToV6(v5)
+    const migrated = v6 && migrateV6ToV7(v6)
     if (!migrated) {
       return {
         status: 'invalid',
         issues: [
           {
             path: 'schemaVersion',
-            message: 'schemaVersion 2 document failed migration to v6',
+            message: 'schemaVersion 2 document failed migration to v7',
           },
         ],
         readOnly: true,
@@ -257,11 +303,12 @@ export function openDocument(input: unknown): OpenDocumentOutcome {
   if (schemaVersion === SCHEMA_VERSION_3) {
     const v4 = migrateV3ToV4Raw(input)
     const v5 = v4 && migrateV4ToV5(v4)
-    const migrated = v5 && migrateV5ToV6(v5)
+    const v6 = v5 && migrateV5ToV6(v5)
+    const migrated = v6 && migrateV6ToV7(v6)
     if (!migrated) {
       return {
         status: 'invalid',
-        issues: [{ path: 'schemaVersion', message: 'schemaVersion 3 document failed migration to v6' }],
+        issues: [{ path: 'schemaVersion', message: 'schemaVersion 3 document failed migration to v7' }],
         readOnly: true,
       }
     }
@@ -272,11 +319,12 @@ export function openDocument(input: unknown): OpenDocumentOutcome {
 
   if (schemaVersion === SCHEMA_VERSION_4) {
     const v5 = migrateV4ToV5(input)
-    const migrated = v5 && migrateV5ToV6(v5)
+    const v6 = v5 && migrateV5ToV6(v5)
+    const migrated = v6 && migrateV6ToV7(v6)
     if (!migrated) {
       return {
         status: 'invalid',
-        issues: [{ path: 'schemaVersion', message: 'schemaVersion 4 document failed migration to v6' }],
+        issues: [{ path: 'schemaVersion', message: 'schemaVersion 4 document failed migration to v7' }],
         readOnly: true,
       }
     }
@@ -286,11 +334,26 @@ export function openDocument(input: unknown): OpenDocumentOutcome {
   }
 
   if (schemaVersion === SCHEMA_VERSION_5) {
-    const migrated = migrateV5ToV6(input)
+    const v6 = migrateV5ToV6(input)
+    const migrated = v6 && migrateV6ToV7(v6)
     if (!migrated) {
       return {
         status: 'invalid',
-        issues: [{ path: 'schemaVersion', message: 'schemaVersion 5 document failed migration to v6' }],
+        issues: [{ path: 'schemaVersion', message: 'schemaVersion 5 document failed migration to v7' }],
+        readOnly: true,
+      }
+    }
+    const result = parseOpenedDocument(migrated)
+    if (!result.ok) return { status: 'invalid', issues: result.issues, readOnly: true }
+    return { status: 'ok', document: result.document, readOnly: false }
+  }
+
+  if (schemaVersion === SCHEMA_VERSION_6) {
+    const migrated = migrateV6ToV7(input)
+    if (!migrated) {
+      return {
+        status: 'invalid',
+        issues: [{ path: 'schemaVersion', message: 'schemaVersion 6 document failed migration to v7' }],
         readOnly: true,
       }
     }

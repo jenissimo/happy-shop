@@ -236,6 +236,30 @@ export function setBlendMode(
   })
 }
 
+/**
+ * Toggle Photoshop-style clipping for a layer. A layer can only clip to the
+ * sibling immediately beneath it (the document stack is bottom -> top).
+ */
+export function toggleClippingMask(
+  doc: HappyDocument,
+  layerId: LayerId,
+): HappyDocument {
+  const layer = doc.layers[layerId]
+  if (!layer) return doc
+  const siblings = getChildrenIds(doc, layer.parentId)
+  if (!siblings) return doc
+  const index = siblings.indexOf(layerId)
+  if (index < 0) return doc
+  if (layer.clipping || index === 0) {
+    return updateLayer(doc, layerId, (draftLayer) => {
+      draftLayer.clipping = false
+    })
+  }
+  return updateLayer(doc, layerId, (draftLayer) => {
+    draftLayer.clipping = true
+  })
+}
+
 /** Enables flatten-then-FX compositing for a group; non-group layers are unchanged. */
 export function setGroupIsolated(
   doc: HappyDocument,
@@ -536,6 +560,13 @@ export type TextLayerPropsPatch = Partial<
     | 'runs'
     | 'tracking'
     | 'leading'
+    | 'baselineShift'
+    | 'horizontalScale'
+    | 'verticalScale'
+    | 'fauxBold'
+    | 'fauxItalic'
+    | 'allCaps'
+    | 'smallCaps'
     | 'align'
     | 'bounds'
   >
@@ -567,6 +598,13 @@ export function updateTextLayer(
     if (patch.runs !== undefined) draftLayer.runs = patch.runs
     if (patch.tracking !== undefined) draftLayer.tracking = patch.tracking
     if (patch.leading !== undefined) draftLayer.leading = patch.leading
+    if (patch.baselineShift !== undefined) draftLayer.baselineShift = patch.baselineShift
+    if (patch.horizontalScale !== undefined) draftLayer.horizontalScale = patch.horizontalScale
+    if (patch.verticalScale !== undefined) draftLayer.verticalScale = patch.verticalScale
+    if (patch.fauxBold !== undefined) draftLayer.fauxBold = patch.fauxBold
+    if (patch.fauxItalic !== undefined) draftLayer.fauxItalic = patch.fauxItalic
+    if (patch.allCaps !== undefined) draftLayer.allCaps = patch.allCaps
+    if (patch.smallCaps !== undefined) draftLayer.smallCaps = patch.smallCaps
     if (patch.align !== undefined) draftLayer.align = patch.align
     if (patch.bounds !== undefined) {
       draftLayer.bounds = { ...draftLayer.bounds, ...patch.bounds }

@@ -9,14 +9,26 @@ import {
   type VectorPath,
 } from './pathSchema'
 
-export type { DocumentPathStore, PathId, PathKnot, PathHandle, VectorPath } from './pathSchema'
+export type {
+  DocumentPathStore,
+  PathId,
+  PathKnot,
+  PathHandle,
+  PathSubpath,
+  VectorPath,
+} from './pathSchema'
 export {
   EMPTY_PATH_STORE,
   normalizePathStore,
   resolveActivePath,
+  translateVectorPath,
+  translateSubpath,
+  vectorPathKnotCount,
+  vectorPathIsClosed,
   DocumentPathStoreSchema,
   PathIdSchema,
   PathKnotSchema,
+  PathSubpathSchema,
   VectorPathSchema,
 } from './pathSchema'
 

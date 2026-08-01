@@ -58,6 +58,7 @@ type LayerBaseOptions = {
   blendMode?: BlendMode
   transform?: Partial<Transform>
   mask?: RasterMaskRef
+  clipping?: boolean
   effects?: LayerEffect[]
 }
 
@@ -78,6 +79,7 @@ function createLayerBase(options: LayerBaseOptions, defaultName: string) {
     blendMode: options.blendMode ?? ('normal' as const),
     transform: { ...createIdentityTransform(), ...options.transform },
     mask: options.mask,
+    clipping: options.clipping,
     effects: options.effects ?? [],
   }
 }
@@ -143,6 +145,13 @@ export type CreateTextLayerOptions = LayerBaseOptions & {
   color?: CssColor
   tracking?: number
   leading?: number
+  baselineShift?: number
+  horizontalScale?: number
+  verticalScale?: number
+  fauxBold?: boolean
+  fauxItalic?: boolean
+  allCaps?: boolean
+  smallCaps?: boolean
   align?: TextAlign
   bounds?: Partial<TextBounds>
   runs?: TextLayer['runs']
@@ -175,6 +184,13 @@ export function createTextLayer(options: CreateTextLayerOptions = {}): TextLayer
     color,
     tracking: options.tracking ?? 0,
     leading: options.leading ?? 0,
+    baselineShift: options.baselineShift ?? 0,
+    horizontalScale: options.horizontalScale ?? 100,
+    verticalScale: options.verticalScale ?? 100,
+    fauxBold: options.fauxBold ?? false,
+    fauxItalic: options.fauxItalic ?? false,
+    allCaps: options.allCaps ?? false,
+    smallCaps: options.smallCaps ?? false,
     align: options.align ?? 'left',
     bounds,
     runs: options.runs ?? (content.length

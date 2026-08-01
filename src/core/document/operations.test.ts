@@ -27,6 +27,7 @@ import {
   setOpacity,
   setTransform,
   setVisibility,
+  toggleClippingMask,
   ungroupLayer,
 } from './operations'
 import type { HappyDocument } from './schema'
@@ -276,6 +277,26 @@ describe('effects', () => {
 
     next = removeEffect(next, layerId, 'fx1')
     expect(next.layers[layerId]?.effects).toEqual([])
+  })
+})
+
+describe('toggleClippingMask', () => {
+  test('clips to the sibling below and releases on repeat', () => {
+    const base = createRasterLayer({ pixels: asRasterAssetRef('base') })
+    const clipped = createRasterLayer({ pixels: asRasterAssetRef('clipped') })
+    let doc = addLayer(createEmptyDocument(), base)
+    doc = addLayer(doc, clipped)
+    const clippedDoc = toggleClippingMask(doc, clipped.id)
+    expect(clippedDoc.layers[clipped.id]?.clipping).toBe(true)
+    expect(toggleClippingMask(clippedDoc, clipped.id).layers[clipped.id]?.clipping).toBe(false)
+  })
+
+  test('does not clip the bottom-most sibling', () => {
+    const base = createRasterLayer({ pixels: asRasterAssetRef('base') })
+    const group = createGroupLayer()
+    let doc = addLayer(createEmptyDocument(), group)
+    doc = addLayer(doc, base, { parentId: group.id })
+    expect(toggleClippingMask(doc, base.id).layers[base.id]?.clipping).toBe(false)
   })
 })
 
