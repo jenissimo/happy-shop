@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test'
 import {
   DEFAULT_THEME,
   isThemeId,
+  normalizeStoredTheme,
   THEME_IDS,
   THEMES,
 } from './themes'
@@ -14,8 +15,15 @@ describe('themes', () => {
     expect(isThemeId('crystal')).toBe(true)
   })
 
-  test('keeps midnight as default', () => {
-    expect(DEFAULT_THEME).toBe('midnight')
+  test('uses Graphite as the first-run default', () => {
+    expect(DEFAULT_THEME).toBe('graphite')
+    expect(isThemeId('graphite')).toBe(true)
+  })
+
+  test('migrates the pre-release Photoshop theme id to Graphite', () => {
+    expect(isThemeId('photoshop')).toBe(false)
+    expect(normalizeStoredTheme('photoshop')).toBe('graphite')
+    expect(normalizeStoredTheme('unknown')).toBe(DEFAULT_THEME)
   })
 
   test('rejects unknown theme ids', () => {

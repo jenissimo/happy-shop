@@ -1,10 +1,34 @@
 .shell {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
   min-height: 0;
   background-color: var(--he-bg);
   background-image: var(--he-atmosphere);
+  isolation: isolate;
+}
+
+/*
+  Keep a colourful layer behind the application chrome. Unlike a background on
+  the shell itself, this is consistently available to backdrop-filter in
+  nested Dockview panes and floating windows.
+*/
+.shell::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: -12%;
+  background-image: var(--he-atmosphere);
+  background-size: 125% 125%;
+  filter: saturate(1.12);
+  transform: scale(1.04);
+  pointer-events: none;
+}
+
+.shell > * {
+  position: relative;
+  z-index: var(--he-shell-layer, 1);
 }
 
 .body {

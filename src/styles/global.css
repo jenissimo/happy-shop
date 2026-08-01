@@ -11,6 +11,13 @@ body {
   overflow: hidden;
 }
 
+/* A single visible focus contract covers native controls that are not wrapped
+   by one of the shared field components. */
+:where(button, input, select, textarea):focus-visible {
+  outline: 2px solid var(--he-focus);
+  outline-offset: 1px;
+}
+
 #root {
   min-height: 100%;
 }
@@ -26,8 +33,8 @@ body {
 /* Dockview chrome — bind leftover defaults to theme tokens */
 .dockview-theme-dark,
 .dv-dockview {
-  --dv-background-color: var(--he-bg);
-  --dv-group-view-background-color: var(--he-bg);
+  --dv-background-color: var(--he-dock-bg);
+  --dv-group-view-background-color: var(--he-dock-bg);
   --dv-tabs-and-actions-container-background-color: var(--he-panel-raised);
   --dv-activegroup-visiblepanel-tab-background-color: var(--he-panel);
   --dv-activegroup-hiddenpanel-tab-background-color: var(--he-panel-raised);
@@ -44,15 +51,47 @@ body {
 }
 
 .dv-tabs-and-actions-container {
-  backdrop-filter: var(--he-backdrop);
+  background-image: var(--he-surface-sheen);
   -webkit-backdrop-filter: var(--he-backdrop);
+  backdrop-filter: var(--he-backdrop);
   border-bottom: 1px solid var(--he-chrome-line);
 }
 
-.dv-content-container,
-.dv-groupview,
-.dv-view {
-  background: var(--he-panel);
-  backdrop-filter: var(--he-backdrop);
+.dv-tab {
+  min-height: 26px;
+  font-size: 11px;
+}
+
+.dv-tab.dv-active-tab {
+  box-shadow: inset 0 -2px 0 var(--he-accent);
+}
+
+.dv-tab:focus-visible,
+.dv-tab button:focus-visible {
+  outline: 1px solid var(--he-focus);
+  outline-offset: -2px;
+}
+
+/*
+  Frost once on the content surface. Group/view wrappers stay clear so
+  backdrop-filter can sample --he-atmosphere (glass) / shell bg (opaque).
+  Higher specificity beats dockview.css (imported later via EditorShell).
+*/
+.dv-dockview .dv-content-container {
+  background-color: var(--he-panel);
+  background-image: var(--he-surface-sheen);
   -webkit-backdrop-filter: var(--he-backdrop);
+  backdrop-filter: var(--he-backdrop);
+}
+
+/* Dockview assigns tab fills itself, so give its glass tabs the same frost. */
+[data-theme='vapor'] .dv-tab,
+[data-theme='crystal'] .dv-tab {
+  -webkit-backdrop-filter: var(--he-backdrop);
+  backdrop-filter: var(--he-backdrop);
+}
+
+.dv-dockview .dv-groupview,
+.dv-dockview .dv-view {
+  background-color: transparent;
 }

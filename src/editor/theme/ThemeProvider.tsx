@@ -2,6 +2,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useLayoutEffect,
   useState,
   type ReactNode,
 } from 'react'
@@ -24,8 +25,14 @@ const ThemeContext = createContext<ThemeContextValue | null>(null)
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<ThemeId>(() => readStoredTheme())
 
-  useEffect(() => {
+  // The viewport rebuilds its Pixi checkerboard from computed CSS tokens in a
+  // passive effect. Apply the attribute during the layout phase so it always
+  // observes this theme, rather than the one from the previous render.
+  useLayoutEffect(() => {
     applyThemeToDocument(theme)
+  }, [theme])
+
+  useEffect(() => {
     persistTheme(theme)
   }, [theme])
 

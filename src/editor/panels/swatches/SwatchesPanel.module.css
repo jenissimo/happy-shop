@@ -3,8 +3,8 @@
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  background: var(--he-panel, #252525);
-  color: var(--he-text, #ddd);
+  background: transparent;
+  color: var(--he-text);
   font-size: 12px;
 }
 
@@ -13,7 +13,7 @@
   align-items: center;
   gap: 6px;
   padding: 6px 8px;
-  border-bottom: 1px solid var(--he-panel-border, #3b3b3b);
+  border-bottom: 1px solid var(--he-panel-border);
 }
 
 .select {
@@ -21,15 +21,16 @@
   min-width: 0;
   height: 24px;
   padding: 0 6px;
-  border: 1px solid var(--he-panel-border, #4c4c4c);
+  border: 1px solid var(--he-border);
   border-radius: 2px;
-  background: var(--he-input, #1e1e1e);
-  color: var(--he-text, #eee);
+  background: var(--he-bg);
+  color: var(--he-text);
   font: inherit;
+  color-scheme: inherit;
 }
 
 .select:focus-visible {
-  outline: 1px solid var(--he-accent, #5b9bd5);
+  outline: 1px solid var(--he-accent);
   outline-offset: 1px;
 }
 
@@ -37,7 +38,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: var(--he-text-muted, #aaa);
+  color: var(--he-text-muted);
   font-size: 11px;
   white-space: nowrap;
   user-select: none;
@@ -46,6 +47,7 @@
 
 .snapToggle input {
   margin: 0;
+  accent-color: var(--he-accent);
 }
 
 .body {
@@ -64,32 +66,32 @@
 .swatch {
   aspect-ratio: 1;
   min-width: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--he-swatch-border);
   border-radius: 2px;
   cursor: pointer;
   padding: 0;
 }
 
 .swatch:hover {
-  outline: 1px solid var(--he-text-bright, #fff);
+  outline: 1px solid var(--he-text-bright);
   outline-offset: 1px;
 }
 
 .swatchActive {
-  outline: 2px solid var(--he-accent, #5b9bd5);
+  outline: 2px solid var(--he-accent);
   outline-offset: 1px;
 }
 
 .footer {
   padding: 6px 8px 8px;
-  border-top: 1px solid var(--he-panel-border, #3b3b3b);
-  color: var(--he-text-muted, #aaa);
+  border-top: 1px solid var(--he-panel-border);
+  color: var(--he-text-muted);
   font-size: 11px;
   line-height: 1.35;
 }
 
 .footer a {
-  color: var(--he-accent, #7eb6ea);
+  color: var(--he-accent);
   text-decoration: none;
 }
 
@@ -101,9 +103,9 @@
 .loading,
 .error {
   padding: 12px 8px;
-  color: var(--he-text-muted, #aaa);
+  color: var(--he-text-muted);
 }
 
 .error {
-  color: #f08a8a;
+  color: var(--he-danger);
 }

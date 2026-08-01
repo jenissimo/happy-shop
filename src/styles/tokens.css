@@ -22,9 +22,21 @@
   --he-tip-chip: 30px;
   --he-label-size: 11px;
   --he-value-size: 12px;
+  --he-workspace: var(--he-bg);
+  --he-canvas-edge: color-mix(in srgb, var(--he-text) 26%, var(--he-workspace));
+  --he-canvas-shadow: 0 8px 22px rgb(0 0 0 / 42%);
+
+  /* Dock fill: opaque themes use --he-bg; glass themes set transparent */
+  --he-dock-bg: var(--he-bg);
+  /* A shared interaction ladder keeps every theme equally legible. */
+  --he-hover: color-mix(in srgb, var(--he-accent) 14%, var(--he-panel-raised));
+  --he-row-hover: color-mix(in srgb, var(--he-accent) 12%, var(--he-panel));
+  --he-row-selected: color-mix(in srgb, var(--he-accent) 24%, var(--he-panel));
+  --he-selection: color-mix(in srgb, var(--he-accent) 28%, transparent);
+  --he-surface-sheen: none;
 
   /* Dockview chrome — always bound to semantic surfaces */
-  --dv-group-view-background-color: var(--he-bg);
+  --dv-group-view-background-color: var(--he-dock-bg);
   --dv-tabs-and-actions-container-background-color: var(--he-panel-raised);
   --dv-activegroup-visiblepanel-tab-background-color: var(--he-panel);
   --dv-activegroup-hiddenpanel-tab-background-color: var(--he-panel-raised);
@@ -37,6 +49,84 @@
   --dv-activegroup-hiddenpanel-tab-color: var(--he-text-muted);
   --dv-inactivegroup-visiblepanel-tab-color: var(--he-text);
   --dv-inactivegroup-hiddenpanel-tab-color: var(--he-text-muted);
+}
+
+/* ——— Graphite: neutral desktop editor ——— */
+[data-theme='graphite'] {
+  color-scheme: dark;
+
+  --he-gray-950: #202020;
+  --he-gray-900: #2b2b2b;
+  --he-gray-850: #363636;
+  --he-gray-800: #454545;
+  --he-gray-700: #555555;
+  --he-gray-600: #747474;
+  --he-gray-500: #a6a6a6;
+  --he-gray-400: #c8c8c8;
+  --he-gray-200: #e5e5e5;
+  --he-gray-100: #ffffff;
+
+  --he-accent: #4da3e8;
+  --he-accent-strong: #2878b7;
+  --he-accent-muted: color-mix(in srgb, var(--he-accent) 24%, transparent);
+  --he-danger: #e56a6a;
+  --he-ok: #61b985;
+  --he-warning: #d6a843;
+
+  --he-bg: #202020;
+  --he-workspace: #202020;
+  --he-panel: #2b2b2b;
+  --he-panel-raised: #363636;
+  --he-panel-border: #484848;
+  --he-border: #5a5a5a;
+  --he-text: #e5e5e5;
+  --he-text-bright: #ffffff;
+  --he-text-muted: #b7b7b7;
+  --he-focus: #70b9ef;
+  --he-select: #3b78a8;
+  --he-on-accent: #ffffff;
+  --he-on-select: #ffffff;
+  --he-overlay: rgb(0 0 0 / 55%);
+  --he-shadow-md: 0 8px 22px rgb(0 0 0 / 48%);
+  --he-shadow-lg: 0 16px 44px rgb(0 0 0 / 60%);
+  --he-guide: #38bdf8;
+  --he-guide-soft: #68b7f4;
+  --he-grid-line: rgb(255 255 255 / 11%);
+  --he-handle-border: #ffffff;
+  --he-swatch-border: rgb(255 255 255 / 20%);
+  --he-conflict-bg: #4a2929;
+  --he-chat-user-bg: #354553;
+  --he-chat-user-border: #516473;
+  --he-chat-system-bg: #3f3829;
+  --he-chat-system-border: #625538;
+  --he-chat-system-text: #e2c890;
+  --he-mascot-hover: rgb(255 255 255 / 8%);
+  --he-chrome-line: #4b4b4b;
+  --he-backdrop: none;
+  --he-atmosphere: none;
+  --he-checker-a: #b8b8b8;
+  --he-checker-b: #8e8e8e;
+}
+
+/* The pasteboard stays calm across expressive themes so the document remains
+   the visual anchor. Theme colour belongs to chrome, not the editing field. */
+[data-theme='midnight'],
+[data-theme='ember'],
+[data-theme='abyss'],
+[data-theme='moss'],
+[data-theme='ink'],
+[data-theme='frost'],
+[data-theme='dusk'],
+[data-theme='vapor'] {
+  --he-workspace: #202124;
+}
+
+[data-theme='paper'],
+[data-theme='mist'],
+[data-theme='crystal'] {
+  --he-workspace: #c9cdd2;
+  --he-canvas-edge: #8c939c;
+  --he-canvas-shadow: 0 8px 22px rgb(32 38 48 / 20%);
 }
 
 /* ——— Midnight (default): cool charcoal + soft steel blue ——— */
@@ -567,8 +657,9 @@
   --he-warning: #e0b050;
 
   --he-bg: #080c14;
-  --he-panel: rgba(28, 38, 58, 0.58);
-  --he-panel-raised: rgba(36, 48, 72, 0.68);
+  --he-dock-bg: transparent;
+  --he-panel: rgba(28, 38, 58, 0.42);
+  --he-panel-raised: rgba(36, 48, 72, 0.5);
   --he-panel-border: rgba(255, 255, 255, 0.14);
   --he-border: rgba(180, 210, 255, 0.22);
   --he-text: var(--he-gray-200);
@@ -594,7 +685,10 @@
   --he-chat-system-text: #d0b090;
   --he-mascot-hover: rgba(255, 255, 255, 0.08);
   --he-chrome-line: rgba(110, 200, 232, 0.45);
-  --he-backdrop: blur(18px) saturate(1.45);
+  --he-backdrop: blur(24px) saturate(1.55);
+  --he-surface-sheen:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.13), transparent 32%),
+    linear-gradient(315deg, rgba(110, 200, 232, 0.08), transparent 48%);
   --he-atmosphere:
     radial-gradient(ellipse 80% 60% at 15% 20%, rgba(60, 120, 200, 0.35), transparent 55%),
     radial-gradient(ellipse 70% 50% at 85% 75%, rgba(40, 180, 170, 0.28), transparent 50%),
@@ -627,8 +721,9 @@
   --he-warning: #a87a10;
 
   --he-bg: #d4e4ec;
-  --he-panel: rgba(255, 255, 255, 0.55);
-  --he-panel-raised: rgba(255, 255, 255, 0.68);
+  --he-dock-bg: transparent;
+  --he-panel: rgba(255, 255, 255, 0.42);
+  --he-panel-raised: rgba(255, 255, 255, 0.55);
   --he-panel-border: rgba(20, 40, 55, 0.12);
   --he-border: rgba(20, 40, 55, 0.18);
   --he-text: var(--he-gray-200);
@@ -654,7 +749,10 @@
   --he-chat-system-text: #4a5848;
   --he-mascot-hover: rgba(18, 32, 42, 0.06);
   --he-chrome-line: rgba(42, 154, 170, 0.4);
-  --he-backdrop: blur(18px) saturate(1.4);
+  --he-backdrop: blur(24px) saturate(1.5);
+  --he-surface-sheen:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.62), transparent 34%),
+    linear-gradient(315deg, rgba(70, 170, 185, 0.1), transparent 52%);
   --he-atmosphere:
     radial-gradient(ellipse 75% 55% at 20% 15%, rgba(140, 210, 230, 0.55), transparent 55%),
     radial-gradient(ellipse 65% 50% at 90% 80%, rgba(180, 220, 200, 0.45), transparent 50%),

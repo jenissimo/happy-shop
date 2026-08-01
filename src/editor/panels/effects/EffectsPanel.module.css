@@ -3,8 +3,8 @@
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  background: var(--he-panel, #252525);
-  color: var(--he-text, #ddd);
+  background: transparent;
+  color: var(--he-text);
   font-size: 12px;
 }
 
@@ -80,10 +80,11 @@
   height: 22px;
   border: 1px solid var(--he-panel-border, #4c4c4c);
   border-radius: 2px;
-  background: var(--he-input, #1c1c1c);
+  background: var(--he-bg);
   color: inherit;
   font: inherit;
   padding: 0 5px;
+  color-scheme: inherit;
 }
 
 .presetSave button {

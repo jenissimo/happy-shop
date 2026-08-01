@@ -10,7 +10,10 @@
   flex-direction: column;
   gap: 2px;
   padding: 1.1rem 0.7rem;
-  background: var(--he-bg);
+  background: var(--he-panel-raised);
+  background-image: var(--he-surface-sheen);
+  -webkit-backdrop-filter: var(--he-backdrop);
+  backdrop-filter: var(--he-backdrop);
   border-right: 1px solid var(--he-panel-border);
   overflow-y: auto;
 }

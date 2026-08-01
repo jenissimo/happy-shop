@@ -105,7 +105,7 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
   const demoViewRef = useRef<RenderDocumentView | null>(null)
   const viewRef = useRef<RenderDocumentView | null>(null)
   const [ready, setReady] = useState(false)
-  const [, setCameraVersion] = useState(0)
+  const [cameraVersion, setCameraVersion] = useState(0)
   const [backendGeneration, setBackendGeneration] = useState(0)
   const [contextUi, setContextUi] = useState<ContextLossUiState>(
     initialContextLossUiState,
@@ -715,6 +715,18 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
     return result
   }
 
+  // Keep the document edge in DOM chrome rather than baking it into pixels.
+  // It tracks the same camera as Pixi and makes the editable surface legible
+  // on every workspace/theme without affecting exports or hit testing.
+  const camera = cameraRef.current.getState()
+  const documentFrameStyle = {
+    left: camera.offsetX,
+    top: camera.offsetY,
+    width: view.width * camera.zoom,
+    height: view.height * camera.zoom,
+  }
+  void cameraVersion
+
   return (
     <div
       ref={hostRef}
@@ -738,12 +750,19 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
         ref={canvasRef}
         className={`${styles.canvas}${pixelatedPreview ? ` ${styles.canvasPixelated}` : ''}`}
       />
+      <div
+        className={styles.documentFrame}
+        style={documentFrameStyle}
+        aria-hidden
+      />
       {showRulers ? (
         <>
           <div className={styles.rulerCorner} aria-hidden />
           <div
             className={styles.rulerHorizontal}
             data-testid="ruler-horizontal"
+            role="presentation"
+            title="Drag to add a horizontal guide"
             onPointerDown={(event) => beginGuideDrag('y', event)}
           >
             {rulerMarks('x').map(({ value, screen }) => (
@@ -755,6 +774,8 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
           <div
             className={styles.rulerVertical}
             data-testid="ruler-vertical"
+            role="presentation"
+            title="Drag to add a vertical guide"
             onPointerDown={(event) => beginGuideDrag('x', event)}
           >
             {rulerMarks('y').map(({ value, screen }) => (

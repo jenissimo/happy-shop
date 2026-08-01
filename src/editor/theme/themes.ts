@@ -1,4 +1,5 @@
 export const THEME_IDS = [
+  'graphite',
   'midnight',
   'paper',
   'ember',
@@ -16,7 +17,8 @@ export type ThemeId = (typeof THEME_IDS)[number]
 
 export const THEME_STORAGE_KEY = 'happy-shop.theme'
 
-export const DEFAULT_THEME: ThemeId = 'midnight'
+/** Neutral pro-editor chrome for a predictable first-run workspace. */
+export const DEFAULT_THEME: ThemeId = 'graphite'
 
 export type ThemePreview = {
   bg: string
@@ -36,6 +38,19 @@ export const THEMES: ReadonlyArray<{
   /** Static swatch colors for the settings picker (independent of active theme). */
   preview: ThemePreview
 }> = [
+  {
+    id: 'graphite',
+    label: 'Graphite',
+    description: 'Neutral graphite pro-editor workspace',
+    preview: {
+      bg: '#202020',
+      panel: '#323232',
+      raised: '#3b3b3b',
+      accent: '#3b8edb',
+      checkerA: '#b8b8b8',
+      checkerB: '#8e8e8e',
+    },
+  },
   {
     id: 'midnight',
     label: 'Midnight',
@@ -159,8 +174,8 @@ export const THEMES: ReadonlyArray<{
     description: 'Dark liquid glass with frosted chrome',
     preview: {
       bg: '#080c14',
-      panel: 'rgba(28, 38, 58, 0.72)',
-      raised: 'rgba(36, 48, 72, 0.82)',
+      panel: 'rgba(28, 38, 58, 0.55)',
+      raised: 'rgba(36, 48, 72, 0.65)',
       accent: '#6ec8e8',
       checkerA: '#2e3a4c',
       checkerB: '#1e2838',
@@ -173,8 +188,8 @@ export const THEMES: ReadonlyArray<{
     description: 'Light liquid glass with milky frost',
     preview: {
       bg: '#d4e4ec',
-      panel: 'rgba(255, 255, 255, 0.7)',
-      raised: 'rgba(255, 255, 255, 0.85)',
+      panel: 'rgba(255, 255, 255, 0.55)',
+      raised: 'rgba(255, 255, 255, 0.7)',
       accent: '#2a9aaa',
       checkerA: '#e8f0f4',
       checkerB: '#c8d8e0',
@@ -187,10 +202,16 @@ export function isThemeId(value: unknown): value is ThemeId {
   return typeof value === 'string' && (THEME_IDS as readonly string[]).includes(value)
 }
 
+/** One-release bridge for the pre-release trademarked theme id. */
+export function normalizeStoredTheme(value: unknown): ThemeId {
+  if (value === 'photoshop') return 'graphite'
+  return isThemeId(value) ? value : DEFAULT_THEME
+}
+
 export function readStoredTheme(): ThemeId {
   try {
     const raw = localStorage.getItem(THEME_STORAGE_KEY)
-    if (isThemeId(raw)) return raw
+    return normalizeStoredTheme(raw)
   } catch {
     /* private mode / SSR */
   }

@@ -1,6 +1,6 @@
 .field {
   display: grid;
-  grid-template-columns: var(--he-flyout-label-width, 2.2rem) minmax(1.5rem, 1fr) auto var(--he-control-h-sm);
+  grid-template-columns: var(--he-flyout-label-width, 2.2rem) minmax(2rem, 1fr) auto var(--he-control-h-sm);
   align-items: center;
   gap: 0.2rem;
   min-width: 0;
@@ -22,10 +22,21 @@
   border: 0;
   background: transparent;
   color: var(--he-text);
+  -webkit-text-fill-color: var(--he-text);
+  color-scheme: inherit;
   font: inherit;
   font-size: var(--he-value-size);
   font-variant-numeric: tabular-nums;
   text-align: right;
+  /* Compact bar: native spin buttons steal the digit area. */
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.value::-webkit-outer-spin-button,
+.value::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .value:focus {
@@ -99,9 +110,19 @@
   border-radius: var(--he-control-radius);
   background: var(--he-bg);
   color: var(--he-text);
+  -webkit-text-fill-color: var(--he-text);
+  color-scheme: inherit;
   font: inherit;
   font-size: var(--he-value-size);
   font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.flyoutHeader input::-webkit-outer-spin-button,
+.flyoutHeader input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .flyoutHeader input:focus {

@@ -78,8 +78,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   padding: 0;
   border: 1px solid transparent;
   border-radius: 3px;
@@ -159,16 +159,24 @@
 }
 
 .row:hover {
-  background: var(--he-gray-700);
+  background: var(--he-row-hover);
+}
+
+.row:focus-visible {
+  outline: 1px solid var(--he-focus);
+  outline-offset: -1px;
 }
 
 .selected {
-  background: var(--he-select);
-  color: var(--he-on-select);
+  background: var(--he-row-selected);
+  /* Unlike command selection, this is a translucent row state. Keep its text
+     tied to the theme's high-contrast foreground in both light and dark UI. */
+  color: var(--he-text-bright);
+  box-shadow: inset 3px 0 0 var(--he-accent);
 }
 
 .selected:hover {
-  background: var(--he-select);
+  background: var(--he-row-selected);
 }
 
 .dragOver {
@@ -281,7 +289,7 @@
   border: none;
   border-radius: 3px;
   background: transparent;
-  color: var(--he-text-muted);
+  color: inherit;
   flex-shrink: 0;
   opacity: 0.55;
 }
@@ -289,12 +297,20 @@
 .fxBtn:hover {
   opacity: 1;
   background: rgba(255, 255, 255, 0.08);
-  color: var(--he-text);
 }
 
 .fxActive {
   opacity: 1;
   color: var(--he-accent);
+}
+
+.selected .fxBtn {
+  opacity: 0.85;
+}
+
+.selected .fxActive {
+  color: inherit;
+  opacity: 1;
 }
 
 .fxRow {
@@ -379,11 +395,13 @@
   border-top: 1px solid var(--he-panel-border);
   flex-shrink: 0;
   background: var(--he-panel-raised);
+  position: sticky;
+  bottom: 0;
 }
 
 .actionBtn {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   border-radius: 2px;
 }
 

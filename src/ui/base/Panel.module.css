@@ -3,7 +3,8 @@
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  background: var(--he-panel);
+  /* Fill comes from dock chrome (.dv-content-container) so glass blur can show */
+  background: transparent;
   color: var(--he-text);
 }
 
@@ -15,6 +16,9 @@
   padding: 0.35rem 0.55rem;
   border-bottom: 1px solid var(--he-panel-border);
   background: var(--he-panel-raised);
+  background-image: var(--he-surface-sheen);
+  -webkit-backdrop-filter: var(--he-backdrop);
+  backdrop-filter: var(--he-backdrop);
   color: var(--he-text-muted);
   font-size: 11px;
   text-transform: uppercase;

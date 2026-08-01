@@ -11,6 +11,8 @@
   border: 1px solid var(--he-border);
   border-radius: var(--he-popover-radius);
   background: var(--he-panel);
+  -webkit-backdrop-filter: var(--he-backdrop);
+  backdrop-filter: var(--he-backdrop);
   box-shadow: var(--he-shadow-md);
   color: var(--he-text);
 }

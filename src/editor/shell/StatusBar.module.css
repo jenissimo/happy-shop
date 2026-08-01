@@ -6,7 +6,10 @@
   height: 22px;
   padding: 0 0.55rem;
   background: var(--he-panel-raised);
+  background-image: var(--he-surface-sheen);
   border-top: 1px solid var(--he-panel-border);
+  -webkit-backdrop-filter: var(--he-backdrop);
+  backdrop-filter: var(--he-backdrop);
   color: var(--he-text-muted);
   font-size: 11px;
   line-height: 1;

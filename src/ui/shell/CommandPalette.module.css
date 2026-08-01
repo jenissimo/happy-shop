@@ -15,8 +15,8 @@
   box-shadow: var(--he-shadow-lg);
   border-radius: 6px;
   overflow: hidden;
-  backdrop-filter: var(--he-backdrop);
   -webkit-backdrop-filter: var(--he-backdrop);
+  backdrop-filter: var(--he-backdrop);
 }
 
 .input {
