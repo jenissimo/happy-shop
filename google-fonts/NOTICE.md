@@ -2,22 +2,1840 @@
 
 The application does not bundle Google Fonts binaries. The offline browse index contains 2022 metadata-only families from the authoritative `google/fonts` repository; each index entry records an SPDX license, canonical license URL, and the exact source commit/folder that establishes its provenance. Add to document fetches only the pinned WOFF2 face below after explicit user confirmation; the full license text is retained with the IndexedDB cache record.
 
-## Curated downloadable faces
+## Downloadable faces
 
+- **ABeeZee** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/abeezee/OFL.txt
+- **Abel** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/abel/OFL.txt
+- **Abhaya Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/abhayalibre/OFL.txt
+- **Aboreto** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/aboreto/OFL.txt
+- **Abril Fatface** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/abrilfatface/OFL.txt
+- **Abyssinica SIL** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/abyssinicasil/OFL.txt
+- **Aclonica** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/aclonica/LICENSE.txt
+- **Acme** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/acme/OFL.txt
+- **Actor** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/actor/OFL.txt
+- **Adamina** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/adamina/OFL.txt
+- **ADLaM Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/adlamdisplay/OFL.txt
+- **Adobe Blank** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/adobeblank/OFL.txt
+- **Advent Pro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/adventpro/OFL.txt
+- **Afacad** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/afacad/OFL.txt
+- **Afacad Flux** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/afacadflux/OFL.txt
+- **Agbalumo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/agbalumo/OFL.txt
+- **Agdasima** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/agdasima/OFL.txt
+- **Agu Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/agudisplay/OFL.txt
+- **Aguafina Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/aguafinascript/OFL.txt
+- **Akatab** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/akatab/OFL.txt
+- **Akaya Kanadaka** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/akayakanadaka/OFL.txt
+- **Akaya Telivigala** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/akayatelivigala/OFL.txt
+- **Akronim** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/akronim/OFL.txt
+- **Akshar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/akshar/OFL.txt
+- **Akt** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/akt/OFL.txt
+- **Aladin** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/aladin/OFL.txt
+- **Alan Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alansans/OFL.txt
+- **Alata** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alata/OFL.txt
+- **Alatsi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alatsi/OFL.txt
+- **Albert Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/albertsans/OFL.txt
+- **Aldrich** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/aldrich/OFL.txt
+- **Alef** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alef/OFL.txt
+- **Alegreya** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alegreya/OFL.txt
+- **Alegreya Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alegreyasans/OFL.txt
+- **Alegreya Sans SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alegreyasanssc/OFL.txt
+- **Alegreya SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alegreyasc/OFL.txt
+- **Aleo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/aleo/OFL.txt
+- **Alex Brush** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alexbrush/OFL.txt
+- **Alexandria** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alexandria/OFL.txt
+- **Alfa Slab One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alfaslabone/OFL.txt
+- **Alice** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alice/OFL.txt
+- **Alien Block** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alienblock/OFL.txt
+- **Alike** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alike/OFL.txt
+- **Alike Angular** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alikeangular/OFL.txt
+- **Alkalami** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alkalami/OFL.txt
+- **Alkatra** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alkatra/OFL.txt
+- **Allan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/allan/OFL.txt
+- **Allerta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/allerta/OFL.txt
+- **Allerta Stencil** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/allertastencil/OFL.txt
+- **Allison** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/allison/OFL.txt
+- **Allkin** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/allkin/OFL.txt
+- **Allura** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/allura/OFL.txt
+- **Almarai** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/almarai/OFL.txt
+- **Almendra** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/almendra/OFL.txt
+- **Almendra Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/almendradisplay/OFL.txt
+- **Almendra SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/almendrasc/OFL.txt
+- **Alumni Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alumnisans/OFL.txt
+- **Alumni Sans Collegiate One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alumnisanscollegiateone/OFL.txt
+- **Alumni Sans Inline One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alumnisansinlineone/OFL.txt
+- **Alumni Sans Pinstripe** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alumnisanspinstripe/OFL.txt
+- **Alumni Sans SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alumnisanssc/OFL.txt
+- **Alyamama** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/alyamama/OFL.txt
+- **Amarante** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/amarante/OFL.txt
+- **Amaranth** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/amaranth/OFL.txt
+- **Amarna** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/amarna/OFL.txt
+- **Amatic SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/amaticsc/OFL.txt
+- **Amethysta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/amethysta/OFL.txt
+- **Amiko** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/amiko/OFL.txt
+- **Amiri** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/amiri/OFL.txt
+- **Amiri Quran** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/amiriquran/OFL.txt
+- **Amita** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/amita/OFL.txt
+- **Anaheim** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anaheim/OFL.txt
+- **Ancizar Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ancizarsans/OFL.txt
+- **Ancizar Serif** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ancizarserif/OFL.txt
+- **Andada Pro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/andadapro/OFL.txt
+- **Andika** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/andika/OFL.txt
+- **Anek Bangla** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anekbangla/OFL.txt
+- **Anek Devanagari** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anekdevanagari/OFL.txt
+- **Anek Gujarati** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anekgujarati/OFL.txt
+- **Anek Gurmukhi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anekgurmukhi/OFL.txt
+- **Anek Kannada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anekkannada/OFL.txt
+- **Anek Latin** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/aneklatin/OFL.txt
+- **Anek Malayalam** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anekmalayalam/OFL.txt
+- **Anek Odia** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anekodia/OFL.txt
+- **Anek Tamil** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anektamil/OFL.txt
+- **Anek Telugu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anektelugu/OFL.txt
+- **Angkor** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/angkor/OFL.txt
+- **Annapurna SIL** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/annapurnasil/OFL.txt
+- **Annie Use Your Telescope** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/annieuseyourtelescope/OFL.txt
+- **Anonymous Pro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anonymouspro/OFL.txt
+- **Anta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anta/OFL.txt
+- **Antic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/antic/OFL.txt
+- **Antic Didone** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anticdidone/OFL.txt
+- **Antic Slab** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anticslab/OFL.txt
+- **Anton** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anton/OFL.txt
+- **Anton SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/antonsc/OFL.txt
+- **Antonio** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/antonio/OFL.txt
+- **Anuphan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anuphan/OFL.txt
+- **Anybody** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/anybody/OFL.txt
+- **AR One Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/aronesans/OFL.txt
+- **Arapey** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/arapey/OFL.txt
+- **Arbutus** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/arbutus/OFL.txt
+- **Arbutus Slab** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/arbutusslab/OFL.txt
+- **Architects Daughter** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/architectsdaughter/OFL.txt
+- **Archivo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/archivo/OFL.txt
+- **Archivo Black** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/archivoblack/OFL.txt
+- **Archivo Narrow** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/archivonarrow/OFL.txt
+- **Are You Serious** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/areyouserious/OFL.txt
+- **Aref Ruqaa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/arefruqaa/OFL.txt
+- **Aref Ruqaa Ink** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/arefruqaaink/OFL.txt
+- **Arima** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/arima/OFL.txt
+- **Arimo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/arimo/OFL.txt
+- **Arizonia** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/arizonia/OFL.txt
+- **Armata** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/armata/OFL.txt
+- **Arsenal** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/arsenal/OFL.txt
+- **Arsenal SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/arsenalsc/OFL.txt
+- **Artifika** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/artifika/OFL.txt
+- **Arvo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/arvo/OFL.txt
+- **Arya** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/arya/OFL.txt
+- **Asap** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/asap/OFL.txt
+- **Asap Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/asapcondensed/OFL.txt
+- **Asar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/asar/OFL.txt
+- **Asimovian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/asimovian/OFL.txt
+- **Asset** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/asset/OFL.txt
+- **Assistant** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/assistant/OFL.txt
+- **Astloch** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/astloch/OFL.txt
+- **Asul** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/asul/OFL.txt
+- **Athiti** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/athiti/OFL.txt
+- **Atkinson Hyperlegible** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/atkinsonhyperlegible/OFL.txt
+- **Atkinson Hyperlegible Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/atkinsonhyperlegiblemono/OFL.txt
+- **Atkinson Hyperlegible Next** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/atkinsonhyperlegiblenext/OFL.txt
+- **Atma** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/atma/OFL.txt
+- **Atomic Age** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/atomicage/OFL.txt
+- **Aubrey** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/aubrey/OFL.txt
+- **Audiowide** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/audiowide/OFL.txt
+- **Autour One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/autourone/OFL.txt
+- **Average** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/average/OFL.txt
+- **Average Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/averagesans/OFL.txt
+- **Averia Gruesa Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/averiagruesalibre/OFL.txt
+- **Averia Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/averialibre/OFL.txt
+- **Averia Sans Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/averiasanslibre/OFL.txt
+- **Averia Serif Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/averiaseriflibre/OFL.txt
+- **Azeret Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/azeretmono/OFL.txt
+- **B612** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/b612/OFL.txt
+- **B612 Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/b612mono/OFL.txt
+- **Babylonica** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/babylonica/OFL.txt
+- **Bacasime Antique** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bacasimeantique/OFL.txt
+- **Bad Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/badscript/OFL.txt
+- **Badeen Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/badeendisplay/OFL.txt
+- **Bahiana** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bahiana/OFL.txt
+- **Bahianita** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bahianita/OFL.txt
+- **Bai Jamjuree** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/baijamjuree/OFL.txt
+- **Bakbak One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bakbakone/OFL.txt
+- **Ballet** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ballet/OFL.txt
+- **Baloo 2** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/baloo2/OFL.txt
+- **Baloo Bhai 2** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/baloobhai2/OFL.txt
+- **Baloo Bhaijaan 2** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/baloobhaijaan2/OFL.txt
+- **Baloo Bhaina 2** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/baloobhaina2/OFL.txt
+- **Baloo Chettan 2** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/baloochettan2/OFL.txt
+- **Baloo Da 2** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/balooda2/OFL.txt
+- **Baloo Paaji 2** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/baloopaaji2/OFL.txt
+- **Baloo Tamma 2** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/balootamma2/OFL.txt
+- **Baloo Tammudu 2** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/balootammudu2/OFL.txt
+- **Baloo Thambi 2** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/baloothambi2/OFL.txt
+- **Balsamiq Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/balsamiqsans/OFL.txt
+- **Balthazar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/balthazar/OFL.txt
+- **Bangers** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bangers/OFL.txt
+- **Barlow** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/barlow/OFL.txt
+- **Barlow Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/barlowcondensed/OFL.txt
+- **Barlow Semi Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/barlowsemicondensed/OFL.txt
+- **Barriecito** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/barriecito/OFL.txt
+- **Barrio** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/barrio/OFL.txt
+- **Basic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/basic/OFL.txt
+- **Baskervville** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/baskervville/OFL.txt
+- **Baskervville SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/baskervvillesc/OFL.txt
+- **Battambang** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/battambang/OFL.txt
+- **Baumans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/baumans/OFL.txt
+- **Bayon** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bayon/OFL.txt
+- **BBH Bartle** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bbhbartle/OFL.txt
+- **BBH Bogle** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bbhbogle/OFL.txt
+- **BBH Hegarty** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bbhhegarty/OFL.txt
+- **Be Vietnam Pro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bevietnampro/OFL.txt
+- **Beau Rivage** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/beaurivage/OFL.txt
+- **Bebas Neue** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bebasneue/OFL.txt
+- **Beiruti** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/beiruti/OFL.txt
+- **Belanosima** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/belanosima/OFL.txt
+- **Belgrano** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/belgrano/OFL.txt
+- **Bellefair** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bellefair/OFL.txt
+- **Belleza** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/belleza/OFL.txt
+- **Bellota** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bellota/OFL.txt
+- **Bellota Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bellotatext/OFL.txt
+- **BenchNine** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/benchnine/OFL.txt
+- **Benne** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/benne/OFL.txt
+- **Bentham** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bentham/OFL.txt
+- **Berkshire Swash** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/berkshireswash/OFL.txt
+- **Besley** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/besley/OFL.txt
+- **Betania Patmos** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/betaniapatmos/OFL.txt
+- **Betania Patmos GDL** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/betaniapatmosgdl/OFL.txt
+- **Betania Patmos In** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/betaniapatmosin/OFL.txt
+- **Betania Patmos In GDL** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/betaniapatmosingdl/OFL.txt
+- **Beth Ellen** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bethellen/OFL.txt
+- **Bevan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bevan/OFL.txt
+- **BhuTuka Expanded One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bhutukaexpandedone/OFL.txt
+- **Big Shoulders** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bigshoulders/OFL.txt
+- **Big Shoulders Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bigshouldersdisplay/OFL.txt
+- **Big Shoulders Inline** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bigshouldersinline/OFL.txt
+- **Big Shoulders Inline Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bigshouldersinlinedisplay/OFL.txt
+- **Big Shoulders Inline Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bigshouldersinlinetext/OFL.txt
+- **Big Shoulders Stencil** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bigshouldersstencil/OFL.txt
+- **Big Shoulders Stencil Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bigshouldersstencildisplay/OFL.txt
+- **Big Shoulders Stencil Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bigshouldersstenciltext/OFL.txt
+- **Big Shoulders Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bigshoulderstext/OFL.txt
+- **Bigelow Rules** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bigelowrules/OFL.txt
+- **Bigshot One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bigshotone/OFL.txt
+- **Bilbo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bilbo/OFL.txt
+- **Bilbo Swash Caps** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bilboswashcaps/OFL.txt
+- **BioRhyme** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/biorhyme/OFL.txt
+- **BioRhyme Expanded** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/biorhymeexpanded/OFL.txt
+- **Birthstone** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/birthstone/OFL.txt
+- **Birthstone Bounce** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/birthstonebounce/OFL.txt
+- **Biryani** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/biryani/OFL.txt
+- **Bitcount** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitcount/OFL.txt
+- **Bitcount Grid Double** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitcountgriddouble/OFL.txt
+- **Bitcount Grid Double Ink** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitcountgriddoubleink/OFL.txt
+- **Bitcount Grid Single** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitcountgridsingle/OFL.txt
+- **Bitcount Grid Single Ink** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitcountgridsingleink/OFL.txt
+- **Bitcount Ink** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitcountink/OFL.txt
+- **Bitcount Prop Double** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitcountpropdouble/OFL.txt
+- **Bitcount Prop Double Ink** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitcountpropdoubleink/OFL.txt
+- **Bitcount Prop Single** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitcountpropsingle/OFL.txt
+- **Bitcount Prop Single Ink** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitcountpropsingleink/OFL.txt
+- **Bitcount Single** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitcountsingle/OFL.txt
+- **Bitcount Single Ink** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitcountsingleink/OFL.txt
+- **Bitter** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bitter/OFL.txt
+- **BJCree** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bjcree/OFL.txt
+- **Black Ops One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/blackopsone/OFL.txt
+- **Blaka** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/blaka/OFL.txt
+- **Blaka Hollow** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/blakahollow/OFL.txt
+- **Blaka Ink** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/blakaink/OFL.txt
+- **Blinker** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/blinker/OFL.txt
+- **Bodoni Moda** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bodonimoda/OFL.txt
+- **Bodoni Moda SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bodonimodasc/OFL.txt
+- **Bokor** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bokor/OFL.txt
+- **Boldonse** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/boldonse/OFL.txt
+- **Bona Nova** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bonanova/OFL.txt
+- **Bona Nova SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bonanovasc/OFL.txt
+- **Bonbon** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bonbon/OFL.txt
+- **Bonheur Royale** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bonheurroyale/OFL.txt
+- **Boogaloo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/boogaloo/OFL.txt
+- **Borel** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/borel/OFL.txt
+- **Bowlby One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bowlbyone/OFL.txt
+- **Bowlby One SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bowlbyonesc/OFL.txt
+- **Braah One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/braahone/OFL.txt
+- **Brawler** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/brawler/OFL.txt
+- **Bree Serif** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/breeserif/OFL.txt
+- **Bricolage Grotesque** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bricolagegrotesque/OFL.txt
+- **Briem Hand** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/briemhand/OFL.txt
+- **Bruno Ace** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/brunoace/OFL.txt
+- **Bruno Ace SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/brunoacesc/OFL.txt
+- **Brygada 1918** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/brygada1918/OFL.txt
+- **Bubblegum Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bubblegumsans/OFL.txt
+- **Bubbler One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bubblerone/OFL.txt
+- **Buda** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/buda/OFL.txt
+- **Buenard** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/buenard/OFL.txt
+- **Bungee** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bungee/OFL.txt
+- **Bungee Hairline** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bungeehairline/OFL.txt
+- **Bungee Inline** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bungeeinline/OFL.txt
+- **Bungee Outline** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bungeeoutline/OFL.txt
+- **Bungee Shade** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bungeeshade/OFL.txt
+- **Bungee Spice** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bungeespice/OFL.txt
+- **Bungee Tint** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bungeetint/OFL.txt
+- **Butcherman** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/butcherman/OFL.txt
+- **Butterfly Kids** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/butterflykids/OFL.txt
+- **Bytesized** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/bytesized/OFL.txt
+- **Cabin** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cabin/OFL.txt
+- **Cabin Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cabincondensed/OFL.txt
+- **Cabin Sketch** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cabinsketch/OFL.txt
+- **Caesar Dressing** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/caesardressing/OFL.txt
+- **Cagliostro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cagliostro/OFL.txt
+- **Cairo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cairo/OFL.txt
+- **Cairo Play** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cairoplay/OFL.txt
+- **Cal Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/calsans/OFL.txt
+- **Caladea** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/caladea/OFL.txt
+- **Calistoga** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/calistoga/OFL.txt
+- **Calligraffitti** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/calligraffitti/LICENSE.txt
+- **Cambay** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cambay/OFL.txt
+- **Cambo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cambo/OFL.txt
+- **Candal** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/candal/OFL.txt
+- **Cantarell** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cantarell/OFL.txt
+- **Cantata One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cantataone/OFL.txt
+- **Cantora One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cantoraone/OFL.txt
+- **Caprasimo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/caprasimo/OFL.txt
+- **Capriola** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/capriola/OFL.txt
+- **Caramel** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/caramel/OFL.txt
+- **Carattere** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/carattere/OFL.txt
+- **Cardo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cardo/OFL.txt
+- **Carlito** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/carlito/OFL.txt
+- **Carme** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/carme/OFL.txt
+- **Carrois Gothic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/carroisgothic/OFL.txt
+- **Carrois Gothic SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/carroisgothicsc/OFL.txt
+- **Carter One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/carterone/OFL.txt
+- **Cascadia Code** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cascadiacode/OFL.txt
+- **Cascadia Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cascadiamono/OFL.txt
+- **Castoro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/castoro/OFL.txt
+- **Castoro Titling** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/castorotitling/OFL.txt
+- **Catamaran** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/catamaran/OFL.txt
+- **Caudex** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/caudex/OFL.txt
+- **Cause** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cause/OFL.txt
+- **Caveat** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/caveat/OFL.txt
+- **Caveat Brush** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/caveatbrush/OFL.txt
+- **Cedarville Cursive** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cedarvillecursive/OFL.txt
+- **Ceviche One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cevicheone/OFL.txt
+- **Chakra Petch** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chakrapetch/OFL.txt
+- **Changa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/changa/OFL.txt
+- **Changa One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/changaone/OFL.txt
+- **Chango** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chango/OFL.txt
+- **Charis SIL** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/charissil/OFL.txt
+- **Charm** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/charm/OFL.txt
+- **Charmonman** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/charmonman/OFL.txt
+- **Chathura** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chathura/OFL.txt
+- **Chau Philomene One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chauphilomeneone/OFL.txt
+- **Chela One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chelaone/OFL.txt
+- **Chelsea Market** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chelseamarket/OFL.txt
+- **Chenla** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chenla/OFL.txt
+- **Cherish** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cherish/OFL.txt
+- **Cherry Cream Soda** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/cherrycreamsoda/LICENSE.txt
+- **Cherry Swash** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cherryswash/OFL.txt
+- **Chewy** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/chewy/LICENSE.txt
+- **Chicle** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chicle/OFL.txt
+- **Chilanka** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chilanka/OFL.txt
+- **Chiron Sung HK** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chironsunghk/OFL.txt
+- **Chivo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chivo/OFL.txt
+- **Chivo Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chivomono/OFL.txt
+- **Chonburi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/chonburi/OFL.txt
+- **Cinzel** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cinzel/OFL.txt
+- **Cinzel Decorative** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cinzeldecorative/OFL.txt
+- **Clicker Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/clickerscript/OFL.txt
+- **Climate Crisis** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/climatecrisis/OFL.txt
+- **Coda** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/coda/OFL.txt
+- **Codystar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/codystar/OFL.txt
+- **Coiny** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/coiny/OFL.txt
+- **Combo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/combo/OFL.txt
+- **Comfortaa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/comfortaa/OFL.txt
+- **Comforter** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/comforter/OFL.txt
+- **Comforter Brush** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/comforterbrush/OFL.txt
+- **Comic Neue** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/comicneue/OFL.txt
+- **Comic Relief** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/comicrelief/OFL.txt
+- **Coming Soon** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/comingsoon/LICENSE.txt
+- **Comme** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/comme/OFL.txt
+- **Commissioner** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/commissioner/OFL.txt
+- **Concert One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/concertone/OFL.txt
+- **Condiment** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/condiment/OFL.txt
+- **Content** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/content/OFL.txt
+- **Contrail One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/contrailone/OFL.txt
+- **Convergence** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/convergence/OFL.txt
+- **Cookie** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cookie/OFL.txt
+- **Copse** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/copse/OFL.txt
+- **Coral Pixels** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/coralpixels/OFL.txt
+- **Corben** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/corben/OFL.txt
+- **Corinthia** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/corinthia/OFL.txt
+- **Cormorant** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cormorant/OFL.txt
+- **Cormorant Garamond** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cormorantgaramond/OFL.txt
+- **Cormorant Infant** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cormorantinfant/OFL.txt
+- **Cormorant SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cormorantsc/OFL.txt
+- **Cormorant Unicase** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cormorantunicase/OFL.txt
+- **Cormorant Upright** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cormorantupright/OFL.txt
+- **Cossette Texte** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cossettetexte/OFL.txt
+- **Cossette Titre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cossettetitre/OFL.txt
+- **Courgette** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/courgette/OFL.txt
+- **Courier Prime** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/courierprime/OFL.txt
+- **Cousine** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cousine/OFL.txt
+- **Coustard** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/coustard/OFL.txt
+- **Covered By Your Grace** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/coveredbyyourgrace/OFL.txt
+- **Crafty Girls** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/craftygirls/LICENSE.txt
+- **Creepster** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/creepster/OFL.txt
+- **Creepster Caps** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/creepstercaps/LICENSE.txt
+- **Crete Round** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/creteround/OFL.txt
+- **Crimson Pro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/crimsonpro/OFL.txt
+- **Crimson Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/crimsontext/OFL.txt
+- **Croissant One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/croissantone/OFL.txt
+- **Crushed** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/crushed/LICENSE.txt
+- **Cuprum** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cuprum/OFL.txt
+- **Cutive** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cutive/OFL.txt
+- **Cutive Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/cutivemono/OFL.txt
+- **Dai Banna SIL** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/daibannasil/OFL.txt
+- **Damion** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/damion/OFL.txt
+- **Dancing Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dancingscript/OFL.txt
+- **Danfo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/danfo/OFL.txt
+- **Dangrek** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dangrek/OFL.txt
+- **Darker Grotesque** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/darkergrotesque/OFL.txt
+- **Datatype** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/datatype/OFL.txt
+- **David Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/davidlibre/OFL.txt
+- **Dawning of a New Day** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dawningofanewday/OFL.txt
+- **Days One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/daysone/OFL.txt
+- **Dekko** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dekko/OFL.txt
+- **Delicious Handrawn** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/delicioushandrawn/OFL.txt
+- **Delius** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/delius/OFL.txt
+- **Delius Swash Caps** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/deliusswashcaps/OFL.txt
+- **Delius Unicase** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/deliusunicase/OFL.txt
+- **Della Respira** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dellarespira/OFL.txt
+- **Denk One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/denkone/OFL.txt
+- **Devonshire** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/devonshire/OFL.txt
+- **Dhurjati** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dhurjati/OFL.txt
+- **Dhyana** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dhyana/OFL.txt
+- **Didact Gothic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/didactgothic/OFL.txt
+- **Diplomata** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/diplomata/OFL.txt
+- **Diplomata SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/diplomatasc/OFL.txt
+- **DM Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dmmono/OFL.txt
+- **DM Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dmsans/OFL.txt
+- **DM Serif Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dmserifdisplay/OFL.txt
+- **DM Serif Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dmseriftext/OFL.txt
+- **Domine** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/domine/OFL.txt
+- **Donegal One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/donegalone/OFL.txt
+- **Doppio One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/doppioone/OFL.txt
+- **Dorsa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dorsa/OFL.txt
+- **Dosis** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dosis/OFL.txt
+- **Doto** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/doto/OFL.txt
+- **Dr Sugiyama** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/drsugiyama/OFL.txt
+- **Duru Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/durusans/OFL.txt
+- **Dynalight** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dynalight/OFL.txt
+- **DynaPuff** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/dynapuff/OFL.txt
+- **Eagle Lake** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/eaglelake/OFL.txt
+- **Eater** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/eater/OFL.txt
+- **EB Garamond** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ebgaramond/OFL.txt
+- **Economica** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/economica/OFL.txt
+- **Eczar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/eczar/OFL.txt
+- **Edu AU VIC WA NT Arrows** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/eduauvicwantarrows/OFL.txt
+- **Edu AU VIC WA NT Dots** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/eduauvicwantdots/OFL.txt
+- **Edu AU VIC WA NT Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/eduauvicwantguides/OFL.txt
+- **Edu AU VIC WA NT Hand** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/eduauvicwanthand/OFL.txt
+- **Edu AU VIC WA NT Pre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/eduauvicwantpre/OFL.txt
+- **Edu NSW ACT Foundation** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/edunswactfoundation/OFL.txt
+- **Edu QLD Beginner** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/eduqldbeginner/OFL.txt
+- **Edu SA Beginner** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/edusabeginner/OFL.txt
+- **Edu TAS Beginner** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/edutasbeginner/OFL.txt
+- **Edu VIC WA NT Beginner** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/eduvicwantbeginner/OFL.txt
+- **Ek Mukta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ekmukta/OFL.txt
+- **El Messiri** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/elmessiri/OFL.txt
+- **Electrolize** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/electrolize/OFL.txt
+- **Elms Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/elmssans/OFL.txt
+- **Elsie** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/elsie/OFL.txt
+- **Elsie Swash Caps** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/elsieswashcaps/OFL.txt
+- **Emblema One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/emblemaone/OFL.txt
+- **Emilys Candy** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/emilyscandy/OFL.txt
+- **Encode Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/encodesans/OFL.txt
+- **Encode Sans Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/encodesanscondensed/OFL.txt
+- **Encode Sans Expanded** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/encodesansexpanded/OFL.txt
+- **Encode Sans SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/encodesanssc/OFL.txt
+- **Encode Sans Semi Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/encodesanssemicondensed/OFL.txt
+- **Encode Sans Semi Expanded** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/encodesanssemiexpanded/OFL.txt
+- **Engagement** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/engagement/OFL.txt
+- **Englebert** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/englebert/OFL.txt
+- **Enriqueta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/enriqueta/OFL.txt
+- **Ephesis** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ephesis/OFL.txt
+- **Epilogue** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/epilogue/OFL.txt
+- **Epunda Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/epundasans/OFL.txt
+- **Epunda Slab** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/epundaslab/OFL.txt
+- **Erica One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ericaone/OFL.txt
+- **Esteban** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/esteban/OFL.txt
+- **Estedad** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/estedad/OFL.txt
+- **Estonia** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/estonia/OFL.txt
+- **Euphoria Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/euphoriascript/OFL.txt
+- **Ewert** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ewert/OFL.txt
+- **Exile** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/exile/OFL.txt
+- **Exo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/exo/OFL.txt
+- **Exo 2** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/exo2/OFL.txt
+- **Expletus Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/expletussans/OFL.txt
+- **Explora** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/explora/OFL.txt
+- **Faculty Glyphic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/facultyglyphic/OFL.txt
+- **Fahkwang** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fahkwang/OFL.txt
+- **Familjen Grotesk** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/familjengrotesk/OFL.txt
+- **Fanwood Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fanwoodtext/OFL.txt
+- **Farro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/farro/OFL.txt
+- **Farsan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/farsan/OFL.txt
+- **Fascinate** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fascinate/OFL.txt
+- **Fascinate Inline** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fascinateinline/OFL.txt
+- **Faster One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fasterone/OFL.txt
+- **Fasthand** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fasthand/OFL.txt
+- **Fauna One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/faunaone/OFL.txt
+- **Faustina** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/faustina/OFL.txt
+- **Federant** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/federant/OFL.txt
+- **Federo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/federo/OFL.txt
+- **Felipa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/felipa/OFL.txt
+- **Fenix** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fenix/OFL.txt
+- **Festive** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/festive/OFL.txt
+- **Figtree** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/figtree/OFL.txt
+- **Finger Paint** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fingerpaint/OFL.txt
+- **Finlandica** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/finlandica/OFL.txt
+- **Finlandica Headline** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/finlandicaheadline/OFL.txt
+- **Finlandica Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/finlandicatext/OFL.txt
+- **Fira Code** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/firacode/OFL.txt
+- **Fira Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/firamono/OFL.txt
 - **Fira Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/firasans/OFL.txt
+- **Fira Sans Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/firasanscondensed/OFL.txt
+- **Fira Sans Extra Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/firasansextracondensed/OFL.txt
+- **Fjalla One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fjallaone/OFL.txt
+- **Fjord One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fjordone/OFL.txt
+- **Flamenco** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/flamenco/OFL.txt
+- **Flavors** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/flavors/OFL.txt
+- **Fleur De Leah** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fleurdeleah/OFL.txt
+- **Flow Block** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/flowblock/OFL.txt
+- **Flow Circular** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/flowcircular/OFL.txt
+- **Flow Rounded** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/flowrounded/OFL.txt
+- **Foldit** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/foldit/OFL.txt
+- **Fondamento** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fondamento/OFL.txt
+- **Fontdiner Swanky** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/fontdinerswanky/LICENSE.txt
+- **Forum** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/forum/OFL.txt
+- **Fragment Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fragmentmono/OFL.txt
+- **Francois One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/francoisone/OFL.txt
+- **Frank Ruhl Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/frankruhllibre/OFL.txt
+- **Fraunces** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fraunces/OFL.txt
+- **Freckle Face** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/freckleface/OFL.txt
+- **Fredericka the Great** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/frederickathegreat/OFL.txt
+- **Fredoka** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fredoka/OFL.txt
+- **Freehand** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/freehand/OFL.txt
+- **Freeman** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/freeman/OFL.txt
+- **Fresca** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fresca/OFL.txt
+- **Frijole** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/frijole/OFL.txt
+- **Fruktur** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fruktur/OFL.txt
+- **Fugaz One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fugazone/OFL.txt
+- **Fuggles** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fuggles/OFL.txt
+- **Funnel Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/funneldisplay/OFL.txt
+- **Funnel Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/funnelsans/OFL.txt
+- **Fustat** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fustat/OFL.txt
+- **Fuzzy Bubbles** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/fuzzybubbles/OFL.txt
+- **Ga Maamli** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gamaamli/OFL.txt
+- **Gabarito** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gabarito/OFL.txt
+- **Gabriela** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gabriela/OFL.txt
+- **Gafata** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gafata/OFL.txt
+- **Gajraj One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gajrajone/OFL.txt
+- **Galada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/galada/OFL.txt
+- **Galdeano** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/galdeano/OFL.txt
+- **Galindo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/galindo/OFL.txt
+- **Gantari** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gantari/OFL.txt
+- **Gayathri** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gayathri/OFL.txt
+- **Geist** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/geist/OFL.txt
+- **Geist Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/geistmono/OFL.txt
+- **Geist Pixel** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/geistpixel/OFL.txt
+- **Gelasio** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gelasio/OFL.txt
+- **Gemunu Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gemunulibre/OFL.txt
+- **Genos** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/genos/OFL.txt
+- **Gentium Book Plus** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gentiumbookplus/OFL.txt
+- **Gentium Plus** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gentiumplus/OFL.txt
+- **Geo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/geo/OFL.txt
+- **Geologica** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/geologica/OFL.txt
+- **Geom** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/geom/OFL.txt
+- **Geomini** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/geomini/OFL.txt
+- **Georama** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/georama/OFL.txt
+- **Geostar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/geostar/OFL.txt
+- **Geostar Fill** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/geostarfill/OFL.txt
+- **Germania One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/germaniaone/OFL.txt
+- **GFS Didot** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gfsdidot/OFL.txt
+- **GFS Neohellenic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gfsneohellenic/OFL.txt
+- **Gideon Roman** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gideonroman/OFL.txt
+- **Gidole** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gidole/OFL.txt
+- **Gidugu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gidugu/OFL.txt
+- **Gilda Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gildadisplay/OFL.txt
+- **Girassol** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/girassol/OFL.txt
+- **Give You Glory** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/giveyouglory/OFL.txt
+- **Glass Antiqua** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/glassantiqua/OFL.txt
+- **Glegoo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/glegoo/OFL.txt
+- **Gloock** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gloock/OFL.txt
+- **Gloria Hallelujah** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gloriahallelujah/OFL.txt
+- **Glory** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/glory/OFL.txt
+- **Gluten** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gluten/OFL.txt
+- **Goblin One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/goblinone/OFL.txt
+- **Gochi Hand** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gochihand/OFL.txt
+- **Goldman** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/goldman/OFL.txt
+- **Golos Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/golostext/OFL.txt
+- **Google Sans Code** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/googlesanscode/OFL.txt
+- **Gorditas** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gorditas/OFL.txt
+- **Gotu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gotu/OFL.txt
+- **Goudy Bookletter 1911** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/goudybookletter1911/OFL.txt
+- **Graduate** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/graduate/OFL.txt
+- **Grand Hotel** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/grandhotel/OFL.txt
+- **Grandstander** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/grandstander/OFL.txt
+- **Grape Nuts** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/grapenuts/OFL.txt
+- **Gravitas One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gravitasone/OFL.txt
+- **Great Vibes** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/greatvibes/OFL.txt
+- **Grechen Fuemen** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/grechenfuemen/OFL.txt
+- **Grenze** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/grenze/OFL.txt
+- **Grenze Gotisch** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/grenzegotisch/OFL.txt
+- **Grey Qo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/greyqo/OFL.txt
+- **Griffy** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/griffy/OFL.txt
+- **Gruppo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gruppo/OFL.txt
+- **Gudea** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gudea/OFL.txt
+- **Gulzar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gulzar/OFL.txt
+- **Gupter** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gupter/OFL.txt
+- **Gurajada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gurajada/OFL.txt
+- **Gveret Levin** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gveretlevin/OFL.txt
+- **Gwendolyn** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/gwendolyn/OFL.txt
+- **Habibi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/habibi/OFL.txt
+- **Halant** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/halant/OFL.txt
+- **Hammersmith One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hammersmithone/OFL.txt
+- **Hanalei** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hanalei/OFL.txt
+- **Hanalei Fill** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hanaleifill/OFL.txt
+- **Handjet** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/handjet/OFL.txt
+- **Handlee** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/handlee/OFL.txt
+- **Hanken Grotesk** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hankengrotesk/OFL.txt
+- **Hanuman** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hanuman/OFL.txt
+- **Happy Monkey** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/happymonkey/OFL.txt
+- **Harmattan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/harmattan/OFL.txt
+- **Headland One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/headlandone/OFL.txt
+- **Hedvig Letters Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hedvigletterssans/OFL.txt
+- **Hedvig Letters Serif** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hedviglettersserif/OFL.txt
+- **Heebo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/heebo/OFL.txt
+- **Henny Penny** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hennypenny/OFL.txt
+- **Hepta Slab** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/heptaslab/OFL.txt
+- **Herr Von Muellerhoff** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/herrvonmuellerhoff/OFL.txt
+- **Hibur Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hiburmono/OFL.txt
+- **Hind** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hind/OFL.txt
+- **Hind Guntur** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hindguntur/OFL.txt
+- **Hind Madurai** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hindmadurai/OFL.txt
+- **Hind Mysuru** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hindmysuru/OFL.txt
+- **Hind Siliguri** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hindsiliguri/OFL.txt
+- **Hind Vadodara** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hindvadodara/OFL.txt
+- **Holtwood One SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/holtwoodonesc/OFL.txt
+- **Homemade Apple** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/homemadeapple/LICENSE.txt
+- **Homenaje** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/homenaje/OFL.txt
+- **Honk** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/honk/OFL.txt
+- **Host Grotesk** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hostgrotesk/OFL.txt
+- **Hubballi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hubballi/OFL.txt
+- **Hubot Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hubotsans/OFL.txt
+- **Hurricane** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/hurricane/OFL.txt
+- **Ibarra Real Nova** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ibarrarealnova/OFL.txt
+- **IBM Plex Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ibmplexmono/OFL.txt
+- **IBM Plex Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ibmplexsans/OFL.txt
+- **IBM Plex Sans Arabic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ibmplexsansarabic/OFL.txt
+- **IBM Plex Sans Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ibmplexsanscondensed/OFL.txt
+- **IBM Plex Sans Devanagari** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ibmplexsansdevanagari/OFL.txt
+- **IBM Plex Sans Hebrew** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ibmplexsanshebrew/OFL.txt
+- **IBM Plex Sans Thai** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ibmplexsansthai/OFL.txt
+- **IBM Plex Sans Thai Looped** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ibmplexsansthailooped/OFL.txt
+- **IBM Plex Serif** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ibmplexserif/OFL.txt
+- **Iceberg** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/iceberg/OFL.txt
+- **Iceland** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/iceland/OFL.txt
+- **Idiqlat** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/idiqlat/OFL.txt
+- **IM Fell Double Pica** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imfelldoublepica/OFL.txt
+- **IM Fell Double Pica SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imfelldoublepicasc/OFL.txt
+- **IM Fell DW Pica** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imfelldwpica/OFL.txt
+- **IM Fell DW Pica SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imfelldwpicasc/OFL.txt
+- **IM Fell English** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imfellenglish/OFL.txt
+- **IM Fell English SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imfellenglishsc/OFL.txt
+- **IM Fell French Canon** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imfellfrenchcanon/OFL.txt
+- **IM Fell French Canon SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imfellfrenchcanonsc/OFL.txt
+- **IM Fell Great Primer** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imfellgreatprimer/OFL.txt
+- **IM Fell Great Primer SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imfellgreatprimersc/OFL.txt
+- **Imbue** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imbue/OFL.txt
+- **Imperial Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imperialscript/OFL.txt
+- **Imprima** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/imprima/OFL.txt
+- **Inclusive Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/inclusivesans/OFL.txt
+- **Inconsolata** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/inconsolata/OFL.txt
+- **Inder** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/inder/OFL.txt
+- **Indie Flower** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/indieflower/OFL.txt
+- **Ingrid Darling** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ingriddarling/OFL.txt
+- **Inika** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/inika/OFL.txt
+- **Inknut Antiqua** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/inknutantiqua/OFL.txt
+- **Inria Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/inriasans/OFL.txt
+- **Inria Serif** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/inriaserif/OFL.txt
+- **Inspiration** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/inspiration/OFL.txt
+- **Instrument Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/instrumentsans/OFL.txt
+- **Instrument Serif** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/instrumentserif/OFL.txt
+- **Intel One Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/intelonemono/OFL.txt
+- **Inter** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/inter/OFL.txt
+- **Inter Tight** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/intertight/OFL.txt
+- **Iosevka Charon** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/iosevkacharon/OFL.txt
+- **Iosevka Charon Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/iosevkacharonmono/OFL.txt
+- **Irish Grover** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/irishgrover/LICENSE.txt
+- **Island Moments** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/islandmoments/OFL.txt
+- **Istok Web** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/istokweb/OFL.txt
+- **Italiana** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/italiana/OFL.txt
+- **Italianno** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/italianno/OFL.txt
+- **Itim** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/itim/OFL.txt
+- **Jacquard 12** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jacquard12/OFL.txt
+- **Jacquard 12 Charted** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jacquard12charted/OFL.txt
+- **Jacquard 24** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jacquard24/OFL.txt
+- **Jacquard 24 Charted** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jacquard24charted/OFL.txt
+- **Jacquarda Bastarda 9** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jacquardabastarda9/OFL.txt
+- **Jacquarda Bastarda 9 Charted** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jacquardabastarda9charted/OFL.txt
+- **Jacques Francois** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jacquesfrancois/OFL.txt
+- **Jacques Francois Shadow** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jacquesfrancoisshadow/OFL.txt
+- **Jaini** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jaini/OFL.txt
+- **Jaini Purva** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jainipurva/OFL.txt
+- **Jaldi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jaldi/OFL.txt
+- **Jaro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jaro/OFL.txt
+- **Jersey 10** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jersey10/OFL.txt
+- **Jersey 10 Charted** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jersey10charted/OFL.txt
+- **Jersey 15** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jersey15/OFL.txt
+- **Jersey 15 Charted** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jersey15charted/OFL.txt
+- **Jersey 20** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jersey20/OFL.txt
+- **Jersey 20 Charted** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jersey20charted/OFL.txt
+- **Jersey 25** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jersey25/OFL.txt
+- **Jersey 25 Charted** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jersey25charted/OFL.txt
+- **JetBrains Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jetbrainsmono/OFL.txt
+- **Jim Nightshade** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jimnightshade/OFL.txt
+- **Joan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/joan/OFL.txt
+- **Jockey One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jockeyone/OFL.txt
+- **Jolly Lodger** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jollylodger/OFL.txt
+- **Jomhuria** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jomhuria/OFL.txt
+- **Jomolhari** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jomolhari/OFL.txt
+- **Josefin Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/josefinsans/OFL.txt
+- **Josefin Slab** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/josefinslab/OFL.txt
+- **Jost** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jost/OFL.txt
+- **Joti One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jotione/OFL.txt
+- **Judson** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/judson/OFL.txt
+- **Julee** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/julee/OFL.txt
+- **Julius Sans One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/juliussansone/OFL.txt
+- **Junge** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/junge/OFL.txt
+- **Jura** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/jura/OFL.txt
+- **Just Another Hand** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/justanotherhand/LICENSE.txt
+- **Just Me Again Down Here** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/justmeagaindownhere/OFL.txt
+- **K2D** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/k2d/OFL.txt
+- **Kablammo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kablammo/OFL.txt
+- **Kadwa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kadwa/OFL.txt
+- **Kalam** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kalam/OFL.txt
+- **Kalnia** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kalnia/OFL.txt
+- **Kalnia Glaze** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kalniaglaze/OFL.txt
+- **Kameron** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kameron/OFL.txt
+- **Kanchenjunga** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kanchenjunga/OFL.txt
+- **Kanit** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kanit/OFL.txt
+- **Kantumruy Pro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kantumruypro/OFL.txt
+- **Karantina** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/karantina/OFL.txt
+- **Karla** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/karla/OFL.txt
+- **Karla Tamil Inclined** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/karlatamilinclined/OFL.txt
+- **Karla Tamil Upright** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/karlatamilupright/OFL.txt
+- **Karma** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/karma/OFL.txt
+- **Katibeh** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/katibeh/OFL.txt
+- **Kaushan Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kaushanscript/OFL.txt
+- **Kavivanar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kavivanar/OFL.txt
+- **Kavoon** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kavoon/OFL.txt
+- **Kay Pho Du** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kayphodu/OFL.txt
+- **Kdam Thmor Pro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kdamthmorpro/OFL.txt
+- **Keania One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/keaniaone/OFL.txt
+- **Kedebideri** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kedebideri/OFL.txt
+- **Kelly Slab** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kellyslab/OFL.txt
+- **Kenia** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kenia/OFL.txt
+- **Khand** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/khand/OFL.txt
+- **Khmer** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/khmer/OFL.txt
+- **Khula** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/khula/OFL.txt
+- **Kings** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kings/OFL.txt
+- **Kite One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kiteone/OFL.txt
+- **Knewave** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/knewave/OFL.txt
+- **Kodchasan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kodchasan/OFL.txt
+- **Kode Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kodemono/OFL.txt
+- **Koh Santepheap** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kohsantepheap/OFL.txt
+- **KoHo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/koho/OFL.txt
+- **Kolker Brush** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kolkerbrush/OFL.txt
+- **Konkhmer Sleokchher** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/konkhmersleokchher/OFL.txt
+- **Kotta One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kottaone/OFL.txt
+- **Koulen** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/koulen/OFL.txt
+- **Kranky** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/kranky/LICENSE.txt
+- **Kreon** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kreon/OFL.txt
+- **Kristi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kristi/OFL.txt
+- **Krona One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kronaone/OFL.txt
+- **Krub** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/krub/OFL.txt
+- **Kufam** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kufam/OFL.txt
+- **Kulim Park** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kulimpark/OFL.txt
+- **Kumar One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kumarone/OFL.txt
+- **Kumbh Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kumbhsans/OFL.txt
+- **Kurale** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/kurale/OFL.txt
+- **La Belle Aurore** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/labelleaurore/OFL.txt
+- **Labrada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/labrada/OFL.txt
+- **Lacquer** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lacquer/OFL.txt
+- **Laila** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/laila/OFL.txt
+- **Lakki Reddy** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lakkireddy/OFL.txt
+- **Lalezar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lalezar/OFL.txt
+- **Lancelot** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lancelot/OFL.txt
+- **Langar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/langar/OFL.txt
+- **Lateef** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lateef/OFL.txt
 - **Lato** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lato/OFL.txt
+- **Lavishly Yours** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lavishlyyours/OFL.txt
+- **League Gothic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/leaguegothic/OFL.txt
+- **League Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/leaguescript/OFL.txt
+- **League Spartan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/leaguespartan/OFL.txt
+- **Leckerli One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/leckerlione/OFL.txt
+- **Ledger** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ledger/OFL.txt
+- **Lekton** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lekton/OFL.txt
+- **Lemon** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lemon/OFL.txt
+- **Lemonada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lemonada/OFL.txt
+- **Lexend** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lexend/OFL.txt
+- **Lexend Deca** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lexenddeca/OFL.txt
+- **Lexend Exa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lexendexa/OFL.txt
+- **Lexend Giga** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lexendgiga/OFL.txt
+- **Lexend Mega** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lexendmega/OFL.txt
+- **Lexend Peta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lexendpeta/OFL.txt
+- **Lexend Tera** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lexendtera/OFL.txt
+- **Lexend Zetta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lexendzetta/OFL.txt
+- **Libertinus Keyboard** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/libertinuskeyboard/OFL.txt
+- **Libertinus Math** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/libertinusmath/OFL.txt
+- **Libertinus Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/libertinusmono/OFL.txt
+- **Libertinus Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/libertinussans/OFL.txt
+- **Libertinus Serif** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/libertinusserif/OFL.txt
+- **Libertinus Serif Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/libertinusserifdisplay/OFL.txt
+- **Libre Barcode 128** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/librebarcode128/OFL.txt
+- **Libre Barcode 128 Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/librebarcode128text/OFL.txt
+- **Libre Barcode 39** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/librebarcode39/OFL.txt
+- **Libre Barcode 39 Extended** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/librebarcode39extended/OFL.txt
+- **Libre Barcode 39 Extended Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/librebarcode39extendedtext/OFL.txt
+- **Libre Barcode 39 Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/librebarcode39text/OFL.txt
+- **Libre Barcode EAN13 Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/librebarcodeean13text/OFL.txt
+- **Libre Baskerville** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/librebaskerville/OFL.txt
+- **Libre Bodoni** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/librebodoni/OFL.txt
+- **Libre Caslon Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/librecaslondisplay/OFL.txt
+- **Libre Caslon Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/librecaslontext/OFL.txt
+- **Libre Franklin** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/librefranklin/OFL.txt
+- **Licorice** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/licorice/OFL.txt
+- **Life Savers** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lifesavers/OFL.txt
+- **Lilex** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lilex/OFL.txt
+- **Lilita One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lilitaone/OFL.txt
+- **Lily Script One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lilyscriptone/OFL.txt
+- **Limelight** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/limelight/OFL.txt
+- **Linden Hill** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lindenhill/OFL.txt
+- **Linefont** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/linefont/OFL.txt
+- **Lisu Bosa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lisubosa/OFL.txt
+- **Liter** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/liter/OFL.txt
+- **Literata** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/literata/OFL.txt
+- **Livvic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/livvic/OFL.txt
+- **Lobster** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lobster/OFL.txt
+- **Lobster Two** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lobstertwo/OFL.txt
+- **Lohit Bengali** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lohitbengali/OFL.txt
+- **Lohit Tamil** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lohittamil/OFL.txt
+- **Londrina Outline** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/londrinaoutline/OFL.txt
+- **Londrina Shadow** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/londrinashadow/OFL.txt
+- **Londrina Sketch** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/londrinasketch/OFL.txt
+- **Londrina Solid** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/londrinasolid/OFL.txt
+- **Lora** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lora/OFL.txt
+- **Love Light** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lovelight/OFL.txt
+- **Love Ya Like A Sister** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/loveyalikeasister/OFL.txt
+- **Loved by the King** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lovedbytheking/OFL.txt
+- **Lovers Quarrel** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/loversquarrel/OFL.txt
+- **Luckiest Guy** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/luckiestguy/LICENSE.txt
+- **Lugrasimo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lugrasimo/OFL.txt
+- **Lumanosimo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lumanosimo/OFL.txt
+- **Lunasima** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lunasima/OFL.txt
+- **Lusitana** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lusitana/OFL.txt
+- **Lustria** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/lustria/OFL.txt
+- **Luxurious Roman** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/luxuriousroman/OFL.txt
+- **Luxurious Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/luxuriousscript/OFL.txt
+- **M PLUS Code Latin** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mpluscodelatin/OFL.txt
+- **Macondo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/macondo/OFL.txt
+- **Macondo Swash Caps** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/macondoswashcaps/OFL.txt
+- **Mada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mada/OFL.txt
+- **Madimi One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/madimione/OFL.txt
+- **Magra** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/magra/OFL.txt
+- **Maiden Orange** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/maidenorange/LICENSE.txt
+- **Maitree** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/maitree/OFL.txt
+- **Major Mono Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/majormonodisplay/OFL.txt
+- **Mako** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mako/OFL.txt
+- **Mali** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mali/OFL.txt
+- **Mallanna** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mallanna/OFL.txt
+- **Maname** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/maname/OFL.txt
+- **Mandali** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mandali/OFL.txt
+- **Manjari** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/manjari/OFL.txt
 - **Manrope** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/manrope/OFL.txt
+- **Mansalva** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mansalva/OFL.txt
+- **Manuale** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/manuale/OFL.txt
+- **Manufacturing Consent** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/manufacturingconsent/OFL.txt
+- **Marcellus** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/marcellus/OFL.txt
+- **Marcellus SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/marcellussc/OFL.txt
+- **Marck Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/marckscript/OFL.txt
+- **Margarine** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/margarine/OFL.txt
+- **Marhey** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/marhey/OFL.txt
+- **Markazi Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/markazitext/OFL.txt
+- **Marko One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/markoone/OFL.txt
+- **Marmelad** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/marmelad/OFL.txt
+- **Martel** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/martel/OFL.txt
+- **Martel Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/martelsans/OFL.txt
+- **Martian Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/martianmono/OFL.txt
+- **Marvel** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/marvel/OFL.txt
+- **Matangi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/matangi/OFL.txt
+- **Mate** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mate/OFL.txt
+- **Mate SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/matesc/OFL.txt
+- **Matemasie** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/matemasie/OFL.txt
+- **Maven Pro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mavenpro/OFL.txt
+- **McLaren** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mclaren/OFL.txt
+- **Mea Culpa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/meaculpa/OFL.txt
+- **Meddon** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/meddon/OFL.txt
+- **MedievalSharp** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/medievalsharp/OFL.txt
+- **Medula One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/medulaone/OFL.txt
+- **Meera Inimai** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/meerainimai/OFL.txt
+- **Megrim** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/megrim/OFL.txt
+- **Meie Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/meiescript/OFL.txt
+- **Menbere** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/menbere/OFL.txt
+- **Meow Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/meowscript/OFL.txt
+- **Merienda** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/merienda/OFL.txt
 - **Merriweather** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/merriweather/OFL.txt
+- **Merriweather Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/merriweathersans/OFL.txt
+- **Metal** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/metal/OFL.txt
+- **Metal Mania** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/metalmania/OFL.txt
+- **Metamorphous** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/metamorphous/OFL.txt
+- **Metrophobic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/metrophobic/OFL.txt
+- **Michroma** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/michroma/OFL.txt
+- **Micro 5** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/micro5/OFL.txt
+- **Micro 5 Charted** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/micro5charted/OFL.txt
+- **Milonga** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/milonga/OFL.txt
+- **Miltonian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/miltonian/OFL.txt
+- **Miltonian Tattoo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/miltoniantattoo/OFL.txt
+- **Mina** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mina/OFL.txt
+- **Mingzat** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mingzat/OFL.txt
+- **Miniver** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/miniver/OFL.txt
+- **Miranda Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mirandasans/OFL.txt
+- **Miriam Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/miriamlibre/OFL.txt
+- **Mirza** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mirza/OFL.txt
+- **Miss Fajardose** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/missfajardose/OFL.txt
+- **Mitr** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mitr/OFL.txt
+- **Modak** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/modak/OFL.txt
+- **Modern Antiqua** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/modernantiqua/OFL.txt
+- **Moderustic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/moderustic/OFL.txt
+- **Mogra** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mogra/OFL.txt
+- **Mohave** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mohave/OFL.txt
+- **Molengo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/molengo/OFL.txt
+- **Momo Signature** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/momosignature/OFL.txt
+- **Momo Trust Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/momotrustdisplay/OFL.txt
+- **Momo Trust Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/momotrustsans/OFL.txt
+- **Mona Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/monasans/OFL.txt
+- **Monda** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/monda/OFL.txt
+- **Monofett** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/monofett/OFL.txt
+- **Monomakh** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/monomakh/OFL.txt
+- **Monoton** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/monoton/OFL.txt
+- **Monsieur La Doulaise** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/monsieurladoulaise/OFL.txt
+- **Montaga** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/montaga/OFL.txt
+- **Montagu Slab** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/montaguslab/OFL.txt
+- **MonteCarlo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/montecarlo/OFL.txt
+- **Montenegrin Gothic One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/montenegringothicone/OFL.txt
+- **Montez** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/montez/LICENSE.txt
 - **Montserrat** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/montserrat/OFL.txt
+- **Montserrat Alternates** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/montserratalternates/OFL.txt
+- **Montserrat Subrayada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/montserratsubrayada/OFL.txt
+- **Montserrat Underline** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/montserratunderline/OFL.txt
+- **Moo Lah Lah** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/moolahlah/OFL.txt
+- **Mooli** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mooli/OFL.txt
+- **Moon Dance** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/moondance/OFL.txt
+- **Moul** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/moul/OFL.txt
+- **Moulpali** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/moulpali/OFL.txt
+- **Mountains of Christmas** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/mountainsofchristmas/LICENSE.txt
+- **Mouse Memoirs** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mousememoirs/OFL.txt
+- **Mozilla Headline** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mozillaheadline/OFL.txt
+- **Mozilla Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mozillatext/OFL.txt
+- **Mr Bedfort** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mrbedfort/OFL.txt
+- **Mr Dafoe** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mrdafoe/OFL.txt
+- **Mr De Haviland** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mrdehaviland/OFL.txt
+- **Mrs Saint Delafield** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mrssaintdelafield/OFL.txt
+- **Mrs Sheppards** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mrssheppards/OFL.txt
+- **Ms Madi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/msmadi/OFL.txt
+- **Mukta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mukta/OFL.txt
+- **Mukta Mahee** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/muktamahee/OFL.txt
+- **Mukta Malar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/muktamalar/OFL.txt
+- **Mukta Vaani** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/muktavaani/OFL.txt
+- **Mulish** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mulish/OFL.txt
+- **MuseoModerno** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/museomoderno/OFL.txt
+- **My Soul** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mysoul/OFL.txt
+- **Mynerve** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mynerve/OFL.txt
+- **Mystery Quest** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/mysteryquest/OFL.txt
+- **Nabla** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nabla/OFL.txt
+- **Namdhinggo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/namdhinggo/OFL.txt
+- **Narnoor** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/narnoor/OFL.txt
+- **Nata Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/natasans/OFL.txt
+- **National Park** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nationalpark/OFL.txt
+- **Neonderthaw** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/neonderthaw/OFL.txt
+- **Nerko One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nerkoone/OFL.txt
+- **Neucha** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/neucha/OFL.txt
+- **Neuton** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/neuton/OFL.txt
+- **New Amsterdam** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/newamsterdam/OFL.txt
+- **New Rocker** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/newrocker/OFL.txt
+- **News Cycle** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/newscycle/OFL.txt
+- **Newsreader** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/newsreader/OFL.txt
+- **Niconne** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/niconne/OFL.txt
+- **Niramit** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/niramit/OFL.txt
+- **Nixie One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nixieone/OFL.txt
+- **Nobile** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nobile/OFL.txt
+- **Nokora** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nokora/OFL.txt
+- **Norican** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/norican/OFL.txt
+- **Nosifer** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nosifer/OFL.txt
+- **Nosifer Caps** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nosifercaps/OFL.txt
+- **Notable** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notable/OFL.txt
+- **Nothing You Could Do** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nothingyoucoulddo/OFL.txt
+- **Noticia Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/noticiatext/OFL.txt
+- **Noto Color Emoji** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notocoloremoji/OFL.txt
+- **Noto Emoji** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoemoji/OFL.txt
+- **Noto Kufi Arabic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notokufiarabic/OFL.txt
+- **Noto Music** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notomusic/OFL.txt
+- **Noto Naskh Arabic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notonaskharabic/OFL.txt
+- **Noto Naskh Arabic UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notonaskharabicui/OFL.txt
+- **Noto Nastaliq Urdu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notonastaliqurdu/OFL.txt
+- **Noto Rashi Hebrew** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notorashihebrew/OFL.txt
 - **Noto Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosans/OFL.txt
+- **Noto Sans Adlam** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansadlam/OFL.txt
+- **Noto Sans Adlam Unjoined** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansadlamunjoined/OFL.txt
+- **Noto Sans Anatolian Hieroglyphs** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansanatolianhieroglyphs/OFL.txt
+- **Noto Sans Arabic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansarabic/OFL.txt
+- **Noto Sans Arabic UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansarabicui/OFL.txt
+- **Noto Sans Armenian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansarmenian/OFL.txt
+- **Noto Sans Avestan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansavestan/OFL.txt
+- **Noto Sans Balinese** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansbalinese/OFL.txt
+- **Noto Sans Bamum** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansbamum/OFL.txt
+- **Noto Sans Bassa Vah** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansbassavah/OFL.txt
+- **Noto Sans Batak** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansbatak/OFL.txt
+- **Noto Sans Bengali** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansbengali/OFL.txt
+- **Noto Sans Bengali UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansbengaliui/OFL.txt
+- **Noto Sans Bhaiksuki** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansbhaiksuki/OFL.txt
+- **Noto Sans Brahmi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansbrahmi/OFL.txt
+- **Noto Sans Buginese** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansbuginese/OFL.txt
+- **Noto Sans Buhid** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansbuhid/OFL.txt
+- **Noto Sans Canadian Aboriginal** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanscanadianaboriginal/OFL.txt
+- **Noto Sans Carian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanscarian/OFL.txt
+- **Noto Sans Caucasian Albanian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanscaucasianalbanian/OFL.txt
+- **Noto Sans Chakma** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanschakma/OFL.txt
+- **Noto Sans Cham** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanscham/OFL.txt
+- **Noto Sans Cherokee** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanscherokee/OFL.txt
+- **Noto Sans Chorasmian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanschorasmian/OFL.txt
+- **Noto Sans Coptic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanscoptic/OFL.txt
+- **Noto Sans Cuneiform** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanscuneiform/OFL.txt
+- **Noto Sans Cypriot** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanscypriot/OFL.txt
+- **Noto Sans Cypro Minoan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanscyprominoan/OFL.txt
+- **Noto Sans Deseret** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansdeseret/OFL.txt
+- **Noto Sans Devanagari** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansdevanagari/OFL.txt
+- **Noto Sans Devanagari UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansdevanagariui/OFL.txt
+- **Noto Sans Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansdisplay/OFL.txt
+- **Noto Sans Duployan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansduployan/OFL.txt
+- **Noto Sans Egyptian Hieroglyphs** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansegyptianhieroglyphs/OFL.txt
+- **Noto Sans Elbasan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanselbasan/OFL.txt
+- **Noto Sans Elymaic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanselymaic/OFL.txt
+- **Noto Sans Ethiopic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansethiopic/OFL.txt
+- **Noto Sans Georgian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansgeorgian/OFL.txt
+- **Noto Sans Glagolitic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansglagolitic/OFL.txt
+- **Noto Sans Gothic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansgothic/OFL.txt
+- **Noto Sans Grantha** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansgrantha/OFL.txt
+- **Noto Sans Gujarati** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansgujarati/OFL.txt
+- **Noto Sans Gujarati UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansgujaratiui/OFL.txt
+- **Noto Sans Gunjala Gondi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansgunjalagondi/OFL.txt
+- **Noto Sans Gurmukhi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansgurmukhi/OFL.txt
+- **Noto Sans Gurmukhi UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansgurmukhiui/OFL.txt
+- **Noto Sans Hanifi Rohingya** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanshanifirohingya/OFL.txt
+- **Noto Sans Hanunoo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanshanunoo/OFL.txt
+- **Noto Sans Hatran** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanshatran/OFL.txt
+- **Noto Sans Hebrew** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanshebrew/OFL.txt
+- **Noto Sans HK** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanshk/OFL.txt
+- **Noto Sans Imperial Aramaic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansimperialaramaic/OFL.txt
+- **Noto Sans Indic Siyaq Numbers** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansindicsiyaqnumbers/OFL.txt
+- **Noto Sans Inscriptional Pahlavi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansinscriptionalpahlavi/OFL.txt
+- **Noto Sans Inscriptional Parthian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansinscriptionalparthian/OFL.txt
+- **Noto Sans Javanese** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansjavanese/OFL.txt
+- **Noto Sans Kaithi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanskaithi/OFL.txt
+- **Noto Sans Kannada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanskannada/OFL.txt
+- **Noto Sans Kannada UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanskannadaui/OFL.txt
+- **Noto Sans Kawi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanskawi/OFL.txt
+- **Noto Sans Kayah Li** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanskayahli/OFL.txt
+- **Noto Sans Kharoshthi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanskharoshthi/OFL.txt
+- **Noto Sans Khmer** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanskhmer/OFL.txt
+- **Noto Sans Khmer UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanskhmerui/OFL.txt
+- **Noto Sans Khojki** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanskhojki/OFL.txt
+- **Noto Sans Khudawadi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanskhudawadi/OFL.txt
+- **Noto Sans Lao** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanslao/OFL.txt
+- **Noto Sans Lao Looped** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanslaolooped/OFL.txt
+- **Noto Sans Lao UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanslaoui/OFL.txt
+- **Noto Sans Lepcha** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanslepcha/OFL.txt
+- **Noto Sans Limbu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanslimbu/OFL.txt
+- **Noto Sans Linear A** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanslineara/OFL.txt
+- **Noto Sans Linear B** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanslinearb/OFL.txt
+- **Noto Sans Lisu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanslisu/OFL.txt
+- **Noto Sans Lycian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanslycian/OFL.txt
+- **Noto Sans Lydian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanslydian/OFL.txt
+- **Noto Sans Mahajani** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmahajani/OFL.txt
+- **Noto Sans Malayalam** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmalayalam/OFL.txt
+- **Noto Sans Malayalam UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmalayalamui/OFL.txt
+- **Noto Sans Mandaic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmandaic/OFL.txt
+- **Noto Sans Manichaean** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmanichaean/OFL.txt
+- **Noto Sans Marchen** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmarchen/OFL.txt
+- **Noto Sans Masaram Gondi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmasaramgondi/OFL.txt
+- **Noto Sans Math** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmath/OFL.txt
+- **Noto Sans Mayan Numerals** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmayannumerals/OFL.txt
+- **Noto Sans Medefaidrin** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmedefaidrin/OFL.txt
+- **Noto Sans Meetei Mayek** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmeeteimayek/OFL.txt
+- **Noto Sans Mende Kikakui** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmendekikakui/OFL.txt
+- **Noto Sans Meroitic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmeroitic/OFL.txt
+- **Noto Sans Miao** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmiao/OFL.txt
+- **Noto Sans Modi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmodi/OFL.txt
+- **Noto Sans Mongolian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmongolian/OFL.txt
+- **Noto Sans Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmono/OFL.txt
+- **Noto Sans Mro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmro/OFL.txt
+- **Noto Sans Multani** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmultani/OFL.txt
+- **Noto Sans Myanmar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmyanmar/OFL.txt
+- **Noto Sans Myanmar UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansmyanmarui/OFL.txt
+- **Noto Sans N Ko** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansnko_todelist/OFL.txt
+- **Noto Sans Nabataean** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansnabataean/OFL.txt
+- **Noto Sans Nag Mundari** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansnagmundari/OFL.txt
+- **Noto Sans Nandinagari** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansnandinagari/OFL.txt
+- **Noto Sans New Tai Lue** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansnewtailue/OFL.txt
+- **Noto Sans Newa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansnewa/OFL.txt
+- **Noto Sans NKo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansnko/OFL.txt
+- **Noto Sans NKo Unjoined** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansnkounjoined/OFL.txt
+- **Noto Sans Nushu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansnushu/OFL.txt
+- **Noto Sans Ogham** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansogham/OFL.txt
+- **Noto Sans Ol Chiki** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansolchiki/OFL.txt
+- **Noto Sans Old Hungarian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansoldhungarian/OFL.txt
+- **Noto Sans Old Italic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansolditalic/OFL.txt
+- **Noto Sans Old North Arabian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansoldnortharabian/OFL.txt
+- **Noto Sans Old Permic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansoldpermic/OFL.txt
+- **Noto Sans Old Persian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansoldpersian/OFL.txt
+- **Noto Sans Old Sogdian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansoldsogdian/OFL.txt
+- **Noto Sans Old South Arabian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansoldsoutharabian/OFL.txt
+- **Noto Sans Old Turkic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansoldturkic/OFL.txt
+- **Noto Sans Oriya** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansoriya/OFL.txt
+- **Noto Sans Oriya UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansoriyaui/OFL.txt
+- **Noto Sans Osage** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansosage/OFL.txt
+- **Noto Sans Osmanya** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansosmanya/OFL.txt
+- **Noto Sans Pahawh Hmong** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanspahawhhmong/OFL.txt
+- **Noto Sans Palmyrene** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanspalmyrene/OFL.txt
+- **Noto Sans Pau Cin Hau** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanspaucinhau/OFL.txt
+- **Noto Sans PhagsPa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansphagspa/OFL.txt
+- **Noto Sans Phoenician** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansphoenician/OFL.txt
+- **Noto Sans Psalter Pahlavi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanspsalterpahlavi/OFL.txt
+- **Noto Sans Rejang** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansrejang/OFL.txt
+- **Noto Sans Runic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansrunic/OFL.txt
+- **Noto Sans Samaritan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssamaritan/OFL.txt
+- **Noto Sans Saurashtra** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssaurashtra/OFL.txt
+- **Noto Sans Sharada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssharada/OFL.txt
+- **Noto Sans Shavian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansshavian/OFL.txt
+- **Noto Sans Siddham** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssiddham/OFL.txt
+- **Noto Sans SignWriting** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssignwriting/OFL.txt
+- **Noto Sans Sinhala** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssinhala/OFL.txt
+- **Noto Sans Sinhala UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssinhalaui/OFL.txt
+- **Noto Sans Sogdian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssogdian/OFL.txt
+- **Noto Sans Sora Sompeng** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssorasompeng/OFL.txt
+- **Noto Sans Soyombo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssoyombo/OFL.txt
+- **Noto Sans Sundanese** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssundanese/OFL.txt
+- **Noto Sans Sunuwar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssunuwar/OFL.txt
+- **Noto Sans Syloti Nagri** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssylotinagri/OFL.txt
+- **Noto Sans Symbols** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssymbols/OFL.txt
+- **Noto Sans Symbols 2** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssymbols2/OFL.txt
+- **Noto Sans Syriac** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssyriac/OFL.txt
+- **Noto Sans Syriac Eastern** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssyriaceastern/OFL.txt
+- **Noto Sans Syriac Western** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanssyriacwestern/OFL.txt
+- **Noto Sans Tagalog** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstagalog/OFL.txt
+- **Noto Sans Tagbanwa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstagbanwa/OFL.txt
+- **Noto Sans Tai Le** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstaile/OFL.txt
+- **Noto Sans Tai Tham** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstaitham/OFL.txt
+- **Noto Sans Tai Viet** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstaiviet/OFL.txt
+- **Noto Sans Takri** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstakri/OFL.txt
+- **Noto Sans Tamil** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstamil/OFL.txt
+- **Noto Sans Tamil Supplement** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstamilsupplement/OFL.txt
+- **Noto Sans Tamil UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstamilui/OFL.txt
+- **Noto Sans Tangsa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstangsa/OFL.txt
+- **Noto Sans Telugu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstelugu/OFL.txt
+- **Noto Sans Telugu UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansteluguui/OFL.txt
+- **Noto Sans Thaana** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansthaana/OFL.txt
+- **Noto Sans Thai** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansthai/OFL.txt
+- **Noto Sans Thai Looped** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansthailooped/OFL.txt
+- **Noto Sans Thai UI** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansthaiui/OFL.txt
+- **Noto Sans Tifinagh** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstifinagh/OFL.txt
+- **Noto Sans Tirhuta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanstirhuta/OFL.txt
+- **Noto Sans Ugaritic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansugaritic/OFL.txt
+- **Noto Sans Vai** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansvai/OFL.txt
+- **Noto Sans Vithkuqi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansvithkuqi/OFL.txt
+- **Noto Sans Wancho** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanswancho/OFL.txt
+- **Noto Sans Warang Citi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanswarangciti/OFL.txt
+- **Noto Sans Yi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosansyi/OFL.txt
+- **Noto Sans Zanabazar Square** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notosanszanabazarsquare/OFL.txt
 - **Noto Serif** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserif/OFL.txt
+- **Noto Serif Ahom** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifahom/OFL.txt
+- **Noto Serif Armenian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifarmenian/OFL.txt
+- **Noto Serif Balinese** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifbalinese/OFL.txt
+- **Noto Serif Bengali** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifbengali/OFL.txt
+- **Noto Serif Devanagari** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifdevanagari/OFL.txt
+- **Noto Serif Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifdisplay/OFL.txt
+- **Noto Serif Dives Akuru** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifdivesakuru/OFL.txt
+- **Noto Serif Dogra** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifdogra/OFL.txt
+- **Noto Serif Ethiopic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifethiopic/OFL.txt
+- **Noto Serif Georgian** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifgeorgian/OFL.txt
+- **Noto Serif Grantha** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifgrantha/OFL.txt
+- **Noto Serif Gujarati** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifgujarati/OFL.txt
+- **Noto Serif Gurmukhi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifgurmukhi/OFL.txt
+- **Noto Serif Hebrew** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifhebrew/OFL.txt
+- **Noto Serif Hentaigana** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifhentaigana/OFL.txt
+- **Noto Serif HK** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifhk/OFL.txt
+- **Noto Serif Kannada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifkannada/OFL.txt
+- **Noto Serif Khitan Small Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifkhitansmallscript/OFL.txt
+- **Noto Serif Khmer** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifkhmer/OFL.txt
+- **Noto Serif Khojki** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifkhojki/OFL.txt
+- **Noto Serif Lao** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoseriflao/OFL.txt
+- **Noto Serif Makasar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifmakasar/OFL.txt
+- **Noto Serif Malayalam** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifmalayalam/OFL.txt
+- **Noto Serif Myanmar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifmyanmar/OFL.txt
+- **Noto Serif NP Hmong** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifnphmong/OFL.txt
+- **Noto Serif Nyiakeng Puachue Hmong** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifnyiakengpuachuehmong/OFL.txt
+- **Noto Serif Old Uyghur** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifolduyghur/OFL.txt
+- **Noto Serif Oriya** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoseriforiya/OFL.txt
+- **Noto Serif Ottoman Siyaq** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifottomansiyaq/OFL.txt
+- **Noto Serif Sinhala** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifsinhala/OFL.txt
+- **Noto Serif Tamil** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoseriftamil/OFL.txt
+- **Noto Serif Tangut** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoseriftangut/OFL.txt
+- **Noto Serif Telugu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoseriftelugu/OFL.txt
+- **Noto Serif Thai** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifthai/OFL.txt
+- **Noto Serif Tibetan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoseriftibetan/OFL.txt
+- **Noto Serif Todhri** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoseriftodhri/OFL.txt
+- **Noto Serif Toto** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoseriftoto/OFL.txt
+- **Noto Serif Vithkuqi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifvithkuqi/OFL.txt
+- **Noto Serif Yezidi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoserifyezidi/OFL.txt
+- **Noto Traditional Nushu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nototraditionalnushu/OFL.txt
+- **Noto Znamenny Musical Notation** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/notoznamennymusicalnotation/OFL.txt
+- **Nova Cut** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/novacut/OFL.txt
+- **Nova Flat** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/novaflat/OFL.txt
+- **Nova Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/novamono/OFL.txt
+- **Nova Oval** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/novaoval/OFL.txt
+- **Nova Round** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/novaround/OFL.txt
+- **Nova Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/novascript/OFL.txt
+- **Nova Slim** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/novaslim/OFL.txt
+- **Nova Square** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/novasquare/OFL.txt
+- **NTR** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ntr/OFL.txt
+- **Numans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/numans/OFL.txt
+- **Nunito** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nunito/OFL.txt
+- **Nunito Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nunitosans/OFL.txt
+- **Nuosu SIL** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/nuosusil/OFL.txt
+- **Odibee Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/odibeesans/OFL.txt
+- **Odor Mean Chey** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/odormeanchey/OFL.txt
+- **Offside** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/offside/OFL.txt
+- **OFL Sorts Mill Goudy TT** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/oflsortsmillgoudytt/OFL.txt
+- **Oi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/oi/OFL.txt
+- **Ojuju** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ojuju/OFL.txt
+- **Old Standard TT** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/oldstandardtt/OFL.txt
+- **Oldenburg** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/oldenburg/OFL.txt
+- **Ole** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ole/OFL.txt
+- **Oleo Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/oleoscript/OFL.txt
+- **Oleo Script Swash Caps** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/oleoscriptswashcaps/OFL.txt
+- **Onest** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/onest/OFL.txt
+- **Oooh Baby** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ooohbaby/OFL.txt
 - **Open Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/opensans/OFL.txt
+- **Oranienbaum** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/oranienbaum/OFL.txt
+- **Orbitron** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/orbitron/OFL.txt
+- **Oregano** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/oregano/OFL.txt
+- **Orelega One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/orelegaone/OFL.txt
+- **Orienta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/orienta/OFL.txt
+- **Original Surfer** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/originalsurfer/OFL.txt
 - **Oswald** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/oswald/OFL.txt
+- **Outfit** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/outfit/OFL.txt
+- **Over the Rainbow** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/overtherainbow/OFL.txt
+- **Overlock** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/overlock/OFL.txt
+- **Overlock SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/overlocksc/OFL.txt
+- **Overpass** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/overpass/OFL.txt
+- **Overpass Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/overpassmono/OFL.txt
+- **Ovo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ovo/OFL.txt
+- **Oxanium** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/oxanium/OFL.txt
+- **Oxygen** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/oxygen/OFL.txt
+- **Oxygen Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/oxygenmono/OFL.txt
+- **Pacifico** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pacifico/OFL.txt
+- **Padauk** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/padauk/OFL.txt
+- **Padyakke Expanded One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/padyakkeexpandedone/OFL.txt
+- **Palanquin** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/palanquin/OFL.txt
+- **Palanquin Dark** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/palanquindark/OFL.txt
+- **Pangolin** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pangolin/OFL.txt
+- **Paprika** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/paprika/OFL.txt
+- **Parastoo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/parastoo/OFL.txt
+- **Parisienne** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/parisienne/OFL.txt
+- **Parkinsans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/parkinsans/OFL.txt
+- **Passero One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/passeroone/OFL.txt
+- **Passion One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/passionone/OFL.txt
+- **Passions Conflict** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/passionsconflict/OFL.txt
+- **Pathway Extreme** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pathwayextreme/OFL.txt
+- **Pathway Gothic One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pathwaygothicone/OFL.txt
+- **Patrick Hand** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/patrickhand/OFL.txt
+- **Patrick Hand SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/patrickhandsc/OFL.txt
+- **Pattaya** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pattaya/OFL.txt
+- **Patua One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/patuaone/OFL.txt
+- **Pavanam** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pavanam/OFL.txt
+- **Paytone One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/paytoneone/OFL.txt
+- **Peddana** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/peddana/OFL.txt
+- **Peralta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/peralta/OFL.txt
+- **Permanent Marker** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/permanentmarker/LICENSE.txt
+- **Petemoss** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/petemoss/OFL.txt
+- **Petit Formal Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/petitformalscript/OFL.txt
+- **Petrona** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/petrona/OFL.txt
+- **Phetsarath** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/phetsarath/OFL.txt
+- **Philosopher** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/philosopher/OFL.txt
+- **Phudu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/phudu/OFL.txt
+- **Piazzolla** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/piazzolla/OFL.txt
+- **Piedra** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/piedra/OFL.txt
+- **Pinyon Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pinyonscript/OFL.txt
+- **Pirata One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pirataone/OFL.txt
+- **Pixelify Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pixelifysans/OFL.txt
+- **Plaster** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/plaster/OFL.txt
+- **Platypi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/platypi/OFL.txt
+- **Play** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/play/OFL.txt
+- **Playball** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playball/OFL.txt
+- **Playfair** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playfair/OFL.txt
 - **Playfair Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playfairdisplay/OFL.txt
+- **Playfair Display SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playfairdisplaysc/OFL.txt
+- **Playpen Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playpensans/OFL.txt
+- **Playpen Sans Arabic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playpensansarabic/OFL.txt
+- **Playpen Sans Deva** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playpensansdeva/OFL.txt
+- **Playpen Sans Hebrew** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playpensanshebrew/OFL.txt
+- **Playpen Sans Thai** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playpensansthai/OFL.txt
+- **Playwrite AR** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritear/OFL.txt
+- **Playwrite AR Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritearguides/OFL.txt
+- **Playwrite AT** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteat/OFL.txt
+- **Playwrite AT Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteatguides/OFL.txt
+- **Playwrite AU NSW** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteaunsw/OFL.txt
+- **Playwrite AU NSW Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteaunswguides/OFL.txt
+- **Playwrite AU QLD** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteauqld/OFL.txt
+- **Playwrite AU QLD Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteauqldguides/OFL.txt
+- **Playwrite AU SA** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteausa/OFL.txt
+- **Playwrite AU SA Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteausaguides/OFL.txt
+- **Playwrite AU TAS** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteautas/OFL.txt
+- **Playwrite AU TAS Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteautasguides/OFL.txt
+- **Playwrite AU VIC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteauvic/OFL.txt
+- **Playwrite AU VIC Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteauvicguides/OFL.txt
+- **Playwrite BE VLG** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritebevlg/OFL.txt
+- **Playwrite BE VLG Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritebevlgguides/OFL.txt
+- **Playwrite BE WAL** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritebewal/OFL.txt
+- **Playwrite BE WAL Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritebewalguides/OFL.txt
+- **Playwrite BR** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritebr/OFL.txt
+- **Playwrite BR Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritebrguides/OFL.txt
+- **Playwrite CA** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteca/OFL.txt
+- **Playwrite CA Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritecaguides/OFL.txt
+- **Playwrite CL** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritecl/OFL.txt
+- **Playwrite CL Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteclguides/OFL.txt
+- **Playwrite CO** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteco/OFL.txt
+- **Playwrite CO Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritecoguides/OFL.txt
+- **Playwrite CU** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritecu/OFL.txt
+- **Playwrite CU Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritecuguides/OFL.txt
+- **Playwrite CZ** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritecz/OFL.txt
+- **Playwrite CZ Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteczguides/OFL.txt
+- **Playwrite DE Grund** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritedegrund/OFL.txt
+- **Playwrite DE Grund Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritedegrundguides/OFL.txt
+- **Playwrite DE LA** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritedela/OFL.txt
+- **Playwrite DE LA Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritedelaguides/OFL.txt
+- **Playwrite DE SAS** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritedesas/OFL.txt
+- **Playwrite DE SAS Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritedesasguides/OFL.txt
+- **Playwrite DE VA** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritedeva/OFL.txt
+- **Playwrite DE VA Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritedevaguides/OFL.txt
+- **Playwrite DK Loopet** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritedkloopet/OFL.txt
+- **Playwrite DK Loopet Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritedkloopetguides/OFL.txt
+- **Playwrite DK Uloopet** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritedkuloopet/OFL.txt
+- **Playwrite DK Uloopet Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritedkuloopetguides/OFL.txt
+- **Playwrite ES** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritees/OFL.txt
+- **Playwrite ES Deco** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteesdeco/OFL.txt
+- **Playwrite ES Deco Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteesdecoguides/OFL.txt
+- **Playwrite ES Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteesguides/OFL.txt
+- **Playwrite FR Moderne** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritefrmoderne/OFL.txt
+- **Playwrite FR Moderne Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritefrmoderneguides/OFL.txt
+- **Playwrite FR Trad** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritefrtrad/OFL.txt
+- **Playwrite FR Trad Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritefrtradguides/OFL.txt
+- **Playwrite GB J** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritegbj/OFL.txt
+- **Playwrite GB J Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritegbjguides/OFL.txt
+- **Playwrite GB S** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritegbs/OFL.txt
+- **Playwrite GB S Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritegbsguides/OFL.txt
+- **Playwrite HR** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritehr/OFL.txt
+- **Playwrite HR Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritehrguides/OFL.txt
+- **Playwrite HR Lijeva** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritehrlijeva/OFL.txt
+- **Playwrite HR Lijeva Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritehrlijevaguides/OFL.txt
+- **Playwrite HU** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritehu/OFL.txt
+- **Playwrite HU Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritehuguides/OFL.txt
+- **Playwrite ID** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteid/OFL.txt
+- **Playwrite ID Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteidguides/OFL.txt
+- **Playwrite IE** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteie/OFL.txt
+- **Playwrite IE Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteieguides/OFL.txt
+- **Playwrite IN** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritein/OFL.txt
+- **Playwrite IN Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteinguides/OFL.txt
+- **Playwrite IS** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteis/OFL.txt
+- **Playwrite IS Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteisguides/OFL.txt
+- **Playwrite IT Moderna** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteitmoderna/OFL.txt
+- **Playwrite IT Moderna Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteitmodernaguides/OFL.txt
+- **Playwrite IT Trad** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteittrad/OFL.txt
+- **Playwrite IT Trad Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteittradguides/OFL.txt
+- **Playwrite MX** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritemx/OFL.txt
+- **Playwrite MX Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritemxguides/OFL.txt
+- **Playwrite NG Modern** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritengmodern/OFL.txt
+- **Playwrite NG Modern Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritengmodernguides/OFL.txt
+- **Playwrite NL** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritenl/OFL.txt
+- **Playwrite NL Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritenlguides/OFL.txt
+- **Playwrite NO** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteno/OFL.txt
+- **Playwrite NO Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritenoguides/OFL.txt
+- **Playwrite NZ** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritenz/OFL.txt
+- **Playwrite NZ Basic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritenzbasic/OFL.txt
+- **Playwrite NZ Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritenzguides/OFL.txt
+- **Playwrite PE** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritepe/OFL.txt
+- **Playwrite PE Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritepeguides/OFL.txt
+- **Playwrite PL** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritepl/OFL.txt
+- **Playwrite PL Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteplguides/OFL.txt
+- **Playwrite PT** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritept/OFL.txt
+- **Playwrite PT Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteptguides/OFL.txt
+- **Playwrite RO** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritero/OFL.txt
+- **Playwrite RO Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteroguides/OFL.txt
+- **Playwrite SK** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritesk/OFL.txt
+- **Playwrite SK Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteskguides/OFL.txt
+- **Playwrite TZ** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritetz/OFL.txt
+- **Playwrite TZ Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritetzguides/OFL.txt
+- **Playwrite US Modern** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteusmodern/OFL.txt
+- **Playwrite US Modern Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteusmodernguides/OFL.txt
+- **Playwrite US Trad** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteustrad/OFL.txt
+- **Playwrite US Trad Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteustradguides/OFL.txt
+- **Playwrite VN** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritevn/OFL.txt
+- **Playwrite VN Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritevnguides/OFL.txt
+- **Playwrite ZA** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwriteza/OFL.txt
+- **Playwrite ZA Guides** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/playwritezaguides/OFL.txt
+- **Pliant** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pliant/OFL.txt
+- **Plus Jakarta Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/plusjakartasans/OFL.txt
+- **Pochaevsk** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pochaevsk/OFL.txt
+- **Podkova** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/podkova/OFL.txt
+- **Poetsen One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/poetsenone/OFL.txt
+- **Poiret One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/poiretone/OFL.txt
+- **Poller One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pollerone/OFL.txt
+- **Poltawski Nowy** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/poltawskinowy/OFL.txt
+- **Poly** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/poly/OFL.txt
+- **Pompiere** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pompiere/OFL.txt
+- **Ponnala** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ponnala/OFL.txt
+- **Ponomar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ponomar/OFL.txt
+- **Pontano Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pontanosans/OFL.txt
+- **Poppins** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/poppins/OFL.txt
+- **Port Lligat Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/portlligatsans/OFL.txt
+- **Port Lligat Slab** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/portlligatslab/OFL.txt
+- **Pragati Narrow** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pragatinarrow/OFL.txt
+- **Praise** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/praise/OFL.txt
+- **Prata** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/prata/OFL.txt
+- **Preahvihear** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/preahvihear/OFL.txt
+- **Press Start 2P** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pressstart2p/OFL.txt
+- **Pridi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pridi/OFL.txt
+- **Princess Sofia** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/princesssofia/OFL.txt
+- **Prociono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/prociono/OFL.txt
+- **Prompt** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/prompt/OFL.txt
+- **Prosto One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/prostoone/OFL.txt
+- **Protest Guerrilla** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/protestguerrilla/OFL.txt
+- **Protest Revolution** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/protestrevolution/OFL.txt
+- **Protest Riot** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/protestriot/OFL.txt
+- **Protest Strike** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/proteststrike/OFL.txt
+- **Proza Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/prozalibre/OFL.txt
+- **PT Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ptmono/OFL.txt
 - **PT Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ptsans/OFL.txt
+- **PT Sans Caption** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ptsanscaption/OFL.txt
+- **PT Sans Narrow** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ptsansnarrow/OFL.txt
+- **PT Serif** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ptserif/OFL.txt
+- **PT Serif Caption** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ptserifcaption/OFL.txt
+- **Public Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/publicsans/OFL.txt
+- **Puppies Play** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/puppiesplay/OFL.txt
+- **Puritan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/puritan/OFL.txt
+- **Purple Purse** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/purplepurse/OFL.txt
+- **Pushster** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/pushster/OFL.txt
+- **Qahiri** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/qahiri/OFL.txt
+- **Quando** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/quando/OFL.txt
+- **Quantico** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/quantico/OFL.txt
+- **Quattrocento** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/quattrocento/OFL.txt
+- **Quattrocento Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/quattrocentosans/OFL.txt
+- **Questrial** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/questrial/OFL.txt
+- **Quicksand** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/quicksand/OFL.txt
+- **Quintessential** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/quintessential/OFL.txt
+- **Qwigley** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/qwigley/OFL.txt
+- **Qwitcher Grypen** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/qwitchergrypen/OFL.txt
+- **Racing Sans One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/racingsansone/OFL.txt
+- **Radio Canada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/radiocanada/OFL.txt
+- **Radio Canada Big** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/radiocanadabig/OFL.txt
+- **Radley** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/radley/OFL.txt
+- **Rajdhani** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rajdhani/OFL.txt
+- **Rakkas** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rakkas/OFL.txt
 - **Raleway** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/raleway/OFL.txt
+- **Raleway Dots** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ralewaydots/OFL.txt
+- **Ramabhadra** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ramabhadra/OFL.txt
+- **Ramaraja** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ramaraja/OFL.txt
+- **Rambla** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rambla/OFL.txt
+- **Rammetto One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rammettoone/OFL.txt
+- **Ramsina** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ramsina/OFL.txt
+- **Ranchers** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ranchers/OFL.txt
+- **Rancho** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/rancho/LICENSE.txt
+- **Ranga** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ranga/OFL.txt
+- **Rasa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rasa/OFL.txt
+- **Rationale** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rationale/OFL.txt
+- **Ravi Prakash** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/raviprakash/OFL.txt
+- **Readex Pro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/readexpro/OFL.txt
+- **Recursive** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/recursive/OFL.txt
+- **Red Hat Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/redhatdisplay/OFL.txt
+- **Red Hat Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/redhatmono/OFL.txt
+- **Red Hat Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/redhattext/OFL.txt
+- **Red Rose** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/redrose/OFL.txt
+- **Redacted** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/redacted/OFL.txt
+- **Redacted Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/redactedscript/OFL.txt
+- **Reddit Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/redditmono/OFL.txt
+- **Reddit Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/redditsans/OFL.txt
+- **Reddit Sans Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/redditsanscondensed/OFL.txt
+- **Redressed** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/redressed/LICENSE.txt
+- **Reem Kufi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/reemkufi/OFL.txt
+- **Reem Kufi Fun** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/reemkufifun/OFL.txt
+- **Reem Kufi Ink** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/reemkufiink/OFL.txt
+- **Reenie Beanie** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/reeniebeanie/OFL.txt
+- **REM** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rem/OFL.txt
+- **Rethink Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rethinksans/OFL.txt
+- **Revalia** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/revalia/OFL.txt
+- **Rhodium Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rhodiumlibre/OFL.txt
+- **Ribeye** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ribeye/OFL.txt
+- **Ribeye Marrow** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ribeyemarrow/OFL.txt
+- **Righteous** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/righteous/OFL.txt
+- **Risque** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/risque/OFL.txt
+- **Road Rage** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/roadrage/OFL.txt
 - **Roboto** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/roboto/OFL.txt
+- **Roboto Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/robotocondensed/OFL.txt
+- **Roboto Flex** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/robotoflex/OFL.txt
+- **Roboto Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/robotomono/OFL.txt
+- **Roboto Serif** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/robotoserif/OFL.txt
 - **Roboto Slab** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/robotoslab/LICENSE.txt
+- **Rochester** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/rochester/LICENSE.txt
+- **Rock Salt** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/rocksalt/LICENSE.txt
+- **Rokkitt** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rokkitt/OFL.txt
+- **Romanesco** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/romanesco/OFL.txt
+- **Ropa Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ropasans/OFL.txt
+- **Rosario** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rosario/OFL.txt
+- **Rosarivo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rosarivo/OFL.txt
+- **Rouge Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rougescript/OFL.txt
+- **Rowdies** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rowdies/OFL.txt
+- **Rozha One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rozhaone/OFL.txt
 - **Rubik** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubik/OFL.txt
+- **Rubik 80s Fade** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubik80sfade/OFL.txt
+- **Rubik Beastly** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikbeastly/OFL.txt
+- **Rubik Broken Fax** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikbrokenfax/OFL.txt
+- **Rubik Bubbles** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikbubbles/OFL.txt
+- **Rubik Burned** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikburned/OFL.txt
+- **Rubik Dirt** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikdirt/OFL.txt
+- **Rubik Distressed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikdistressed/OFL.txt
+- **Rubik Doodle Shadow** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikdoodleshadow/OFL.txt
+- **Rubik Doodle Triangles** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikdoodletriangles/OFL.txt
+- **Rubik Gemstones** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikgemstones/OFL.txt
+- **Rubik Glitch** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikglitch/OFL.txt
+- **Rubik Glitch Pop** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikglitchpop/OFL.txt
+- **Rubik Iso** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikiso/OFL.txt
+- **Rubik Lines** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubiklines/OFL.txt
+- **Rubik Maps** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikmaps/OFL.txt
+- **Rubik Marker Hatch** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikmarkerhatch/OFL.txt
+- **Rubik Maze** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikmaze/OFL.txt
+- **Rubik Microbe** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikmicrobe/OFL.txt
+- **Rubik Mono One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikmonoone/OFL.txt
+- **Rubik Moonrocks** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikmoonrocks/OFL.txt
+- **Rubik One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikone/OFL.txt
+- **Rubik Pixels** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikpixels/OFL.txt
+- **Rubik Puddles** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikpuddles/OFL.txt
+- **Rubik Scribble** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikscribble/OFL.txt
+- **Rubik Spray Paint** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikspraypaint/OFL.txt
+- **Rubik Storm** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikstorm/OFL.txt
+- **Rubik Vinyl** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikvinyl/OFL.txt
+- **Rubik Wet Paint** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rubikwetpaint/OFL.txt
+- **Ruda** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ruda/OFL.txt
+- **Rufina** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rufina/OFL.txt
+- **Ruge Boogie** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rugeboogie/OFL.txt
+- **Ruluko** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ruluko/OFL.txt
+- **Rum Raisin** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rumraisin/OFL.txt
+- **Ruslan Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ruslandisplay/OFL.txt
+- **Russo One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/russoone/OFL.txt
+- **Ruthie** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ruthie/OFL.txt
+- **Ruwudu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ruwudu/OFL.txt
+- **Rye** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/rye/OFL.txt
+- **Sacramento** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sacramento/OFL.txt
+- **Sahitya** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sahitya/OFL.txt
+- **Sail** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sail/OFL.txt
+- **Saira** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/saira/OFL.txt
+- **Saira Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sairacondensed/OFL.txt
+- **Saira Extra Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sairaextracondensed/OFL.txt
+- **Saira Semi Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sairasemicondensed/OFL.txt
+- **Saira Stencil** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sairastencil/OFL.txt
+- **Saira Stencil One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sairastencilone/OFL.txt
+- **Salsa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/salsa/OFL.txt
+- **Sanchez** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sanchez/OFL.txt
+- **Sancreek** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sancreek/OFL.txt
+- **Sankofa Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sankofadisplay/OFL.txt
+- **Sansation** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sansation/OFL.txt
+- **Sansita** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sansita/OFL.txt
+- **Sansita One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sansitaone/OFL.txt
+- **Sansita Swashed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sansitaswashed/OFL.txt
+- **Sarabun** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sarabun/OFL.txt
+- **Sarala** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sarala/OFL.txt
+- **Sarina** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sarina/OFL.txt
+- **Sarpanch** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sarpanch/OFL.txt
+- **Sassy Frass** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sassyfrass/OFL.txt
+- **Satisfy** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/satisfy/LICENSE.txt
+- **Savate** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/savate/OFL.txt
+- **Scada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/scada/OFL.txt
+- **Scheherazade New** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/scheherazadenew/OFL.txt
+- **Schibsted Grotesk** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/schibstedgrotesk/OFL.txt
+- **Schoolbell** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/schoolbell/LICENSE.txt
+- **Science Gothic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sciencegothic/OFL.txt
+- **Scope One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/scopeone/OFL.txt
+- **Seaweed Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/seaweedscript/OFL.txt
+- **Secular One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/secularone/OFL.txt
+- **Sedan** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sedan/OFL.txt
+- **Sedan SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sedansc/OFL.txt
+- **Sedgwick Ave** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sedgwickave/OFL.txt
+- **Sedgwick Ave Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sedgwickavedisplay/OFL.txt
+- **Sekuya** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sekuya/OFL.txt
+- **Sen** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sen/OFL.txt
+- **Send Flowers** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sendflowers/OFL.txt
+- **Sevillana** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sevillana/OFL.txt
+- **Seymour One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/seymourone/OFL.txt
+- **Shadows Into Light** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/shadowsintolight/OFL.txt
+- **Shadows Into Light Two** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/shadowsintolighttwo/OFL.txt
+- **Shafarik** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/shafarik/OFL.txt
+- **Shalimar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/shalimar/OFL.txt
+- **Shantell Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/shantellsans/OFL.txt
+- **Shanti** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/shanti/OFL.txt
+- **Share** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/share/OFL.txt
+- **Share Tech** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sharetech/OFL.txt
+- **Share Tech Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sharetechmono/OFL.txt
+- **Shojumaru** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/shojumaru/OFL.txt
+- **Short Stack** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/shortstack/OFL.txt
+- **Shrikhand** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/shrikhand/OFL.txt
+- **Siemreap** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/siemreap/OFL.txt
+- **Sigmar** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sigmar/OFL.txt
+- **Sigmar One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sigmarone/OFL.txt
+- **Signika** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/signika/OFL.txt
+- **Signika Negative** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/signikanegative/OFL.txt
+- **Silkscreen** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/silkscreen/OFL.txt
+- **Simonetta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/simonetta/OFL.txt
+- **Sintony** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sintony/OFL.txt
+- **Sirin Stencil** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sirinstencil/OFL.txt
+- **Sirivennela** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sirivennela/OFL.txt
+- **Six Caps** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sixcaps/OFL.txt
+- **Sixtyfour** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sixtyfour/OFL.txt
+- **Sixtyfour Convergence** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sixtyfourconvergence/OFL.txt
+- **Skranji** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/skranji/OFL.txt
+- **Slabo 13px** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/slabo13px/OFL.txt
+- **Slabo 27px** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/slabo27px/OFL.txt
+- **Slackey** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/slackey/LICENSE.txt
+- **Smokum** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/smokum/LICENSE.txt
+- **Smooch** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/smooch/OFL.txt
+- **Smooch Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/smoochsans/OFL.txt
+- **Smythe** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/smythe/OFL.txt
+- **SN Pro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/snpro/OFL.txt
+- **Sniglet** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sniglet/OFL.txt
+- **Snippet** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/snippet/OFL.txt
+- **Snowburst One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/snowburstone/OFL.txt
+- **Sofadi One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sofadione/OFL.txt
+- **Sofia** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sofia/OFL.txt
+- **Sofia Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sofiasans/OFL.txt
+- **Sofia Sans Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sofiasanscondensed/OFL.txt
+- **Sofia Sans Extra Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sofiasansextracondensed/OFL.txt
+- **Sofia Sans Semi Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sofiasanssemicondensed/OFL.txt
+- **Solitreo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/solitreo/OFL.txt
+- **Solway** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/solway/OFL.txt
+- **Sometype Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sometypemono/OFL.txt
+- **Sono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sono/OFL.txt
+- **Sonsie One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sonsieone/OFL.txt
+- **Sora** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sora/OFL.txt
+- **Sorts Mill Goudy** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sortsmillgoudy/OFL.txt
+- **Sour Gummy** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sourgummy/OFL.txt
+- **Source Code Pro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sourcecodepro/OFL.txt
+- **Source Sans 3** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sourcesans3/OFL.txt
+- **Source Serif 4** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sourceserif4/OFL.txt
+- **Space Grotesk** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/spacegrotesk/OFL.txt
+- **Space Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/spacemono/OFL.txt
+- **Special Elite** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/specialelite/LICENSE.txt
+- **Special Gothic** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/specialgothic/OFL.txt
+- **Special Gothic Condensed One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/specialgothiccondensedone/OFL.txt
+- **Special Gothic Expanded One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/specialgothicexpandedone/OFL.txt
+- **Spectral** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/spectral/OFL.txt
+- **Spectral SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/spectralsc/OFL.txt
+- **Spicy Rice** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/spicyrice/OFL.txt
+- **Spinnaker** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/spinnaker/OFL.txt
+- **Spirax** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/spirax/OFL.txt
+- **Splash** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/splash/OFL.txt
+- **Spline Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/splinesans/OFL.txt
+- **Spline Sans Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/splinesansmono/OFL.txt
+- **Squada One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/squadaone/OFL.txt
+- **Square Peg** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/squarepeg/OFL.txt
+- **Sree Krushnadevaraya** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sreekrushnadevaraya/OFL.txt
+- **Sriracha** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sriracha/OFL.txt
+- **Srisakdi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/srisakdi/OFL.txt
+- **Staatliches** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/staatliches/OFL.txt
+- **Stack Sans Headline** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/stacksansheadline/OFL.txt
+- **Stack Sans Notch** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/stacksansnotch/OFL.txt
+- **Stack Sans Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/stacksanstext/OFL.txt
+- **Stalemate** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/stalemate/OFL.txt
+- **Stalinist One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/stalinistone/OFL.txt
+- **Stardos Stencil** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/stardosstencil/OFL.txt
+- **Stick No Bills** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sticknobills/OFL.txt
+- **Stint Ultra Condensed** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/stintultracondensed/OFL.txt
+- **Stint Ultra Expanded** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/stintultraexpanded/OFL.txt
+- **STIX Two Math** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/stixtwomath/OFL.txt
+- **STIX Two Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/stixtwotext/OFL.txt
+- **Stoke** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/stoke/OFL.txt
+- **Story Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/storyscript/OFL.txt
+- **Strait** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/strait/OFL.txt
+- **Strichpunkt Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/strichpunktsans/OFL.txt
+- **Style Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/stylescript/OFL.txt
+- **Sue Ellen Francisco** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sueellenfrancisco/OFL.txt
+- **Suez One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/suezone/OFL.txt
+- **Sulphur Point** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sulphurpoint/OFL.txt
+- **Sumana** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sumana/OFL.txt
+- **Sunshiney** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/sunshiney/LICENSE.txt
+- **Supermercado One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/supermercadoone/OFL.txt
+- **Sura** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/sura/OFL.txt
+- **Suranna** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/suranna/OFL.txt
+- **Suravaram** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/suravaram/OFL.txt
+- **SUSE** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/suse/OFL.txt
+- **SUSE Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/susemono/OFL.txt
+- **Suwannaphum** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/suwannaphum/OFL.txt
+- **Swanky and Moo Moo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/swankyandmoomoo/OFL.txt
+- **Syncopate** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/syncopate/LICENSE.txt
+- **Syne** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/syne/OFL.txt
+- **Syne Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/synemono/OFL.txt
+- **Syne Tactile** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/synetactile/OFL.txt
+- **Tac One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tacone/OFL.txt
+- **Tagesschrift** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tagesschrift/OFL.txt
+- **Tai Heritage Pro** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/taiheritagepro/OFL.txt
+- **Tajawal** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tajawal/OFL.txt
+- **Tangerine** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tangerine/OFL.txt
+- **Tapestry** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tapestry/OFL.txt
+- **Taprom** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/taprom/OFL.txt
+- **TASA Explorer** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tasaexplorer/OFL.txt
+- **TASA Orbiter** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tasaorbiter/OFL.txt
+- **Tauri** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tauri/OFL.txt
+- **Taviraj** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/taviraj/OFL.txt
+- **Teachers** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/teachers/OFL.txt
+- **Teko** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/teko/OFL.txt
+- **Tektur** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tektur/OFL.txt
+- **Telex** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/telex/OFL.txt
+- **Tenali Ramakrishna** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tenaliramakrishna/OFL.txt
+- **Tenor Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tenorsans/OFL.txt
+- **Text Me One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/textmeone/OFL.txt
+- **Texturina** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/texturina/OFL.txt
+- **Thabit** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/thabit/OFL.txt
+- **Thasadith** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/thasadith/OFL.txt
+- **The Girl Next Door** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/thegirlnextdoor/OFL.txt
+- **The Nautigal** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/thenautigal/OFL.txt
+- **Tienne** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tienne/OFL.txt
+- **TikTok Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tiktoksans/OFL.txt
+- **Tillana** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tillana/OFL.txt
+- **Tilt Neon** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tiltneon/OFL.txt
+- **Tilt Prism** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tiltprism/OFL.txt
+- **Tilt Warp** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tiltwarp/OFL.txt
+- **Timmana** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/timmana/OFL.txt
+- **Tiny5** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tiny5/OFL.txt
+- **Tiro Bangla** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tirobangla/OFL.txt
+- **Tiro Devanagari Hindi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tirodevanagarihindi/OFL.txt
+- **Tiro Devanagari Marathi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tirodevanagarimarathi/OFL.txt
+- **Tiro Devanagari Sanskrit** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tirodevanagarisanskrit/OFL.txt
+- **Tiro Gurmukhi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tirogurmukhi/OFL.txt
+- **Tiro Kannada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tirokannada/OFL.txt
+- **Tiro Tamil** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tirotamil/OFL.txt
+- **Tiro Telugu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tirotelugu/OFL.txt
+- **Tirra** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tirra/OFL.txt
+- **Titan One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/titanone/OFL.txt
+- **Titillium Web** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/titilliumweb/OFL.txt
+- **Tomorrow** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tomorrow/OFL.txt
+- **Tourney** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tourney/OFL.txt
+- **Trade Winds** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tradewinds/OFL.txt
+- **Triodion** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/triodion/OFL.txt
+- **Trirong** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/trirong/OFL.txt
+- **Trispace** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/trispace/OFL.txt
+- **Trocchi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/trocchi/OFL.txt
+- **Trochut** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/trochut/OFL.txt
+- **Truculenta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/truculenta/OFL.txt
+- **Trykker** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/trykker/OFL.txt
+- **Tuffy** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tuffy/OFL.txt
+- **Tulpen One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/tulpenone/OFL.txt
+- **Turret Road** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/turretroad/OFL.txt
+- **Twinkle Star** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/twinklestar/OFL.txt
+- **Uchen** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/uchen/OFL.txt
+- **Ultra** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/ultra/LICENSE.txt
+- **Unbounded** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/unbounded/OFL.txt
+- **Uncial Antiqua** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/uncialantiqua/OFL.txt
+- **Underdog** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/underdog/OFL.txt
+- **Unica One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/unicaone/OFL.txt
+- **UnifrakturCook** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/unifrakturcook/OFL.txt
+- **UnifrakturMaguntia** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/unifrakturmaguntia/OFL.txt
+- **Unkempt** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/unkempt/LICENSE.txt
+- **Unlock** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/unlock/OFL.txt
+- **Unna** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/unna/OFL.txt
+- **Updock** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/updock/OFL.txt
+- **Urbanist** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/urbanist/OFL.txt
+- **Vampiro One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vampiroone/OFL.txt
+- **Varela** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/varela/OFL.txt
+- **Varela Round** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/varelaround/OFL.txt
+- **Varta** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/varta/OFL.txt
+- **Vast Shadow** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vastshadow/OFL.txt
+- **Vazirmatn** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vazirmatn/OFL.txt
+- **Vend Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vendsans/OFL.txt
+- **Vesper Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vesperlibre/OFL.txt
+- **Viaoda Libre** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/viaodalibre/OFL.txt
+- **Vibes** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vibes/OFL.txt
+- **Vibur** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vibur/OFL.txt
+- **Victor Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/victormono/OFL.txt
+- **Vidaloka** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vidaloka/OFL.txt
+- **Viga** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/viga/OFL.txt
+- **Vina Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vinasans/OFL.txt
+- **Voces** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/voces/OFL.txt
+- **Volkhov** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/volkhov/OFL.txt
+- **Vollkorn** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vollkorn/OFL.txt
+- **Vollkorn SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vollkornsc/OFL.txt
+- **Voltaire** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/voltaire/OFL.txt
+- **VT323** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vt323/OFL.txt
+- **Vujahday Script** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/vujahdayscript/OFL.txt
+- **Waiting for the Sunrise** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/waitingforthesunrise/OFL.txt
+- **Wallpoet** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/wallpoet/OFL.txt
+- **Walter Turncoat** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/walterturncoat/LICENSE.txt
+- **Warnes** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/warnes/OFL.txt
+- **Water Brush** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/waterbrush/OFL.txt
+- **Waterfall** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/waterfall/OFL.txt
+- **Wavefont** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/wavefont/OFL.txt
+- **Wellfleet** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/wellfleet/OFL.txt
+- **Wendy One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/wendyone/OFL.txt
+- **Whisper** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/whisper/OFL.txt
+- **WindSong** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/windsong/OFL.txt
+- **Winky Rough** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/winkyrough/OFL.txt
+- **Winky Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/winkysans/OFL.txt
+- **Wire One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/wireone/OFL.txt
+- **Wittgenstein** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/wittgenstein/OFL.txt
+- **Wix Madefor Display** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/wixmadefordisplay/OFL.txt
+- **Wix Madefor Text** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/wixmadefortext/OFL.txt
+- **Work Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/worksans/OFL.txt
+- **Workbench** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/workbench/OFL.txt
+- **Xanh Mono** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/xanhmono/OFL.txt
+- **Yaldevi** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yaldevi/OFL.txt
+- **Yanone Kaffeesatz** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yanonekaffeesatz/OFL.txt
+- **Yantramanav** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yantramanav/OFL.txt
+- **Yarndings 12** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yarndings12/OFL.txt
+- **Yarndings 12 Charted** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yarndings12charted/OFL.txt
+- **Yarndings 20** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yarndings20/OFL.txt
+- **Yarndings 20 Charted** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yarndings20charted/OFL.txt
+- **Yatra One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yatraone/OFL.txt
+- **Yellowtail** — Apache-2.0; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/apache/yellowtail/LICENSE.txt
+- **Yeseva One** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yesevaone/OFL.txt
+- **Yesteryear** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yesteryear/OFL.txt
+- **Young Serif** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/youngserif/OFL.txt
+- **Yrsa** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yrsa/OFL.txt
+- **Ysabeau** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ysabeau/OFL.txt
+- **Ysabeau Infant** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ysabeauinfant/OFL.txt
+- **Ysabeau Office** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ysabeauoffice/OFL.txt
+- **Ysabeau SC** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/ysabeausc/OFL.txt
+- **Yuyu** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yuyu/OFL.txt
+- **Yuyu Short** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/yuyushort/OFL.txt
+- **Zain** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/zain/OFL.txt
+- **Zalando Sans** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/zalandosans/OFL.txt
+- **Zalando Sans Expanded** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/zalandosansexpanded/OFL.txt
+- **Zalando Sans SemiExpanded** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/zalandosanssemiexpanded/OFL.txt
+- **Zen Dots** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/zendots/OFL.txt
+- **Zen Loop** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/zenloop/OFL.txt
+- **Zen Tokyo Zoo** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/zentokyozoo/OFL.txt
+- **Zeyada** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/zeyada/OFL.txt
+- **Zilla Slab** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/zillaslab/OFL.txt
+- **Zilla Slab Highlight** — OFL-1.1; https://raw.githubusercontent.com/google/fonts/2796410152d4f9524b68ed46e69c1b60f8e0f7c3/ofl/zillaslabhighlight/OFL.txt
 
-CJK families remain catalog metadata only in P0: their Unicode-partitioned WOFF2 delivery requires a multi-face cache key and is deliberately not represented as a misleading single-face download. UFL metadata is likewise browse-only; downloadable manifests are restricted to reviewed OFL-1.1 or Apache-2.0 families.
+CJK families remain catalog metadata only until multi-face unicode-range caching exists; a single WOFF2 would be a misleading incomplete face. UFL metadata is likewise browse-only; downloadable manifests are restricted to OFL-1.1 or Apache-2.0 families generated by `scripts/google-fonts/generate-family-manifests.ts`.
