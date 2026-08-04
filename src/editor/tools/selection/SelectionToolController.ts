@@ -346,8 +346,12 @@ export class SelectionToolController {
 
   private marqueeRect(docX: number, docY: number, mods: ToolModifiers) {
     const { document } = useEditorSessionStore.getState()
-    const { marqueeStyle, fixedMarqueeWidth, fixedMarqueeHeight } =
+    const { marqueeStyle, marqueeShape, fixedMarqueeWidth, fixedMarqueeHeight } =
       useSelectionToolStore.getState()
+    // An ellipse must keep the raw drag rect: clamping the AABB would rescale
+    // the ellipse into the on-canvas box instead of cutting it off.
+    const useEllipse =
+      marqueeShape === 'ellipse' && !marqueeStyleUsesRectMask(marqueeStyle)
     return resolveMarqueeRect({
       start: this.start,
       end: { x: docX, y: docY },
@@ -359,6 +363,7 @@ export class SelectionToolController {
         height: fixedMarqueeHeight,
       },
       canvas: document.canvas,
+      clampToCanvas: !useEllipse,
     })
   }
 }

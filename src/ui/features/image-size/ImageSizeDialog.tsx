@@ -3,6 +3,7 @@ import { exceedsSoftMegapixelLimit } from '../../../core/document'
 import { createMetadataEntry } from '../../../core/history'
 import { documentHistory } from '../../../editor/session/documentHistory'
 import { useEditorSessionStore } from '../../../editor/session/EditorSessionStore'
+import { useSelectionStore } from '../../../editor/session/selectionStore'
 import { Button } from '../../base/Button'
 import { FloatingWindow } from '../../base/FloatingWindow'
 import { NumericField } from '../../base/NumericField'
@@ -66,6 +67,9 @@ export function ImageSizeDialog() {
     setBusy(true)
     try {
       await resampleDocumentAssets(before, nextWidth, nextHeight, interpolation)
+      // Scale the document-space selection with the pixels it was drawn over,
+      // before anything samples it against the new canvas size.
+      useSelectionStore.getState().documentResampled(nextWidth, nextHeight)
       documentHistory.push(createMetadataEntry({
         label: 'Image Size',
         before,

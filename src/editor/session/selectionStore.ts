@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import {
   SelectionMask,
+  normalizeRect,
   type SelectionCombineMode,
   type SelectionRect,
 } from './SelectionMask'
@@ -29,11 +30,59 @@ type SelectionState = {
   ) => void
   deselect: () => void
   reselect: () => void
+  /**
+   * Image → Canvas Size: keep the selection pinned to the pixels it was drawn
+   * on. `offsetX/offsetY` is where the old canvas origin lands in the new
+   * canvas (see `canvasSizeOriginOffset`); anything outside is dropped.
+   */
+  canvasResized: (
+    width: number,
+    height: number,
+    offsetX: number,
+    offsetY: number,
+  ) => void
+  /** Image → Image Size: scale the selection with the resampled document. */
+  documentResampled: (width: number, height: number) => void
   selectAll: (width: number, height: number) => void
   inverse: (width: number, height: number) => void
   hasSelection: () => boolean
   /** True when document point is inside the active mask / marquee. */
   containsPoint: (docX: number, docY: number) => boolean
+}
+
+/** Rect selections without a mask still need remapping on a resize. */
+function remapRect(
+  rect: SelectionRect | null,
+  width: number,
+  height: number,
+  offsetX: number,
+  offsetY: number,
+): SelectionRect | null {
+  if (!rect || rect.width < 1 || rect.height < 1) return null
+  const moved = { ...rect, x: rect.x + offsetX, y: rect.y + offsetY }
+  const clipped = normalizeRect(moved, width, height)
+  return clipped.width >= 1 && clipped.height >= 1 ? clipped : null
+}
+
+function scaleRect(
+  rect: SelectionRect | null,
+  scaleX: number,
+  scaleY: number,
+  width: number,
+  height: number,
+): SelectionRect | null {
+  if (!rect || rect.width < 1 || rect.height < 1) return null
+  const scaled = normalizeRect(
+    {
+      x: rect.x * scaleX,
+      y: rect.y * scaleY,
+      width: rect.width * scaleX,
+      height: rect.height * scaleY,
+    },
+    width,
+    height,
+  )
+  return scaled.width >= 1 && scaled.height >= 1 ? scaled : null
 }
 
 function canvasSize(): { width: number; height: number } {
@@ -148,6 +197,56 @@ export const useSelectionStore = create<SelectionState>((set, get) => ({
         mask: mask.isEmpty() ? null : mask,
       })
     }
+  },
+
+  canvasResized: (width, height, offsetX, offsetY) => {
+    const { mask, marquee, lastMask, lastMarquee } = get()
+    const move = (m: SelectionMask | null): SelectionMask | null => {
+      if (!m || m.isEmpty()) return null
+      const next = m.resizeCanvas(width, height, offsetX, offsetY)
+      return next.isEmpty() ? null : next
+    }
+    const nextMask = move(mask)
+    const nextLastMask = move(lastMask)
+    set({
+      mask: nextMask,
+      marquee:
+        nextMask?.bounds() ??
+        remapRect(marquee, width, height, offsetX, offsetY),
+      lastMask: nextLastMask,
+      lastMarquee:
+        nextLastMask?.bounds() ??
+        remapRect(lastMarquee, width, height, offsetX, offsetY),
+    })
+  },
+
+  documentResampled: (width, height) => {
+    const { mask, marquee, lastMask, lastMarquee } = get()
+    const source = mask ?? lastMask
+    // Ratios come from whichever mask still carries the pre-resize canvas size;
+    // rect-only selections fall back to the store's own canvas dimensions.
+    const previous = source
+      ? { width: source.width, height: source.height }
+      : canvasSize()
+    const scaleX = width / Math.max(1, previous.width)
+    const scaleY = height / Math.max(1, previous.height)
+    const scale = (m: SelectionMask | null): SelectionMask | null => {
+      if (!m || m.isEmpty()) return null
+      const next = m.resampleToCanvas(width, height)
+      return next.isEmpty() ? null : next
+    }
+    const nextMask = scale(mask)
+    const nextLastMask = scale(lastMask)
+    set({
+      mask: nextMask,
+      marquee:
+        nextMask?.bounds() ??
+        scaleRect(marquee, scaleX, scaleY, width, height),
+      lastMask: nextLastMask,
+      lastMarquee:
+        nextLastMask?.bounds() ??
+        scaleRect(lastMarquee, scaleX, scaleY, width, height),
+    })
   },
 
   selectAll: (width, height) => {

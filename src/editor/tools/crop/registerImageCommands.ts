@@ -72,6 +72,9 @@ export function registerImageEditCommands(registry: CommandRegistry): void {
         const before = useEditorSessionStore.getState().document
         const after = await trimDocument(before)
         if (after === before) return
+        // Trim reframes the canvas by an amount it computes internally, so the
+        // old mask can no longer be mapped; drop it like Crop does.
+        useSelectionStore.getState().deselect()
         documentHistory.push(
           createMetadataEntry({
             label: 'Trim',

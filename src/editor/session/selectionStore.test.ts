@@ -86,6 +86,56 @@ describe('selectionStore', () => {
     expect(useSelectionStore.getState().mask?.contains(25, 5)).toBe(false)
   })
 
+  test('canvasResized moves the selection with the canvas anchor', () => {
+    useSelectionStore.getState().setMarquee({
+      x: 10,
+      y: 20,
+      width: 30,
+      height: 15,
+    })
+    // 100×80 → 140×80 anchored center: old origin shifts right by 20.
+    useSelectionStore.getState().canvasResized(140, 80, 20, 0)
+    const s = useSelectionStore.getState()
+    expect(s.mask?.width).toBe(140)
+    expect(s.mask?.height).toBe(80)
+    expect(s.marquee).toEqual({ x: 30, y: 20, width: 30, height: 15 })
+    expect(s.containsPoint(35, 25)).toBe(true)
+    // The pixels the selection used to cover are no longer selected.
+    expect(s.containsPoint(15, 25)).toBe(false)
+    // Selection clipping must agree with the mask across the whole new canvas.
+    expect(s.mask?.contains(139, 79)).toBe(false)
+  })
+
+  test('canvasResized drops a selection pushed off a shrunk canvas', () => {
+    useSelectionStore.getState().setMarquee({
+      x: 80,
+      y: 60,
+      width: 20,
+      height: 20,
+    })
+    useSelectionStore.getState().canvasResized(40, 40, 0, 0)
+    const s = useSelectionStore.getState()
+    expect(s.hasSelection()).toBe(false)
+    expect(s.mask).toBeNull()
+    expect(s.marquee).toBeNull()
+  })
+
+  test('documentResampled scales the selection with the image', () => {
+    useSelectionStore.getState().setMarquee({
+      x: 10,
+      y: 20,
+      width: 30,
+      height: 15,
+    })
+    useSelectionStore.getState().documentResampled(200, 160)
+    const s = useSelectionStore.getState()
+    expect(s.mask?.width).toBe(200)
+    expect(s.mask?.height).toBe(160)
+    expect(s.marquee).toEqual({ x: 20, y: 40, width: 60, height: 30 })
+    expect(s.containsPoint(25, 45)).toBe(true)
+    expect(s.containsPoint(15, 45)).toBe(false)
+  })
+
   test('containsPoint samples the active mask', () => {
     useSelectionStore.getState().setMarquee({
       x: 10,

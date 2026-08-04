@@ -50,7 +50,11 @@ export class SelectionMask {
   private data: Uint8Array | null = null
   /** Compact rect when selection is a single axis-aligned rectangle. */
   private rect: SelectionRect | null = null
-  /** Compact ellipse AABB (filled ellipse inside). */
+  /**
+   * Compact ellipse AABB (filled ellipse inside). Stored UNCLAMPED: an ellipse
+   * dragged past the canvas edge keeps its true geometry so sampling yields the
+   * visible arc of the real ellipse. Clamping here would squash the shape.
+   */
   private ellipse: SelectionRect | null = null
   /** True when the selection is the complement of `rect` within the canvas. */
   private inverted = false
@@ -91,15 +95,18 @@ export class SelectionMask {
     options: SelectionRasterizeOptions = {},
   ): SelectionMask {
     const mask = new SelectionMask(canvasWidth, canvasHeight)
-    const r = normalizeRect(bounds, mask.width, mask.height)
-    if (r.width < 1 || r.height < 1) return mask
+    const geometry = canonicalRect(bounds)
+    // Clip only to decide whether any of the ellipse is on canvas; both the AA
+    // and the compact branch keep the unclamped geometry so the two agree.
+    const visible = normalizeRect(geometry, mask.width, mask.height)
+    if (visible.width < 1 || visible.height < 1) return mask
     if (options.antiAlias) {
-      mask.data = rasterizeCoverage(mask.width, mask.height, bounds, (x, y) =>
-        pointInEllipse(x, y, bounds),
+      mask.data = rasterizeCoverage(mask.width, mask.height, geometry, (x, y) =>
+        pointInEllipse(x, y, geometry),
       )
       return mask
     }
-    mask.ellipse = r
+    mask.ellipse = geometry
     return mask
   }
 
@@ -155,7 +162,8 @@ export class SelectionMask {
       return true
     }
     if (this.ellipse) {
-      return this.ellipse.width < 1 || this.ellipse.height < 1
+      const visible = normalizeRect(this.ellipse, this.width, this.height)
+      return visible.width < 1 || visible.height < 1
     }
     if (!this.rect) return true
     if (this.inverted) {
@@ -174,7 +182,9 @@ export class SelectionMask {
   bounds(): SelectionRect | null {
     if (this.isEmpty()) return null
     if (this.data) return boundsOfData(this.data, this.width, this.height)
-    if (this.ellipse) return { ...this.ellipse }
+    // Bounds describe selected pixels, so an off-canvas ellipse reports only
+    // the on-canvas part (the outline still carries the true geometry).
+    if (this.ellipse) return normalizeRect(this.ellipse, this.width, this.height)
     if (!this.rect) return null
     if (!this.inverted) return { ...this.rect }
     // Inverse of an interior rect → full canvas.
@@ -321,6 +331,101 @@ export class SelectionMask {
     return data
   }
 
+  /**
+   * Re-anchor onto a resized canvas (Image → Canvas Size). `offsetX/offsetY` is
+   * how far the old canvas origin moves inside the new canvas, matching
+   * `canvasSizeOriginOffset`. Area added by the resize was never selected, so
+   * the selection is translated and clipped rather than stretched.
+   */
+  resizeCanvas(
+    width: number,
+    height: number,
+    offsetX: number,
+    offsetY: number,
+  ): SelectionMask {
+    const next = new SelectionMask(width, height)
+    if (this.isEmpty()) return next
+    const dx = Math.round(offsetX)
+    const dy = Math.round(offsetY)
+    if (this.rect && !this.inverted) {
+      return SelectionMask.fromRect(next.width, next.height, {
+        ...this.rect,
+        x: this.rect.x + dx,
+        y: this.rect.y + dy,
+      })
+    }
+    // Only ellipses fully inside the old canvas stay compact: a clipped one
+    // would otherwise "grow back" into the newly added area.
+    if (this.ellipse && rectWithinCanvas(this.ellipse, this.width, this.height)) {
+      return SelectionMask.fromEllipse(next.width, next.height, {
+        ...this.ellipse,
+        x: this.ellipse.x + dx,
+        y: this.ellipse.y + dy,
+      })
+    }
+    const source = this.clone().materialize()
+    const data = new Uint8Array(next.width * next.height)
+    const y0 = Math.max(0, -dy)
+    const y1 = Math.min(this.height, next.height - dy)
+    const x0 = Math.max(0, -dx)
+    const x1 = Math.min(this.width, next.width - dx)
+    for (let y = y0; y < y1; y++) {
+      const sourceRow = y * this.width
+      const targetRow = (y + dy) * next.width
+      for (let x = x0; x < x1; x++) {
+        data[targetRow + x + dx] = source[sourceRow + x]!
+      }
+    }
+    next.data = data
+    return next
+  }
+
+  /**
+   * Scale the selection with the document (Image → Image Size), so a selected
+   * region keeps covering the same picture content after resampling.
+   */
+  resampleToCanvas(width: number, height: number): SelectionMask {
+    const next = new SelectionMask(width, height)
+    if (next.width === this.width && next.height === this.height) {
+      return this.clone()
+    }
+    if (this.isEmpty()) return next
+    const scaleX = next.width / this.width
+    const scaleY = next.height / this.height
+    if (this.rect && !this.inverted) {
+      return SelectionMask.fromRect(next.width, next.height, {
+        x: this.rect.x * scaleX,
+        y: this.rect.y * scaleY,
+        width: this.rect.width * scaleX,
+        height: this.rect.height * scaleY,
+      })
+    }
+    if (this.ellipse) {
+      return SelectionMask.fromEllipse(next.width, next.height, {
+        x: this.ellipse.x * scaleX,
+        y: this.ellipse.y * scaleY,
+        width: this.ellipse.width * scaleX,
+        height: this.ellipse.height * scaleY,
+      })
+    }
+    const source = this.clone().materialize()
+    const data = new Uint8Array(next.width * next.height)
+    for (let y = 0; y < next.height; y++) {
+      const row = y * next.width
+      for (let x = 0; x < next.width; x++) {
+        data[row + x] = bilinearSample(
+          source,
+          this.width,
+          this.height,
+          (x + 0.5) / scaleX - 0.5,
+          (y + 0.5) / scaleY - 0.5,
+        )
+      }
+    }
+    next.data = data
+    return next
+  }
+
   /** Apply a soft, symmetric edge to the A8 mask without changing its canvas. */
   feather(radius: number): SelectionMask {
     const amount = Math.max(0, Math.min(250, Number.isFinite(radius) ? radius : 0))
@@ -394,6 +499,29 @@ export function normalizeRect(
   return { x: x0, y: y0, width: x1 - x0, height: y1 - y0 }
 }
 
+/** Positive-extent form of a rect, without clamping it to any canvas. */
+function canonicalRect(rect: SelectionRect): SelectionRect {
+  return {
+    x: rect.width < 0 ? rect.x + rect.width : rect.x,
+    y: rect.height < 0 ? rect.y + rect.height : rect.y,
+    width: Math.abs(rect.width),
+    height: Math.abs(rect.height),
+  }
+}
+
+function rectWithinCanvas(
+  rect: SelectionRect,
+  width: number,
+  height: number,
+): boolean {
+  return (
+    rect.x >= 0 &&
+    rect.y >= 0 &&
+    rect.x + rect.width <= width &&
+    rect.y + rect.height <= height
+  )
+}
+
 function pointInEllipse(px: number, py: number, bounds: SelectionRect): boolean {
   const rx = bounds.width / 2
   const ry = bounds.height / 2
@@ -449,10 +577,11 @@ function fillEllipse(
   height: number,
   bounds: SelectionRect,
 ): void {
-  const x0 = Math.max(0, bounds.x)
-  const y0 = Math.max(0, bounds.y)
-  const x1 = Math.min(width, bounds.x + bounds.width)
-  const y1 = Math.min(height, bounds.y + bounds.height)
+  // Geometry may extend past the canvas; only the scan window is clipped.
+  const x0 = Math.max(0, Math.floor(bounds.x))
+  const y0 = Math.max(0, Math.floor(bounds.y))
+  const x1 = Math.min(width, Math.ceil(bounds.x + bounds.width))
+  const y1 = Math.min(height, Math.ceil(bounds.y + bounds.height))
   for (let y = y0; y < y1; y++) {
     const row = y * width
     for (let x = x0; x < x1; x++) {

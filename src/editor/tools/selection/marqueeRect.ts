@@ -11,6 +11,12 @@ export type MarqueeRectInput = {
   style: MarqueeStyle
   fixedSize: { width: number; height: number }
   canvas: { width: number; height: number }
+  /**
+   * Clip the drag rect to the canvas (default). Ellipse marquees pass `false`:
+   * clipping the AABB would squash the ellipse instead of cutting it off, so
+   * the mask must receive the raw drag rect and clip while sampling.
+   */
+  clampToCanvas?: boolean
 }
 
 export function clampRectToCanvas(
@@ -41,7 +47,11 @@ export function resolveMarqueeRect(input: MarqueeRectInput): SelectionRect {
     style,
     fixedSize,
     canvas,
+    clampToCanvas = true,
   } = input
+
+  const clamp = (rect: SelectionRect): SelectionRect =>
+    clampToCanvas ? clampRectToCanvas(rect, canvas.width, canvas.height) : rect
 
   switch (style) {
     case 'singlePixel':
@@ -98,13 +108,11 @@ export function resolveMarqueeRect(input: MarqueeRectInput): SelectionRect {
     }
     case 'normal':
     default:
-      return clampRectToCanvas(
+      return clamp(
         rectFromDrag(start, end, {
           square: mods.shift && !modifiersAtDown.shift,
           fromCenter: mods.alt && !modifiersAtDown.alt,
         }),
-        canvas.width,
-        canvas.height,
       )
   }
 }

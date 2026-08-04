@@ -91,6 +91,30 @@ describe('SelectionMask', () => {
     expect(data[4 * 10 + 8]).toBe(255)
   })
 
+  test('off-canvas ellipse keeps its shape with and without anti-aliasing', () => {
+    // Drag from (-100,-100) to (200,200): a 300px circle, of which only the
+    // bottom-right quarter is on canvas. Clamping the AABB would instead give a
+    // full 200px ellipse squeezed into the visible box.
+    const bounds = { x: -100, y: -100, width: 300, height: 300 }
+    const hard = SelectionMask.fromEllipse(200, 200, bounds)
+    const soft = SelectionMask.fromEllipse(200, 200, bounds, { antiAlias: true })
+
+    for (let y = 0; y < 200; y++) {
+      for (let x = 0; x < 200; x++) {
+        const coverage = soft.sample(x, y)
+        if (coverage === 255) expect(hard.sample(x, y)).toBe(255)
+        else if (coverage === 0) expect(hard.sample(x, y)).toBe(0)
+      }
+    }
+
+    // Circle centred at (50,50) with r=150: (149,50) is inside, (160,160) out.
+    expect(hard.contains(149, 50)).toBe(true)
+    expect(hard.contains(160, 160)).toBe(false)
+    // The squashed 200px ellipse would have excluded this point.
+    expect(hard.contains(10, 190)).toBe(true)
+    expect(hard.bounds()).toEqual({ x: 0, y: 0, width: 200, height: 200 })
+  })
+
   test('fromPolygon fills a triangle', () => {
     const mask = SelectionMask.fromPolygon(20, 20, [
       { x: 2, y: 2 },
@@ -155,6 +179,58 @@ describe('SelectionMask', () => {
     }).feather(2)
     const combined = SelectionMask.empty(16, 16).combine(soft, 'add')
     expect(combined.sample(4, 8)).toBe(soft.sample(4, 8))
+  })
+
+  test('resizeCanvas re-anchors the selection onto the new canvas', () => {
+    const mask = SelectionMask.fromRect(100, 100, {
+      x: 10,
+      y: 10,
+      width: 20,
+      height: 20,
+    })
+    // Grow 100→200 centered: old origin lands at (50,50).
+    const grown = mask.resizeCanvas(200, 200, 50, 50)
+    expect(grown.width).toBe(200)
+    expect(grown.height).toBe(200)
+    expect(grown.bounds()).toEqual({ x: 60, y: 60, width: 20, height: 20 })
+    expect(grown.contains(65, 65)).toBe(true)
+    expect(grown.contains(15, 15)).toBe(false)
+  })
+
+  test('resizeCanvas clips selection that falls outside a shrunk canvas', () => {
+    const mask = SelectionMask.fromRect(100, 100, {
+      x: 80,
+      y: 80,
+      width: 20,
+      height: 20,
+    })
+    expect(mask.resizeCanvas(40, 40, 0, 0).isEmpty()).toBe(true)
+  })
+
+  test('resizeCanvas keeps arbitrary A8 coverage aligned to its pixels', () => {
+    const soft = SelectionMask.fromRect(20, 20, {
+      x: 5,
+      y: 5,
+      width: 6,
+      height: 6,
+    }).feather(2)
+    const moved = soft.resizeCanvas(30, 30, 5, 5)
+    expect(moved.sample(12, 12)).toBe(soft.sample(7, 7))
+    expect(moved.sample(9, 12)).toBe(soft.sample(4, 7))
+    expect(moved.sample(0, 0)).toBe(0)
+  })
+
+  test('resampleToCanvas scales the selection with the document', () => {
+    const mask = SelectionMask.fromRect(100, 100, {
+      x: 10,
+      y: 20,
+      width: 20,
+      height: 20,
+    })
+    const scaled = mask.resampleToCanvas(200, 50)
+    expect(scaled.width).toBe(200)
+    expect(scaled.height).toBe(50)
+    expect(scaled.bounds()).toEqual({ x: 20, y: 10, width: 40, height: 10 })
   })
 
   test('affineTransform skews a rect selection', () => {

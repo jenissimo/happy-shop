@@ -7,10 +7,12 @@ import { createMetadataEntry } from '../../../core/history'
 import {
   CANVAS_ANCHOR_CENTER,
   canvasSizeDocument,
+  canvasSizeOriginOffset,
   type CanvasAnchor,
 } from '../../../editor/tools/crop/canvasSizeDocument'
 import { documentHistory } from '../../../editor/session/documentHistory'
 import { useEditorSessionStore } from '../../../editor/session/EditorSessionStore'
+import { useSelectionStore } from '../../../editor/session/selectionStore'
 import { Button } from '../../base/Button'
 import { FloatingWindow } from '../../base/FloatingWindow'
 import { NumericField } from '../../base/NumericField'
@@ -97,6 +99,23 @@ export function CanvasSizeDialog() {
       closeCanvasSizeDialog()
       return
     }
+    // Selection lives in document space, so it has to follow the anchor before
+    // anything samples it against the new canvas size.
+    const originOffset = canvasSizeOriginOffset(
+      before.canvas.width,
+      before.canvas.height,
+      absoluteWidth,
+      absoluteHeight,
+      anchor,
+    )
+    useSelectionStore
+      .getState()
+      .canvasResized(
+        absoluteWidth,
+        absoluteHeight,
+        originOffset.x,
+        originOffset.y,
+      )
     documentHistory.push(
       createMetadataEntry({
         label: 'Canvas Size',

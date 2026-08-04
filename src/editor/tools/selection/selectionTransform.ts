@@ -294,6 +294,9 @@ export class SelectionTransformController {
     if (gesture.kind === 'scale') {
       const transform = applyScaleFromHandle(gesture.startBox, gesture.handle, point, {
         keepAspect: gesture.keepAspect || mods.shift,
+        // Alt without Ctrl never starts a perspective gesture, so it is free to
+        // mean "scale about the center" here, matching Free Transform.
+        fromCenter: mods.alt,
       })
       store.setTransform(transform)
       applySessionToMask({ ...session, transform, perspective: null })
