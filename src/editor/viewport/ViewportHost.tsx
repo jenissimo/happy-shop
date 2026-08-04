@@ -60,6 +60,12 @@ import {
   type TouchNavPoint,
 } from './touchNavigation'
 import { resolveWheelNavigation } from './wheelNavigation'
+import {
+  isViewportZoomShortcut,
+  setViewportPointerAnchor,
+  ZOOM_STEP,
+} from './zoomActions'
+import { isEditableEventTarget } from '../../lib/editableTarget'
 import styles from './ViewportHost.module.css'
 
 export interface ViewportHostProps {
@@ -157,6 +163,9 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
   const transformGesturing = useTransformStore((s) => s.gesturing)
   const { commands, showRulers } = useEditorContext()
   const guides = useGuidesStore((state) => state.guides)
+  // View → Extras hides guides with the rest of the overlay group without
+  // deleting them, so toggling Extras back on brings the same guides back.
+  const extrasVisible = useViewPreferencesStore((state) => state.extrasVisible)
 
   // selectedLayerIds / documentLayers subscriptions invalidate paintability.
   void selectedLayerIds
@@ -341,8 +350,9 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
       camera: cameraRef.current,
       getViewportSize: () => sizeRef.current,
       getDocSize: () => viewSizeRef.current,
+      notifyChanged: refreshCamera,
     })
-  }, [])
+  }, [refreshCamera])
 
   useEffect(() => {
     if (persistedCamera) cameraRef.current.setState(persistedCamera)
@@ -615,6 +625,22 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
     }
   }, [])
 
+  // Browser zoom hijacks Mod+`+`/`-`/`0` before any command can run, and the
+  // command path only calls preventDefault when a command actually matched.
+  // Capture-phase, so the page can never zoom while the viewport is mounted;
+  // the shortcut itself is still dispatched by the command registry.
+  useEffect(() => {
+    const onZoomKeyCapture = (event: KeyboardEvent) => {
+      if (event.defaultPrevented) return
+      if (isEditableEventTarget(event)) return
+      if (!isViewportZoomShortcut(event)) return
+      event.preventDefault()
+    }
+    window.addEventListener('keydown', onZoomKeyCapture, { capture: true })
+    return () =>
+      window.removeEventListener('keydown', onZoomKeyCapture, { capture: true })
+  }, [])
+
   // Drop in-progress lasso / marquee preview when switching tools; commit FT.
   useEffect(() => {
     toolRouterRef.current.onToolChanged(activeToolId)
@@ -637,6 +663,23 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
         event.preventDefault()
         return
       }
+    }
+
+    // Zoom tool: click zooms in, Alt+click zooms out — anchored on the cursor,
+    // the same `camera.zoomBy` primitive the shortcuts and wheel use.
+    if (event.button === 0 && activeToolId === 'zoom') {
+      event.preventDefault()
+      const { width, height } = sizeRef.current
+      const anchor = mapClientToViewport(
+        event.clientX,
+        event.clientY,
+        event.currentTarget,
+        width,
+        height,
+      )
+      cameraRef.current.zoomBy(event.altKey ? 1 / ZOOM_STEP : ZOOM_STEP, anchor)
+      refreshCamera()
+      return
     }
 
     const isMiddleButton = event.button === 1
@@ -672,6 +715,8 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
     const x = localX * sx
     const y = localY * sy
     pointerHostRef.current = { x, y }
+    // Keyboard / menu zoom anchors on the cursor, exactly like the Zoom tool.
+    setViewportPointerAnchor({ x, y })
     if (!pointerInside) setPointerInside(true)
     updateCursorOverlays(x, y)
 
@@ -882,6 +927,7 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
       onPointerCancel={endPan}
       onPointerLeave={() => {
         setPointerInside(false)
+        setViewportPointerAnchor(null)
         useCursorStatusStore.getState().setDocCursor(null)
         if (guideRef.current) guideRef.current.style.visibility = 'hidden'
         setHoverHandle(null)
@@ -926,7 +972,7 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
               </span>
             ))}
           </div>
-          {guides.map((guide) => {
+          {(extrasVisible ? guides : []).map((guide) => {
             const screen = cameraRef.current.documentToScreen(
               guide.axis === 'x' ? { x: guide.pos, y: 0 } : { x: 0, y: guide.pos },
             )

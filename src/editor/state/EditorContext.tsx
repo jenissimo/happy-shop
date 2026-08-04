@@ -26,10 +26,20 @@ import {
   ProjectBridgeUnavailableError,
 } from '../project/ProjectClient'
 import { DEFAULT_SNAP, type SnapSettings } from '../geometry'
+import { isEditableEventTarget } from '../../lib/editableTarget'
+import {
+  installClipboardEventBridge,
+  isNativeClipboardShortcut,
+} from '../session/clipboardEvents'
+import { nudgeSelectedLayers } from '../session/nudgeLayers'
 import { useEditorSessionStore } from '../session/EditorSessionStore'
 import { documentHistory } from '../session/documentHistory'
 import { canUndoPenDraftAnchor } from '../tools/pen/penWorkPathUndo'
-import { saveActiveProject } from '../session/saveProject'
+import {
+  saveActiveProject,
+  saveActiveProjectAs,
+  type SaveProjectResult,
+} from '../session/saveProject'
 import { useSnapPreferencesStore } from '../viewport/snapPreferences'
 import { useViewPreferencesStore } from '../viewport/viewPreferencesStore'
 
@@ -70,6 +80,7 @@ type EditorContextValue = {
   duplicateSelected: () => void
   renameNode: (id: string, name: string) => void
   save: () => Promise<void>
+  saveAs: (destination: string) => Promise<SaveProjectResult>
   reloadFromDisk: () => Promise<void>
   keepMine: () => void
   undo: () => void
@@ -257,26 +268,45 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     setSelectedIds([id])
   }
 
+  /** Shared status/dirty/revision handling for Save and Save As. */
+  const applySaveResult = (result: SaveProjectResult): SaveProjectResult => {
+    if (result.ok) {
+      setDirty(false)
+      setConflict(null)
+      setRevision(result.revision)
+      setStatus(`Saved ${result.path}`)
+    } else if ('conflict' in result && result.conflict) {
+      setStatus(
+        `Revision conflict (disk ${result.currentRevision}) — resolve before saving`,
+      )
+    } else {
+      setStatus('error' in result ? result.error : 'Save failed')
+    }
+    return result
+  }
+
   /** Persist active HappyDocument + layer PNGs (SPEC §13 / M2). */
   const save = async () => {
     if (savingRef.current) return
     savingRef.current = true
     try {
-      const result = await saveActiveProject()
-      if (result.ok) {
-        setDirty(false)
-        setConflict(null)
-        setRevision(result.revision)
-        setStatus(`Saved ${result.path}`)
-        return
-      }
-      if ('conflict' in result && result.conflict) {
-        setStatus(
-          `Revision conflict (disk ${result.currentRevision}) — resolve before saving`,
-        )
-        return
-      }
-      setStatus('error' in result ? result.error : 'Save failed')
+      applySaveResult(await saveActiveProject())
+    } finally {
+      savingRef.current = false
+    }
+  }
+
+  /**
+   * File → Save As…: same status handling as `save`, but the result is handed
+   * back so the dialog can stay open and show why a destination was refused.
+   */
+  const saveAs = async (destination: string): Promise<SaveProjectResult> => {
+    if (savingRef.current) {
+      return { ok: false, error: 'A save is already in progress' }
+    }
+    savingRef.current = true
+    try {
+      return applySaveResult(await saveActiveProjectAs(destination))
     } finally {
       savingRef.current = false
     }
@@ -546,6 +576,17 @@ export function EditorProvider({ children }: { children: ReactNode }) {
         useViewPreferencesStore.getState().setPixelatedPreview(next)
       },
     })
+    // Photoshop's View → Extras master switch. Mod+H is free in this registry
+    // (`findCommandByShortcut` finds no other Ctrl/Cmd+H binding) and is not
+    // reserved by Chrome on Windows/Linux; macOS Cmd+H hides the window, which
+    // is why the individual toggles stay reachable from the View menu.
+    cmds.register({
+      id: 'view.toggleExtras',
+      title: 'Extras',
+      shortcut: 'Mod+H',
+      enabled: () => true,
+      run: () => useViewPreferencesStore.getState().toggleExtras(),
+    })
     cmds.register({
       id: 'view.toggleSnap',
       title: 'Toggle Snap',
@@ -563,16 +604,14 @@ export function EditorProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      const t = e.target as HTMLElement | null
-      if (
-        t &&
-        (t.tagName === 'INPUT' ||
-          t.tagName === 'TEXTAREA' ||
-          t.tagName === 'SELECT' ||
-          t.isContentEditable)
-      ) {
-        return
-      }
+      // A panel/overlay that already consumed the key (e.g. Layers list arrow
+      // navigation) wins over global shortcuts and nudge.
+      if (e.defaultPrevented) return
+      if (isEditableEventTarget(e)) return
+      // Mod+C/X/V are handled by the native ClipboardEvent bridge, which gets
+      // the payload without a permission prompt. Running the command here too
+      // would paste twice.
+      if (isNativeClipboardShortcut(e)) return
       const cmd = findCommandByShortcut(commandsRef.current, e)
       if (cmd) {
         e.preventDefault()
@@ -580,10 +619,9 @@ export function EditorProvider({ children }: { children: ReactNode }) {
         return
       }
 
-      const ids = selectedIdsRef.current
-      if (!ids.length || e.metaKey || e.ctrlKey || e.altKey) return
+      if (e.metaKey || e.ctrlKey || e.altKey) return
 
-      const step = e.shiftKey ? snapRef.current.grid || 8 : 1
+      const step = e.shiftKey ? snapRef.current.grid || 10 : 1
       let dx = 0
       let dy = 0
       if (e.key === 'ArrowLeft') dx = -step
@@ -592,6 +630,15 @@ export function EditorProvider({ children }: { children: ReactNode }) {
       else if (e.key === 'ArrowDown') dy = step
       if (!dx && !dy) return
 
+      // HappyDocument layers are the real target; the legacy `EditorDocument`
+      // node model only still exists for the framework demo document.
+      if (nudgeSelectedLayers(dx, dy)) {
+        e.preventDefault()
+        return
+      }
+
+      const ids = selectedIdsRef.current
+      if (!ids.length) return
       e.preventDefault()
       mutate('Nudge', (doc) => ({
         ...doc,
@@ -601,7 +648,11 @@ export function EditorProvider({ children }: { children: ReactNode }) {
       }))
     }
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    const disposeClipboard = installClipboardEventBridge()
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      disposeClipboard()
+    }
   }, [])
 
   const value: EditorContextValue = {
@@ -636,6 +687,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     duplicateSelected,
     renameNode,
     save,
+    saveAs,
     reloadFromDisk,
     keepMine,
     undo,

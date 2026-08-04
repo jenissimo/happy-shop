@@ -1,7 +1,15 @@
 export type Command = {
   id: string
   title: string
+  /** Primary binding — the one menus and the palette display. */
   shortcut?: string
+  /**
+   * Additional bindings that trigger the command but are never displayed.
+   * Needed when the browser reserves the canonical key: Chrome swallows
+   * Ctrl+T (new tab) before the page sees it, so Free Transform also answers
+   * to Mod+Alt+T.
+   */
+  extraShortcuts?: string[]
   icon?: string
   enabled: () => boolean
   run: () => void
@@ -35,6 +43,9 @@ function isMacPlatform(): boolean {
   return /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent)
 }
 
+const PLUS_KEY_PARTS = new Set(['plus', '=', '+'])
+const MINUS_KEY_PARTS = new Set(['minus', '-', '_'])
+
 /**
  * Match a keyboard event against a shortcut string like "Mod+S", "Mod+Shift+Z", "Delete".
  * Mod = Meta on macOS, Ctrl elsewhere.
@@ -65,7 +76,11 @@ export function matchShortcut(e: KeyboardEvent, shortcut: string): boolean {
   }
 
   if (wantAlt !== e.altKey) return false
-  if (wantShift !== e.shiftKey) return false
+  // `+` is Shift+`=` on most layouts, and `_` is Shift+`-`, so a shortcut
+  // written as `Mod+=` must still match the key the user actually presses for
+  // "zoom in". Requiring Shift explicitly (`Mod+Shift+=`) still works.
+  const shiftOptional = PLUS_KEY_PARTS.has(keyPart) || MINUS_KEY_PARTS.has(keyPart)
+  if (wantShift ? !e.shiftKey : e.shiftKey && !shiftOptional) return false
 
   const eventKey = e.key.length === 1 ? e.key.toLowerCase() : e.key.toLowerCase()
   const codeKey = e.code.replace(/^Key/, '').replace(/^Digit/, '').toLowerCase()
@@ -82,11 +97,21 @@ export function matchShortcut(e: KeyboardEvent, shortcut: string): boolean {
   if (keyPart === 'space') {
     return e.key === ' ' || e.code === 'Space'
   }
-  if (keyPart === 'plus' || keyPart === '=') {
-    return e.key === '+' || e.key === '=' || e.code === 'Equal'
+  if (PLUS_KEY_PARTS.has(keyPart)) {
+    return (
+      e.key === '+' ||
+      e.key === '=' ||
+      e.code === 'Equal' ||
+      e.code === 'NumpadAdd'
+    )
   }
-  if (keyPart === 'minus' || keyPart === '-') {
-    return e.key === '-' || e.key === '_' || e.code === 'Minus'
+  if (MINUS_KEY_PARTS.has(keyPart)) {
+    return (
+      e.key === '-' ||
+      e.key === '_' ||
+      e.code === 'Minus' ||
+      e.code === 'NumpadSubtract'
+    )
   }
   // Prefer physical keys: Shift+[ produces `{` on US layouts.
   if (keyPart === '[' || keyPart === 'bracketleft') {
@@ -111,7 +136,10 @@ export function findCommandByShortcut(
   e: KeyboardEvent,
 ): Command | undefined {
   for (const cmd of registry.list()) {
-    if (cmd.shortcut && matchShortcut(e, cmd.shortcut) && cmd.enabled()) {
+    const bindings = cmd.shortcut
+      ? [cmd.shortcut, ...(cmd.extraShortcuts ?? [])]
+      : (cmd.extraShortcuts ?? [])
+    if (bindings.some((binding) => matchShortcut(e, binding)) && cmd.enabled()) {
       return cmd
     }
   }

@@ -1,16 +1,18 @@
 import type { CommandRegistry } from '../../core/commands/registry'
 import { getViewportCameraHandle } from './viewportCameraAccess'
+import {
+  fitViewport,
+  resolveZoomAnchor,
+  zoomViewportBy,
+  zoomViewportTo,
+  ZOOM_STEP,
+} from './zoomActions'
 
-const ZOOM_STEP = 1.25
-
-function viewportCenter(): { x: number; y: number } {
-  const h = getViewportCameraHandle()
-  if (!h) return { x: 0, y: 0 }
-  const { width, height } = h.getViewportSize()
-  return { x: width / 2, y: height / 2 }
-}
-
-/** Overwrites View zoom stubs so Mod+=/−/0/1 drive the live camera. */
+/**
+ * Overwrites View zoom stubs so Mod+=/−/0/1 drive the live camera through the
+ * same `zoomActions` primitives the Zoom tool and the wheel use — including
+ * cursor anchoring.
+ */
 export function registerViewZoomCommands(registry: CommandRegistry): void {
   registry.register({
     id: 'view.zoomIn',
@@ -18,9 +20,7 @@ export function registerViewZoomCommands(registry: CommandRegistry): void {
     shortcut: 'Mod+=',
     enabled: () => getViewportCameraHandle() != null,
     run: () => {
-      const h = getViewportCameraHandle()
-      if (!h) return
-      h.camera.zoomBy(ZOOM_STEP, viewportCenter())
+      zoomViewportBy(ZOOM_STEP)
     },
   })
 
@@ -30,9 +30,7 @@ export function registerViewZoomCommands(registry: CommandRegistry): void {
     shortcut: 'Mod+-',
     enabled: () => getViewportCameraHandle() != null,
     run: () => {
-      const h = getViewportCameraHandle()
-      if (!h) return
-      h.camera.zoomBy(1 / ZOOM_STEP, viewportCenter())
+      zoomViewportBy(1 / ZOOM_STEP)
     },
   })
 
@@ -42,11 +40,7 @@ export function registerViewZoomCommands(registry: CommandRegistry): void {
     shortcut: 'Mod+0',
     enabled: () => getViewportCameraHandle() != null,
     run: () => {
-      const h = getViewportCameraHandle()
-      if (!h) return
-      const doc = h.getDocSize()
-      const vp = h.getViewportSize()
-      h.camera.fitToViewport(doc.width, doc.height, vp.width, vp.height, 32)
+      fitViewport(32)
     },
   })
 
@@ -56,9 +50,7 @@ export function registerViewZoomCommands(registry: CommandRegistry): void {
     shortcut: 'Mod+1',
     enabled: () => getViewportCameraHandle() != null,
     run: () => {
-      const h = getViewportCameraHandle()
-      if (!h) return
-      h.camera.zoomTo(1, viewportCenter())
+      zoomViewportTo(1, resolveZoomAnchor())
     },
   })
 }

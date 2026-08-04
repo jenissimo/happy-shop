@@ -8,6 +8,11 @@ export type ViewportCameraHandle = {
   camera: ViewportCamera
   getViewportSize: () => { width: number; height: number }
   getDocSize: () => { width: number; height: number }
+  /**
+   * Called after an outside-of-React camera mutation so the host can re-render
+   * (zoom readout, overlays). Optional so tests can bind a bare camera.
+   */
+  notifyChanged?: () => void
 }
 
 let handle: ViewportCameraHandle | null = null

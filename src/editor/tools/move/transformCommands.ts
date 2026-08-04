@@ -12,6 +12,10 @@ export function registerTransformCommands(registry: CommandRegistry): void {
     id: 'edit.freeTransform',
     title: 'Free Transform',
     shortcut: 'Mod+T',
+    // Chrome/Edge reserve Ctrl+T for "new tab" and never deliver it to the
+    // page, so preventDefault cannot help — unlike Ctrl+`+`/`-`, which the
+    // viewport does intercept. Mod+Alt+T is the reachable fallback.
+    extraShortcuts: ['Mod+Alt+T'],
     enabled: () =>
       transformableSelection().length > 0 ||
       useTransformStore.getState().session != null,

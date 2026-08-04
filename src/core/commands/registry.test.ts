@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'bun:test'
 import {
   CommandRegistry,
+  findCommandByShortcut,
   matchShortcut,
   registerPhotoshopMenuCommands,
 } from './registry'
@@ -128,5 +129,75 @@ describe('matchShortcut', () => {
         "Mod+'",
       ),
     ).toBe(true)
+  })
+
+  test('matches Mod+= when the user presses the shifted `+`', () => {
+    expect(
+      matchShortcut(
+        keyEvent({ key: '+', code: 'Equal', ctrlKey: true, shiftKey: true }),
+        'Mod+=',
+      ),
+    ).toBe(true)
+  })
+
+  test('matches Mod+- when the user presses the shifted `_`', () => {
+    expect(
+      matchShortcut(
+        keyEvent({ key: '_', code: 'Minus', ctrlKey: true, shiftKey: true }),
+        'Mod+-',
+      ),
+    ).toBe(true)
+  })
+
+  test('matches Mod+= / Mod+- on the numpad', () => {
+    expect(
+      matchShortcut(
+        keyEvent({ key: '+', code: 'NumpadAdd', ctrlKey: true }),
+        'Mod+=',
+      ),
+    ).toBe(true)
+    expect(
+      matchShortcut(
+        keyEvent({ key: '-', code: 'NumpadSubtract', ctrlKey: true }),
+        'Mod+-',
+      ),
+    ).toBe(true)
+  })
+
+  test('still rejects an unwanted Shift on ordinary keys', () => {
+    expect(
+      matchShortcut(
+        keyEvent({ key: 's', ctrlKey: true, shiftKey: true }),
+        'Mod+S',
+      ),
+    ).toBe(false)
+  })
+
+  test('matches an extraShortcuts binding as well as the primary one', () => {
+    const reg = new CommandRegistry()
+    let ran = 0
+    reg.register({
+      id: 'test.alt',
+      title: 'Alt bound',
+      shortcut: 'Mod+T',
+      extraShortcuts: ['Mod+Alt+T'],
+      enabled: () => true,
+      run: () => {
+        ran++
+      },
+    })
+
+    const primary = keyEvent({ key: 't', ctrlKey: true })
+    const secondary = keyEvent({ key: 't', ctrlKey: true, altKey: true })
+    expect(findCommandByShortcut(reg, primary)?.id).toBe('test.alt')
+    expect(findCommandByShortcut(reg, secondary)?.id).toBe('test.alt')
+    expect(findCommandByShortcut(reg, keyEvent({ key: 't' }))).toBeUndefined()
+    expect(ran).toBe(0)
+  })
+
+  test('still requires Shift when the shortcut asks for it', () => {
+    expect(
+      matchShortcut(keyEvent({ key: '=', code: 'Equal', ctrlKey: true }), 'Mod+Shift+='),
+    ).toBe(false)
   })
 })
