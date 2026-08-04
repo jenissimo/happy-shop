@@ -22,26 +22,23 @@ import {
   type LayerLockFlags,
   type Transform,
 } from '../../core/document'
-import { createMetadataEntry } from '../../core/history'
 import {
   DEFAULT_TOOL_ID,
   type EditorToolId,
 } from '../toolbar/tools'
 import type { CameraState } from '../viewport/ViewportCamera'
 import { documentHistory } from './documentHistory'
+import {
+  commitDocumentMutation,
+  normalizeLayerSelection,
+  syncActiveTabMirror,
+} from './documentTransaction'
 import { hydrateWorkPathFromDocument } from '../tools/paths/pathDocumentSync'
 import { rehydrateDocumentGoogleFonts } from '../tools/text/rehydrateDocumentGoogleFonts'
 
-/** Optional hook installed by DocumentTabManager to mirror active-tab dirty/doc. */
-let activeTabSync: (() => void) | null = null
-
-export function setActiveTabSyncHandler(handler: (() => void) | null): void {
-  activeTabSync = handler
-}
-
-function syncActiveTabMirror(): void {
-  activeTabSync?.()
-}
+// Re-exported from their new home in `documentTransaction` so the historical
+// import sites (DocumentTabManager, layer commands, …) keep working.
+export { normalizeLayerSelection, setActiveTabSyncHandler } from './documentTransaction'
 
 /** Optional viewport camera preferences (not a live camera — that lives in ViewportHost). */
 export type SessionCameraPrefs = {
@@ -104,64 +101,12 @@ export interface EditorSessionState {
   jumpToHistoryDepth: (depth: number) => Promise<boolean>
 }
 
-/**
- * Keeps the first selected id as the active target while preserving a valid
- * multi-selection. Documents with layers always retain an active layer.
- */
-export function normalizeLayerSelection(
-  document: HappyDocument,
-  selectedLayerIds: readonly LayerId[],
-): LayerId[] {
-  const valid = [...new Set(selectedLayerIds)].filter(
-    (id) => document.layers[id] != null,
-  )
-  if (valid.length > 0 || Object.keys(document.layers).length === 0) {
-    return valid
-  }
-
-  // The topmost root layer is the Photoshop-like default target. A malformed
-  // tree can still be recovered from by selecting any surviving layer.
-  return [
-    document.rootChildren[document.rootChildren.length - 1] ??
-      (Object.keys(document.layers)[0] as LayerId),
-  ]
-}
-
-function applyDocument(doc: HappyDocument): void {
-  const state = useEditorSessionStore.getState()
-  useEditorSessionStore.setState({
-    document: doc,
-    dirty: true,
-    selectedLayerIds: normalizeLayerSelection(doc, state.selectedLayerIds),
-  })
-}
-
 function commit(
   label: string,
   mutator: (doc: HappyDocument) => HappyDocument,
   mergeKey?: string,
 ): void {
-  const state = useEditorSessionStore.getState()
-  const before = state.document
-  const after = mutator(before)
-  if (after === before) return
-  // Identity check is reference equality; ops always return new objects.
-  documentHistory.push(
-    createMetadataEntry({
-      label,
-      before,
-      after,
-      apply: applyDocument,
-      mergeKey,
-    }),
-  )
-  useEditorSessionStore.setState({
-    document: after,
-    dirty: true,
-    historyVersion: documentHistory.version,
-    selectedLayerIds: normalizeLayerSelection(after, state.selectedLayerIds),
-  })
-  syncActiveTabMirror()
+  commitDocumentMutation(label, mutator, { mergeKey })
 }
 
 /**

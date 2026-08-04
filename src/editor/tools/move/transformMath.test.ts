@@ -103,6 +103,85 @@ describe('transformMath', () => {
     expect(next.scaleX).toBeCloseTo(2, 6)
   })
 
+  test('applyScaleFromHandle fromCenter scales a corner about the center', () => {
+    const start = box(100, 80)
+    const centerBefore = boxCenter(start)
+    // SE dragged to (150,120): half-spans are 50/40, so both scales double.
+    const next = applyScaleFromHandle(
+      start,
+      'se',
+      { x: 150, y: 120 },
+      { fromCenter: true },
+    )
+    const centerAfter = boxCenter({ bounds: start.bounds, transform: next })
+    expect(centerAfter.x).toBeCloseTo(centerBefore.x, 6)
+    expect(centerAfter.y).toBeCloseTo(centerBefore.y, 6)
+    expect(next.scaleX).toBeCloseTo(2, 6)
+    expect(next.scaleY).toBeCloseTo(2, 6)
+    // NW mirrors SE instead of staying put.
+    const nw = layerLocalToDocument(localCorner(start.bounds, 'nw'), next)
+    expect(nw.x).toBeCloseTo(-50, 6)
+    expect(nw.y).toBeCloseTo(-40, 6)
+  })
+
+  test('applyScaleFromHandle fromCenter scales an edge symmetrically', () => {
+    const start = box(100, 80)
+    const next = applyScaleFromHandle(
+      start,
+      'n',
+      { x: 50, y: -20 },
+      { fromCenter: true },
+    )
+    expect(next.scaleX).toBeCloseTo(1, 6)
+    expect(next.scaleY).toBeCloseTo(1.5, 6)
+    const n = layerLocalToDocument(localCorner(start.bounds, 'n'), next)
+    const s = layerLocalToDocument(localCorner(start.bounds, 's'), next)
+    expect(n.y).toBeCloseTo(-20, 6)
+    expect(s.y).toBeCloseTo(100, 6)
+  })
+
+  test('applyScaleFromHandle keepAspect + fromCenter compose', () => {
+    const start = box(100, 100)
+    const centerBefore = boxCenter(start)
+    const next = applyScaleFromHandle(
+      start,
+      'e',
+      { x: 150, y: 50 },
+      { keepAspect: true, fromCenter: true },
+    )
+    const centerAfter = boxCenter({ bounds: start.bounds, transform: next })
+    expect(centerAfter.x).toBeCloseTo(centerBefore.x, 6)
+    expect(centerAfter.y).toBeCloseTo(centerBefore.y, 6)
+    expect(next.scaleX).toBeCloseTo(2, 6)
+    expect(Math.abs(next.scaleY)).toBeCloseTo(Math.abs(next.scaleX), 6)
+  })
+
+  test('applyScaleFromHandle fromCenter holds the center under rotation', () => {
+    const start = box(100, 80, { x: 25, y: 15, rotationDeg: 30 })
+    const centerBefore = boxCenter(start)
+    const next = applyScaleFromHandle(
+      start,
+      'nw',
+      { x: -30, y: -12 },
+      { fromCenter: true },
+    )
+    const centerAfter = boxCenter({ bounds: start.bounds, transform: next })
+    expect(centerAfter.x).toBeCloseTo(centerBefore.x, 6)
+    expect(centerAfter.y).toBeCloseTo(centerBefore.y, 6)
+  })
+
+  test('applyScaleFromHandle without fromCenter still pins the opposite handle', () => {
+    const start = box(100, 80, { x: 10, y: 20 })
+    const seBefore = layerLocalToDocument(
+      localCorner(start.bounds, 'se'),
+      start.transform,
+    )
+    const next = applyScaleFromHandle(start, 'nw', { x: -90, y: -60 })
+    const seAfter = layerLocalToDocument(localCorner(start.bounds, 'se'), next)
+    expect(seAfter.x).toBeCloseTo(seBefore.x, 6)
+    expect(seAfter.y).toBeCloseTo(seBefore.y, 6)
+  })
+
   test('applySkewFromHandle S keeps top edge fixed', () => {
     const start = box(100, 80, { x: 10, y: 20 })
     const topBefore = layerLocalToDocument(localCorner(start.bounds, 'n'), start.transform)

@@ -6,39 +6,26 @@ import {
   type LayerId,
   type Transform,
 } from '../../../core/document'
-import { createMetadataEntry } from '../../../core/history'
-import { documentHistory } from '../../session/documentHistory'
 import { useEditorSessionStore } from '../../session/EditorSessionStore'
+import { commitDocumentTransaction } from '../../session/documentTransaction'
 import { isTransformableLayer } from './layerLocalBounds'
 import { useTransformStore } from './transformStore'
 
-function applyDoc(doc: HappyDocument): void {
-  useEditorSessionStore.setState({ document: doc, dirty: true })
-}
+/**
+ * A whole drag/scale/rotate gesture should read as one history step, so
+ * transform entries coalesce over a much wider window than the 400ms slider
+ * default.
+ */
+const TRANSFORM_MERGE_WINDOW_MS = 60_000
 
 function pushMetadata(
   label: string,
   before: HappyDocument,
   after: HappyDocument,
   mergeKey: string,
-  mergeWindowMs = 60_000,
+  mergeWindowMs = TRANSFORM_MERGE_WINDOW_MS,
 ): void {
-  if (before === after) return
-  documentHistory.push(
-    createMetadataEntry({
-      label,
-      before,
-      after,
-      apply: applyDoc,
-      mergeKey,
-      mergeWindowMs,
-    }),
-  )
-  useEditorSessionStore.setState({
-    document: after,
-    dirty: true,
-    historyVersion: documentHistory.version,
-  })
+  commitDocumentTransaction({ label, before, after, mergeKey, mergeWindowMs })
 }
 
 export function applyLayerTransforms(
@@ -85,7 +72,11 @@ export function transformableSelection(): LayerId[] {
   })
 }
 
-/** Enter Free Transform (Mod+T / Edit → Free Transform). */
+/**
+ * Enter Free Transform (Mod+T / Edit → Free Transform).
+ * Forces the Move tool and opens a session regardless of the "Show Transform
+ * Controls" preference; the session itself makes the handles visible.
+ */
 export function beginFreeTransform(): boolean {
   const ids = transformableSelection()
   if (ids.length === 0) return false
@@ -119,20 +110,14 @@ export function commitFreeTransformSession(): boolean {
     useTransformStore.getState().endFreeTransformSession()
     return true
   }
-  // History should undo back to baselines, not to mid-session live drafts.
-  documentHistory.push(
-    createMetadataEntry({
-      label: 'Free Transform',
-      before: baselineDoc,
-      after,
-      apply: applyDoc,
-      mergeKey: `free-transform:${session.layerIds.join(',')}`,
-      mergeWindowMs: 60_000,
-    }),
-  )
-  useEditorSessionStore.setState({
-    dirty: true,
-    historyVersion: documentHistory.version,
+  // History should undo back to baselines, not to mid-session live drafts;
+  // `after` is already the live store document, so re-installing it is a no-op.
+  commitDocumentTransaction({
+    label: 'Free Transform',
+    before: baselineDoc,
+    after,
+    mergeKey: `free-transform:${session.layerIds.join(',')}`,
+    mergeWindowMs: TRANSFORM_MERGE_WINDOW_MS,
   })
   useTransformStore.getState().endFreeTransformSession()
   return true

@@ -82,6 +82,11 @@ export class MoveToolController {
     return this.gesture != null
   }
 
+  /** Active gesture kind — drives the live modifier hint in the options bar. */
+  get gestureKind(): Gesture['kind'] | null {
+    return this.gesture?.kind ?? null
+  }
+
   /** Screen-px handle radius → document units via zoom. */
   private handleRadiusDoc(zoom: number): number {
     return 6 / Math.max(zoom, 0.02)
@@ -334,8 +339,12 @@ export class MoveToolController {
     }
 
     if (g.kind === 'scale') {
+      // Alt/Shift are read live so pressing or releasing mid-drag re-anchors
+      // the preview immediately (ToolInputRouter.modifiersChanged replays the
+      // last sample through here).
       const next = applyScaleFromHandle(g.startBox, g.handle, docPt, {
         keepAspect: mods.shift || g.keepAspect,
+        fromCenter: mods.alt,
       })
       this.apply(
         [{ id: g.layerId, transform: next }],

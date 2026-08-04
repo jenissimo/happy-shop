@@ -25,22 +25,17 @@ import {
   type LayerId,
   type RasterAssetRef,
 } from '../../core/document'
-import { createMetadataEntry } from '../../core/history'
 import {
   getRasterSurface,
   registerRasterSurface,
 } from '../../imaging'
-import { documentHistory } from './documentHistory'
 import { isTransformableLayer } from '../tools/move/layerLocalBounds'
 import {
   normalizeLayerSelection,
   useEditorSessionStore,
 } from './EditorSessionStore'
+import { commitDocumentTransaction } from './documentTransaction'
 import { useSelectionStore } from './selectionStore'
-
-function applyDoc(doc: HappyDocument): void {
-  useEditorSessionStore.setState({ document: doc, dirty: true })
-}
 
 function pushMetadata(
   label: string,
@@ -48,24 +43,7 @@ function pushMetadata(
   after: HappyDocument,
   selectedLayerIds?: LayerId[],
 ): void {
-  if (before === after) return
-  documentHistory.push(
-    createMetadataEntry({
-      label,
-      before,
-      after,
-      apply: applyDoc,
-    }),
-  )
-  useEditorSessionStore.setState({
-    document: after,
-    dirty: true,
-    historyVersion: documentHistory.version,
-    selectedLayerIds: normalizeLayerSelection(
-      after,
-      selectedLayerIds ?? useEditorSessionStore.getState().selectedLayerIds,
-    ),
-  })
+  commitDocumentTransaction({ label, before, after, selectedLayerIds })
 }
 
 /**

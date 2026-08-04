@@ -212,26 +212,36 @@ export function angleFromCenterDeg(center: Point, doc: Point): number {
 }
 
 /**
- * Scale so the opposite handle stays fixed in document space.
- * `keepAspect` locks scaleX/scaleY ratio from the start transform.
+ * Scale so the anchor point stays fixed in document space.
+ * `keepAspect` (Shift) locks scaleX/scaleY ratio from the start transform.
+ * `fromCenter` (Alt/Option) anchors the content center instead of the
+ * opposite handle, so both sides move symmetrically — PS scales about the
+ * center while Alt is held. The two compose: Shift+Alt is a proportional
+ * scale about the center.
  */
 export function applyScaleFromHandle(
   start: TransformBox,
   handle: Exclude<HandleId, 'rotate' | 'body'>,
   pointerDoc: Point,
-  options?: { keepAspect?: boolean },
+  options?: { keepAspect?: boolean; fromCenter?: boolean },
 ): Transform {
   const keepAspect = options?.keepAspect ?? false
-  const fixedHandle = oppositeHandle(handle)
-  const fixedLocal = localCorner(start.bounds, fixedHandle)
-  const fixedDoc = layerLocalToDocument(fixedLocal, start.transform)
-
-  // Express pointer & fixed in the start layer's oriented, unscaled frame.
-  const alignedPtr = toAlignedUnscaled(pointerDoc, start.transform)
-  const alignedFixed = toAlignedUnscaled(fixedDoc, start.transform)
+  const fromCenter = options?.fromCenter ?? false
 
   const { w, h } = start.bounds
   if (w < 1e-6 || h < 1e-6) return { ...start.transform }
+
+  const moveLocal = localCorner(start.bounds, handle)
+  // Anchor: the point that must not move. Alt swaps it to the center, which
+  // halves every span and therefore mirrors the drag onto the opposite side.
+  const anchorLocal = fromCenter
+    ? { x: start.bounds.x + w / 2, y: start.bounds.y + h / 2 }
+    : localCorner(start.bounds, oppositeHandle(handle))
+  const anchorDoc = layerLocalToDocument(anchorLocal, start.transform)
+
+  // Express pointer & anchor in the start layer's oriented, unscaled frame.
+  const alignedPtr = toAlignedUnscaled(pointerDoc, start.transform)
+  const alignedAnchor = toAlignedUnscaled(anchorDoc, start.transform)
 
   let newScaleX = start.transform.scaleX
   let newScaleY = start.transform.scaleY
@@ -239,22 +249,21 @@ export function applyScaleFromHandle(
   const affectsX = handle === 'e' || handle === 'w' || CORNER_HANDLES.includes(handle)
   const affectsY = handle === 'n' || handle === 's' || CORNER_HANDLES.includes(handle)
 
-  // Sign: which side of the fixed point the moving handle lives on.
-  const moveLocal = localCorner(start.bounds, handle)
-  const signX = Math.sign(moveLocal.x - fixedLocal.x) || 1
-  const signY = Math.sign(moveLocal.y - fixedLocal.y) || 1
+  // Sign: which side of the anchor the moving handle lives on.
+  const signX = Math.sign(moveLocal.x - anchorLocal.x) || 1
+  const signY = Math.sign(moveLocal.y - anchorLocal.y) || 1
 
   if (affectsX) {
-    const spanLocal = Math.abs(moveLocal.x - fixedLocal.x) || w
-    const spanAligned = (alignedPtr.x - alignedFixed.x) * signX
+    const spanLocal = Math.abs(moveLocal.x - anchorLocal.x) || w
+    const spanAligned = (alignedPtr.x - alignedAnchor.x) * signX
     newScaleX = (spanAligned / spanLocal) * Math.sign(start.transform.scaleX || 1)
     if (Math.abs(newScaleX) < MIN_SCALE) {
       newScaleX = MIN_SCALE * Math.sign(newScaleX || start.transform.scaleX || 1)
     }
   }
   if (affectsY) {
-    const spanLocal = Math.abs(moveLocal.y - fixedLocal.y) || h
-    const spanAligned = (alignedPtr.y - alignedFixed.y) * signY
+    const spanLocal = Math.abs(moveLocal.y - anchorLocal.y) || h
+    const spanAligned = (alignedPtr.y - alignedAnchor.y) * signY
     newScaleY = (spanAligned / spanLocal) * Math.sign(start.transform.scaleY || 1)
     if (Math.abs(newScaleY) < MIN_SCALE) {
       newScaleY = MIN_SCALE * Math.sign(newScaleY || start.transform.scaleY || 1)
@@ -285,17 +294,17 @@ export function applyScaleFromHandle(
     }
   }
 
-  // Build transform with new scale, then shift so fixed corner stays put.
+  // Build transform with new scale, then shift so the anchor stays put.
   const scaled: Transform = {
     ...start.transform,
     scaleX: newScaleX,
     scaleY: newScaleY,
   }
-  const fixedAfter = layerLocalToDocument(fixedLocal, scaled)
+  const anchorAfter = layerLocalToDocument(anchorLocal, scaled)
   return {
     ...scaled,
-    x: scaled.x + (fixedDoc.x - fixedAfter.x),
-    y: scaled.y + (fixedDoc.y - fixedAfter.y),
+    x: scaled.x + (anchorDoc.x - anchorAfter.x),
+    y: scaled.y + (anchorDoc.y - anchorAfter.y),
   }
 }
 

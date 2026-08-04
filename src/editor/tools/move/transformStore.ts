@@ -82,7 +82,12 @@ export const useTransformStore = create<TransformStore>((set) => ({
   setGesturing: (on) => set({ gesturing: on }),
 }))
 
-/** Handles visible when Move tool + preference, or during forced Free Transform. */
+/**
+ * Handles visible when Move tool + preference, or during Free Transform.
+ * The session check comes first on purpose: Mod+T must show handles even with
+ * "Show Transform Controls" off, without mutating the stored preference — so
+ * they disappear again by themselves once the session ends.
+ */
 export function shouldShowTransformHandles(
   activeToolId: string,
   state: TransformOverlayState = useTransformStore.getState(),

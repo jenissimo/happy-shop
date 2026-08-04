@@ -4,31 +4,15 @@ import {
   createAdjustmentLayer,
   type Adjustment,
 } from '../../core/document'
-import { createMetadataEntry } from '../../core/history'
-import { documentHistory } from './documentHistory'
-import { useEditorSessionStore } from './EditorSessionStore'
-
-function applyDoc(
-  doc: ReturnType<typeof useEditorSessionStore.getState>['document'],
-) {
-  useEditorSessionStore.setState({ document: doc, dirty: true })
-}
+import { commitDocumentMutation } from './documentTransaction'
 
 function addAdjustment(label: string, adjustment: Adjustment): void {
-  const before = useEditorSessionStore.getState().document
   const layer = createAdjustmentLayer({
     name: label,
     adjustment,
   })
-  const after = addLayer(before, layer)
-  documentHistory.push(
-    createMetadataEntry({ label: `Add ${label}`, before, after, apply: applyDoc }),
-  )
-  useEditorSessionStore.setState({
-    document: after,
-    dirty: true,
+  commitDocumentMutation(`Add ${label}`, (doc) => addLayer(doc, layer), {
     selectedLayerIds: [layer.id],
-    historyVersion: documentHistory.version,
   })
 }
 
