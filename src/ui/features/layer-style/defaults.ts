@@ -56,10 +56,25 @@ export const STYLE_EFFECT_LABELS: Record<StyleEffectKey, string> = {
 
 const STYLE_TYPE_SET = new Set<string>(STYLE_EFFECT_ORDER)
 
+/**
+ * Photoshop's Global Light angle, shared by Drop Shadow, Inner Shadow and
+ * Bevel & Emboss — moving it in one dialog moves it in all of them.
+ *
+ * Measured in Photoshop 2025 after "Reset to Default": 90°, not the 120° that
+ * older documentation reports.
+ */
+export const GLOBAL_LIGHT_ANGLE = 90
+
 export function isStyleEffectType(type: string): type is StyleEffectKey {
   return STYLE_TYPE_SET.has(type)
 }
 
+/**
+ * Photoshop-parity factory defaults — the values PS shows the first time an
+ * effect checkbox is ticked. Pinned by `defaults.test.ts`; corroborated against
+ * the descriptor corpus in Photoshop 2025's bundled `.asl` style libraries.
+ * Opacities are 0..1 here and rendered as 0..100 in the dialog.
+ */
 export function createDefaultEffect(type: StyleEffectKey): LayerEffect {
   const id = createLayerId()
   switch (type) {
@@ -70,12 +85,12 @@ export function createDefaultEffect(type: StyleEffectKey): LayerEffect {
         enabled: true,
         blendMode: 'multiply',
         color: '#000000',
-        opacity: 0.75,
-        angle: 120,
+        opacity: 0.35,
+        angle: GLOBAL_LIGHT_ANGLE,
         useGlobalLight: true,
-        distance: 5,
+        distance: 3,
         spread: 0,
-        size: 5,
+        size: 7,
         contour: 'linear',
         noise: 0,
         layerKnocksOutDropShadow: true,
@@ -87,12 +102,12 @@ export function createDefaultEffect(type: StyleEffectKey): LayerEffect {
         enabled: true,
         blendMode: 'multiply',
         color: '#000000',
-        opacity: 0.75,
-        angle: 120,
+        opacity: 0.35,
+        angle: GLOBAL_LIGHT_ANGLE,
         useGlobalLight: true,
-        distance: 5,
+        distance: 3,
         choke: 0,
-        size: 5,
+        size: 7,
         contour: 'linear',
         noise: 0,
       }
@@ -102,12 +117,12 @@ export function createDefaultEffect(type: StyleEffectKey): LayerEffect {
         type: 'outer-glow',
         enabled: true,
         blendMode: 'screen',
-        opacity: 0.75,
+        opacity: 0.35,
         noise: 0,
         technique: 'softer',
-        color: '#ffffbe',
+        color: '#ffffff',
         spread: 0,
-        size: 5,
+        size: 7,
         contour: 'linear',
         range: 50,
         jitter: 0,
@@ -118,13 +133,13 @@ export function createDefaultEffect(type: StyleEffectKey): LayerEffect {
         type: 'inner-glow',
         enabled: true,
         blendMode: 'screen',
-        opacity: 0.75,
+        opacity: 0.35,
         noise: 0,
         technique: 'softer',
         source: 'edge',
-        color: '#ffffbe',
+        color: '#ffffff',
         choke: 0,
-        size: 5,
+        size: 7,
         contour: 'linear',
         range: 50,
         jitter: 0,
@@ -138,18 +153,18 @@ export function createDefaultEffect(type: StyleEffectKey): LayerEffect {
         technique: 'smooth',
         depth: 100,
         direction: 'up',
-        size: 5,
+        size: 7,
         soften: 0,
-        angle: 120,
+        angle: GLOBAL_LIGHT_ANGLE,
         useGlobalLight: true,
         altitude: 30,
         glossContour: 'linear',
         highlightMode: 'screen',
         highlightColor: '#ffffff',
-        highlightOpacity: 0.75,
+        highlightOpacity: 0.5,
         shadowMode: 'multiply',
         shadowColor: '#000000',
-        shadowOpacity: 0.75,
+        shadowOpacity: 0.5,
         contour: {
           enabled: false,
           contour: 'linear',
@@ -173,11 +188,19 @@ export function createDefaultEffect(type: StyleEffectKey): LayerEffect {
         blendMode: 'multiply',
         color: '#000000',
         opacity: 0.5,
-        angle: 19,
-        distance: 11,
-        size: 14,
+        angle: 90,
+        distance: 50,
+        size: 80,
+        // Confirmed against Photoshop 2025's dialog after "Reset to Default":
+        // Linear contour and Invert ON. The .asl corpus never shows Linear
+        // here, but authored styles are not defaults.
+        //
+        // GAP(ps-parity): PS also ticks Anti-aliased for Satin by default, but
+        // contour anti-aliasing is only modelled on Bevel & Emboss
+        // (`contour.antiAliased`). Satin, both shadows and both glows have the
+        // checkbox in PS and no field here.
         contour: 'linear',
-        invert: false,
+        invert: true,
       }
     case 'stroke':
       return {
@@ -188,8 +211,8 @@ export function createDefaultEffect(type: StyleEffectKey): LayerEffect {
         color: '#000000',
         opacity: 1,
         overprint: false,
-        size: 3,
-        position: 'outside',
+        size: 1,
+        position: 'inside',
         fillType: 'color',
       }
     case 'color-overlay':
@@ -197,8 +220,10 @@ export function createDefaultEffect(type: StyleEffectKey): LayerEffect {
         id,
         type: 'color-overlay',
         enabled: true,
-        color: '#ff0000',
-        opacity: 0.5,
+        // Sampled from the PS 2025 swatch after "Reset to Default" — a mid
+        // grey, not the red older references report.
+        color: '#818181',
+        opacity: 1,
         blendMode: 'normal',
       }
     case 'gradient-overlay':
