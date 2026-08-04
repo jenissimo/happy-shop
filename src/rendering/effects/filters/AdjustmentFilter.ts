@@ -1,13 +1,16 @@
 import { Filter, GlProgram, UniformGroup } from 'pixi.js'
 import { DEFAULT_FILTER_VERT } from './defaultFilterVert'
 
-const FRAGMENT = `in vec2 vTextureCoord;
-out vec4 finalColor;
-
-uniform sampler2D uTexture;
-uniform float uMode;
-uniform vec3 uParams;
-
+/**
+ * GLSL for the `Adjustment` param union, shared by the content-phase effect
+ * node (this filter) and by adjustment *layers*
+ * (`AdjustmentLayerFilter`), so the two can never drift apart.
+ *
+ * `hsApplyAdjustment` takes straight (un-premultiplied) RGB.
+ * Modes: 0 brightness/contrast, 1 hue/saturation, 2 levels. Anything else is
+ * identity — `curves` has no GPU evaluator yet (see `adjustmentCommands.ts`).
+ */
+export const GLSL_ADJUSTMENTS = `
 vec3 applyBrightnessContrast(vec3 rgb, float brightness, float contrast) {
     float b = brightness * 255.0;
     float c = contrast;
@@ -47,6 +50,21 @@ vec3 applyLevels(vec3 rgb, float black, float white, float gamma) {
     return pow(t, vec3(1.0 / g));
 }
 
+vec3 hsApplyAdjustment(float mode, vec3 rgb, vec3 params) {
+    if (mode < 0.5) return applyBrightnessContrast(rgb, params.x, params.y);
+    if (mode < 1.5) return applyHueSaturation(rgb, params.x, params.y, params.z);
+    if (mode < 2.5) return applyLevels(rgb, params.x, params.y, params.z);
+    return rgb;
+}
+`
+
+const FRAGMENT = `in vec2 vTextureCoord;
+out vec4 finalColor;
+
+uniform sampler2D uTexture;
+uniform float uMode;
+uniform vec3 uParams;
+${GLSL_ADJUSTMENTS}
 void main(void)
 {
     vec4 src = texture(uTexture, vTextureCoord);
@@ -55,15 +73,7 @@ void main(void)
         return;
     }
     vec3 srcRgb = src.rgb / src.a;
-    vec3 outRgb = srcRgb;
-    if (uMode < 0.5) {
-        outRgb = applyBrightnessContrast(srcRgb, uParams.x, uParams.y);
-    } else if (uMode < 1.5) {
-        outRgb = applyHueSaturation(srcRgb, uParams.x, uParams.y, uParams.z);
-    } else {
-        outRgb = applyLevels(srcRgb, uParams.x, uParams.y, uParams.z);
-    }
-    finalColor = vec4(outRgb * src.a, src.a);
+    finalColor = vec4(hsApplyAdjustment(uMode, srcRgb, uParams) * src.a, src.a);
 }
 `
 

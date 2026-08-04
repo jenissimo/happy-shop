@@ -63,10 +63,38 @@ export class OverlayPass {
 
   /** Called every frame from the render loop (animates dash phase). */
   sync(frame?: ViewportFrame): void {
+    // View → Extras is a master gate over grid / selection edges / target
+    // paths / transform handles (see `EXTRAS_OVERLAYS`). It only suppresses
+    // drawing, so the individual View toggles keep their own state and are
+    // restored untouched when Extras comes back on.
+    if (!useViewPreferencesStore.getState().extrasVisible) {
+      this.hideAll()
+      return
+    }
     this.syncDocumentGrid(frame)
     this.syncAnts()
     this.syncWorkPath()
     this.syncTransformHandles()
+  }
+
+  /** Clear every overlay and reset the memo keys so the next frame redraws. */
+  private hideAll(): void {
+    if (this.lastGridKey !== '') {
+      this.gridGfx.clear()
+      this.lastGridKey = ''
+    }
+    if (this.lastKey !== '') {
+      this.ants.clear()
+      this.lastKey = ''
+    }
+    if (this.lastWorkPathKey !== '') {
+      this.workPathGfx.clear()
+      this.lastWorkPathKey = ''
+    }
+    if (this.lastTransformKey !== '') {
+      this.transformGfx.clear()
+      this.lastTransformKey = ''
+    }
   }
 
   private syncDocumentGrid(frame?: ViewportFrame): void {

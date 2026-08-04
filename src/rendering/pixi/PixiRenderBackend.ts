@@ -10,10 +10,14 @@ import {
   Sprite,
   Texture,
   TilingSprite,
-  type BLEND_MODES,
   type ContainerChild,
   type Filter,
 } from 'pixi.js'
+// Registration side effect only. The `pixi.js` barrel re-exports the blend
+// classes but never runs `advanced-blend-modes/init`, so without this import
+// `extensions.add(...)` never fires and every advanced mode resolves to
+// `normal` (see package.json exports → lib/advanced-blend-modes/init.mjs).
+import 'pixi.js/advanced-blend-modes'
 import { cssQuoteFontFamily } from '../../editor/tools/text/cssQuoteFontFamily'
 import { trackingToLetterSpacingPx, underlineMetrics } from '../../editor/tools/text/textLayout'
 import { shapePath } from '../../editor/tools/shape/shapeGeometry'
@@ -23,6 +27,7 @@ import type {
   RuntimeCapabilities,
 } from '../contracts/RenderBackend'
 import type {
+  RenderAdjustmentLayerView,
   RenderDocumentView,
   RenderLayerView,
   RenderGroupLayerView,
@@ -35,7 +40,15 @@ import {
   effectsPadding,
 } from '../effects/filters/buildLayerFilters'
 import { applyLayerFxFilters } from '../effects/layerFxApply'
-import { documentTextureTransformForLayer } from '../effects/filters/BevelEmbossFilter'
+import {
+  documentTextureTransformForLayer,
+  type DocumentTextureTransform,
+} from '../effects/filters/BevelEmbossFilter'
+import { AdjustmentLayerFilter } from '../effects/filters/AdjustmentLayerFilter'
+import { ClipAlphaFilter } from '../effects/filters/ClipAlphaFilter'
+import { DissolveFilter } from '../effects/filters/DissolveFilter'
+import { needsDissolveFilter, nodeAlpha, pixiBlendMode } from './blendModeSupport'
+import { documentIsolationFilters } from './documentIsolation'
 import type { RenderLayerMask } from '../contracts/RenderDocumentView'
 import {
   checkerColorsEqual,
@@ -52,6 +65,7 @@ import {
 } from './layerTextures'
 import { buildGroupLayerSourceKey } from './groupLayerKeys'
 import {
+  describeGroupSubtreeKey,
   describeMask,
   describeShape,
   describeSource,
@@ -104,6 +118,9 @@ interface GroupLayerEntry {
   /** Child scene, rendered into `renderTexture` before its wrapper sprite composites. */
   container: Container
   renderTexture: RenderTexture
+  /** Clipping groups only: alpha of the flattened clip base. */
+  clipTexture: RenderTexture | null
+  clipFilter: ClipAlphaFilter | null
   sprite: Sprite
   childEntries: Map<string, LayerEntry>
   sourceKey: string
@@ -115,7 +132,34 @@ interface GroupLayerEntry {
   ownsMaskTexture: boolean
 }
 
-type LayerEntry = RasterLayerEntry | TextLayerEntry | ShapeLayerEntry | GroupLayerEntry
+/**
+ * An adjustment layer reuses the buffered-group primitive — flatten `children`
+ * (its backdrop) into `renderTexture` — but composites through a single
+ * `AdjustmentLayerFilter` instead of the layer FX stack.
+ */
+interface AdjustmentLayerEntry {
+  kind: 'adjustment'
+  container: Container
+  renderTexture: RenderTexture
+  sprite: Sprite
+  childEntries: Map<string, LayerEntry>
+  sourceKey: string
+  filter: AdjustmentLayerFilter | null
+  /** Rebuild key: mask texture identity is baked into the filter. */
+  fxStructureKey: string
+  fxParamsKey: string
+  filterTransformKey: string
+  maskSprite: Sprite | null
+  maskKey: string
+  ownsMaskTexture: boolean
+}
+
+type LayerEntry =
+  | RasterLayerEntry
+  | TextLayerEntry
+  | ShapeLayerEntry
+  | GroupLayerEntry
+  | AdjustmentLayerEntry
 
 function emptyFxCache() {
   return { fxStructureKey: '', fxParamsKey: '', filterTransformKey: '' }
@@ -255,6 +299,8 @@ export class PixiRenderBackend implements RenderBackend {
   private checkerColors: CheckerboardColors | null = null
   private readonly layerEntries = new Map<string, LayerEntry>()
   private readonly urlTextureCache = new Map<string, Texture>()
+  /** Keyed by layer id (unique document-wide, including inside group buffers). */
+  private readonly dissolveFilters = new Map<string, DissolveFilter>()
 
   private lastViewportWidth = 0
   private lastViewportHeight = 0
@@ -297,6 +343,11 @@ export class PixiRenderBackend implements RenderBackend {
       autoStart: false,
       sharedTicker: false,
       roundPixels: false,
+      // Advanced blend modes are backdrop-sampling filters (`blendRequired`).
+      // Without a back buffer Pixi warns and silently degrades them to
+      // `normal` (FilterSystem.mjs:572) — i.e. overlay/soft-light/color-burn
+      // and ~17 others would be dead options in the Layers panel.
+      useBackBuffer: true,
       width: Math.max(1, target.clientWidth),
       height: Math.max(1, target.clientHeight),
       resolution: typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1,
@@ -304,6 +355,8 @@ export class PixiRenderBackend implements RenderBackend {
     })
 
     this.app = app
+    // Document composite must not see the checkerboard as its backdrop.
+    this.contentLayer.filters = documentIsolationFilters()
     this.documentLayer.addChild(this.contentLayer)
     app.stage.addChild(this.documentLayer)
     app.stage.addChild(this.overlayLayer)
@@ -337,6 +390,7 @@ export class PixiRenderBackend implements RenderBackend {
       this.invalidateEntryGpu(entry)
     }
     this.urlTextureCache.clear()
+    this.dissolveFilters.clear()
     if (this.checkerSprite) {
       this.checkerSprite.destroy(true)
       this.checkerSprite = null
@@ -372,6 +426,17 @@ export class PixiRenderBackend implements RenderBackend {
       entry.sourceKey = ''
     } else if (entry.kind === 'group') {
       for (const child of entry.childEntries.values()) this.invalidateEntryGpu(child)
+      try {
+        entry.clipTexture?.destroy(true)
+      } catch {
+        /* context may already be gone */
+      }
+      entry.clipTexture = null
+      entry.clipFilter = null
+      entry.sourceKey = ''
+    } else if (entry.kind === 'adjustment') {
+      for (const child of entry.childEntries.values()) this.invalidateEntryGpu(child)
+      entry.filter = null
       entry.sourceKey = ''
     } else if (entry.kind === 'text') {
       entry.sourceKey = ''
@@ -467,6 +532,16 @@ export class PixiRenderBackend implements RenderBackend {
       entry.childEntries.clear()
       entry.container.destroy({ children: false })
       entry.renderTexture.destroy(true)
+      entry.clipTexture?.destroy(true)
+      entry.clipTexture = null
+      entry.clipFilter = null
+      entry.sprite.destroy()
+    } else if (entry.kind === 'adjustment') {
+      for (const child of entry.childEntries.values()) this.destroyEntry(child)
+      entry.childEntries.clear()
+      entry.container.destroy({ children: false })
+      entry.renderTexture.destroy(true)
+      entry.filter = null
       entry.sprite.destroy()
     } else if (entry.kind === 'text') {
       entry.text.destroy()
@@ -571,9 +646,29 @@ export class PixiRenderBackend implements RenderBackend {
             kind: 'group',
             container: new Container({ label: `${layer.id}:isolated-content` }),
             renderTexture,
+            clipTexture: null,
+            clipFilter: null,
             sprite,
             childEntries: new Map(),
             sourceKey: '',
+            ...emptyFxCache(),
+            maskSprite: null,
+            maskKey: 'none',
+            ownsMaskTexture: false,
+          }
+        } else if (layer.kind === 'adjustment') {
+          const renderTexture = RenderTexture.create({ width: 1, height: 1 })
+          const sprite = new Sprite(renderTexture)
+          sprite.label = layer.id
+          sprite.roundPixels = false
+          entry = {
+            kind: 'adjustment',
+            container: new Container({ label: `${layer.id}:backdrop` }),
+            renderTexture,
+            sprite,
+            childEntries: new Map(),
+            sourceKey: '',
+            filter: null,
             ...emptyFxCache(),
             maskSprite: null,
             maskKey: 'none',
@@ -610,6 +705,10 @@ export class PixiRenderBackend implements RenderBackend {
       } else if (entry.kind === 'group' && layer.kind === 'group') {
         this.applyGroupLayer(entry, layer)
         this.applyLayerMask(entry, entry.sprite, layer)
+      } else if (entry.kind === 'adjustment' && layer.kind === 'adjustment') {
+        // No `applyLayerMask`: an adjustment's mask gates the *adjustment*, not
+        // the backdrop's alpha, so it lives inside AdjustmentLayerFilter.
+        this.applyAdjustmentLayer(entry, layer)
       }
 
       const node = entryNode(entry)
@@ -627,15 +726,21 @@ export class PixiRenderBackend implements RenderBackend {
   }
 
   /**
-   * Flatten an isolated group's children into a texture, then use the same
+   * Flatten a buffered group's children into a texture, then use the same
    * sprite-level opacity, blend, filter, and mask path as a raster layer.
    * Pass-through groups never reach this method: the view mapper inlines them.
+   *
+   * For a clipping group (`clipBaseCount`), the base children are additionally
+   * flattened on their own so their alpha can knock out the clipped run — the
+   * run still blends against the base inside the buffer, because everything is
+   * drawn into one render texture in paint order.
    */
   private applyGroupLayer(entry: GroupLayerEntry, layer: RenderGroupLayerView): void {
     const app = this.app
     if (!app) return
 
     this.syncLayerList(entry.container, entry.childEntries, layer.children)
+    const clipBaseCount = layer.clipBaseCount ?? 0
     const sourceKey = buildGroupLayerSourceKey(layer, this.scaleMode())
     const bounds = entry.container.getBounds()
     const pad = effectsPadding(layer.effects)
@@ -647,6 +752,127 @@ export class PixiRenderBackend implements RenderBackend {
 
     if (
       sourceChanged ||
+      entry.renderTexture.width !== width ||
+      entry.renderTexture.height !== height
+    ) {
+      const transform = new Matrix().translate(-x, -y)
+      entry.renderTexture.resize(width, height)
+      app.renderer.render({
+        container: entry.container,
+        target: entry.renderTexture,
+        clear: true,
+        transform,
+      })
+      if (clipBaseCount > 0) {
+        this.renderClipBase(entry, clipBaseCount, width, height, transform)
+      }
+      entry.sourceKey = sourceKey
+    }
+
+    const sprite = entry.sprite
+    sprite.visible = layer.visible
+    sprite.alpha = nodeAlpha(layer.blendMode, layer.opacity)
+    sprite.blendMode = pixiBlendMode(layer.blendMode)
+
+    // The buffer's texture origin follows the children's bounds, so the layer
+    // transform is expressed relative to document (x, y) — see
+    // `RenderGroupLayerView.transform`.
+    const t = layer.transform
+    const textureTransform = documentTextureTransformForLayer(t, -x, -y)
+    if (clipBaseCount > 0 && entry.clipTexture) {
+      const params = {
+        originX: x,
+        originY: y,
+        width,
+        height,
+        textureTransform,
+      }
+      if (entry.clipFilter) entry.clipFilter.setParams(params)
+      else entry.clipFilter = new ClipAlphaFilter(entry.clipTexture, params)
+    }
+    const clipFilter = clipBaseCount > 0 ? entry.clipFilter : null
+
+    const filterTransformKey = [
+      describeTransform(t),
+      `${x},${y}`,
+      `clip:${clipBaseCount}`,
+      `blend:${layer.blendMode}`,
+    ].join('|')
+    applyFxToEntry(
+      entry,
+      sprite,
+      layer,
+      filterTransformKey,
+      -x,
+      -y,
+      this.extraBlendFilters(layer, textureTransform, clipFilter),
+    )
+
+    sprite.position.set(t.x, t.y)
+    sprite.pivot.set(t.pivotX - x, t.pivotY - y)
+    sprite.angle = t.rotationDeg
+    sprite.skew.set(degToRad(t.skewXDeg), degToRad(t.skewYDeg))
+    sprite.scale.set(t.scaleX, t.scaleY)
+  }
+
+  /** Flattens only a clipping group's base children into `entry.clipTexture`. */
+  private renderClipBase(
+    entry: GroupLayerEntry,
+    baseCount: number,
+    width: number,
+    height: number,
+    transform: Matrix,
+  ): void {
+    const app = this.app
+    if (!app) return
+    if (!entry.clipTexture) {
+      entry.clipTexture = RenderTexture.create({ width, height })
+    }
+    entry.clipTexture.resize(width, height)
+
+    const children = entry.container.children
+    const restore = children.map((child) => child.visible)
+    for (let i = baseCount; i < children.length; i += 1) children[i]!.visible = false
+    app.renderer.render({
+      container: entry.container,
+      target: entry.clipTexture,
+      clear: true,
+      transform,
+    })
+    children.forEach((child, i) => {
+      child.visible = restore[i] ?? true
+    })
+  }
+
+  /**
+   * Composites an adjustment layer (SPEC §1.1 goal #7).
+   *
+   * The children are the *backdrop* — everything beneath the adjustment within
+   * its scope, already resolved by `resolveAdjustmentScopes`. They are
+   * flattened into one texture with the same primitive `applyGroupLayer` uses,
+   * and the sprite that draws that texture back carries a single
+   * `AdjustmentLayerFilter` which applies the adjustment, its blend mode, its
+   * opacity and its mask in one pass. The sprite itself therefore stays at
+   * alpha 1 / normal: the backdrop must be *replaced* by the adjusted result,
+   * not composited on top of a second copy of itself.
+   */
+  private applyAdjustmentLayer(
+    entry: AdjustmentLayerEntry,
+    layer: RenderAdjustmentLayerView,
+  ): void {
+    const app = this.app
+    if (!app) return
+
+    this.syncLayerList(entry.container, entry.childEntries, layer.children)
+    const sourceKey = describeGroupSubtreeKey(layer.children, this.scaleMode())
+    const bounds = entry.container.getBounds()
+    const x = Math.floor(bounds.x)
+    const y = Math.floor(bounds.y)
+    const width = Math.max(1, Math.ceil(bounds.width))
+    const height = Math.max(1, Math.ceil(bounds.height))
+
+    if (
+      sourceKey !== entry.sourceKey ||
       entry.renderTexture.width !== width ||
       entry.renderTexture.height !== height
     ) {
@@ -662,43 +888,116 @@ export class PixiRenderBackend implements RenderBackend {
 
     const sprite = entry.sprite
     sprite.visible = layer.visible
-    sprite.alpha = layer.opacity
-    sprite.blendMode = layer.blendMode as BLEND_MODES
-    const filterTransformKey = `${describeTransform(layer.transform)}|${x},${y}`
-    applyFxToEntry(
-      entry,
-      sprite,
-      layer,
-      filterTransformKey,
-      pad,
-      pad,
-    )
+    sprite.alpha = 1
+    sprite.blendMode = 'normal'
 
-    const t = layer.transform
-    sprite.position.set(x + t.x, y + t.y)
-    sprite.pivot.set(t.pivotX, t.pivotY)
-    sprite.angle = t.rotationDeg
-    sprite.skew.set(degToRad(t.skewXDeg), degToRad(t.skewYDeg))
-    sprite.scale.set(t.scaleX, t.scaleY)
+    const options = {
+      adjustment: layer.adjustment,
+      opacity: layer.opacity,
+      blendMode: layer.blendMode,
+      mask: layer.mask,
+      // Buffer origin is the backdrop's document bounds, so texture-local
+      // pixels map to document pixels by a plain (x, y) offset.
+      textureTransform: documentTextureTransformForLayer(layer.transform, -x, -y),
+    }
+    // The mask texture is baked into the filter; anything else is uniform-only.
+    const structureKey = describeMask(layer.mask)
+    const paramsKey = [
+      JSON.stringify(layer.adjustment),
+      layer.opacity,
+      layer.blendMode,
+      `${x},${y}`,
+    ].join('|')
+    if (!entry.filter || structureKey !== entry.fxStructureKey) {
+      entry.filter = new AdjustmentLayerFilter(options)
+      sprite.filters = [entry.filter]
+      entry.fxStructureKey = structureKey
+      entry.fxParamsKey = paramsKey
+    } else if (paramsKey !== entry.fxParamsKey) {
+      entry.filter.setParams(options)
+      entry.fxParamsKey = paramsKey
+    }
+
+    sprite.position.set(x, y)
+    sprite.pivot.set(0, 0)
+    sprite.angle = 0
+    sprite.skew.set(0, 0)
+    sprite.scale.set(1, 1)
+  }
+
+  /**
+   * Builds the `wrap` that appends what Pixi's blend pipeline cannot express
+   * for this layer: the clipping-mask alpha knockout (first, so the group's own
+   * effects apply to the clipped result) and Dissolve (last, on the finished
+   * layer, opacity included).
+   *
+   * The filter instances are resolved *now*, not inside the returned closure,
+   * because the closure only runs when the FX chain is rebuilt while uniforms
+   * (e.g. a scrubbed opacity) must follow every sync.
+   */
+  private extraBlendFilters(
+    layer: RenderLayerView,
+    textureTransform: DocumentTextureTransform,
+    clipFilter: ClipAlphaFilter | null = null,
+  ): ((filters: Filter[] | null) => Filter[] | null) | undefined {
+    let dissolve: DissolveFilter | null = null
+    if (needsDissolveFilter(layer.blendMode)) {
+      dissolve = this.dissolveFilterFor(layer.id, layer.opacity, textureTransform)
+    } else {
+      this.dissolveFilters.delete(layer.id)
+    }
+    if (!clipFilter && !dissolve) return undefined
+    return (filters) => [
+      ...(clipFilter ? [clipFilter] : []),
+      ...(filters ?? []),
+      ...(dissolve ? [dissolve] : []),
+    ]
+  }
+
+  private dissolveFilterFor(
+    id: string,
+    opacity: number,
+    textureTransform: DocumentTextureTransform,
+  ): DissolveFilter {
+    const params = { opacity, textureTransform }
+    const existing = this.dissolveFilters.get(id)
+    if (existing) {
+      existing.setParams(params)
+      return existing
+    }
+    const filter = new DissolveFilter(params)
+    this.dissolveFilters.set(id, filter)
+    return filter
   }
 
   private applyRasterLayer(entry: RasterLayerEntry, layer: RenderRasterLayerView): void {
     const sprite = entry.sprite
     sprite.visible = layer.visible
-    sprite.alpha = layer.opacity
-    sprite.blendMode = layer.blendMode as BLEND_MODES
+    sprite.alpha = nodeAlpha(layer.blendMode, layer.opacity)
+    sprite.blendMode = pixiBlendMode(layer.blendMode)
 
     const mode = this.scaleMode()
     const sourceKey =
       describeSource(layer.source, layer.width, layer.height, mode) +
       `|${maskCacheKey(layer)}`
     const sourceChanged = sourceKey !== entry.sourceKey
-    const filterTransformKey = describeTransform(layer.transform)
+    const filterTransformKey = `${describeTransform(layer.transform)}|blend:${layer.blendMode}`
     if (sourceChanged) {
       this.assignTexture(entry, layer, mode)
       entry.sourceKey = sourceKey
     }
-    applyFxToEntry(entry, sprite, layer, filterTransformKey, entry.edgePad, entry.edgePad)
+    applyFxToEntry(
+      entry,
+      sprite,
+      layer,
+      filterTransformKey,
+      entry.edgePad,
+      entry.edgePad,
+      this.extraBlendFilters(
+        layer,
+        documentTextureTransformForLayer(layer.transform, entry.edgePad, entry.edgePad),
+      ),
+    )
 
     const t = layer.transform
     const pad = entry.edgePad
@@ -717,12 +1016,12 @@ export class PixiRenderBackend implements RenderBackend {
   private applyTextLayer(entry: TextLayerEntry, layer: RenderTextLayerView): void {
     const text = entry.text
     text.visible = layer.visible
-    text.alpha = layer.opacity
-    text.blendMode = layer.blendMode as BLEND_MODES
+    text.alpha = nodeAlpha(layer.blendMode, layer.opacity)
+    text.blendMode = pixiBlendMode(layer.blendMode)
 
     const sourceKey = `${describeText(layer)}|${maskCacheKey(layer)}`
     const sourceChanged = sourceKey !== entry.sourceKey
-    const filterTransformKey = describeTransform(layer.transform)
+    const filterTransformKey = `${describeTransform(layer.transform)}|blend:${layer.blendMode}`
     if (sourceChanged) {
       const lineHeight = layer.leading > 0 ? layer.leading : undefined
       text.text = richTextHtml(layer)
@@ -756,7 +1055,15 @@ export class PixiRenderBackend implements RenderBackend {
       // Underline / baselineShift / tracking live in rich HTML spans (see richTextHtml).
       entry.sourceKey = sourceKey
     }
-    applyFxToEntry(entry, text, layer, filterTransformKey)
+    applyFxToEntry(
+      entry,
+      text,
+      layer,
+      filterTransformKey,
+      0,
+      0,
+      this.extraBlendFilters(layer, documentTextureTransformForLayer(layer.transform)),
+    )
 
     const t = layer.transform
     // Point-text transforms are insertion anchors. Pixi's align only offsets
@@ -780,12 +1087,12 @@ export class PixiRenderBackend implements RenderBackend {
   private applyShapeLayer(entry: ShapeLayerEntry, layer: RenderShapeLayerView): void {
     const graphics = entry.graphics
     graphics.visible = layer.visible
-    graphics.alpha = layer.opacity
-    graphics.blendMode = layer.blendMode as BLEND_MODES
+    graphics.alpha = nodeAlpha(layer.blendMode, layer.opacity)
+    graphics.blendMode = pixiBlendMode(layer.blendMode)
 
     const sourceKey = `${describeShape(layer)}|${maskCacheKey(layer)}`
     const sourceChanged = sourceKey !== entry.sourceKey
-    const filterTransformKey = describeTransform(layer.transform)
+    const filterTransformKey = `${describeTransform(layer.transform)}|blend:${layer.blendMode}`
     if (sourceChanged) {
       graphics.clear()
       const { x, y, w, h } = layer.bounds
@@ -819,6 +1126,14 @@ export class PixiRenderBackend implements RenderBackend {
       // Independent of pixelatedPreview (raster sampler policy only).
       entry.sourceKey = sourceKey
     }
+    // Resolved outside the wrap so dissolve uniforms follow every sync, not
+    // only FX rebuilds.
+    const extra = this.extraBlendFilters(
+      layer,
+      documentTextureTransformForLayer(layer.transform),
+    )
+    const shapeWrap = (filters: Filter[] | null) =>
+      withShapeEdgeAntialias(extra ? extra(filters) : filters)
     applyFxToEntry(
       entry,
       graphics,
@@ -826,7 +1141,7 @@ export class PixiRenderBackend implements RenderBackend {
       filterTransformKey,
       0,
       0,
-      (filters) => withShapeEdgeAntialias(filters),
+      shapeWrap,
     )
 
     const t = layer.transform
@@ -959,6 +1274,7 @@ export class PixiRenderBackend implements RenderBackend {
     }
     this.layerEntries.clear()
     this.urlTextureCache.clear()
+    this.dissolveFilters.clear()
     this.checkerSprite?.destroy(true)
     this.checkerSprite = null
     this.checkerColors = null

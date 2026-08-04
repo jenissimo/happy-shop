@@ -4,6 +4,7 @@ import {
   createLayerId,
   EMPTY_INITIAL_RASTER_ASSET_ID,
 } from './ids'
+import { coerceBlendMode, defaultBlendMode } from './blendModeAvailability'
 import { EMPTY_PATH_STORE } from './pathSchema'
 import { CURRENT_SCHEMA_VERSION } from './schema'
 import type {
@@ -62,7 +63,11 @@ type LayerBaseOptions = {
   effects?: LayerEffect[]
 }
 
-function createLayerBase(options: LayerBaseOptions, defaultName: string) {
+function createLayerBase(
+  options: LayerBaseOptions,
+  defaultName: string,
+  layerType = 'raster',
+) {
   return {
     id: options.id ?? createLayerId(),
     name: options.name ?? defaultName,
@@ -76,7 +81,7 @@ function createLayerBase(options: LayerBaseOptions, defaultName: string) {
     },
     opacity: options.opacity ?? 1,
     fillOpacity: options.fillOpacity ?? 1,
-    blendMode: options.blendMode ?? ('normal' as const),
+    blendMode: options.blendMode ?? defaultBlendMode(layerType),
     transform: { ...createIdentityTransform(), ...options.transform },
     mask: options.mask,
     clipping: options.clipping,
@@ -107,7 +112,9 @@ export function createGroupLayer(
   options: CreateGroupLayerOptions = {},
 ): GroupLayer {
   return {
-    ...createLayerBase(options, 'Group'),
+    // Photoshop starts every group as Pass Through; `groupNeedsOwnBuffer`
+    // reads that as "no buffer", so any other mode isolates the group.
+    ...createLayerBase(options, 'Group', 'group'),
     type: 'group',
     children: options.children ?? [],
     isolated: options.isolated ?? false,
@@ -308,7 +315,8 @@ export function ensureDocumentHasPaintableLayer(doc: HappyDocument): HappyDocume
     locked: layer.locked,
     opacity: layer.opacity,
     fillOpacity: layer.fillOpacity,
-    blendMode: layer.blendMode,
+    // A group may carry `pass-through`, which is meaningless on a raster.
+    blendMode: coerceBlendMode(layer.blendMode, 'raster'),
     transform: layer.transform,
     mask: layer.mask,
     effects: layer.effects,

@@ -1,5 +1,6 @@
 import {
   EMPTY_INITIAL_RASTER_ASSET_ID,
+  type AdjustmentLayer,
   type GroupLayer,
   type HappyDocument,
   type Layer,
@@ -8,14 +9,20 @@ import {
 } from '../../core/document'
 import { getRasterSurface, type RasterSurfaceEntry } from '../../imaging'
 import type {
+  RenderAdjustmentLayerView,
   RenderDocumentView,
   RenderGroupLayerView,
   RenderLayerEffect,
   RenderLayerMask,
   RenderLayerSource,
+  RenderLayerTransform,
   RenderLayerView,
 } from '../../rendering/contracts'
+import { identityTransform } from '../../rendering/contracts'
 import type { RenderChromaConnectivityMask } from '../../rendering/contracts'
+import { composeLayerTransforms } from './composeLayerTransform'
+
+const IDENTITY_TRANSFORM: RenderLayerTransform = identityTransform()
 
 const FALLBACK_PLACEHOLDER_COLOR = '#5c6673'
 /**
@@ -279,18 +286,53 @@ function mapEffects(
 }
 
 /**
- * Maps one non-group leaf layer (raster/text/shape). `undefined` for
- * adjustment layers, which stay unrendered (SPEC §8.1 adjustments are a
- * below-stack render concern, not yet wired — see `ND-EFFECT-STACK-VISION.md`).
+ * An adjustment layer maps to a *placeholder* node: its `children` (the
+ * backdrop it modifies) are filled in later by {@link resolveAdjustmentScopes},
+ * once the enclosing scope is known.
+ *
+ * The layer's own `transform` is deliberately dropped — an adjustment reads the
+ * composite beneath it in document space, so moving/rotating it is meaningless
+ * (Photoshop offers no transform on adjustment layers either).
+ */
+function mapAdjustmentLayer(
+  layer: AdjustmentLayer,
+  mask: RenderLayerMask | undefined,
+): RenderAdjustmentLayerView {
+  return {
+    id: layer.id,
+    kind: 'adjustment',
+    visible: true,
+    opacity: layer.opacity,
+    fillOpacity: 1,
+    blendMode: layer.blendMode,
+    transform: IDENTITY_TRANSFORM,
+    adjustment: layer.adjustment,
+    children: [],
+    ...(mask ? { mask } : {}),
+  }
+}
+
+/**
+ * Maps one non-group leaf layer (raster/text/shape/adjustment). `undefined`
+ * when the layer has nothing to render at all.
  */
 function mapLeafLayer(
   layer: Layer,
   doc: HappyDocument,
   assets: RenderAssetLookup,
   floodMasks: ChromaFloodMaskLookup | undefined,
+  parentTransform: RenderLayerTransform,
 ): RenderLayerView | undefined {
   const mask = resolveMask(layer.mask, layer.maskEnabled, assets)
   const fillOpacity = layer.fillOpacity ?? 1
+  // Pass-through groups own no buffer, so their transform must reach the
+  // children directly — otherwise moving a group would not move its contents.
+  const transform = composeLayerTransforms(parentTransform, layer.transform)
+
+  if (layer.type === 'adjustment') {
+    // A hidden adjustment simply disappears: its backdrop then renders as-is.
+    return layer.visible ? mapAdjustmentLayer(layer, mask) : undefined
+  }
 
   if (layer.type === 'text') {
     return {
@@ -300,7 +342,7 @@ function mapLeafLayer(
       opacity: layer.opacity,
       fillOpacity,
       blendMode: layer.blendMode,
-      transform: { ...layer.transform },
+      transform,
       content: layer.content,
       fontFamily: layer.fontFamily,
       fontSize: layer.fontSize,
@@ -339,7 +381,7 @@ function mapLeafLayer(
       opacity: layer.opacity,
       fillOpacity,
       blendMode: layer.blendMode,
-      transform: { ...layer.transform },
+      transform,
       primitive: layer.primitive,
       bounds: { ...layer.bounds },
       fill: { ...layer.fill },
@@ -374,7 +416,7 @@ function mapLeafLayer(
     opacity: layer.opacity,
     fillOpacity,
     blendMode: layer.blendMode,
-    transform: { ...layer.transform },
+    transform,
     width,
     height,
     source,
@@ -387,6 +429,37 @@ function mapLeafLayer(
 }
 
 /**
+ * Does this group need to be composited through its own offscreen buffer?
+ *
+ * Photoshop auto-promotes a pass-through group the moment it owns something the
+ * backdrop cannot express, because pass-through means "these children composite
+ * straight into the backdrop" — which leaves nowhere to hang group-level
+ * opacity, a group mask, group effects, or a group blend mode. We implement the
+ * same rule explicitly:
+ *
+ * - `isolated: true` (the explicit UI toggle), or
+ * - `blendMode !== 'pass-through'` — `'pass-through'` is the group's way of
+ *   spelling "no buffer"; every real blend equation needs one, or
+ * - an enabled mask, or `opacity < 1`, or `fillOpacity < 1`, or
+ * - at least one enabled effect.
+ *
+ * Everything else stays pass-through and is inlined into the parent's paint
+ * order — but its `transform` is still composed onto its children (a group's
+ * transform is never a no-op, see `composeLayerTransforms`).
+ */
+export function groupNeedsOwnBuffer(
+  layer: GroupLayer,
+  hasMask: boolean,
+): boolean {
+  if (layer.isolated) return true
+  if (layer.blendMode !== 'pass-through') return true
+  if (hasMask) return true
+  if (layer.opacity < 1) return true
+  if ((layer.fillOpacity ?? 1) < 1) return true
+  return layer.effects.some((effect) => effect.enabled)
+}
+
+/**
  * Isolated group → one `RenderGroupLayerView` carrying its own recursively
  * mapped `children` (flatten-then-FX composite; see `SPECS/GROUP-LAYER-FX.md`).
  */
@@ -395,8 +468,9 @@ function mapIsolatedGroup(
   doc: HappyDocument,
   assets: RenderAssetLookup,
   floodMasks: ChromaFloodMaskLookup | undefined,
+  parentTransform: RenderLayerTransform,
+  mask: RenderLayerMask | undefined,
 ): RenderGroupLayerView {
-  const mask = resolveMask(layer.mask, layer.maskEnabled, assets)
   return {
     id: layer.id,
     kind: 'group',
@@ -404,56 +478,197 @@ function mapIsolatedGroup(
     opacity: layer.opacity,
     fillOpacity: layer.fillOpacity ?? 1,
     blendMode: layer.blendMode,
-    transform: { ...layer.transform },
+    // The group buffer carries its own transform; children render into it
+    // untransformed by the group (identity parent) and in document space.
+    transform: composeLayerTransforms(parentTransform, layer.transform),
     effects: mapEffects(layer.effects),
-    children: mapChildren(layer.children, doc, assets, floodMasks),
+    // The buffer is a scope boundary: adjustments inside it stop at the group.
+    children: resolveAdjustmentScopes(
+      mapChildren(layer.children, doc, assets, floodMasks, IDENTITY_TRANSFORM),
+    ),
     ...maskViewProps(layer, mask),
   }
 }
 
 /**
+ * Photoshop adjustment-layer scoping, applied at every buffer boundary.
+ *
+ * An adjustment layer modifies the composite of everything beneath it *within
+ * its scope*. We express that structurally: the views beneath the placeholder
+ * become its `children`, so the compositor can flatten them once and run the
+ * adjustment over that texture. Stacked adjustments nest, which is exactly the
+ * Photoshop reading order (the upper one sees the lower one's result).
+ *
+ * An adjustment with nothing beneath it in its scope is dropped — there is no
+ * backdrop to modify.
+ *
+ * Callers are the nodes that *own a buffer*: the document root, a buffered
+ * group, and a clipping group. A pass-through group deliberately does **not**
+ * call this: its placeholders travel up to the enclosing scope, matching
+ * Photoshop, where an adjustment inside a pass-through group also affects
+ * layers below the group.
+ */
+export function resolveAdjustmentScopes(
+  views: readonly RenderLayerView[],
+): RenderLayerView[] {
+  let below: RenderLayerView[] = []
+  for (const view of views) {
+    if (view.kind !== 'adjustment') {
+      below.push(view)
+      continue
+    }
+    if (below.length === 0) continue
+    // Reassigning (not mutating) keeps the array handed to `children` frozen.
+    below = [{ ...view, children: below }]
+  }
+  return below
+}
+
+/** One document sibling after mapping: a pass-through group expands to many views. */
+export type MappedSibling = {
+  views: RenderLayerView[]
+  /** `Layer.clipping` — clips to the alpha of the nearest non-clipping sibling below. */
+  clipping: boolean
+}
+
+/**
+ * Strips the properties hoisted onto a clipping group's wrapper, so the base's
+ * opacity / blend / fill / mask / effects are applied once — to the clipped
+ * group as a whole — instead of twice.
+ */
+function neutralizeClipBase(view: RenderLayerView): RenderLayerView {
+  return {
+    ...view,
+    opacity: 1,
+    fillOpacity: 1,
+    blendMode: 'normal',
+    effects: [],
+    mask: undefined,
+    maskHidesEffects: undefined,
+  }
+}
+
+/**
+ * Photoshop clipping groups. A run of consecutive `clipping: true` siblings
+ * clips to the alpha of the nearest non-clipping sibling below it (the "base"),
+ * and the base's blend mode / opacity / fill / mask / effects apply to the
+ * whole clipped result — so the run + base become one buffered group whose
+ * first `clipBaseCount` children define the clip alpha.
+ *
+ * A `clipping` flag with no base below it is ignored (the bottom layer of a
+ * stack has nothing to clip to), matching `toggleClippingMask`.
+ */
+export function resolveClippingRuns(siblings: readonly MappedSibling[]): RenderLayerView[] {
+  const out: RenderLayerView[] = []
+  let index = 0
+  while (index < siblings.length) {
+    const base = siblings[index]!
+    let end = index + 1
+    while (end < siblings.length && siblings[end]!.clipping) end += 1
+
+    const clipped = siblings.slice(index + 1, end).flatMap((s) => s.views)
+    // No clipped run, a base that mapped to nothing to clip against, or a base
+    // that *is* an adjustment — an adjustment has no alpha of its own (it
+    // inherits the backdrop's), so there is nothing meaningful to clip to and
+    // the run renders unclipped rather than vanishing.
+    if (
+      clipped.length === 0 ||
+      base.views.length === 0 ||
+      base.views.some((view) => view.kind === 'adjustment')
+    ) {
+      out.push(...base.views, ...clipped)
+      index = end
+      continue
+    }
+
+    const single = base.views.length === 1 ? base.views[0]! : undefined
+    // A clipping run is its own scope: a clipped adjustment adjusts the base
+    // (plus any clipped siblings below it), never the document behind them.
+    const children = resolveAdjustmentScopes([
+      ...(single ? [neutralizeClipBase(single)] : base.views),
+      ...clipped,
+    ])
+    out.push({
+      id: `${base.views[0]!.id}::clip`,
+      kind: 'group',
+      visible: single?.visible ?? true,
+      // Hoisted from the base: they apply to the clipped group as a whole.
+      opacity: single?.opacity ?? 1,
+      fillOpacity: single?.fillOpacity ?? 1,
+      blendMode: single?.blendMode ?? 'normal',
+      transform: identityTransform(),
+      effects: single?.effects ?? [],
+      ...(single?.mask ? { mask: single.mask } : {}),
+      ...(single?.mask && single.maskHidesEffects ? { maskHidesEffects: true } : {}),
+      // Clamped: an adjustment directly above the base absorbs it into a single
+      // node, so the base region can be shorter than the raw base view count.
+      clipBaseCount: Math.min(base.views.length, children.length),
+      children,
+    })
+    index = end
+  }
+  return out
+}
+
+/**
  * Bottom -> top mapping of one child list. A hidden group (`visible: false`)
- * drops its whole subtree — group visibility was previously ignored entirely
- * (a silent no-op: see `SPECS/GROUP-LAYER-FX.md`). A pass-through group
- * (`isolated: false`, the default) inlines its mapped children directly,
- * exactly matching the pre-existing flatten behavior. An isolated group
- * (`isolated: true`) becomes one nested `RenderGroupLayerView`.
+ * drops its whole subtree. A group that needs its own buffer
+ * (see {@link groupNeedsOwnBuffer}) becomes one nested `RenderGroupLayerView`;
+ * a pass-through group inlines its mapped children into this list, with the
+ * group's `transform` composed onto each of them. Clipping runs are resolved
+ * per sibling list (Photoshop clips within a container).
  */
 function mapChildren(
   ids: readonly LayerId[],
   doc: HappyDocument,
   assets: RenderAssetLookup,
   floodMasks: ChromaFloodMaskLookup | undefined,
+  parentTransform: RenderLayerTransform,
 ): RenderLayerView[] {
-  const out: RenderLayerView[] = []
+  const siblings: MappedSibling[] = []
   for (const id of ids) {
     const layer = doc.layers[id]
     if (!layer) continue
+    const clipping = layer.clipping === true
 
     if (layer.type === 'group') {
       if (!layer.visible) continue
-      if (layer.isolated) {
-        out.push(mapIsolatedGroup(layer, doc, assets, floodMasks))
+      const mask = resolveMask(layer.mask, layer.maskEnabled, assets)
+      if (groupNeedsOwnBuffer(layer, mask !== undefined)) {
+        siblings.push({
+          views: [mapIsolatedGroup(layer, doc, assets, floodMasks, parentTransform, mask)],
+          clipping,
+        })
       } else {
-        out.push(...mapChildren(layer.children, doc, assets, floodMasks))
+        siblings.push({
+          views: mapChildren(
+            layer.children,
+            doc,
+            assets,
+            floodMasks,
+            composeLayerTransforms(parentTransform, layer.transform),
+          ),
+          clipping,
+        })
       }
       continue
     }
 
-    const mapped = mapLeafLayer(layer, doc, assets, floodMasks)
-    if (mapped) out.push(mapped)
+    const mapped = mapLeafLayer(layer, doc, assets, floodMasks, parentTransform)
+    if (mapped) siblings.push({ views: [mapped], clipping })
   }
-  return out
+  return resolveClippingRuns(siblings)
 }
 
 /**
  * `HappyDocument` (+ resolved assets) → `RenderDocumentView` (SPEC §6:
  * DocumentStore metadata → RenderCoordinator → Pixi RenderBackend).
  *
- * Raster + text + shape layers are always represented. Groups are
- * pass-through (inlined, no compositing of their own) unless `isolated:
- * true`, in which case they become a nested `RenderGroupLayerView` — see
- * `SPECS/GROUP-LAYER-FX.md`. Adjustment layers are still skipped.
+ * Raster + text + shape layers are always represented. Groups are inlined
+ * (pass-through) unless they need their own buffer — see
+ * {@link groupNeedsOwnBuffer} and `SPECS/GROUP-LAYER-FX.md`. Clipping runs
+ * become buffered groups with `clipBaseCount`. Adjustment layers swallow the
+ * backdrop they modify — see {@link resolveAdjustmentScopes}.
  */
 export function toRenderDocumentView(
   doc: HappyDocument,
@@ -465,6 +680,8 @@ export function toRenderDocumentView(
     width: doc.canvas.width,
     height: doc.canvas.height,
     background: doc.canvas.background,
-    layers: mapChildren(doc.rootChildren, doc, assets, floodMasks),
+    layers: resolveAdjustmentScopes(
+      mapChildren(doc.rootChildren, doc, assets, floodMasks, IDENTITY_TRANSFORM),
+    ),
   }
 }

@@ -18,6 +18,8 @@ export {
   type RenderTextLayerView,
   type RenderShapeLayerView,
   type RenderGroupLayerView,
+  type RenderAdjustment,
+  type RenderAdjustmentLayerView,
   type RenderLayerView,
   type RenderDocumentView,
 } from './RenderDocumentView'

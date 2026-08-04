@@ -7,7 +7,8 @@ import type {
 
 /**
  * Leaf views `PixiRenderBackend.syncLayers` knows how to render today.
- * `kind: 'group'` is intentionally excluded — see `SPECS/GROUP-LAYER-FX.md`.
+ * `kind: 'group'` / `kind: 'adjustment'` are intentionally excluded — both own
+ * a buffer; see `SPECS/GROUP-LAYER-FX.md`.
  */
 export type RenderLeafLayerView =
   | RenderRasterLayerView
@@ -26,8 +27,10 @@ export function flattenGroupLayersForCompositor(
 ): RenderLeafLayerView[] {
   const out: RenderLeafLayerView[] = []
   for (const layer of layers) {
-    if (layer.kind === 'group') {
+    if (layer.kind === 'group' || layer.kind === 'adjustment') {
       if (!layer.visible) continue
+      // An adjustment degrades to its unadjusted backdrop — the children are
+      // the only real pixels it owns.
       out.push(...flattenGroupLayersForCompositor(layer.children))
       continue
     }

@@ -145,7 +145,13 @@ export function describeLayerView(
     layer.maskHidesEffects ? 'maskHidesFx' : 'maskRespectsFx',
   ].join('|')
   if (layer.kind === 'group') {
-    return `${base}[${describeGroupSubtreeKey(layer.children, scaleMode)}]`
+    // clipBaseCount changes which children feed the clip alpha, so it has to
+    // invalidate an enclosing group's flatten just like the child list does.
+    return `${base}|clip:${layer.clipBaseCount ?? 0}[${describeGroupSubtreeKey(layer.children, scaleMode)}]`
+  }
+  if (layer.kind === 'adjustment') {
+    // The backdrop subtree feeds the flatten, and the params feed the shader.
+    return `${base}|adj:${JSON.stringify(layer.adjustment)}[${describeGroupSubtreeKey(layer.children, scaleMode)}]`
   }
   if (layer.kind === 'raster') {
     return `${base}|${describeSource(layer.source, layer.width, layer.height, scaleMode)}`
