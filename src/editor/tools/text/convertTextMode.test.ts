@@ -9,6 +9,8 @@ import { documentHistory, resetDocumentHistory } from '../../session/documentHis
 import { useEditorSessionStore } from '../../session/EditorSessionStore'
 import { convertTextMode } from './textCommands'
 
+const originalDocument = globalThis.document
+
 function installCanvasMock() {
   const measure = (text: string) => ({ width: Math.max(1, text.length) * 10 })
   Object.defineProperty(globalThis, 'document', {
@@ -49,6 +51,12 @@ describe('convertTextMode', () => {
 
   afterEach(() => {
     resetDocumentHistory()
+    // Bun shares one global per run, so a leaked `document` mock would make every
+    // later test file take DOM code paths this environment cannot satisfy.
+    Object.defineProperty(globalThis, 'document', {
+      configurable: true,
+      value: originalDocument,
+    })
   })
 
   test('point → box sets measured bounds and preserves left origin', async () => {

@@ -29,11 +29,25 @@ describe('tool group shortcuts', () => {
 
     expect(registry.get('tool.spotHealing')?.shortcut).toBe('J')
     expect(registry.get('tool.spotHealing.cycleReverse')?.shortcut).toBe('Shift+J')
-    expect(registry.get('tool.smudge')?.shortcut).toBe('R')
-    expect(registry.get('tool.smudge.cycleReverse')?.shortcut).toBe('Shift+R')
     expect(registry.get('tool.sharpen')).toBeDefined()
     expect(registry.get('tool.dodge')?.shortcut).toBe('O')
     expect(registry.get('tool.dodge.cycleReverse')?.shortcut).toBe('Shift+O')
+  })
+
+  test('leaves the Blur family unbound so R stays with Rotate View', () => {
+    const registry = new CommandRegistry()
+    registerToolCommands(registry)
+
+    // Photoshop ships no shortcut for Blur/Sharpen/Smudge; R is Rotate View.
+    expect(registry.get('tool.smudge')?.shortcut).toBeUndefined()
+    expect(registry.get('tool.smudge.cycleReverse')?.shortcut).toBeUndefined()
+    expect(registry.get('tool.rotateView')?.shortcut).toBe('R')
+
+    useEditorSessionStore.setState({ activeToolId: 'smudge' })
+    registry.get('tool.smudge')?.run()
+    expect(useEditorSessionStore.getState().activeToolId).toBe('blur')
+    registry.get('tool.smudge.cycleReverse')?.run()
+    expect(useEditorSessionStore.getState().activeToolId).toBe('smudge')
   })
 
   test('shares G with the Paint Bucket fill flyout', () => {
@@ -79,8 +93,11 @@ describe('tool group shortcuts', () => {
     const registry = new CommandRegistry()
     registerToolCommands(registry)
 
-    expect(registry.get('tool.liquifyWarp')?.shortcut).toBe('Q')
-    expect(registry.get('tool.liquifyWarp.cycleReverse')?.shortcut).toBe('Shift+Q')
+    // Liquify variants are flyout-only: Q is Quick Mask, and Photoshop reaches
+    // these through the Liquify dialog rather than a toolbar letter.
+    expect(registry.get('tool.liquifyWarp')?.shortcut).toBeUndefined()
+    expect(registry.get('tool.liquifyWarp.cycleReverse')?.shortcut).toBeUndefined()
+    expect(registry.get('tool.quickMask')?.shortcut).toBe('Q')
 
     useEditorSessionStore.setState({ activeToolId: 'liquifyWarp' })
     registry.get('tool.liquifyWarp')?.run()

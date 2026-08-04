@@ -84,10 +84,14 @@ describe('tool flyout selection', () => {
     expect(burn?.icon).not.toBe(sponge?.icon)
   })
 
-  test('cycles Pen and Freeform Pen in either direction', () => {
+  test('cycles the five-variant Pen flyout in either direction', () => {
+    // The P flyout carries Pen, Freeform Pen and the anchor editors (PEN_TOOL_CYCLE).
     expect(cycleToolGroup(TOOLS, {}, 'pen', 'pen', 1)).toBe('freeformPen')
-    expect(cycleToolGroup(TOOLS, {}, 'pen', 'freeformPen', 1)).toBe('pen')
-    expect(cycleToolGroup(TOOLS, {}, 'pen', 'pen', -1)).toBe('freeformPen')
+    expect(cycleToolGroup(TOOLS, {}, 'pen', 'freeformPen', 1)).toBe('addAnchor')
+    expect(cycleToolGroup(TOOLS, {}, 'pen', 'addAnchor', 1)).toBe('deleteAnchor')
+    expect(cycleToolGroup(TOOLS, {}, 'pen', 'deleteAnchor', 1)).toBe('convertPoint')
+    expect(cycleToolGroup(TOOLS, {}, 'pen', 'convertPoint', 1)).toBe('pen')
+    expect(cycleToolGroup(TOOLS, {}, 'pen', 'pen', -1)).toBe('convertPoint')
   })
 
   test('uses distinct pen-group icons', () => {

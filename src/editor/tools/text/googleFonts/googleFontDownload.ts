@@ -147,7 +147,11 @@ export async function commitGoogleFontWithAxes(
 }
 
 export async function registerCommittedGoogleFont(record: CachedFontRecord): Promise<void> {
-  if (typeof document === 'undefined' || !document.fonts) return
+  // `FontFace` is checked alongside `document.fonts` because a host can expose
+  // one without the other (SSR shims, headless test envs). Without the guard the
+  // missing constructor throws a ReferenceError that escapes `ensureTextFontLoaded`
+  // as an opaque failure instead of the typed `FontResolution` callers expect.
+  if (typeof document === 'undefined' || !document.fonts || typeof FontFace === 'undefined') return
   const descriptors: GoogleFontFaceDescriptors = {
     weight: String(record.weight),
     style: record.style,

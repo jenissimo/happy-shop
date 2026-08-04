@@ -163,14 +163,18 @@ export function registerToolCommands(registry: CommandRegistry): void {
       registry.register({
         id: tool.commandId,
         title: `Cycle ${tool.title.replace(' Tool', '')} variants`,
-        shortcut: tool.letter,
+        // Blur/Sharpen/Smudge and the Liquify family carry no letter (Photoshop
+        // gives them none, and R/Q belong to Rotate View / Quick Mask). Leaving
+        // the field undefined keeps `Shift+` out of the palette and the
+        // shortcuts window; those groups stay reachable via the flyout.
+        shortcut: tool.letter || undefined,
         enabled: () => enabled,
         run: () => cycleGroup(tool.group!, 1),
       })
       registry.register({
         id: `${tool.commandId}.cycleReverse`,
         title: `Cycle ${tool.title.replace(' Tool', '')} variants backwards`,
-        shortcut: `Shift+${tool.letter}`,
+        shortcut: tool.letter ? `Shift+${tool.letter}` : undefined,
         enabled: () => enabled,
         run: () => cycleGroup(tool.group!, -1),
       })
@@ -180,7 +184,7 @@ export function registerToolCommands(registry: CommandRegistry): void {
     registry.register({
       id: tool.commandId,
       title: tool.title,
-      shortcut: tool.letter,
+      shortcut: tool.letter || undefined,
       enabled: () => enabled,
       run: () => {
         if (!enabled) return
