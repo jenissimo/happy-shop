@@ -15,7 +15,7 @@ import {
   SquareHalf,
   TextT,
 } from '@phosphor-icons/react'
-import { BLEND_MODES, type BlendMode, type LayerId } from '../../../core/document'
+import { selectableBlendModes, type BlendMode, type LayerId } from '../../../core/document'
 import { FlyoutSliderField } from '../../../ui/base/FlyoutSliderField'
 import {
   ContextMenu,
@@ -264,7 +264,7 @@ export function LayersPanel({
           }}
           aria-label="Blend mode"
         >
-          {BLEND_MODES.map((mode) => (
+          {selectableBlendModes(activeLayer?.kind ?? 'raster').map((mode) => (
             <option key={mode} value={mode}>
               {blendModeLabel(mode)}
             </option>

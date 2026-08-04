@@ -7,7 +7,7 @@ import {
   Sparkle,
 } from '@phosphor-icons/react'
 import {
-  BLEND_MODES,
+  selectableBlendModes,
   TEXT_ALIGNS,
   setAdjustment,
   type AdjustmentLayer,
@@ -158,7 +158,7 @@ export function InspectorPanel() {
             value={layer.blendMode}
             onChange={(e) => setBlendMode(layer.id, e.target.value as BlendMode)}
           >
-            {BLEND_MODES.map((mode) => (
+            {selectableBlendModes(layer.type).map((mode) => (
               <option key={mode} value={mode}>
                 {mode}
               </option>
@@ -191,8 +191,6 @@ export function InspectorPanel() {
           <InspectorFxMiniList
             layerId={layer.id}
             effects={layer.effects}
-            disabled={layer.type === 'group' && !layer.isolated}
-            disabledHint="Turn on Isolate Blending to use layer effects on this group."
           />
           <Button
             onClick={() => openLayerStyleDialog(layer.id)}

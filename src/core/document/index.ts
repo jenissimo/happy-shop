@@ -4,6 +4,13 @@
  */
 
 export {
+  GROUP_ONLY_BLEND_MODES,
+  coerceBlendMode,
+  defaultBlendMode,
+  selectableBlendModes,
+} from './blendModeAvailability'
+
+export {
   BLEND_MODES,
   BlendModeSchema,
   CURRENT_SCHEMA_VERSION,

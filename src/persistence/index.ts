@@ -21,6 +21,17 @@ export {
 } from './manifest'
 
 export { assertSafeAssetId } from './assetId'
+export {
+  BROWSER_PATH_PREFIX,
+  PROJECT_DIR,
+  PROJECT_DIR_SUFFIX,
+  assertSafeProjectName,
+  assertSafeProjectPath,
+  isSafeProjectName,
+  projectNameFromPath,
+  projectPathForName,
+  stripProjectSuffix,
+} from './projectPath'
 export { encodeSurfaceToPng } from './encodeSurfacePng'
 export { collectSaveAssets } from './collectSaveAssets'
 export {
@@ -43,4 +54,4 @@ export {
   getBrowserProjectStore,
   resetBrowserProjectStoreForTests,
 } from './BrowserProjectStore'
-export { getProjectStore } from './projectStore'
+export { getProjectStore, isBrowserProjectBackend } from './projectStore'

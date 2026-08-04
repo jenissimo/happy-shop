@@ -945,6 +945,7 @@ export class ToolInputRouter {
 
     if (this.drag === 'move') {
       this.move.pointerMove(doc.x, doc.y, event.pointerId, mods)
+      this.updateConstraintStatus(mods)
       return
     }
 
@@ -1093,8 +1094,21 @@ export class ToolInputRouter {
                 ? 'From center'
                 : null
     }
-    if (this.drag === 'move' && this.modifiersAtDown.alt) {
-      active = 'Duplicate'
+    if (this.drag === 'move') {
+      // Handle drags read Shift/Alt live; body drags decided Alt-duplicate at
+      // pointer-down, so their hint stays pinned to the down state.
+      if (this.move.gestureKind === 'scale') {
+        const aspect = mods.shift || this.modifiersAtDown.shift
+        active = mods.alt
+          ? aspect
+            ? 'Proportional from center'
+            : 'From center'
+          : aspect
+            ? 'Constrain aspect'
+            : null
+      } else if (this.modifiersAtDown.alt) {
+        active = 'Duplicate'
+      }
     }
     if (this.drag === 'selectionTransform') {
       active =

@@ -40,6 +40,7 @@ import { CanvasSizeDialog } from '../../ui/features/canvas-size'
 import { GaussianBlurDialog, SharpenDialog, NoiseDialog } from '../../ui/features/filters'
 import { ImageSizeDialog } from '../../ui/features/image-size'
 import { NewDocumentDialog, registerFileCommands } from '../../ui/features/new-document'
+import { SaveAsDialog, registerSaveAsCommand } from '../../ui/features/save-as'
 import { LayerStyleDialog, openLayerStyleDialog } from '../../ui/features/layer-style'
 import { registerPhotoshopMenuCommands } from '../../core/commands/registry'
 import { registerImageEditCommands } from '../tools/crop/registerImageCommands'
@@ -586,6 +587,7 @@ export function EditorShell() {
     })
     // File → New/New from Clipboard/Open (UX-PHOTOSHOP.md menu IA).
     registerFileCommands(editor.commands)
+    registerSaveAsCommand(editor.commands)
     registerImageEditCommands(editor.commands)
     registerFilterCommands(editor.commands)
     registerEditSelectionCommands(editor.commands)
@@ -769,6 +771,7 @@ export function EditorShell() {
         onClose={() => setSettingsOpen(false)}
       />
       <NewDocumentDialog />
+      <SaveAsDialog />
       <CanvasSizeDialog />
       <GaussianBlurDialog />
       <SharpenDialog />
