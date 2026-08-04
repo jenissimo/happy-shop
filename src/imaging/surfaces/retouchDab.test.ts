@@ -128,9 +128,12 @@ describe('retouch dabs', () => {
     const surface = new TiledRasterSurface('blur', 16, 16)
     surface.writeRegion({ x: 8, y: 8, width: 1, height: 1 }, new Uint8ClampedArray([255, 255, 255, 255]))
     surface.retouchDab({ kind: 'blur', x: 8, y: 8, radius: 3, strength: 1 })
-    expect(pixel(surface, 8, 8)[0]).toBeGreaterThan(0)
-    expect(pixel(surface, 8, 8)[0]).toBeLessThan(255)
-    expect(pixel(surface, 7, 8)[0]).toBeGreaterThan(0)
+    // Premultiplied blur spreads the impulse through alpha; the surviving
+    // colour is not dragged toward the black held by transparent neighbours.
+    expect(pixel(surface, 8, 8)[3]).toBeGreaterThan(0)
+    expect(pixel(surface, 8, 8)[3]).toBeLessThan(255)
+    expect(pixel(surface, 8, 8)[0]).toBe(255)
+    expect(pixel(surface, 7, 8)[3]).toBeGreaterThan(0)
   })
 
   test('sharpen applies a local high-pass mask without changing alpha', () => {

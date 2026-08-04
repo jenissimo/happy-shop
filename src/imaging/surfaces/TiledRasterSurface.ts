@@ -98,6 +98,37 @@ function buildTipMip(
 /**
  * In-memory tiled surface. Owns canonical CPU pixels for a raster layer.
  */
+/**
+ * Lerp a straight-RGBA texel toward `src` in PREMULTIPLIED space.
+ *
+ * Blending straight RGB toward a transparent `(0,0,0,0)` neighbour darkens the
+ * surviving colour instead of only lowering its alpha — the classic black
+ * fringe at a transparency edge. Premultiplying first keeps the hue and lets
+ * alpha carry the fade.
+ */
+function lerpTexelPremultiplied(
+  data: Uint8ClampedArray,
+  i: number,
+  src: readonly [number, number, number, number],
+  amount: number,
+): void {
+  const dstA = data[i + 3]! / 255
+  const srcA = src[3] / 255
+  const outA = dstA + (srcA - dstA) * amount
+  if (outA <= 0) {
+    data[i + 3] = 0
+    return
+  }
+  for (let c = 0; c < 3; c++) {
+    const dstPremultiplied = data[i + c]! * dstA
+    const srcPremultiplied = src[c]! * srcA
+    data[i + c] = Math.round(
+      (dstPremultiplied + (srcPremultiplied - dstPremultiplied) * amount) / outA,
+    )
+  }
+  data[i + 3] = Math.round(outA * 255)
+}
+
 export class TiledRasterSurface {
   readonly id: string
   readonly width: number
@@ -145,6 +176,9 @@ export class TiledRasterSurface {
       typeof options.opacityCeiling === 'number'
         ? Math.max(0, Math.min(1, options.opacityCeiling))
         : null
+    // Only the map shell is created here; the 1 MiB per-tile Float32Array is
+    // allocated lazily in `capStrokeAlpha`, and only for pixels where the
+    // ceiling (scaled by selection coverage) can actually bind.
     this.strokeCoverage =
       this.strokeOpacityCeiling === null ? null : new Map()
   }
@@ -234,11 +268,27 @@ export class TiledRasterSurface {
    * destination, sequential source-over compositing has source influence
    * `C + a * (1 - C)`; limiting C therefore limits self-overlap without a
    * full-tile postprocess.
+   *
+   * `clipCover` is the selection coverage already folded into `alpha`. The
+   * ceiling has to be scaled by it as well, otherwise scrubbing back and forth
+   * over a feathered selection edge accumulates each pixel toward the raw
+   * ceiling and flattens the feather into a hard edge.
    */
-  private capStrokeAlpha(tile: RasterTile, pixel: number, alpha: number): number {
+  private capStrokeAlpha(
+    tile: RasterTile,
+    pixel: number,
+    alpha: number,
+    clipCover: number,
+  ): number {
     const coverageByTile = this.strokeCoverage
     const ceiling = this.strokeOpacityCeiling
     if (!coverageByTile || ceiling === null || alpha <= 0) return alpha
+    const limit = ceiling * clipCover
+    if (limit <= 0) return 0
+    // A limit of 1 can never bind (`alpha <= 1`), so returning early keeps the
+    // 1 MiB per-tile coverage buffer unallocated for the common case of a
+    // 100%-opacity stroke outside any feathered selection.
+    if (limit >= 1) return alpha
     const key = tileKey(tile.tileX, tile.tileY)
     let coverage = coverageByTile.get(key)
     if (!coverage) {
@@ -246,8 +296,8 @@ export class TiledRasterSurface {
       coverageByTile.set(key, coverage)
     }
     const accumulated = coverage[pixel]!
-    if (accumulated >= ceiling) return 0
-    const remaining = (ceiling - accumulated) / Math.max(1e-6, 1 - accumulated)
+    if (accumulated >= limit) return 0
+    const remaining = (limit - accumulated) / Math.max(1e-6, 1 - accumulated)
     const effective = Math.min(alpha, remaining)
     coverage[pixel] = accumulated + effective * (1 - accumulated)
     return effective
@@ -515,13 +565,14 @@ export class TiledRasterSurface {
           const dy = ly - y
           const d = tipDistance(dx, dy, radius, angle, axis)
           if (d > 1) continue
-          const clipCover = clip ? clip(lx, ly) : 1
+          const clipCover = Math.max(0, Math.min(1, clip ? clip(lx, ly) : 1))
           if (clipCover <= 0) continue
           const cover = dabCoverage(d, hardness)
           const a = this.capStrokeAlpha(
             tile,
             py * tile.width + px,
-            cover * op * Math.max(0, Math.min(1, clipCover)),
+            cover * op * clipCover,
+            clipCover,
           )
           if (a <= 0) continue
           const i = (py * tile.width + px) * 4
@@ -610,7 +661,11 @@ export class TiledRasterSurface {
     const { x, y, radius, angle, roundness, hardness, opacity, color, mode, alpha, clip } =
       options
     const bucket = Math.min(512, 2 ** Math.ceil(Math.log2(Math.max(1, radius * 2))))
-    const key = `${options.tipId ?? 'anonymous'}:${bucket}:${Math.round(angle * 10)}:${Math.round(roundness * 1000)}`
+    // `buildTipMip` bakes `dabCoverage(d, hardness)` into the cached texels, so
+    // hardness is part of the cache identity — omitting it made every hardness
+    // change reuse the first-stamped falloff.
+    const hardnessKey = Math.round(Math.max(0, Math.min(1, hardness)) * 100)
+    const key = `${options.tipId ?? 'anonymous'}:${bucket}:${Math.round(angle * 10)}:${Math.round(roundness * 1000)}:${hardnessKey}`
     let mip = this.tipMipCache.get(key)
     if (!mip) {
       mip = buildTipMip(alpha, bucket, angle, roundness, hardness)
@@ -618,13 +673,16 @@ export class TiledRasterSurface {
       // Avoid retaining unbounded user-installed tip variants on long sessions.
       if (this.tipMipCache.size > 64) this.tipMipCache.delete(this.tipMipCache.keys().next().value!)
     }
-    const halfW = mip.width / 2
-    const halfH = mip.height / 2
+    // The mip is built at the power-of-two bucket diameter; the dab must still
+    // land at the requested radius, so sample it scaled instead of 1:1.
+    const mipScale = Math.max(1e-6, (radius * 2) / bucket)
+    const halfW = (mip.width * mipScale) / 2
+    const halfH = (mip.height * mipScale) / 2
     const region: Rect = {
       x: Math.floor(x - halfW - 1),
       y: Math.floor(y - halfH - 1),
-      width: Math.ceil(mip.width + 2),
-      height: Math.ceil(mip.height + 2),
+      width: Math.ceil(halfW * 2 + 2),
+      height: Math.ceil(halfH * 2 + 2),
     }
     const touched = this.readTiles(region)
     const capturing = this.strokeCapture !== null
@@ -655,15 +713,16 @@ export class TiledRasterSurface {
         for (let px = px0; px < px1; px++) {
           const lx = originX + px + 0.5
           const ly = originY + py + 0.5
-          const mx = Math.floor(lx - x + halfW)
-          const my = Math.floor(ly - y + halfH)
+          const mx = Math.floor((lx - x) / mipScale + mip.width / 2)
+          const my = Math.floor((ly - y) / mipScale + mip.height / 2)
           if (mx < 0 || my < 0 || mx >= mip.width || my >= mip.height) continue
           const textureAlpha = mip.data[my * mip.width + mx]! / 255
-          const clipCover = clip ? clip(lx, ly) : 1
+          const clipCover = Math.max(0, Math.min(1, clip ? clip(lx, ly) : 1))
           const a = this.capStrokeAlpha(
             tile,
             py * tile.width + px,
-            textureAlpha * op * Math.max(0, Math.min(1, clipCover)),
+            textureAlpha * op * clipCover,
+            clipCover,
           )
           if (a <= 0) continue
           const i = (py * tile.width + px) * 4
@@ -745,12 +804,13 @@ export class TiledRasterSurface {
         for (let px = px0; px < px1; px++) {
           const lx = originX + px + 0.5
           const ly = originY + py + 0.5
-          const clipCover = clip ? clip(lx, ly) : 1
+          const clipCover = Math.max(0, Math.min(1, clip ? clip(lx, ly) : 1))
           if (clipCover <= 0) continue
           const a = this.capStrokeAlpha(
             tile,
             py * tile.width + px,
-            op * Math.max(0, Math.min(1, clipCover)),
+            op * clipCover,
+            clipCover,
           )
           if (a <= 0) continue
           const i = (py * tile.width + px) * 4
@@ -877,12 +937,18 @@ export class TiledRasterSurface {
       // Legacy woven checker when no pattern sampler is supplied.
       return (ix + iy) % 2 === 0 ? [234, 217, 177, 255] : [92, 73, 54, 255]
     })
+    // Averaging straight RGB pulls the (0,0,0) carried by transparent pixels
+    // into the result, so an isolated coloured shape blurs toward black.
+    // Premultiply, average, then unpremultiply by the averaged alpha.
     const blurSample = (sx: number, sy: number): [number, number, number, number] => {
       let r = 0, g = 0, b = 0, a = 0, count = 0
       for (let oy = -1; oy <= 1; oy++) for (let ox = -1; ox <= 1; ox++) {
-        const p = sample(sx + ox, sy + oy); r += p[0]; g += p[1]; b += p[2]; a += p[3]; count++
+        const p = sample(sx + ox, sy + oy)
+        const weight = p[3] / 255
+        r += p[0] * weight; g += p[1] * weight; b += p[2] * weight; a += p[3]; count++
       }
-      return [r / count, g / count, b / count, a / count]
+      if (a <= 0) return [0, 0, 0, 0]
+      return [(r * 255) / a, (g * 255) / a, (b * 255) / a, a / count]
     }
     const dx = previous ? x - previous.x : 0
     const dy = previous ? y - previous.y : 0
@@ -994,10 +1060,7 @@ export class TiledRasterSurface {
               ? luma + (picked[2] - luma) * (1 + amount)
               : picked[2] + (luma - picked[2]) * amount)
           } else {
-            tile.data[i] = Math.round(tile.data[i]! + (picked[0] - tile.data[i]!) * amount)
-            tile.data[i + 1] = Math.round(tile.data[i + 1]! + (picked[1] - tile.data[i + 1]!) * amount)
-            tile.data[i + 2] = Math.round(tile.data[i + 2]! + (picked[2] - tile.data[i + 2]!) * amount)
-            tile.data[i + 3] = Math.round(tile.data[i + 3]! + (picked[3] - tile.data[i + 3]!) * amount)
+            lerpTexelPremultiplied(tile.data, i, picked, amount)
           }
           changed = true
         }
@@ -1155,10 +1218,9 @@ export class TiledRasterSurface {
             }
           }
           const i = (py * tile.width + px) * 4
-          tile.data[i] = Math.round(tile.data[i]! + (picked[0] - tile.data[i]!) * amount)
-          tile.data[i + 1] = Math.round(tile.data[i + 1]! + (picked[1] - tile.data[i + 1]!) * amount)
-          tile.data[i + 2] = Math.round(tile.data[i + 2]! + (picked[2] - tile.data[i + 2]!) * amount)
-          tile.data[i + 3] = Math.round(tile.data[i + 3]! + (picked[3] - tile.data[i + 3]!) * amount)
+          // Same premultiplied rule as the retouch lerp — a Liquify dab that
+          // pulls in a transparent neighbour must fade, not darken.
+          lerpTexelPremultiplied(tile.data, i, picked, amount)
           changed = true
         }
       }
@@ -1223,14 +1285,29 @@ export class TiledRasterSurface {
     }
     const width = source.width, height = source.height
     const tmp = new Float32Array(width * height)
-    const writeChannel = (channel: number) => {
+    /** Horizontal pass of the separable kernel into `tmp`. */
+    const horizontal = (readSample: (x: number, y: number) => number) => {
       for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
         let sum = 0
         for (let k = -kernel.radius; k <= kernel.radius; k++) {
-          sum += read(source.x + x + k, source.y + y, channel) * kernel.weights[k + kernel.radius]!
+          sum += readSample(source.x + x + k, source.y + y) * kernel.weights[k + kernel.radius]!
         }
         tmp[y * width + x] = sum
       }
+    }
+    /** Vertical pass at one source-local column/row. */
+    const vertical = (sx: number, sy: number): number => {
+      let sum = 0
+      for (let k = -kernel.radius; k <= kernel.radius; k++) {
+        const yy = Math.max(0, Math.min(height - 1, sy + k))
+        sum += tmp[yy * width + sx]! * kernel.weights[k + kernel.radius]!
+      }
+      return sum
+    }
+    /** Visit every writable target pixel once, tile-local. */
+    const forEachTarget = (
+      visit: (tile: RasterTile, index: number, sx: number, sy: number, targetIndex: number, coverage: number) => void,
+    ) => {
       for (const tile of touched) {
         const ox = tile.tileX * TILE_SIZE, oy = tile.tileY * TILE_SIZE
         for (let py = Math.max(0, target.y - oy); py < Math.min(tile.height, target.y + target.height - oy); py++) {
@@ -1238,19 +1315,46 @@ export class TiledRasterSurface {
             const lx = ox + px, ly = oy + py
             const coverage = Math.max(0, Math.min(1, options.clip?.(lx + .5, ly + .5) ?? 1))
             if (coverage === 0) continue
-            const sx = lx - source.x, sy = ly - source.y
-            let sum = 0
-            for (let k = -kernel.radius; k <= kernel.radius; k++) {
-              const yy = Math.max(0, Math.min(height - 1, sy + k))
-              sum += tmp[yy * width + sx]! * kernel.weights[k + kernel.radius]!
-            }
-            const index = (py * tile.width + px) * 4 + channel
-            tile.data[index] = Math.round(tile.data[index]! + (sum - tile.data[index]!) * coverage)
+            visit(
+              tile,
+              (py * tile.width + px) * 4,
+              lx - source.x,
+              ly - source.y,
+              (ly - target.y) * target.width + (lx - target.x),
+              coverage,
+            )
           }
         }
       }
     }
-    for (let channel = 0; channel < 4; channel++) writeChannel(channel)
+
+    // Convolving straight RGB mixes in the (0,0,0) held by transparent pixels,
+    // so an isolated coloured shape grows a dark halo. Blur premultiplied and
+    // unpremultiply by the blurred alpha instead. Alpha is resolved first (into
+    // a target-sized buffer) because RGB needs it before it is written back.
+    const blurredAlpha = new Float32Array(Math.max(1, target.width * target.height))
+    horizontal((x, y) => read(x, y, 3))
+    forEachTarget((_tile, _index, sx, sy, targetIndex) => {
+      blurredAlpha[targetIndex] = vertical(sx, sy)
+    })
+
+    for (let channel = 0; channel < 3; channel++) {
+      horizontal((x, y) => read(x, y, channel) * (read(x, y, 3) / 255))
+      forEachTarget((tile, index, sx, sy, targetIndex, coverage) => {
+        const dstAlpha = tile.data[index + 3]! / 255
+        const outAlpha = dstAlpha + (blurredAlpha[targetIndex]! / 255 - dstAlpha) * coverage
+        if (outAlpha <= 0) return
+        const dstPremultiplied = tile.data[index + channel]! * dstAlpha
+        const blurPremultiplied = vertical(sx, sy)
+        tile.data[index + channel] = Math.round(
+          (dstPremultiplied + (blurPremultiplied - dstPremultiplied) * coverage) / outAlpha,
+        )
+      })
+    }
+    forEachTarget((tile, index, _sx, _sy, targetIndex, coverage) => {
+      const dstAlpha = tile.data[index + 3]!
+      tile.data[index + 3] = Math.round(dstAlpha + (blurredAlpha[targetIndex]! - dstAlpha) * coverage)
+    })
     for (const tile of touched) {
       tile.revision = ++this.revision
       this.markDirty(tile.tileX, tile.tileY)

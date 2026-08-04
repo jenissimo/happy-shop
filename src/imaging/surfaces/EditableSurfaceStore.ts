@@ -12,6 +12,10 @@ type SurfaceRuntime = {
   raf: number
   /** Invalidate callback scheduled with the next flush (viewport epoch bump). */
   onFlushed: ((surfaceId: string) => void) | null
+  /** Monotonic id handed to each publish attempt, assigned before its await. */
+  publishSeq: number
+  /** Highest `publishSeq` that actually reached `registerRasterSurface`. */
+  publishedSeq: number
 }
 
 const runtimes = new Map<string, SurfaceRuntime>()
@@ -29,9 +33,39 @@ function ensureRuntime(surface: TiledRasterSurface): SurfaceRuntime {
     ctx: null,
     raf: 0,
     onFlushed: null,
+    publishSeq: 0,
+    publishedSeq: 0,
   }
   runtimes.set(surface.id, rt)
   return rt
+}
+
+/**
+ * Register a freshly snapshotted bitmap unless a newer snapshot already won.
+ *
+ * `syncEditableSurfaceToBitmap` is async and can legitimately run twice
+ * concurrently (the rAF flush plus the pointer-up flush). Each takes its own
+ * `createImageBitmap` snapshot, and those promises can resolve out of order —
+ * without this guard the earlier, pre-final-dab frame could land last and drop
+ * the tail of a stroke from the viewport until the next edit.
+ */
+function publishBitmap(
+  rt: SurfaceRuntime,
+  assetId: string,
+  seq: number,
+  bitmap: ImageBitmap,
+): void {
+  if (seq <= rt.publishedSeq) {
+    bitmap.close()
+    return
+  }
+  rt.publishedSeq = seq
+  registerRasterSurface({
+    assetId,
+    width: rt.surface.width,
+    height: rt.surface.height,
+    bitmap,
+  })
 }
 
 function ensureStagingCanvas(rt: SurfaceRuntime): {
@@ -72,6 +106,9 @@ export function setEditableSurface(surface: TiledRasterSurface): void {
   rt.ctx = null
   rt.raf = 0
   rt.onFlushed = null
+  // Retire every in-flight snapshot of the previous surface: they now describe
+  // pixels this runtime no longer owns. Counters stay monotonic on purpose.
+  rt.publishedSeq = rt.publishSeq
 }
 
 export function releaseEditableSurface(assetId: string): void {
@@ -124,17 +161,14 @@ export async function syncEditableSurfaceToBitmap(
   if (!rt) return
   const surface = rt.surface
   const staging = ensureStagingCanvas(rt)
+  // Claimed before any await so publish order follows call order, not the
+  // order in which `createImageBitmap` happens to resolve.
+  const seq = ++rt.publishSeq
 
   if (staging?.fresh) {
     // Full seed already mirrors tile memory — drop dirty flags and publish.
     surface.takeDirtyTiles()
-    const bitmap = await createImageBitmap(staging.canvas)
-    registerRasterSurface({
-      assetId,
-      width: surface.width,
-      height: surface.height,
-      bitmap,
-    })
+    publishBitmap(rt, assetId, seq, await createImageBitmap(staging.canvas))
     return
   }
 
@@ -152,13 +186,7 @@ export async function syncEditableSurfaceToBitmap(
         tileY * TILE_SIZE,
       )
     }
-    const bitmap = await createImageBitmap(staging.canvas)
-    registerRasterSurface({
-      assetId,
-      width: surface.width,
-      height: surface.height,
-      bitmap,
-    })
+    publishBitmap(rt, assetId, seq, await createImageBitmap(staging.canvas))
     return
   }
 
@@ -168,13 +196,7 @@ export async function syncEditableSurfaceToBitmap(
   }
 
   // Fallback when OffscreenCanvas / ImageData staging is unavailable (tests).
-  const bitmap = await surface.toImageBitmap()
-  registerRasterSurface({
-    assetId,
-    width: surface.width,
-    height: surface.height,
-    bitmap,
-  })
+  publishBitmap(rt, assetId, seq, await surface.toImageBitmap())
 }
 
 /**

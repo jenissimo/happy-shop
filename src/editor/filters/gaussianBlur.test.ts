@@ -159,9 +159,12 @@ describe('gaussianBlur', () => {
     expect(documentHistory.undoLabel).toBe('Gaussian Blur')
 
     const blurred = getEditableSurface('px1')!.toRgbaBuffer().data
-    const center = blurred[(16 * 32 + 16) * 4]!
-    expect(center).toBeGreaterThan(0)
-    expect(center).toBeLessThan(255)
+    // The blur runs premultiplied, so an isolated red pixel fades in alpha
+    // rather than desaturating toward the black of its transparent neighbours.
+    expect(blurred[(16 * 32 + 16) * 4]).toBe(255)
+    expect(blurred[(16 * 32 + 16) * 4 + 3]).toBeGreaterThan(0)
+    expect(blurred[(16 * 32 + 16) * 4 + 3]).toBeLessThan(255)
+    expect(blurred[(16 * 32 + 17) * 4 + 3]).toBeGreaterThan(0)
   })
 
   test('filter.blur.gaussian command is registered and gated on layer type', () => {

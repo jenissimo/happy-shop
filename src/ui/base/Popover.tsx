@@ -191,7 +191,9 @@ export function Popover({
     left: position?.left ?? VIEWPORT_PADDING,
     top: position?.top ?? VIEWPORT_PADDING,
     width,
-    maxHeight,
+    // Never taller than the viewport: the host scrolls internally instead of
+    // spilling off-screen on short windows.
+    maxHeight: `min(${maxHeight}px, calc(100dvh - ${VIEWPORT_PADDING * 2}px))`,
     visibility: position ? undefined : 'hidden',
   }
 

@@ -18,6 +18,34 @@ export type FloodFillParams = {
   allowed?: (x: number, y: number) => number
 }
 
+/**
+ * Per-channel distance between two straight-alpha pixels, measured on
+ * premultiplied RGB plus straight alpha.
+ *
+ * The surface is straight RGBA and the eraser only clears alpha, so an erased
+ * red stroke leaves `(255, 0, 0, 0)` next to virgin `(0, 0, 0, 0)`. Comparing
+ * straight RGB made those two invisible-and-identical pixels look 255 apart,
+ * which stopped a bucket fill dead at every erased swath. Premultiplying folds
+ * alpha into RGB, so fully transparent pixels compare equal regardless of the
+ * colour left behind while partial alpha still scales its colour difference.
+ */
+export function premultipliedDelta(
+  rgba: Uint8ClampedArray | Uint8Array,
+  index: number,
+  seedR: number,
+  seedG: number,
+  seedB: number,
+  seedA: number,
+): number {
+  const a = rgba[index + 3]! / 255
+  return Math.max(
+    Math.abs(rgba[index]! * a - seedR),
+    Math.abs(rgba[index + 1]! * a - seedG),
+    Math.abs(rgba[index + 2]! * a - seedB),
+    Math.abs(rgba[index + 3]! - seedA),
+  )
+}
+
 /** Returns an A8 contiguous-fill coverage mask. */
 export function floodFillMask(
   rgba: Uint8ClampedArray | Uint8Array,
@@ -41,10 +69,11 @@ export function floodFillMask(
   }
 
   const seed = (sy * width + sx) * 4
-  const sr = rgba[seed]!
-  const sg = rgba[seed + 1]!
-  const sb = rgba[seed + 2]!
   const sa = rgba[seed + 3]!
+  const seedAlpha = sa / 255
+  const sr = rgba[seed]! * seedAlpha
+  const sg = rgba[seed + 1]! * seedAlpha
+  const sb = rgba[seed + 2]! * seedAlpha
   const tolerance = Math.max(0, Math.min(255, params.tolerance))
   const visited = new Uint8Array(width * height)
   const queue = new Int32Array(width * height)
@@ -58,13 +87,7 @@ export function floodFillMask(
     const x = pixel % width
     const y = Math.floor(pixel / width)
     const i = pixel * 4
-    const delta = Math.max(
-      Math.abs(rgba[i]! - sr),
-      Math.abs(rgba[i + 1]! - sg),
-      Math.abs(rgba[i + 2]! - sb),
-      Math.abs(rgba[i + 3]! - sa),
-    )
-    if (delta > tolerance) continue
+    if (premultipliedDelta(rgba, i, sr, sg, sb, sa) > tolerance) continue
     const selectionCoverage = Math.max(
       0,
       Math.min(1, params.allowed?.(x + 0.5, y + 0.5) ?? 1),
@@ -106,14 +129,7 @@ export function floodFillMask(
         (y > 0 && mask[i - width] !== 0) ||
         (y < height - 1 && mask[i + width] !== 0)
       if (!adjacent) continue
-      const p = i * 4
-      const delta = Math.max(
-        Math.abs(rgba[p]! - sr),
-        Math.abs(rgba[p + 1]! - sg),
-        Math.abs(rgba[p + 2]! - sb),
-        Math.abs(rgba[p + 3]! - sa),
-      )
-      if (delta <= tolerance + 1) mask[i] = 128
+      if (premultipliedDelta(rgba, i * 4, sr, sg, sb, sa) <= tolerance + 1) mask[i] = 128
     }
   }
 

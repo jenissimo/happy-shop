@@ -1,6 +1,16 @@
 import { describe, expect, test } from 'bun:test'
 import { TiledRasterSurface } from './TiledRasterSurface'
 
+/**
+ * A displaced pixel is "vacated" via ALPHA, not by its RGB going black.
+ * Liquify lerps in premultiplied space, so the colour stays put while the
+ * coverage drains — asserting on the colour channel would re-encode the old
+ * dark-fringe bug.
+ */
+function vacated(surface: TiledRasterSurface, x: number, y: number): boolean {
+  return pixel(surface, x, y)[3]! < 50
+}
+
 function pixel(surface: TiledRasterSurface, x: number, y: number): number[] {
   const data = surface.toRgbaBuffer().data
   const i = (y * surface.width + x) * 4
@@ -22,7 +32,9 @@ describe('liquify dabs', () => {
     })
 
     expect(pixel(surface, 14, 16)[2]).toBeGreaterThan(200)
-    expect(pixel(surface, 10, 16)[2]).toBeLessThan(50)
+    expect(vacated(surface, 10, 16)).toBe(true)
+    // Hue survives the vacate — the pixel goes transparent, not black.
+    expect(pixel(surface, 10, 16)[2]).toBe(255)
   })
 
   test('reconstruct blends back toward stroke-start snapshot', () => {
@@ -61,7 +73,7 @@ describe('liquify dabs', () => {
     })
 
     expect(pixel(surface, 16, 12)[2]).toBeGreaterThan(200)
-    expect(pixel(surface, 16, 14)[2]).toBeLessThan(50)
+    expect(vacated(surface, 16, 14)).toBe(true)
   })
 
   test('pucker pinches pixels inward toward brush center', () => {
@@ -77,7 +89,7 @@ describe('liquify dabs', () => {
     })
 
     expect(pixel(surface, 16, 14)[2]).toBeGreaterThan(200)
-    expect(pixel(surface, 16, 12)[2]).toBeLessThan(50)
+    expect(vacated(surface, 16, 12)).toBe(true)
   })
 
   test('twirl rotates pixels around brush center', () => {
@@ -92,7 +104,7 @@ describe('liquify dabs', () => {
       strength: 1,
     })
 
-    expect(pixel(surface, 18, 16)[2]).toBeLessThan(50)
+    expect(vacated(surface, 18, 16)).toBe(true)
     expect(pixel(surface, 16, 18)[2]).toBeGreaterThan(200)
   })
 
@@ -164,7 +176,7 @@ describe('liquify dabs', () => {
       freezeMask,
     })
 
-    expect(pixel(surface, 14, 16)[2]).toBe(0)
-    expect(pixel(surface, 10, 16)[2]).toBeLessThan(50)
+    expect(pixel(surface, 14, 16)[3]).toBe(0)
+    expect(vacated(surface, 10, 16)).toBe(true)
   })
 })

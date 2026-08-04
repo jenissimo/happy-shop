@@ -33,6 +33,37 @@ describe('floodFillMask', () => {
     expect([...mask]).toEqual([255, 255, 0])
   })
 
+  test('crosses erased pixels that kept their RGB behind alpha 0', () => {
+    // The eraser only clears alpha on a straight-RGBA surface, so an erased
+    // red stroke leaves (255,0,0,0) inside otherwise virgin transparency.
+    const mask = floodFillMask(
+      pixels([
+        [0, 0, 0, 0],
+        [255, 0, 0, 0],
+        [0, 0, 0, 0],
+        [255, 0, 0, 255],
+      ]),
+      { width: 4, height: 1, seedX: 0, seedY: 0, tolerance: 0 },
+    )
+    expect([...mask]).toEqual([255, 255, 255, 0])
+  })
+
+  test('scales colour distance by alpha for partially transparent pixels', () => {
+    // Half-alpha red is premultiplied to 128, so it stays outside a small
+    // tolerance from transparent but inside a generous one.
+    const tight = floodFillMask(
+      pixels([[0, 0, 0, 0], [255, 0, 0, 128]]),
+      { width: 2, height: 1, seedX: 0, seedY: 0, tolerance: 32 },
+    )
+    expect([...tight]).toEqual([255, 0])
+
+    const loose = floodFillMask(
+      pixels([[0, 0, 0, 0], [255, 0, 0, 128]]),
+      { width: 2, height: 1, seedX: 0, seedY: 0, tolerance: 200 },
+    )
+    expect([...loose]).toEqual([255, 255])
+  })
+
   test('does not cross a selection clip', () => {
     const mask = floodFillMask(
       pixels([

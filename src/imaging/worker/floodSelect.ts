@@ -2,6 +2,7 @@
  * Contiguous flood → A8 selection mask (magic wand).
  * Pure kernel — safe for main-thread tests and imaging worker reuse.
  */
+import { premultipliedDelta } from './floodFill'
 
 export type FloodSelectParams = {
   width: number
@@ -45,10 +46,15 @@ export function floodSelectMask(
   const seedA = rgba[seedI + 3]!
   if (seedA === 0) return mask
 
-  const sr = rgba[seedI]!
-  const sg = rgba[seedI + 1]!
-  const sb = rgba[seedI + 2]!
+  // Premultiplied seed, matching `premultipliedDelta`: a soft eraser edge
+  // keeps its old RGB under a reduced alpha, and comparing that straight
+  // against an opaque seed reported a huge colour distance that stopped the
+  // wand at an invisible boundary.
   const sa = rgba[seedI + 3]!
+  const seedAlpha = sa / 255
+  const sr = rgba[seedI]! * seedAlpha
+  const sg = rgba[seedI + 1]! * seedAlpha
+  const sb = rgba[seedI + 2]! * seedAlpha
   const tol = Math.max(0, Math.min(255, tolerance))
 
   const visited = new Uint8Array(width * height)
@@ -65,13 +71,7 @@ export function floodSelectMask(
     const y = (p / width) | 0
     const i = p * 4
     if (rgba[i + 3]! === 0) continue
-    const delta = Math.max(
-      Math.abs(rgba[i]! - sr),
-      Math.abs(rgba[i + 1]! - sg),
-      Math.abs(rgba[i + 2]! - sb),
-      Math.abs(rgba[i + 3]! - sa),
-    )
-    if (delta > tol) continue
+    if (premultipliedDelta(rgba, i, sr, sg, sb, sa) > tol) continue
     mask[p] = 255
 
     const neighbors = [
@@ -101,13 +101,7 @@ export function floodSelectMask(
         (y < height - 1 && mask[i + width] !== 0)
       if (!adjacent) continue
       const p = i * 4
-      const delta = Math.max(
-        Math.abs(rgba[p]! - sr),
-        Math.abs(rgba[p + 1]! - sg),
-        Math.abs(rgba[p + 2]! - sb),
-        Math.abs(rgba[p + 3]! - sa),
-      )
-      if (delta <= tol + 1) mask[i] = 128
+      if (premultipliedDelta(rgba, p, sr, sg, sb, sa) <= tol + 1) mask[i] = 128
     }
   }
 

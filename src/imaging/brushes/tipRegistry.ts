@@ -42,6 +42,36 @@ function touchAlpha(id: string, alpha: TipAlpha): TipAlpha {
   return alpha
 }
 
+/**
+ * Reduce decoded RGBA to a single coverage channel.
+ *
+ * Bundled packs are 8-bit **grayscale** PNGs (see `scripts/brushes/convert.ts`):
+ * once decoded onto a canvas their alpha channel is a constant 255 and the mask
+ * lives in the luminance channel. Reading alpha there yields a solid rectangle,
+ * so fall back to luminance whenever the source is fully opaque. Images that do
+ * carry transparency (imported sprites) keep using their alpha channel.
+ */
+export function tipAlphaFromRgba(
+  rgba: Uint8ClampedArray | Uint8Array,
+  width: number,
+  height: number,
+): TipAlpha {
+  const data = new Uint8ClampedArray(width * height)
+  let opaque = true
+  for (let i = 3; i < rgba.length; i += 4) {
+    if (rgba[i]! !== 255) {
+      opaque = false
+      break
+    }
+  }
+  for (let i = 0, j = 0; j < data.length; i += 4, j++) {
+    data[j] = opaque
+      ? Math.round(rgba[i]! * 0.2126 + rgba[i + 1]! * 0.7152 + rgba[i + 2]! * 0.0722)
+      : rgba[i + 3]!
+  }
+  return { data, width, height }
+}
+
 function addManifest(entries: unknown): void {
   const parsed = BrushTipDescriptorSchema.array().safeParse(entries)
   if (!parsed.success) {
@@ -120,9 +150,7 @@ export async function loadTipAlpha(id: string): Promise<TipAlpha> {
     if (!context) throw new Error('2d canvas unavailable')
     context.drawImage(bitmap, 0, 0)
     const rgba = context.getImageData(0, 0, bitmap.width, bitmap.height).data
-    const data = new Uint8ClampedArray(bitmap.width * bitmap.height)
-    for (let i = 0, j = 0; i < rgba.length; i += 4, j++) data[j] = rgba[i + 3]!
-    return touchAlpha(id, { data, width: bitmap.width, height: bitmap.height })
+    return touchAlpha(id, tipAlphaFromRgba(rgba, bitmap.width, bitmap.height))
   } finally {
     bitmap.close()
   }

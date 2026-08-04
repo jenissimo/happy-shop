@@ -147,8 +147,12 @@ describe('LiquifyToolController', () => {
     warp.pointerMove(14, 16)
     await warp.pointerUp()
 
-    expect(pixel(surface, 14, 16)[2]).toBe(0)
-    expect(pixel(surface, 10, 16)[2]).toBeLessThan(50)
+    // The frozen destination never receives coverage, and the source is
+    // vacated through ALPHA — Liquify lerps premultiplied, so its colour stays
+    // put while the coverage drains. Asserting on the colour channel would
+    // re-encode the old dark-fringe bug.
+    expect(pixel(surface, 14, 16)[3]).toBe(0)
+    expect(pixel(surface, 10, 16)[3]).toBeLessThan(50)
   })
 })
 

@@ -232,7 +232,15 @@ export function BrushTipPicker({ open, anchorRef, onClose }: Props) {
   const shownScale = Math.min(100, Math.round((64 / Math.max(1, prefs.size)) * 100))
 
   return (
-    <PickerSurface open={open} anchorRef={anchorRef} onClose={onClose} title="Brush" width={320} ariaLabel="Brush tip picker">
+    <PickerSurface
+      open={open}
+      anchorRef={anchorRef}
+      onClose={onClose}
+      title="Brush"
+      width={320}
+      maxHeight={620}
+      ariaLabel="Brush tip picker"
+    >
       <div className={styles.picker}>
         <header className={styles.header}>
           <input

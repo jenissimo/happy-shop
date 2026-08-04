@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 7px;
-  height: calc(420px - 18px);
+  /* Height follows content up to the surface's max-height; the tip grid is the
+     only flexible row, so short viewports shrink it instead of clipping. */
   min-height: 0;
   overflow: hidden;
   color: var(--he-text);
@@ -67,7 +68,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, var(--he-tip-chip));
   gap: 4px;
-  min-height: 0;
+  /* ~5 rows of --he-tip-chip by default, never fewer than 2 before scrolling. */
+  flex: 1 1 auto;
+  height: calc(var(--he-tip-chip) * 5 + 16px);
+  min-height: calc(var(--he-tip-chip) * 2 + 4px);
   overflow-y: auto;
   overflow-x: hidden;
   align-content: start;

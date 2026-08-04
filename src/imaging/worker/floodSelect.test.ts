@@ -73,4 +73,37 @@ describe('floodSelectMask', () => {
     })
     expect([...mask]).toEqual([255, 128])
   })
+
+  test('crosses a soft eraser edge that kept its RGB under reduced alpha', () => {
+    // Red row; the middle pixel was half-erased, so it still holds (255,0,0)
+    // but at alpha 128. Straight-RGBA comparison saw |255-255|,|0-0|,|128-255|
+    // = 127 and stopped there; premultiplied it is 127 on RGB too, but the
+    // seed is compared premultiplied as well, so a mid-tolerance wand crosses.
+    const w = 3
+    const rgba = solid(w, 1, 255, 0, 0)
+    rgba[4 + 3] = 128
+    const mask = floodSelectMask(rgba, {
+      width: w,
+      height: 1,
+      seedX: 0,
+      seedY: 0,
+      tolerance: 200,
+    })
+    expect([...mask]).toEqual([255, 255, 255])
+  })
+
+  test('still refuses a genuinely different colour at low tolerance', () => {
+    const w = 3
+    const rgba = solid(w, 1, 255, 0, 0)
+    rgba[4] = 0
+    rgba[4 + 2] = 255
+    const mask = floodSelectMask(rgba, {
+      width: w,
+      height: 1,
+      seedX: 0,
+      seedY: 0,
+      tolerance: 10,
+    })
+    expect([...mask]).toEqual([255, 0, 0])
+  })
 })
