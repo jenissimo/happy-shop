@@ -1,25 +1,34 @@
-import { Filter, GlProgram, UniformGroup } from 'pixi.js'
+import {
+  Filter,
+  GlProgram,
+  Texture,
+  UniformGroup,
+  type FilterSystem,
+  type RenderSurface,
+} from 'pixi.js'
 import { DEFAULT_FILTER_VERT } from './defaultFilterVert'
 import {
-  blendModeToUniform,
-  GLSL_BLEND_MODES,
-  GLSL_GAUSSIAN_ALPHA,
-} from './shaderCommon'
+  gaussianBlurResources,
+  GLSL_GAUSSIAN_BLUR_SAMPLE,
+  withGaussianBlur,
+} from './separableGaussian'
+import { blendModeToUniform, GLSL_BLEND_MODES } from './shaderCommon'
 
 const FRAGMENT = `in vec2 vTextureCoord;
 out vec4 finalColor;
 
 uniform sampler2D uTexture;
 uniform highp vec4 uInputSize;
+uniform vec4 uInputClamp;
 uniform vec4 uShadowColor;
 uniform vec2 uOffset;
-uniform float uBlur;
 uniform float uOpacity;
+uniform float uSpread;
 uniform float uBlendMode;
 uniform float uFillOpacity;
 uniform float uKnockOut;
 
-${GLSL_GAUSSIAN_ALPHA}
+${GLSL_GAUSSIAN_BLUR_SAMPLE}
 ${GLSL_BLEND_MODES}
 
 void main(void)
@@ -31,7 +40,15 @@ void main(void)
     float fillA = shapeA * clamp(uFillOpacity, 0.0, 1.0);
 
     vec2 shadowUv = vTextureCoord - uOffset * px;
-    float shadowA = hsGaussianAlpha(uTexture, shadowUv, px, uBlur) * uOpacity;
+    float shadowA = hsBlurAlpha(shadowUv, uInputClamp);
+
+    // Spread is the share of the blur that stays fully opaque: dividing the
+    // blurred coverage by the remaining head-room pushes the solid core out to
+    // the matching iso-contour and compresses the falloff into what is left.
+    // 0 leaves the gaussian untouched; 100 makes the shadow a hard dilation
+    // reaching as far as the blur did (same reading as Outer Glow's spread).
+    float spread = clamp(uSpread / 100.0, 0.0, 1.0);
+    shadowA = clamp(shadowA / max(1.0 - spread, 1e-3), 0.0, 1.0) * uOpacity;
 
     // Layer Knocks Out Drop Shadow: hide shadow under opaque fill shape.
     if (uKnockOut > 0.5) {
@@ -57,6 +74,8 @@ export type DropShadowFilterOptions = {
   offsetX?: number
   offsetY?: number
   blur?: number
+  /** Percent of the blur that stays solid before the falloff starts. */
+  spread?: number
   blendMode?: string
   fillOpacity?: number
   knockOut?: boolean
@@ -80,6 +99,7 @@ export class DropShadowFilter extends Filter {
       uOffset: { value: [offsetX, offsetY], type: 'vec2<f32>' },
       uBlur: { value: blur, type: 'f32' },
       uOpacity: { value: opacity, type: 'f32' },
+      uSpread: { value: options.spread ?? 0, type: 'f32' },
       uBlendMode: { value: blendModeToUniform(options.blendMode), type: 'f32' },
       uFillOpacity: { value: options.fillOpacity ?? 1, type: 'f32' },
       uKnockOut: { value: options.knockOut === false ? 0 : 1, type: 'f32' },
@@ -91,8 +111,20 @@ export class DropShadowFilter extends Filter {
         fragment: FRAGMENT,
         name: 'hs-drop-shadow-filter',
       }),
-      resources: { dropShadowUniforms: uniforms },
+      resources: { dropShadowUniforms: uniforms, ...gaussianBlurResources() },
       padding,
+    })
+  }
+
+  override apply(
+    filterManager: FilterSystem,
+    input: Texture,
+    output: RenderSurface,
+    clearMode: boolean,
+  ): void {
+    const u = this.resources.dropShadowUniforms.uniforms as { uBlur: number }
+    withGaussianBlur(this, filterManager, input, u.uBlur, () => {
+      filterManager.applyFilter(this, input, output, clearMode)
     })
   }
 
@@ -102,6 +134,7 @@ export class DropShadowFilter extends Filter {
       uOffset: number[]
       uBlur: number
       uOpacity: number
+      uSpread: number
       uBlendMode: number
       uFillOpacity: number
       uKnockOut: number
@@ -115,6 +148,7 @@ export class DropShadowFilter extends Filter {
     if (options.offsetX != null) u.uOffset[0] = options.offsetX
     if (options.offsetY != null) u.uOffset[1] = options.offsetY
     if (options.blur != null) u.uBlur = options.blur
+    if (options.spread != null) u.uSpread = options.spread
     if (options.blendMode != null) u.uBlendMode = blendModeToUniform(options.blendMode)
     if (options.fillOpacity != null) u.uFillOpacity = options.fillOpacity
     if (options.knockOut != null) u.uKnockOut = options.knockOut ? 1 : 0

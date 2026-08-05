@@ -71,7 +71,10 @@ export const innerGlowDescriptor: EffectDescriptor = {
 export const bevelEmbossDescriptor: EffectDescriptor = {
   type: 'bevel-emboss',
   boundsInflation(input) {
-    const pad = Math.ceil(input.size ?? 0)
+    // The lighting samples the height field one Size out, and the height field
+    // is itself a Gaussian of reach Size — so the furthest texel that can reach
+    // the lit edge sits two Sizes away.
+    const pad = Math.ceil((input.size ?? 0) * 2)
     return { top: pad, right: pad, bottom: pad, left: pad }
   },
 }

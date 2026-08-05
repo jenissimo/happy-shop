@@ -1,4 +1,11 @@
-import { Filter, GlProgram, UniformGroup } from 'pixi.js'
+import {
+  Filter,
+  GlProgram,
+  Texture,
+  UniformGroup,
+  type FilterSystem,
+  type RenderSurface,
+} from 'pixi.js'
 import type {
   RenderContourPreset,
   RenderLayerTransform,
@@ -10,6 +17,11 @@ import {
 } from '../bevelTechnique'
 import { DEFAULT_FILTER_VERT } from './defaultFilterVert'
 import { PATTERN_GLSL } from '../patterns'
+import {
+  gaussianBlurResources,
+  GLSL_GAUSSIAN_BLUR_SAMPLE,
+  withGaussianBlur,
+} from './separableGaussian'
 import { blendModeToUniform, GLSL_BLEND_MODES } from './shaderCommon'
 
 const FRAGMENT = `in vec2 vTextureCoord;
@@ -17,6 +29,7 @@ out vec4 finalColor;
 
 uniform sampler2D uTexture;
 uniform highp vec4 uInputSize;
+uniform vec4 uInputClamp;
 uniform vec3 uHighlight;
 uniform vec3 uShadow;
 uniform float uHighlightOpacity;
@@ -45,6 +58,7 @@ uniform vec2 uTextureDocumentOffset;
 uniform float uTechnique; // 0=smooth, 1=chisel-hard, 2=chisel-soft
 
 ${GLSL_BLEND_MODES}
+${GLSL_GAUSSIAN_BLUR_SAMPLE}
 ${PATTERN_GLSL}
 
 float hsBevelHeight(float alpha) {
@@ -57,6 +71,16 @@ float hsBevelHeight(float alpha) {
     float frac = scaled - floor(scaled);
     float eased = frac * frac * (3.0 - 2.0 * frac);
     return band + eased / steps;
+}
+
+/**
+ * Bevel height at uv. The height field is the Gaussian-blurred alpha, so the
+ * ramp between "outside" and "inside" is continuous over the whole Size; taking
+ * the gradient of raw alpha instead only ever saw the shape's own hard edge and
+ * quantised the lighting into bands.
+ */
+float hsHeightAt(vec2 uv) {
+    return hsBevelHeight(hsBlurAlpha(uv, uInputClamp));
 }
 
 float hsContour(float t, float preset) {
@@ -83,28 +107,11 @@ void main(void)
     }
 
     float size = max(uSize, 1.0);
-    vec2 grad;
-    if (uTechnique < 0.5) {
-        // Multi-scale alpha gradient → softer height field (less harsh bands).
-        float aL1 = texture(uTexture, vTextureCoord + vec2(-size, 0.0) * px).a;
-        float aR1 = texture(uTexture, vTextureCoord + vec2( size, 0.0) * px).a;
-        float aU1 = texture(uTexture, vTextureCoord + vec2(0.0, -size) * px).a;
-        float aD1 = texture(uTexture, vTextureCoord + vec2(0.0,  size) * px).a;
-        float aL2 = texture(uTexture, vTextureCoord + vec2(-size * 0.5, 0.0) * px).a;
-        float aR2 = texture(uTexture, vTextureCoord + vec2( size * 0.5, 0.0) * px).a;
-        float aU2 = texture(uTexture, vTextureCoord + vec2(0.0, -size * 0.5) * px).a;
-        float aD2 = texture(uTexture, vTextureCoord + vec2(0.0,  size * 0.5) * px).a;
-        grad = vec2(
-            (aR1 - aL1) * 0.55 + (aR2 - aL2) * 0.45,
-            (aD1 - aU1) * 0.55 + (aD2 - aU2) * 0.45
-        ) * uDirection;
-    } else {
-        float hL = hsBevelHeight(texture(uTexture, vTextureCoord + vec2(-size, 0.0) * px).a);
-        float hR = hsBevelHeight(texture(uTexture, vTextureCoord + vec2( size, 0.0) * px).a);
-        float hU = hsBevelHeight(texture(uTexture, vTextureCoord + vec2(0.0, -size) * px).a);
-        float hD = hsBevelHeight(texture(uTexture, vTextureCoord + vec2(0.0,  size) * px).a);
-        grad = vec2(hR - hL, hD - hU) * uDirection;
-    }
+    float hL = hsHeightAt(vTextureCoord + vec2(-size, 0.0) * px);
+    float hR = hsHeightAt(vTextureCoord + vec2( size, 0.0) * px);
+    float hU = hsHeightAt(vTextureCoord + vec2(0.0, -size) * px);
+    float hD = hsHeightAt(vTextureCoord + vec2(0.0,  size) * px);
+    vec2 grad = vec2(hR - hL, hD - hU) * uDirection;
 
     if (uTextureEnabled > 0.5) {
         vec2 point = vTextureCoord * uInputSize.xy;
@@ -149,10 +156,6 @@ void main(void)
 
     // Outer bevel: light outside alpha; pillow flips.
     if (uStyle > 0.5 && uStyle < 1.5) {
-        float hL = hsBevelHeight(texture(uTexture, vTextureCoord + vec2(-size, 0.0) * px).a);
-        float hR = hsBevelHeight(texture(uTexture, vTextureCoord + vec2( size, 0.0) * px).a);
-        float hU = hsBevelHeight(texture(uTexture, vTextureCoord + vec2(0.0, -size) * px).a);
-        float hD = hsBevelHeight(texture(uTexture, vTextureCoord + vec2(0.0,  size) * px).a);
         float edge = abs(hR - hL) + abs(hD - hU);
         edge = smoothstep(0.0, uTechnique < 0.5 ? 0.35 : 0.22, edge);
         hi *= edge;
@@ -350,8 +353,20 @@ export class BevelEmbossFilter extends Filter {
         fragment: FRAGMENT,
         name: 'hs-bevel-emboss-filter',
       }),
-      resources: { bevelUniforms: uniforms },
+      resources: { bevelUniforms: uniforms, ...gaussianBlurResources() },
       padding: options.padding ?? 0,
+    })
+  }
+
+  override apply(
+    filterManager: FilterSystem,
+    input: Texture,
+    output: RenderSurface,
+    clearMode: boolean,
+  ): void {
+    const u = this.resources.bevelUniforms.uniforms as { uSize: number }
+    withGaussianBlur(this, filterManager, input, u.uSize, () => {
+      filterManager.applyFilter(this, input, output, clearMode)
     })
   }
 

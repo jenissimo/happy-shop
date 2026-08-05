@@ -1,6 +1,7 @@
 /**
  * Shared GLSL snippets + TS helpers for Layer Style GPU filters.
- * Gaussian soft edges + Photoshop-like effect blend modes (subset).
+ * Photoshop-like effect blend modes (subset); soft edges live in
+ * `separableGaussian`.
  */
 
 /**
@@ -69,37 +70,6 @@ export function blendModeToUniform(mode: string | undefined): number {
       return 0
   }
 }
-
-/**
- * GLSL: 7×7 separable-weight Gaussian of alpha centered at `uv`.
- * `radius` is the PS Size in pixels; sigma ≈ radius/2.
- */
-export const GLSL_GAUSSIAN_ALPHA = `
-float hsGaussianAlpha(sampler2D tex, vec2 uv, vec2 px, float radius) {
-    float r = max(radius, 0.0);
-    if (r < 0.001) {
-        return texture(tex, uv).a;
-    }
-    float sigma = max(r * 0.5, 0.35);
-    float sum = 0.0;
-    float wsum = 0.0;
-    float stepPx = r / 3.0;
-    for (float y = -3.0; y <= 3.0; y += 1.0) {
-        for (float x = -3.0; x <= 3.0; x += 1.0) {
-            float d2 = x * x + y * y;
-            float w = exp(-d2 / (2.0 * sigma * sigma));
-            vec2 o = vec2(x, y) * stepPx * px;
-            sum += texture(tex, uv + o).a * w;
-            wsum += w;
-        }
-    }
-    return sum / max(wsum, 1e-4);
-}
-
-float hsGaussianInverseAlpha(sampler2D tex, vec2 uv, vec2 px, float radius) {
-    return 1.0 - hsGaussianAlpha(tex, uv, px, radius);
-}
-`
 
 /**
  * GLSL: blend `effectRgb` over `baseRgb` with mode + coverage `t` in [0,1].

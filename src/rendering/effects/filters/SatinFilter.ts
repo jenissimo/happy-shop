@@ -1,24 +1,32 @@
-import { Filter, GlProgram, UniformGroup } from 'pixi.js'
+import {
+  Filter,
+  GlProgram,
+  Texture,
+  UniformGroup,
+  type FilterSystem,
+  type RenderSurface,
+} from 'pixi.js'
 import { DEFAULT_FILTER_VERT } from './defaultFilterVert'
 import {
-  blendModeToUniform,
-  GLSL_BLEND_MODES,
-  GLSL_GAUSSIAN_ALPHA,
-} from './shaderCommon'
+  gaussianBlurResources,
+  GLSL_GAUSSIAN_BLUR_SAMPLE,
+  withGaussianBlur,
+} from './separableGaussian'
+import { blendModeToUniform, GLSL_BLEND_MODES } from './shaderCommon'
 
 const FRAGMENT = `in vec2 vTextureCoord;
 out vec4 finalColor;
 
 uniform sampler2D uTexture;
 uniform highp vec4 uInputSize;
+uniform vec4 uInputClamp;
 uniform vec4 uSatinColor;
 uniform vec2 uOffset;
-uniform float uSize;
 uniform float uOpacity;
 uniform float uInvert;
 uniform float uBlendMode;
 
-${GLSL_GAUSSIAN_ALPHA}
+${GLSL_GAUSSIAN_BLUR_SAMPLE}
 ${GLSL_BLEND_MODES}
 
 void main(void)
@@ -31,8 +39,8 @@ void main(void)
     }
 
     // Satin ≈ XOR of two offset Gaussian-softened alpha copies.
-    float a1 = hsGaussianAlpha(uTexture, vTextureCoord + uOffset * px, px, uSize);
-    float a2 = hsGaussianAlpha(uTexture, vTextureCoord - uOffset * px, px, uSize);
+    float a1 = hsBlurAlpha(vTextureCoord + uOffset * px, uInputClamp);
+    float a2 = hsBlurAlpha(vTextureCoord - uOffset * px, uInputClamp);
     float satin = abs(a1 - a2);
     if (uInvert > 0.5) satin = 1.0 - satin;
     satin *= src.a * uOpacity;
@@ -77,8 +85,20 @@ export class SatinFilter extends Filter {
         fragment: FRAGMENT,
         name: 'hs-satin-filter',
       }),
-      resources: { satinUniforms: uniforms },
+      resources: { satinUniforms: uniforms, ...gaussianBlurResources() },
       padding: options.padding ?? 0,
+    })
+  }
+
+  override apply(
+    filterManager: FilterSystem,
+    input: Texture,
+    output: RenderSurface,
+    clearMode: boolean,
+  ): void {
+    const u = this.resources.satinUniforms.uniforms as { uSize: number }
+    withGaussianBlur(this, filterManager, input, u.uSize, () => {
+      filterManager.applyFilter(this, input, output, clearMode)
     })
   }
 

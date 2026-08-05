@@ -1,39 +1,26 @@
-import { Filter, GlProgram, UniformGroup } from 'pixi.js'
+import {
+  Filter,
+  GlProgram,
+  Texture,
+  UniformGroup,
+  type FilterSystem,
+  type RenderSurface,
+} from 'pixi.js'
 import { DEFAULT_FILTER_VERT } from './defaultFilterVert'
-import { GLSL_GAUSSIAN_ALPHA } from './shaderCommon'
+import {
+  gaussianBlurResources,
+  GLSL_GAUSSIAN_BLUR_SAMPLE,
+  SIGMA_PER_RADIUS,
+  withGaussianBlur,
+} from './separableGaussian'
 
 const FRAGMENT = `in vec2 vTextureCoord;
 out vec4 finalColor;
 
 uniform sampler2D uTexture;
-uniform highp vec4 uInputSize;
-uniform float uRadius;
+uniform vec4 uInputClamp;
 
-${GLSL_GAUSSIAN_ALPHA}
-
-vec3 hsGaussianRgb(sampler2D tex, vec2 uv, vec2 px, float radius) {
-    vec3 sum = vec3(0.0);
-    float wsum = 0.0;
-    float r = max(radius, 0.0);
-    if (r < 0.001) {
-        vec4 src = texture(tex, uv);
-        return src.a > 1e-5 ? src.rgb / src.a : src.rgb;
-    }
-    float sigma = max(r * 0.5, 0.35);
-    float stepPx = r / 3.0;
-    for (float y = -3.0; y <= 3.0; y += 1.0) {
-        for (float x = -3.0; x <= 3.0; x += 1.0) {
-            float d2 = x * x + y * y;
-            float w = exp(-d2 / (2.0 * sigma * sigma));
-            vec2 o = vec2(x, y) * stepPx * px;
-            vec4 s = texture(tex, uv + o);
-            vec3 rgb = s.a > 1e-5 ? s.rgb / s.a : s.rgb;
-            sum += rgb * w;
-            wsum += w;
-        }
-    }
-    return sum / max(wsum, 1e-4);
-}
+${GLSL_GAUSSIAN_BLUR_SAMPLE}
 
 void main(void)
 {
@@ -42,9 +29,7 @@ void main(void)
         finalColor = src;
         return;
     }
-    vec2 px = uInputSize.zw;
-    vec3 srcRgb = src.rgb / src.a;
-    vec3 blurred = hsGaussianRgb(uTexture, vTextureCoord, px, uRadius);
+    vec3 blurred = hsBlurRgb(vTextureCoord, uInputClamp);
     finalColor = vec4(blurred * src.a, src.a);
 }
 `
@@ -66,9 +51,26 @@ export class GaussianBlurContentFilter extends Filter {
         fragment: FRAGMENT,
         name: 'hs-gaussian-blur-content-filter',
       }),
-      resources: { gaussianBlurUniforms: uniforms },
+      resources: { gaussianBlurUniforms: uniforms, ...gaussianBlurResources() },
       padding: options.padding ?? 0,
     })
+  }
+
+  override apply(
+    filterManager: FilterSystem,
+    input: Texture,
+    output: RenderSurface,
+    clearMode: boolean,
+  ): void {
+    const u = this.resources.gaussianBlurUniforms.uniforms as { uRadius: number }
+    withGaussianBlur(
+      this,
+      filterManager,
+      input,
+      u.uRadius,
+      () => filterManager.applyFilter(this, input, output, clearMode),
+      SIGMA_PER_RADIUS,
+    )
   }
 
   setParams(options: GaussianBlurContentFilterOptions = {}): void {

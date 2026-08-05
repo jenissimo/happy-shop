@@ -1,24 +1,32 @@
-import { Filter, GlProgram, UniformGroup } from 'pixi.js'
+import {
+  Filter,
+  GlProgram,
+  Texture,
+  UniformGroup,
+  type FilterSystem,
+  type RenderSurface,
+} from 'pixi.js'
 import { DEFAULT_FILTER_VERT } from './defaultFilterVert'
 import {
-  blendModeToUniform,
-  GLSL_BLEND_MODES,
-  GLSL_GAUSSIAN_ALPHA,
-} from './shaderCommon'
+  gaussianBlurResources,
+  GLSL_GAUSSIAN_BLUR_SAMPLE,
+  withGaussianBlur,
+} from './separableGaussian'
+import { blendModeToUniform, GLSL_BLEND_MODES } from './shaderCommon'
 
 const FRAGMENT = `in vec2 vTextureCoord;
 out vec4 finalColor;
 
 uniform sampler2D uTexture;
 uniform highp vec4 uInputSize;
+uniform vec4 uInputClamp;
 uniform vec4 uShadowColor;
 uniform vec2 uOffset;
-uniform float uBlur;
 uniform float uOpacity;
 uniform float uChoke;
 uniform float uBlendMode;
 
-${GLSL_GAUSSIAN_ALPHA}
+${GLSL_GAUSSIAN_BLUR_SAMPLE}
 ${GLSL_BLEND_MODES}
 
 void main(void)
@@ -31,7 +39,7 @@ void main(void)
     }
 
     vec2 shadowUv = vTextureCoord - uOffset * px;
-    float shadowA = hsGaussianInverseAlpha(uTexture, shadowUv, px, uBlur);
+    float shadowA = 1.0 - hsBlurAlpha(shadowUv, uInputClamp);
     float choke = clamp(uChoke / 100.0, 0.0, 1.0);
     shadowA = mix(shadowA, step(0.15, shadowA), choke);
     shadowA *= src.a * uOpacity;
@@ -76,8 +84,20 @@ export class InnerShadowFilter extends Filter {
         fragment: FRAGMENT,
         name: 'hs-inner-shadow-filter',
       }),
-      resources: { innerShadowUniforms: uniforms },
+      resources: { innerShadowUniforms: uniforms, ...gaussianBlurResources() },
       padding: options.padding ?? 0,
+    })
+  }
+
+  override apply(
+    filterManager: FilterSystem,
+    input: Texture,
+    output: RenderSurface,
+    clearMode: boolean,
+  ): void {
+    const u = this.resources.innerShadowUniforms.uniforms as { uBlur: number }
+    withGaussianBlur(this, filterManager, input, u.uBlur, () => {
+      filterManager.applyFilter(this, input, output, clearMode)
     })
   }
 
