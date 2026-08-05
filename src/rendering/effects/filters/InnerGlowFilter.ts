@@ -1,16 +1,27 @@
-import { Filter, GlProgram, UniformGroup } from 'pixi.js'
-import { DEFAULT_FILTER_VERT } from './defaultFilterVert'
 import {
-  blendModeToUniform,
-  GLSL_BLEND_MODES,
-  GLSL_GAUSSIAN_ALPHA,
-} from './shaderCommon'
+  Filter,
+  GlProgram,
+  Texture,
+  UniformGroup,
+  type FilterSystem,
+  type RenderSurface,
+} from 'pixi.js'
+import {
+  bindDistanceField,
+  distanceFieldResources,
+  GLSL_DISTANCE_FIELD_SAMPLE,
+  releaseAlphaDistanceField,
+  renderAlphaDistanceField,
+} from './alphaDistanceField'
+import { DEFAULT_FILTER_VERT } from './defaultFilterVert'
+import { blendModeToUniform, GLSL_BLEND_MODES } from './shaderCommon'
 
 const FRAGMENT = `in vec2 vTextureCoord;
 out vec4 finalColor;
 
 uniform sampler2D uTexture;
 uniform highp vec4 uInputSize;
+uniform highp vec4 uInputPixel;
 uniform vec4 uGlowColor;
 uniform float uSize;
 uniform float uOpacity;
@@ -18,36 +29,28 @@ uniform float uChoke;
 uniform float uSource; // 0=edge, 1=center
 uniform float uBlendMode;
 
-${GLSL_GAUSSIAN_ALPHA}
+${GLSL_DISTANCE_FIELD_SAMPLE}
 ${GLSL_BLEND_MODES}
 
 void main(void)
 {
-    vec2 px = uInputSize.zw;
     vec4 src = texture(uTexture, vTextureCoord);
     if (src.a <= 0.001) {
         finalColor = src;
         return;
     }
-    float size = max(uSize, 0.0);
+
+    float resolution = uInputPixel.x * uInputSize.z;
+    float size = max(uSize, 0.0) * resolution;
     float choke = clamp(uChoke / 100.0, 0.0, 1.0);
+    // Inner glow reads the same field from the inside: how far this texel sits
+    // from the outline, which is exactly what the old erosion approximated.
+    float inward = max(-hsFieldDistance(vTextureCoord, uInputPixel, src.a), 0.0);
 
-    float softA = hsGaussianAlpha(uTexture, vTextureCoord, px, size);
-    float minA = 1.0;
-    for (float y = -3.0; y <= 3.0; y += 1.0) {
-        for (float x = -3.0; x <= 3.0; x += 1.0) {
-            vec2 o = vec2(x, y) * (size / 3.0) * px;
-            minA = min(minA, texture(uTexture, vTextureCoord + o).a);
-        }
-    }
-
-    float edgeGlow = src.a * (1.0 - minA);
-    float centerGlow = src.a * (1.0 - softA);
-    float glowMask = mix(edgeGlow, centerGlow, uSource);
-    // Soften edge mask with Gaussian falloff for softer technique feel.
-    glowMask = mix(glowMask, src.a * (1.0 - softA), 0.45);
-    glowMask = mix(glowMask, step(0.02, glowMask) * src.a, choke);
-    glowMask *= uOpacity;
+    float solid = size * choke;
+    float edge = 1.0 - smoothstep(solid, max(size, solid + 0.5), inward);
+    float center = smoothstep(solid, max(size, solid + 0.5), inward);
+    float glowMask = mix(edge, center, uSource) * src.a * uOpacity;
 
     float t = clamp(glowMask / max(src.a, 1e-4), 0.0, 1.0);
     vec3 srcRgb = src.rgb / max(src.a, 1e-5);
@@ -67,7 +70,7 @@ export type InnerGlowFilterOptions = {
   padding?: number
 }
 
-/** GPU inner-glow — edge/center + Gaussian soften + blend mode. */
+/** GPU inner-glow — distance-field falloff from the outline + blend mode. */
 export class InnerGlowFilter extends Filter {
   constructor(options: InnerGlowFilterOptions = {}) {
     const color = options.color ?? [1, 1, 0.6]
@@ -86,9 +89,26 @@ export class InnerGlowFilter extends Filter {
         fragment: FRAGMENT,
         name: 'hs-inner-glow-filter',
       }),
-      resources: { innerGlowUniforms: uniforms },
+      resources: { innerGlowUniforms: uniforms, ...distanceFieldResources() },
       padding: options.padding ?? 0,
     })
+  }
+
+  override apply(
+    filterManager: FilterSystem,
+    input: Texture,
+    output: RenderSurface,
+    clearMode: boolean,
+  ): void {
+    const u = this.resources.innerGlowUniforms.uniforms as { uSize: number }
+    const field = renderAlphaDistanceField(
+      filterManager,
+      input,
+      Math.max(u.uSize, 0) * input.source._resolution + 2,
+    )
+    bindDistanceField(this, field)
+    filterManager.applyFilter(this, input, output, clearMode)
+    releaseAlphaDistanceField(field)
   }
 
   setParams(options: InnerGlowFilterOptions = {}): void {

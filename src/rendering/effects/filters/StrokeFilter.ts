@@ -1,16 +1,27 @@
-import { Filter, GlProgram, UniformGroup } from 'pixi.js'
-import { DEFAULT_FILTER_VERT } from './defaultFilterVert'
 import {
-  blendModeToUniform,
-  GLSL_BLEND_MODES,
-  GLSL_GAUSSIAN_ALPHA,
-} from './shaderCommon'
+  Filter,
+  GlProgram,
+  Texture,
+  UniformGroup,
+  type FilterSystem,
+  type RenderSurface,
+} from 'pixi.js'
+import {
+  bindDistanceField,
+  distanceFieldResources,
+  GLSL_DISTANCE_FIELD_SAMPLE,
+  releaseAlphaDistanceField,
+  renderAlphaDistanceField,
+} from './alphaDistanceField'
+import { DEFAULT_FILTER_VERT } from './defaultFilterVert'
+import { blendModeToUniform, GLSL_BLEND_MODES } from './shaderCommon'
 
 const FRAGMENT = `in vec2 vTextureCoord;
 out vec4 finalColor;
 
 uniform sampler2D uTexture;
 uniform highp vec4 uInputSize;
+uniform highp vec4 uInputPixel;
 uniform vec4 uStrokeColor;
 uniform float uSize;
 uniform float uOpacity;
@@ -18,50 +29,33 @@ uniform float uPosition; // 0=outside, 1=center, 2=inside
 uniform float uBlendMode;
 uniform float uFillOpacity;
 
-${GLSL_GAUSSIAN_ALPHA}
+${GLSL_DISTANCE_FIELD_SAMPLE}
 ${GLSL_BLEND_MODES}
 
 void main(void)
 {
-    vec2 px = uInputSize.zw;
-    float size = max(uSize, 0.0);
     vec4 src = texture(uTexture, vTextureCoord);
     float shapeA = src.a;
     float fillA = shapeA * clamp(uFillOpacity, 0.0, 1.0);
 
-    float maxA = 0.0;
-    float minA = 1.0;
-    for (float i = 0.0; i < 16.0; i += 1.0) {
-        float ang = i * 0.3926991;
-        vec2 o = vec2(cos(ang), sin(ang)) * size * px;
-        float a = texture(uTexture, vTextureCoord + o).a;
-        maxA = max(maxA, a);
-        minA = min(minA, a);
-    }
-    for (float i = 0.0; i < 8.0; i += 1.0) {
-        float ang = i * 0.7853982;
-        vec2 o = vec2(cos(ang), sin(ang)) * (size * 0.5) * px;
-        float a = texture(uTexture, vTextureCoord + o).a;
-        maxA = max(maxA, a);
-        minA = min(minA, a);
-    }
+    // Sizes arrive in pass pixels; the field is measured in device texels.
+    float resolution = uInputPixel.x * uInputSize.z;
+    float size = max(uSize, 0.0) * resolution;
+    float dist = hsFieldDistance(vTextureCoord, uInputPixel, shapeA);
 
-    // Soften stroke mask edge with a light Gaussian of shape alpha.
-    float softA = hsGaussianAlpha(uTexture, vTextureCoord, px, max(size * 0.35, 0.5));
-
-    float strokeMask = 0.0;
+    // One texel of ramp either side of the threshold — the same width the
+    // glyph's own antialiasing occupies, so small strokes stay smooth.
+    float strokeMask;
     if (uPosition < 0.5) {
-        // Use dilated coverage directly; fillA already discounts stroke under the fill.
-        // Subtracting shapeA here double-discounts soft glyph edges → gray stroke halo.
-        strokeMask = clamp(maxA, 0.0, 1.0);
-        strokeMask = mix(strokeMask, clamp(max(maxA, softA), 0.0, 1.0), 0.35);
+        strokeMask = 1.0 - smoothstep(size - 0.5, size + 0.5, dist);
     } else if (uPosition < 1.5) {
-        strokeMask = clamp(maxA - minA, 0.0, 1.0);
+        // Centre straddles the outline: half the width in, half out.
+        float halfSize = size * 0.5;
+        strokeMask = 1.0 - smoothstep(halfSize - 0.5, halfSize + 0.5, abs(dist));
     } else {
-        strokeMask = shapeA * (1.0 - minA);
-        strokeMask = mix(strokeMask, shapeA * (1.0 - softA), 0.35);
+        strokeMask = shapeA * smoothstep(-size - 0.5, -size + 0.5, dist);
     }
-    strokeMask *= uOpacity;
+    strokeMask = clamp(strokeMask, 0.0, 1.0) * uOpacity;
 
     vec3 strokeRgb = uStrokeColor.rgb;
     vec3 srcRgb = shapeA > 1e-5 ? src.rgb / shapeA : src.rgb;
@@ -100,7 +94,7 @@ export type StrokeFilterOptions = {
   padding?: number
 }
 
-/** GPU stroke/outline — soft edges + blend/fill aware. */
+/** GPU stroke/outline — distance-field edge + blend/fill aware. */
 export class StrokeFilter extends Filter {
   constructor(options: StrokeFilterOptions = {}) {
     const color = options.color ?? [0, 0, 0]
@@ -119,9 +113,28 @@ export class StrokeFilter extends Filter {
         fragment: FRAGMENT,
         name: 'hs-stroke-filter',
       }),
-      resources: { strokeUniforms: uniforms },
+      resources: { strokeUniforms: uniforms, ...distanceFieldResources() },
       padding: options.padding ?? 0,
     })
+  }
+
+  override apply(
+    filterManager: FilterSystem,
+    input: Texture,
+    output: RenderSurface,
+    clearMode: boolean,
+  ): void {
+    const u = this.resources.strokeUniforms.uniforms as { uSize: number }
+    // The flood has to resolve distances out to the threshold plus the
+    // antialiasing ramp; the size is in pass pixels, the field in device texels.
+    const field = renderAlphaDistanceField(
+      filterManager,
+      input,
+      Math.max(u.uSize, 0) * input.source._resolution + 2,
+    )
+    bindDistanceField(this, field)
+    filterManager.applyFilter(this, input, output, clearMode)
+    releaseAlphaDistanceField(field)
   }
 
   setParams(options: StrokeFilterOptions): void {

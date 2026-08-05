@@ -1,16 +1,27 @@
-import { Filter, GlProgram, UniformGroup } from 'pixi.js'
-import { DEFAULT_FILTER_VERT } from './defaultFilterVert'
 import {
-  blendModeToUniform,
-  GLSL_BLEND_MODES,
-  GLSL_GAUSSIAN_ALPHA,
-} from './shaderCommon'
+  Filter,
+  GlProgram,
+  Texture,
+  UniformGroup,
+  type FilterSystem,
+  type RenderSurface,
+} from 'pixi.js'
+import {
+  bindDistanceField,
+  distanceFieldResources,
+  GLSL_DISTANCE_FIELD_SAMPLE,
+  releaseAlphaDistanceField,
+  renderAlphaDistanceField,
+} from './alphaDistanceField'
+import { DEFAULT_FILTER_VERT } from './defaultFilterVert'
+import { blendModeToUniform, GLSL_BLEND_MODES } from './shaderCommon'
 
 const FRAGMENT = `in vec2 vTextureCoord;
 out vec4 finalColor;
 
 uniform sampler2D uTexture;
 uniform highp vec4 uInputSize;
+uniform highp vec4 uInputPixel;
 uniform vec4 uGlowColor;
 uniform float uSize;
 uniform float uOpacity;
@@ -18,33 +29,25 @@ uniform float uSpread;
 uniform float uBlendMode;
 uniform float uFillOpacity;
 
-${GLSL_GAUSSIAN_ALPHA}
+${GLSL_DISTANCE_FIELD_SAMPLE}
 ${GLSL_BLEND_MODES}
 
 void main(void)
 {
-    vec2 px = uInputSize.zw;
     vec4 src = texture(uTexture, vTextureCoord);
     float shapeA = src.a;
     float fillA = shapeA * clamp(uFillOpacity, 0.0, 1.0);
-    float size = max(uSize, 0.0);
-    float spread = clamp(uSpread / 100.0, 0.0, 1.0);
 
-    // Dilate via max of neighborhood, then Gaussian soften (softer technique).
-    float maxA = 0.0;
-    float dilateR = size * (0.35 + 0.65 * spread);
-    for (float y = -3.0; y <= 3.0; y += 1.0) {
-        for (float x = -3.0; x <= 3.0; x += 1.0) {
-            vec2 o = vec2(x, y) * (max(dilateR, size) / 3.0) * px;
-            maxA = max(maxA, texture(uTexture, vTextureCoord + o).a);
-        }
-    }
-    float softA = hsGaussianAlpha(uTexture, vTextureCoord, px, size);
-    float glowMask = max(maxA, softA);
-    // Same as outside stroke: do not pre-subtract shapeA (fillA handles under-fill).
-    float glowA = glowMask;
-    glowA = mix(glowA, step(0.001, glowMask), spread);
-    glowA *= uOpacity;
+    float resolution = uInputPixel.x * uInputSize.z;
+    float size = max(uSize, 0.0) * resolution;
+    float spread = clamp(uSpread / 100.0, 0.0, 1.0);
+    float dist = hsFieldDistance(vTextureCoord, uInputPixel, shapeA);
+
+    // Spread is the fraction of the reach that stays fully opaque before the
+    // falloff starts; at 100% the glow becomes a hard dilation of the shape.
+    float solid = size * spread;
+    float glowA = 1.0 - smoothstep(solid, max(size, solid + 0.5), dist);
+    glowA = clamp(glowA, 0.0, 1.0) * uOpacity;
 
     vec3 glowRgb = uGlowColor.rgb;
     vec3 srcRgb = shapeA > 1e-5 ? src.rgb / shapeA : src.rgb;
@@ -69,7 +72,7 @@ export type OuterGlowFilterOptions = {
   padding?: number
 }
 
-/** GPU outer-glow — dilate + Gaussian soft edge; blend/fill aware. */
+/** GPU outer-glow — distance-field falloff; blend/fill aware. */
 export class OuterGlowFilter extends Filter {
   constructor(options: OuterGlowFilterOptions = {}) {
     const color = options.color ?? [1, 1, 0.6]
@@ -88,9 +91,26 @@ export class OuterGlowFilter extends Filter {
         fragment: FRAGMENT,
         name: 'hs-outer-glow-filter',
       }),
-      resources: { outerGlowUniforms: uniforms },
+      resources: { outerGlowUniforms: uniforms, ...distanceFieldResources() },
       padding: options.padding ?? 0,
     })
+  }
+
+  override apply(
+    filterManager: FilterSystem,
+    input: Texture,
+    output: RenderSurface,
+    clearMode: boolean,
+  ): void {
+    const u = this.resources.outerGlowUniforms.uniforms as { uSize: number }
+    const field = renderAlphaDistanceField(
+      filterManager,
+      input,
+      Math.max(u.uSize, 0) * input.source._resolution + 2,
+    )
+    bindDistanceField(this, field)
+    filterManager.applyFilter(this, input, output, clearMode)
+    releaseAlphaDistanceField(field)
   }
 
   setParams(options: OuterGlowFilterOptions = {}): void {
