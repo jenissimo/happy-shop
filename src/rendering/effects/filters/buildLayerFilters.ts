@@ -9,6 +9,7 @@ import {
 import { ChromaKeyFilter } from './ChromaKeyFilter'
 import { ColorOverlayFilter } from './ColorOverlayFilter'
 import { DropShadowFilter } from './DropShadowFilter'
+import { scaleEffectGeometry, scaleFilterPadding } from './effectPassScale'
 import { FillOpacityFilter } from './FillOpacityFilter'
 import { GaussianBlurContentFilter } from './GaussianBlurContentFilter'
 import { GradientOverlayFilter } from './GradientOverlayFilter'
@@ -209,6 +210,7 @@ function buildFilterForEffect(
         offsetX,
         offsetY,
         blur: effect.size,
+        spread: effect.spread,
         blendMode: effect.blendMode,
         fillOpacity: fillForOuter,
         knockOut: effect.layerKnocksOutDropShadow,
@@ -266,6 +268,12 @@ function buildFilterForEffect(
 
 export type BuildLayerFiltersOptions = {
   fillOpacity?: number
+  /**
+   * Filter-texture pixels per document pixel for the pass that renders this
+   * layer (camera zoom on screen, 1 inside a document-space buffer or an
+   * export). See `effectPassScale`.
+   */
+  scale?: number
   /** Document-space map used by unaligned Bevel Texture sampling. */
   textureDocumentTransform?: DocumentTextureTransform
   /** When set, multiplies content alpha before the FX stack (PS default). */
@@ -289,7 +297,8 @@ export function buildLayerFilters(
   const resolved = resolveEffectStack(effects, { fillOpacity })
   if (!resolved.nodes.length && fillOpacity >= 1) return null
 
-  const pad = resolved.padding
+  const scale = options.scale ?? 1
+  const pad = scaleFilterPadding(resolved.padding, scale)
   const filters: Filter[] = []
   const hasStyles = resolved.styleNodes.length > 0
   const fillForOuter = resolved.outerHandlesFill ? fillOpacity : 1
@@ -302,7 +311,7 @@ export function buildLayerFilters(
 
   const pushFilter = (effect: RenderLayerEffect) => {
     const filter = buildFilterForEffect(
-      effect,
+      scaleEffectGeometry(effect, scale),
       pad,
       fillForOuter,
       options.textureDocumentTransform,

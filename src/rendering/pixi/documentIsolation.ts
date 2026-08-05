@@ -9,7 +9,16 @@ void main(void) {
 }
 `
 
-/** Identity filter whose only job is to give the document its own framebuffer. */
+/**
+ * Identity filter whose only job is to give the document its own framebuffer.
+ *
+ * Its region is the tight union of the layer bounds — Pixi's `FilterEffect` has
+ * no `addBounds`, so a child's own filter padding never widens its parent's
+ * region. Without a margin here every outward layer effect is cut off at the
+ * document content bounds when it lands in this texture, which is the straight
+ * edge you see around a big Stroke or Drop Shadow. The margin is set per sync
+ * from the enclosed layers (see `PixiRenderBackend.syncIsolationPadding`).
+ */
 export class DocumentIsolationFilter extends Filter {
   constructor() {
     super({

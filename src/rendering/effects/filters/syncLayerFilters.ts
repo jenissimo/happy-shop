@@ -12,6 +12,7 @@ import { BevelEmbossFilter } from './BevelEmbossFilter'
 import { ChromaKeyFilter } from './ChromaKeyFilter'
 import { ColorOverlayFilter } from './ColorOverlayFilter'
 import { DropShadowFilter } from './DropShadowFilter'
+import { scaleEffectGeometry, scaleFilterPadding } from './effectPassScale'
 import { FillOpacityFilter } from './FillOpacityFilter'
 import { GaussianBlurContentFilter } from './GaussianBlurContentFilter'
 import { GradientOverlayFilter } from './GradientOverlayFilter'
@@ -201,6 +202,7 @@ function syncFilterForEffect(
         offsetX,
         offsetY,
         blur: effect.size,
+        spread: effect.spread,
         blendMode: effect.blendMode,
         fillOpacity: fillForOuter,
         knockOut: effect.layerKnocksOutDropShadow,
@@ -293,10 +295,19 @@ export function syncLayerFilters(
   if (!filters || filters.length !== expected) return false
   if (expected === 0) return true
 
-  const pad = resolved.padding
+  const scale = options.scale ?? 1
+  const pad = scaleFilterPadding(resolved.padding, scale)
   const hasStyles = resolved.styleNodes.length > 0
   const fillForOuter = resolved.outerHandlesFill ? fillOpacity : 1
   const textureDocumentTransform = options.textureDocumentTransform
+  const syncNode = (filter: Filter, effect: RenderLayerEffect) =>
+    syncFilterForEffect(
+      filter,
+      scaleEffectGeometry(effect, scale),
+      pad,
+      fillForOuter,
+      textureDocumentTransform,
+    )
   let index = 0
 
   if (options.preMask && textureDocumentTransform) {
@@ -305,16 +316,12 @@ export function syncLayerFilters(
   }
 
   for (const effect of resolved.keyNodes) {
-    if (!syncFilterForEffect(filters[index]!, effect, pad, fillForOuter, textureDocumentTransform)) {
-      return false
-    }
+    if (!syncNode(filters[index]!, effect)) return false
     index += 1
   }
 
   for (const effect of resolved.contentNodes) {
-    if (!syncFilterForEffect(filters[index]!, effect, pad, fillForOuter, textureDocumentTransform)) {
-      return false
-    }
+    if (!syncNode(filters[index]!, effect)) return false
     index += 1
   }
 
@@ -333,9 +340,7 @@ export function syncLayerFilters(
   }
 
   for (const effect of resolved.styleNodes) {
-    if (!syncFilterForEffect(filters[index]!, effect, pad, fillForOuter, textureDocumentTransform)) {
-      return false
-    }
+    if (!syncNode(filters[index]!, effect)) return false
     index += 1
   }
 

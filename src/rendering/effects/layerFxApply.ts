@@ -46,7 +46,9 @@ export function applyLayerFxFilters(
   wrap?: (filters: Filter[] | null) => Filter[] | null,
 ): void {
   const structureKey = describeFxStructureKey(layer)
-  const paramsKey = describeEffectsParams(layer.effects, layer.fillOpacity)
+  // The pass scale rides in the params key: zooming must patch the size
+  // uniforms (cheap) instead of rebuilding the chain on every wheel notch.
+  const paramsKey = `${describeEffectsParams(layer.effects, layer.fillOpacity)}|scale:${filterOptions.scale ?? 1}`
   const structureChanged = structureKey !== cache.fxStructureKey
   const transformChanged = filterTransformKey !== cache.filterTransformKey
   const paramsChanged = paramsKey !== cache.fxParamsKey
