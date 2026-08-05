@@ -55,6 +55,7 @@ import {
   registerTextCommands,
   useTextToolStore,
 } from '../tools/text'
+import { syncHtmlTextFonts } from '../tools/text/syncHtmlTextFonts'
 import { registerShapeCommands } from '../tools/shape'
 import { registerPenCommands } from '../tools/pen/penCommands'
 import { registerPathCommands } from '../tools/paths/pathCommands'
@@ -125,6 +126,13 @@ function ViewportView(_props: IDockviewPanelProps) {
     () => getRenderCoordinator().onFloodMaskReady(() => setFloodMaskEpoch((epoch) => epoch + 1)),
     [],
   )
+  // Web fonts have to be handed to the viewport renderer explicitly; a newly
+  // registered face re-renders the layers that were drawn with a fallback.
+  useEffect(() => {
+    void syncHtmlTextFonts(document).then((registered) => {
+      if (registered) useEditorSessionStore.getState().bumpRasterEpoch()
+    })
+  }, [document])
   const documentView = useMemo(() => {
     const view = getRenderCoordinator().buildView(document)
     if (!editingTextId) return view
