@@ -934,7 +934,18 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
       }}
       onContextMenu={onContextMenu}
     >
+      {/*
+        A hard reload must land on a *fresh* canvas element. Pixi's
+        `GlContextSystem.destroy()` calls `WEBGL_lose_context.loseContext()`, and
+        a canvas whose context was lost that way hands every later
+        `getContext('webgl2')` back the same permanently lost context — the next
+        `Application.init` then spins on it and the tab stops responding.
+        Keying on the generation discards the poisoned element instead; the
+        registry is keyed by canvas identity, so the new element also gets its
+        own (single) Application.
+      */}
       <canvas
+        key={backendGeneration}
         ref={canvasRef}
         className={`${styles.canvas}${pixelatedPreview ? ` ${styles.canvasPixelated}` : ''}`}
       />

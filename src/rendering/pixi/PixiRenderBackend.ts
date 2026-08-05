@@ -19,7 +19,11 @@ import {
 // `normal` (see package.json exports → lib/advanced-blend-modes/init.mjs).
 import 'pixi.js/advanced-blend-modes'
 import { cssQuoteFontFamily } from '../../editor/tools/text/cssQuoteFontFamily'
-import { trackingToLetterSpacingPx, underlineMetrics } from '../../editor/tools/text/textLayout'
+import {
+  lineHeightPx,
+  trackingToLetterSpacingPx,
+  underlineMetrics,
+} from '../../editor/tools/text/textLayout'
 import { shapePath } from '../../editor/tools/shape/shapeGeometry'
 import type {
   ExportRegionRequest,
@@ -36,10 +40,10 @@ import type {
   RenderTextLayerView,
 } from '../contracts/RenderDocumentView'
 import type { ViewportFrame } from '../contracts/ViewportFrame'
-import {
-  effectsPadding,
-} from '../effects/filters/buildLayerFilters'
+import { effectsPadding } from '../effects/filters/buildLayerFilters'
+import { scaleFilterPadding } from '../effects/filters/effectPassScale'
 import { applyLayerFxFilters } from '../effects/layerFxApply'
+import { acquireApplication, releaseApplication } from './applicationRegistry'
 import {
   documentTextureTransformForLayer,
   type DocumentTextureTransform,
@@ -72,6 +76,7 @@ import {
   describeText,
   describeTransform,
 } from './layerViewDescribe'
+import { htmlTextFontFamily, htmlTextFontsVersion } from './htmlTextFonts'
 import { OverlayPass } from './OverlayPass'
 import { withShapeEdgeAntialias } from './shapeEdgeAntialias'
 
@@ -188,28 +193,9 @@ function degToRad(deg: number): number {
   return (deg * Math.PI) / 180
 }
 
-function applyFxToEntry(
-  entry: LayerEntry,
-  target: { filters: Filter[] | null | readonly Filter[] | undefined },
-  layer: MaskedLayerView,
-  filterTransformKey: string,
-  localOriginX = 0,
-  localOriginY = 0,
-  wrap?: (filters: Filter[] | null) => Filter[] | null,
-): void {
-  const cache = layerFxCache(entry)
-  applyLayerFxFilters(
-    () => (target.filters as Filter[] | null | undefined),
-    (filters) => {
-      ;(target as { filters: Filter[] | null }).filters = filters
-    },
-    cache,
-    layer,
-    filterTransformKey,
-    layerFilterOptions(layer, localOriginX, localOriginY),
-    wrap,
-  )
-  commitFxCache(entry, cache)
+/** Widest outward reach of any direct child's FX, in document pixels. */
+function childrenEffectsPadding(layers: readonly RenderLayerView[]): number {
+  return layers.reduce((max, layer) => Math.max(max, effectsPadding(layer.effects)), 0)
 }
 
 function layerFilterOptions(layer: MaskedLayerView, localOriginX = 0, localOriginY = 0) {
@@ -230,6 +216,41 @@ function maskCacheKey(layer: { mask?: RenderLayerMask; maskHidesEffects?: boolea
   if (!layer.mask) return 'none'
   const mode = layer.maskHidesEffects ? 'post' : 'pre'
   return `${mode}:${describeMask(layer.mask)}`
+}
+
+/**
+ * Web fonts are inlined into the HTMLText SVG under their bare family name;
+ * everything else keeps its stack, which the SVG resolves against installed
+ * system fonts (see `htmlTextFonts`).
+ */
+function htmlTextCssFamily(fontFamily: string): string {
+  return htmlTextFontFamily(fontFamily) ?? cssQuoteFontFamily(fontFamily)
+}
+
+/**
+ * Text is rasterized to a bitmap once, then that bitmap is scaled by the
+ * camera — so at 400% the glyphs are a 100% raster blown up 4x, which is the
+ * mush you see when zooming in. Rasterizing at the camera scale fixes it; the
+ * scale is stepped to powers of two so a zoom gesture re-rasterizes a handful
+ * of times instead of on every wheel notch, and rounding *up* means the raster
+ * is never coarser than the screen.
+ */
+export const MAX_TEXT_RESOLUTION = 4
+/** Keeps `bounds * resolution` inside the usual GPU texture ceiling. */
+const MAX_TEXT_TEXTURE_PX = 4096
+
+export function steppedTextResolution(viewScale: number): number {
+  const wanted = Math.max(1, viewScale)
+  return Math.min(MAX_TEXT_RESOLUTION, 2 ** Math.ceil(Math.log2(wanted)))
+}
+
+/** Texture margin for glyphs that reach outside their layout box. */
+function textOverhangPadding(layer: RenderTextLayerView): number {
+  const largest = layer.runs.reduce(
+    (size, run) => Math.max(size, run.fontSize),
+    layer.fontSize,
+  )
+  return Math.ceil(largest * 0.25)
 }
 
 function escapeTextHtml(value: string): string {
@@ -255,7 +276,7 @@ function richTextHtml(layer: RenderTextLayerView): string {
       ? `text-decoration:underline;text-underline-offset:${underlineMetrics(run.fontSize).offsetY - run.fontSize}px;text-decoration-thickness:${underlineMetrics(run.fontSize).thickness}px`
       : ''
     const style = [
-      `font-family:${escapeTextHtml(cssQuoteFontFamily(run.fontFamily))}`,
+      `font-family:${escapeTextHtml(htmlTextCssFamily(run.fontFamily))}`,
       `font-size:${run.fontSize}px`,
       `font-weight:${run.fontWeight}`,
       `font-style:${run.italic ? 'italic' : 'normal'}`,
@@ -290,6 +311,10 @@ export type PixiContextEvent = 'lost' | 'restored'
 
 export class PixiRenderBackend implements RenderBackend {
   private app: Application | null = null
+  /** Set by `destroy()`; a late `init()` must not install after teardown. */
+  private disposed = false
+  /** The canvas this backend installed on, for the Application registry. */
+  private canvas: HTMLCanvasElement | null = null
   private readonly documentLayer = new Container({ label: 'document' })
   private readonly contentLayer = new Container({ label: 'content' })
   private readonly overlayLayer = new Container({ label: 'overlay' })
@@ -304,6 +329,11 @@ export class PixiRenderBackend implements RenderBackend {
 
   private lastViewportWidth = 0
   private lastViewportHeight = 0
+  /** Rasterization scale for HTMLText; follows the camera (see `render`). */
+  private textResolution = 1
+  /** Filter-texture pixels per document pixel for the pass being synced. */
+  private fxScale = 1
+  private isolationFilter: Filter | null = null
   private lastView: RenderDocumentView | null = null
   private contextLost = false
   private detachContextListeners: (() => void) | null = null
@@ -326,37 +356,47 @@ export class PixiRenderBackend implements RenderBackend {
   }
 
   async init(target: HTMLCanvasElement, capabilities: RuntimeCapabilities): Promise<void> {
-    const app = new Application()
     const preference = capabilities.preference === 'webgpu-experimental'
       ? (['webgpu', 'webgl'] as const)
       : (['webgl'] as const)
 
-    await app.init({
-      canvas: target,
-      preference: [...preference],
-      antialias: capabilities.antialias,
-      backgroundAlpha: capabilities.backgroundAlpha,
-      powerPreference:
-        capabilities.powerPreference === 'default'
-          ? undefined
-          : capabilities.powerPreference,
-      autoStart: false,
-      sharedTicker: false,
-      roundPixels: false,
-      // Advanced blend modes are backdrop-sampling filters (`blendRequired`).
-      // Without a back buffer Pixi warns and silently degrades them to
-      // `normal` (FilterSystem.mjs:572) — i.e. overlay/soft-light/color-burn
-      // and ~17 others would be dead options in the Layers panel.
-      useBackBuffer: true,
-      width: Math.max(1, target.clientWidth),
-      height: Math.max(1, target.clientHeight),
-      resolution: typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1,
-      autoDensity: true,
+    const app = await acquireApplication(target, async () => {
+      const created = new Application()
+      await created.init({
+        canvas: target,
+        preference: [...preference],
+        antialias: capabilities.antialias,
+        backgroundAlpha: capabilities.backgroundAlpha,
+        powerPreference:
+          capabilities.powerPreference === 'default'
+            ? undefined
+            : capabilities.powerPreference,
+        autoStart: false,
+        sharedTicker: false,
+        roundPixels: false,
+        // Advanced blend modes are backdrop-sampling filters (`blendRequired`).
+        // Without a back buffer Pixi warns and silently degrades them to
+        // `normal` (FilterSystem.mjs:572) — i.e. overlay/soft-light/color-burn
+        // and ~17 others would be dead options in the Layers panel.
+        useBackBuffer: true,
+        width: Math.max(1, target.clientWidth),
+        height: Math.max(1, target.clientHeight),
+        resolution: typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1,
+        autoDensity: true,
+      })
+      return created
     })
+    // Torn down mid-init: leave the Application parked for the next mount to
+    // pick up rather than installing (or destroying) it — see
+    // `applicationRegistry`.
+    if (this.disposed) return
+    this.canvas = target
 
     this.app = app
     // Document composite must not see the checkerboard as its backdrop.
-    this.contentLayer.filters = documentIsolationFilters()
+    const isolation = documentIsolationFilters()
+    this.isolationFilter = isolation[0] ?? null
+    this.contentLayer.filters = isolation
     this.documentLayer.addChild(this.contentLayer)
     app.stage.addChild(this.documentLayer)
     app.stage.addChild(this.overlayLayer)
@@ -473,12 +513,59 @@ export class PixiRenderBackend implements RenderBackend {
     return this.pixelatedPreview ? 'nearest' : 'linear'
   }
 
+  private applyFxToEntry(
+    entry: LayerEntry,
+    target: { filters: Filter[] | null | readonly Filter[] | undefined },
+    layer: MaskedLayerView,
+    filterTransformKey: string,
+    localOriginX = 0,
+    localOriginY = 0,
+    wrap?: (filters: Filter[] | null) => Filter[] | null,
+  ): void {
+    const cache = layerFxCache(entry)
+    applyLayerFxFilters(
+      () => (target.filters as Filter[] | null | undefined),
+      (filters) => {
+        ;(target as { filters: Filter[] | null }).filters = filters
+      },
+      cache,
+      layer,
+      filterTransformKey,
+      { ...layerFilterOptions(layer, localOriginX, localOriginY), scale: this.fxScale },
+      wrap,
+    )
+    commitFxCache(entry, cache)
+  }
+
+  /**
+   * Re-express every FX chain in the pixels of the pass that is about to render
+   * it (see `effectPassScale`). Cheap: `applyLayerFxFilters` patches uniforms
+   * when only the scale moved.
+   */
+  private setFxScale(scale: number): void {
+    if (Math.abs(this.fxScale - scale) < 1e-4) return
+    this.fxScale = scale
+    if (this.lastView && this.app && !this.contextLost) this.syncDocument(this.lastView)
+  }
+
   syncDocument(view: RenderDocumentView): void {
     this.lastView = view
     if (!this.app || this.contextLost) return
+    this.syncIsolationPadding(view)
     this.syncCheckerboard(view)
     this.syncLayers(view)
     this.overlay?.sync()
+  }
+
+  /**
+   * Widen the document's isolation pass by the most any single layer's effects
+   * reach outside it, so outward FX are not clipped where they land in that
+   * texture (see `DocumentIsolationFilter`).
+   */
+  private syncIsolationPadding(view: RenderDocumentView): void {
+    const filter = this.isolationFilter
+    if (!filter) return
+    filter.padding = scaleFilterPadding(childrenEffectsPadding(view.layers), this.fxScale)
   }
 
   private syncCheckerboard(view: RenderDocumentView): void {
@@ -589,6 +676,25 @@ export class PixiRenderBackend implements RenderBackend {
 
   private syncLayers(view: RenderDocumentView): void {
     this.syncLayerList(this.contentLayer, this.layerEntries, view.layers)
+  }
+
+  /**
+   * Children of a buffered group / adjustment layer are flattened into a
+   * document-space render texture, so their FX pass is at scale 1 no matter
+   * where the camera is; the wrapper sprite's own FX are back on screen.
+   */
+  private syncBufferedChildren(
+    target: Container,
+    entries: Map<string, LayerEntry>,
+    layers: readonly RenderLayerView[],
+  ): void {
+    const outer = this.fxScale
+    this.fxScale = 1
+    try {
+      this.syncLayerList(target, entries, layers)
+    } finally {
+      this.fxScale = outer
+    }
   }
 
   /** Recursively projects a document layer list into one Pixi container. */
@@ -739,11 +845,13 @@ export class PixiRenderBackend implements RenderBackend {
     const app = this.app
     if (!app) return
 
-    this.syncLayerList(entry.container, entry.childEntries, layer.children)
+    this.syncBufferedChildren(entry.container, entry.childEntries, layer.children)
     const clipBaseCount = layer.clipBaseCount ?? 0
     const sourceKey = buildGroupLayerSourceKey(layer, this.scaleMode())
     const bounds = entry.container.getBounds()
-    const pad = effectsPadding(layer.effects)
+    // Room for the group's own outward FX *and* for the children's, which are
+    // clipped to this texture (container bounds ignore child filter padding).
+    const pad = effectsPadding(layer.effects) + childrenEffectsPadding(layer.children)
     const x = Math.floor(bounds.x - pad)
     const y = Math.floor(bounds.y - pad)
     const width = Math.max(1, Math.ceil(bounds.width + pad * 2))
@@ -798,7 +906,7 @@ export class PixiRenderBackend implements RenderBackend {
       `clip:${clipBaseCount}`,
       `blend:${layer.blendMode}`,
     ].join('|')
-    applyFxToEntry(
+    this.applyFxToEntry(
       entry,
       sprite,
       layer,
@@ -863,13 +971,15 @@ export class PixiRenderBackend implements RenderBackend {
     const app = this.app
     if (!app) return
 
-    this.syncLayerList(entry.container, entry.childEntries, layer.children)
+    this.syncBufferedChildren(entry.container, entry.childEntries, layer.children)
     const sourceKey = describeGroupSubtreeKey(layer.children, this.scaleMode())
     const bounds = entry.container.getBounds()
-    const x = Math.floor(bounds.x)
-    const y = Math.floor(bounds.y)
-    const width = Math.max(1, Math.ceil(bounds.width))
-    const height = Math.max(1, Math.ceil(bounds.height))
+    // Same reason as `applyGroupLayer`: the backdrop's own FX must fit.
+    const pad = childrenEffectsPadding(layer.children)
+    const x = Math.floor(bounds.x - pad)
+    const y = Math.floor(bounds.y - pad)
+    const width = Math.max(1, Math.ceil(bounds.width + pad * 2))
+    const height = Math.max(1, Math.ceil(bounds.height + pad * 2))
 
     if (
       sourceKey !== entry.sourceKey ||
@@ -986,7 +1096,7 @@ export class PixiRenderBackend implements RenderBackend {
       this.assignTexture(entry, layer, mode)
       entry.sourceKey = sourceKey
     }
-    applyFxToEntry(
+    this.applyFxToEntry(
       entry,
       sprite,
       layer,
@@ -1013,20 +1123,49 @@ export class PixiRenderBackend implements RenderBackend {
     sprite.scale.set((displayW / tw) * t.scaleX, (displayH / th) * t.scaleY)
   }
 
+  /** Re-rasterize text at the current camera scale, capped per node by size. */
+  private syncTextResolution(entries: Iterable<LayerEntry>): void {
+    for (const entry of entries) {
+      if (entry.kind === 'text') {
+        this.applyTextResolution(entry.text)
+      } else if (entry.kind === 'group' || entry.kind === 'adjustment') {
+        this.syncTextResolution(entry.childEntries.values())
+      }
+    }
+  }
+
+  private applyTextResolution(text: HTMLText): void {
+    const bounds = text.getLocalBounds()
+    const longest = Math.max(bounds.width, bounds.height, 1)
+    const resolution = Math.max(
+      1,
+      Math.min(this.textResolution, MAX_TEXT_TEXTURE_PX / longest),
+    )
+    if (Math.abs((text.resolution ?? 1) - resolution) > 1e-3) {
+      text.resolution = resolution
+    }
+  }
+
   private applyTextLayer(entry: TextLayerEntry, layer: RenderTextLayerView): void {
     const text = entry.text
     text.visible = layer.visible
     text.alpha = nodeAlpha(layer.blendMode, layer.opacity)
     text.blendMode = pixiBlendMode(layer.blendMode)
 
-    const sourceKey = `${describeText(layer)}|${maskCacheKey(layer)}`
+    // The font version re-styles layers that were rasterized before their web
+    // font finished registering.
+    const sourceKey = `${describeText(layer)}|${maskCacheKey(layer)}|fonts:${htmlTextFontsVersion()}`
     const sourceChanged = sourceKey !== entry.sourceKey
     const filterTransformKey = `${describeTransform(layer.transform)}|blend:${layer.blendMode}`
     if (sourceChanged) {
-      const lineHeight = layer.leading > 0 ? layer.leading : undefined
+      // Leading is always explicit: the editor overlay and the Canvas2D
+      // rasterizer both lay out on `lineHeightPx`, and the browser default
+      // ("normal") is font-dependent, so leaving it unset drifts from them.
+      const lineHeight = lineHeightPx(layer)
+      const isBox = layer.textMode === 'box' && layer.bounds.w > 0
       text.text = richTextHtml(layer)
       text.style = {
-        fontFamily: cssQuoteFontFamily(layer.fontFamily),
+        fontFamily: htmlTextCssFamily(layer.fontFamily),
         fontSize: layer.fontSize,
         fontWeight: String(Math.round(layer.fontWeight)) as
           | 'normal'
@@ -1045,17 +1184,33 @@ export class PixiRenderBackend implements RenderBackend {
         align: layer.align === 'justify' ? 'left' : layer.align,
         letterSpacing: 0,
         lineHeight,
-        wordWrap: layer.textMode === 'box' && layer.bounds.w > 0,
-        wordWrapWidth:
-          layer.textMode === 'box' && layer.bounds.w > 0
-            ? layer.bounds.w
-            : 100,
+        wordWrap: isBox,
+        wordWrapWidth: isBox ? layer.bounds.w : 100,
         breakWords: true,
+        // The HTMLText texture is measured from the layout box, so glyphs that
+        // overhang it — script faces, italics, swashes — get cut off. Padding
+        // grows the texture only; Pixi shifts the bounds back by the same
+        // amount, so the text origin does not move.
+        padding: textOverhangPadding(layer),
+        // Word wrap alone only caps the width; paragraph text must fill its
+        // frame so `align` measures against the frame (as the overlay and the
+        // rasterizer do) instead of the longest line.
+        cssOverrides: isBox ? [`width: ${layer.bounds.w}px`] : [],
+        // The HTMLText texture is measured from the layout box, so glyphs that
+        // overhang it — script faces, italics, swashes — get cut off. Padding
+        // grows the texture only; Pixi shifts the bounds back by the same
+        // amount, so the text origin does not move.
+
+        // Word wrap alone only caps the width; paragraph text must fill its
+        // frame so `align` measures against the frame (as the overlay and the
+        // rasterizer do) instead of the longest line.
+
       }
       // Underline / baselineShift / tracking live in rich HTML spans (see richTextHtml).
       entry.sourceKey = sourceKey
     }
-    applyFxToEntry(
+    this.applyTextResolution(text)
+    this.applyFxToEntry(
       entry,
       text,
       layer,
@@ -1134,7 +1289,7 @@ export class PixiRenderBackend implements RenderBackend {
     )
     const shapeWrap = (filters: Filter[] | null) =>
       withShapeEdgeAntialias(extra ? extra(filters) : filters)
-    applyFxToEntry(
+    this.applyFxToEntry(
       entry,
       graphics,
       layer,
@@ -1232,6 +1387,15 @@ export class PixiRenderBackend implements RenderBackend {
       }
 
       const { zoom, offsetX, offsetY } = frame.camera
+      // Pixi sizes filter textures from bounds in *logical* stage pixels, so
+      // the camera zoom alone converts document px to filter texels here — the
+      // renderer resolution cancels out (uInputSize is resolution-independent).
+      this.setFxScale(zoom)
+      const textResolution = steppedTextResolution(zoom * dpr)
+      if (textResolution !== this.textResolution) {
+        this.textResolution = textResolution
+        this.syncTextResolution(this.layerEntries.values())
+      }
       this.documentLayer.position.set(offsetX, offsetY)
       this.documentLayer.scale.set(zoom, zoom)
       this.overlayLayer.position.set(offsetX, offsetY)
@@ -1255,15 +1419,25 @@ export class PixiRenderBackend implements RenderBackend {
     }
 
     const frame = new Rectangle(request.x, request.y, request.width, request.height)
-    const canvas = app.renderer.extract.canvas({
-      target: this.contentLayer,
-      frame,
-      resolution: request.scale ?? 1,
-    })
-    return createImageBitmap(canvas as unknown as CanvasImageSource)
+    // `extract` renders contentLayer as its own root: bounds — and therefore
+    // filter texels — are document units, whatever the camera is doing, and
+    // `resolution` multiplies pixels, not the logical space filters measure in.
+    const cameraScale = this.fxScale
+    this.setFxScale(1)
+    try {
+      const canvas = app.renderer.extract.canvas({
+        target: this.contentLayer,
+        frame,
+        resolution: request.scale ?? 1,
+      })
+      return await createImageBitmap(canvas as unknown as CanvasImageSource)
+    } finally {
+      this.setFxScale(cameraScale)
+    }
   }
 
   destroy(): void {
+    this.disposed = true
     this.detachContextListeners?.()
     this.detachContextListeners = null
     this.contextListener = null
@@ -1280,7 +1454,11 @@ export class PixiRenderBackend implements RenderBackend {
     this.checkerColors = null
     this.overlay?.destroy()
     this.overlay = null
-    this.app?.destroy(false, { children: true, texture: false })
-    this.app = null
+    if (this.app) {
+      if (this.canvas) releaseApplication(this.canvas)
+      this.app.destroy(false, { children: true, texture: false })
+      this.app = null
+    }
+    this.canvas = null
   }
 }
