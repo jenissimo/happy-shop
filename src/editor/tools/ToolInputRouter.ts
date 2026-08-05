@@ -16,6 +16,8 @@ import {
 } from './pen/AddDeleteConvertControllers'
 import { isPenToolId } from '../toolbar/tools'
 import { TextToolController } from './text/TextToolController'
+import { finishTextEditSession } from './text/textCommands'
+import { useTextToolStore } from './text/textToolStore'
 import { GradientToolController } from './gradient/GradientToolController'
 import { SelectionToolController } from './selection/SelectionToolController'
 import {
@@ -296,6 +298,11 @@ export class ToolInputRouter {
     }
     if (useCageTransformStore.getState().session) {
       void commitCageTransform()
+    }
+    // Type options keep an edit session alive across a blur, so leaving the
+    // Type tool is what commits it.
+    if (nextToolId !== 'text' && useTextToolStore.getState().edit) {
+      finishTextEditSession()
     }
     if (nextToolId !== 'brush' && nextToolId !== 'eraser') this.brush.clearAnchor()
     if (nextToolId !== 'gradient') this.gradient.cancel()

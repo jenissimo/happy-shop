@@ -1,9 +1,18 @@
 .editor {
   position: absolute;
+  /* The document -> screen matrix owns placement (see TextEditorOverlay). */
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
   z-index: 2;
+  box-sizing: content-box;
+  /* An empty layer still needs a caret-sized box to hit-test and focus. */
+  min-width: 1px;
+  min-height: 1lh;
   margin: 0;
   padding: 0;
-  border: 1px solid transparent;
+  /* A border would inset the glyphs by a pixel; the frame is an outline. */
+  border: none;
   border-radius: 0;
   background: transparent;
   resize: none;
@@ -30,7 +39,6 @@
 
 /* Only paragraph text exposes a frame. */
 .boxEditor {
-  border-style: dashed;
-  border-color: color-mix(in srgb, var(--he-focus) 70%, transparent);
+  outline: 1px dashed color-mix(in srgb, var(--he-focus) 70%, transparent);
   background: color-mix(in srgb, var(--he-bg) 35%, transparent);
 }

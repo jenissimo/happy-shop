@@ -15,28 +15,27 @@ import {
   restoreContentSelection,
 } from './textEditorDomSync'
 import { cssQuoteFontFamily } from './cssQuoteFontFamily'
-import {
-  resolveRunBaselineShift,
-  trackingToLetterSpacingPx,
-  underlineMetrics,
-} from './textLayout'
+import { lineHeightPx, pointTextAlignOffset } from './textLayout'
+import { layerScreenCssMatrix } from './textOverlayTransform'
+import { parseEditorRuns, runsMarkup } from './textEditorMarkup'
+import { isTextEditingChrome } from './textEditingChrome'
 import {
   getTextEditingSelection,
   setTextEditingSelection,
 } from './textEditingSelection'
-import { normalizedTextRuns, resolveRunTracking, resolveRunUnderline } from './textRuns'
 import styles from './TextEditorOverlay.module.css'
 
 type Props = {
-  hostRef: RefObject<HTMLDivElement | null>
   cameraRef: RefObject<ViewportCamera>
+  /** Bumped by the viewport on every pan/zoom so the overlay re-projects. */
+  cameraVersion: number
 }
 
 /**
  * Inline textarea over the text layer while editing. Draggable chrome is not
  * needed — this is an overlay caret, not a modal dialog (no scrim).
  */
-export function TextEditorOverlay({ hostRef, cameraRef }: Props) {
+export function TextEditorOverlay({ cameraRef, cameraVersion }: Props) {
   const edit = useTextToolStore((s) => s.edit)
   const document = useEditorSessionStore((s) => s.document)
   const editorRef = useRef<HTMLDivElement>(null)
@@ -48,60 +47,42 @@ export function TextEditorOverlay({ hostRef, cameraRef }: Props) {
     rawLayer?.type === 'text' ? rawLayer : null
 
   useLayoutEffect(() => {
-    if (!edit || !layer || !editorRef.current || !hostRef.current) return
-    const host = hostRef.current
-    const camera = cameraRef.current
-    const screen = camera.documentToScreen({
-      x: layer.transform.x,
-      y: layer.transform.y,
-    })
-    const zoom = camera.getState().zoom
+    if (!edit || !layer || !editorRef.current) return
     const el = editorRef.current
-    let boxW =
-      layer.textMode === 'box' && layer.bounds.w > 0
-        ? layer.bounds.w * zoom
-        : 1
-    let boxH =
-      layer.textMode === 'box' && layer.bounds.h > 0
-        ? layer.bounds.h * zoom
-        : 1
+    const camera = cameraRef.current.getState()
 
+    // Everything below is authored in *document* pixels and mirrors the
+    // HTMLText CSS in `PixiRenderBackend`, so the glyphs under the caret are
+    // laid out exactly like the committed layer. The camera (and the layer's
+    // own rotation/scale) arrive afterwards as a single CSS matrix — scaling
+    // the font sizes instead would drift from the baked rendering, because
+    // per-run spans carry document-pixel sizes of their own.
     el.style.fontFamily = cssQuoteFontFamily(layer.fontFamily)
-    el.style.fontSize = `${layer.fontSize * zoom}px`
+    el.style.fontSize = `${layer.fontSize}px`
     el.style.fontWeight = String(layer.fontWeight)
     el.style.fontStyle = layer.italic ? 'italic' : 'normal'
     el.style.textDecoration = 'none'
     el.style.color = layer.color
-    el.style.textAlign = layer.align === 'justify' ? 'justify' : layer.align
+    el.style.textAlign = layer.align === 'justify' ? 'left' : layer.align
     el.style.direction = 'ltr'
     el.style.letterSpacing = '0'
-    el.style.lineHeight =
-      layer.leading > 0
-        ? `${layer.leading * zoom}px`
-        : `${layer.fontSize * 1.2 * zoom}px`
-    if (layer.textMode === 'point') {
-      // The Pixi node is hidden while editing. Let the DOM editor own an
-      // unbounded point-text layout instead of clipping it to the old four-em
-      // placeholder width.
-      el.style.width = '1px'
-      el.style.height = '1px'
-      boxW = Math.max(1, el.scrollWidth)
-      boxH = Math.max(1, el.scrollHeight)
-    }
-    const alignOffset =
-      layer.textMode === 'point'
-        ? layer.align === 'center'
-          ? boxW / 2
-          : layer.align === 'right'
-            ? boxW
-            : 0
-        : 0
-    el.style.left = `${screen.x - alignOffset}px`
-    el.style.top = `${screen.y}px`
-    el.style.width = `${boxW}px`
-    el.style.height = `${boxH}px`
-    void host
-  }, [edit, layer, hostRef, cameraRef, document])
+    el.style.lineHeight = `${lineHeightPx(layer)}px`
+
+    const isBox = layer.textMode === 'box' && layer.bounds.w > 0
+    // Point text is unbounded: let the editor grow with its content the way
+    // Pixi's shrink-to-fit measurement does.
+    el.style.width = isBox ? `${layer.bounds.w}px` : 'max-content'
+    el.style.height =
+      isBox && layer.bounds.h > 0 ? `${layer.bounds.h}px` : 'auto'
+
+    // Point-text transforms are insertion anchors, so the block itself shifts
+    // for centre/right alignment (same rule as `applyTextLayer`).
+    const anchorX = isBox
+      ? 0
+      : pointTextAlignOffset(layer.align, el.offsetWidth)
+    el.style.transformOrigin = '0 0'
+    el.style.transform = layerScreenCssMatrix(layer.transform, camera, anchorX)
+  }, [edit, layer, cameraRef, cameraVersion, document])
 
   useEffect(() => {
     if (!edit) return
@@ -157,11 +138,15 @@ export function TextEditorOverlay({ hostRef, cameraRef }: Props) {
       onKeyUp={(event) => updateSelection(layer.id, event.currentTarget)}
       onKeyDown={(event) => handleTextEditShortcut(event, layer)}
       onBlur={() => {
-        // Defer so toolbar clicks can apply first.
+        // Deferred so the click that stole focus lands first.
         requestAnimationFrame(() => {
-          if (useTextToolStore.getState().edit?.layerId === layer.id) {
-            finishTextEditSession()
-          }
+          if (useTextToolStore.getState().edit?.layerId !== layer.id) return
+          // Type options (options bar, Character / Paragraph, font picker) act
+          // on the running session — reaching for one must not commit it. The
+          // caret's range stays in `textEditingSelection`, so their edits still
+          // land on the selected characters.
+          if (isTextEditingChrome(globalThis.document.activeElement)) return
+          finishTextEditSession()
         })
       }}
       onPointerDown={(e) => {
@@ -170,66 +155,6 @@ export function TextEditorOverlay({ hostRef, cameraRef }: Props) {
       }}
     />
   )
-}
-
-function escapeHtml(value: string): string {
-  return value.replace(/[&<>"']/g, (character) => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
-  })[character]!)
-}
-
-function runsMarkup(layer: TextLayer): string {
-  return normalizedTextRuns(layer).map((run) => {
-    const underline = resolveRunUnderline(run, layer)
-    const tracking = resolveRunTracking(run, layer)
-    const baselineShift = resolveRunBaselineShift(run, layer)
-    const letterSpacing = trackingToLetterSpacingPx(tracking, run.fontSize)
-    const metrics = underlineMetrics(run.fontSize)
-    const underlineCss = underline
-      ? `text-decoration:underline;text-underline-offset:${metrics.offsetY - run.fontSize}px;text-decoration-thickness:${metrics.thickness}px`
-      : ''
-    const style = [
-      `font-family:${cssQuoteFontFamily(run.fontFamily)}`,
-      `font-size:${run.fontSize}px`,
-      `font-weight:${run.fontWeight}`,
-      `font-style:${run.italic ? 'italic' : 'normal'}`,
-      `color:${run.color}`,
-      underlineCss,
-      letterSpacing ? `letter-spacing:${letterSpacing}px` : '',
-      baselineShift ? `position:relative;top:${-baselineShift}px` : '',
-    ].filter(Boolean).join(';')
-    return `<span data-font-family="${escapeHtml(run.fontFamily)}" data-font-size="${run.fontSize}" data-font-weight="${run.fontWeight}" data-italic="${run.italic}" data-color="${run.color}" data-underline="${underline}" data-tracking="${tracking}" data-baseline-shift="${baselineShift}" style="${escapeHtml(style)}">${escapeHtml(layer.content.slice(run.start, run.end)).replace(/\n/g, '<br>')}</span>`
-  }).join('')
-}
-
-function parseEditorRuns(element: HTMLDivElement, layer: TextLayer) {
-  const content = element.innerText.replace(/\r/g, '')
-  const runs: TextLayer['runs'] = []
-  let offset = 0
-  for (const span of Array.from(element.querySelectorAll<HTMLSpanElement>('span[data-font-family]'))) {
-    const text = span.innerText.replace(/\r/g, '')
-    if (!text) continue
-    const underline = span.dataset.underline === 'true'
-    const tracking = Number(span.dataset.tracking) || 0
-    const baselineShift = Number(span.dataset.baselineShift) || 0
-    runs.push({
-      start: offset,
-      end: offset + text.length,
-      fontFamily: span.dataset.fontFamily || layer.fontFamily,
-      fontSize: Number(span.dataset.fontSize) || layer.fontSize,
-      fontWeight: Number(span.dataset.fontWeight) || layer.fontWeight,
-      italic: span.dataset.italic === 'true',
-      color: (span.dataset.color || layer.color) as TextLayer['color'],
-      ...(underline !== layer.underline ? { underline } : {}),
-      ...(tracking !== layer.tracking ? { tracking } : {}),
-      ...(baselineShift !== (layer.baselineShift ?? 0) ? { baselineShift } : {}),
-    })
-    offset += text.length
-  }
-  return { content, runs: runs.length ? runs : content.length ? [normalizedTextRuns(layer)[0] ?? {
-    start: 0, end: content.length, fontFamily: layer.fontFamily, fontSize: layer.fontSize,
-    fontWeight: layer.fontWeight, italic: layer.italic, color: layer.color,
-  }] : [] }
 }
 
 function updateSelection(layerId: TextLayer['id'], element: HTMLDivElement): void {

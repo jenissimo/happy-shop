@@ -157,6 +157,66 @@ describe('text edit sessions', () => {
   })
 })
 
+describe('applying character styles to a whole layer', () => {
+  test('a font change reaches the runs, not just the layer defaults', () => {
+    // The renderer draws runs: a layer-level font alone leaves every glyph on
+    // the previous face.
+    const layer = createTextLayer({
+      content: 'Hamburgefons',
+      fontFamily: 'Segoe UI, sans-serif',
+      fontSize: 48,
+    })
+    useEditorSessionStore.setState({
+      document: addLayer(createEmptyDocument({ width: 400, height: 300 }), layer),
+      selectedLayerIds: [layer.id],
+    })
+
+    applyTextOptionsToSelected({ fontFamily: 'Inter, sans-serif' })
+
+    const edited = useEditorSessionStore.getState().document.layers[layer.id]
+    expect(edited?.type === 'text' && edited.fontFamily).toBe('Inter, sans-serif')
+    expect(edited?.type === 'text' && edited.runs).toEqual([
+      expect.objectContaining({
+        start: 0,
+        end: 'Hamburgefons'.length,
+        fontFamily: 'Inter, sans-serif',
+      }),
+    ])
+  })
+
+  test('a caret (no selection) restyles the whole string mid-session', () => {
+    const layer = createTextLayer({ content: 'abc', fontSize: 12 })
+    useEditorSessionStore.setState({
+      document: addLayer(createEmptyDocument({ width: 400, height: 300 }), layer),
+      selectedLayerIds: [layer.id],
+    })
+    expect(beginTextEditSession(layer.id)).toBe(true)
+    setTextEditingSelection(layer.id, 2, 2)
+
+    applyTextOptionsToSelected({ fontSize: 64 })
+
+    const edited = useEditorSessionStore.getState().document.layers[layer.id]
+    expect(edited?.type === 'text' && edited.fontSize).toBe(64)
+    expect(
+      edited?.type === 'text' && edited.runs.map((run) => run.fontSize),
+    ).toEqual([64])
+  })
+
+  test('paragraph-level options leave the runs untouched', () => {
+    const layer = createTextLayer({ content: 'abc', fontFamily: 'Inter' })
+    useEditorSessionStore.setState({
+      document: addLayer(createEmptyDocument({ width: 400, height: 300 }), layer),
+      selectedLayerIds: [layer.id],
+    })
+
+    applyTextOptionsToSelected({ align: 'center', leading: 80 })
+
+    const edited = useEditorSessionStore.getState().document.layers[layer.id]
+    expect(edited?.type === 'text' && edited.align).toBe('center')
+    expect(edited?.type === 'text' && edited.runs).toEqual(layer.runs)
+  })
+})
+
 describe('Type tool point and box creation', () => {
   test('click creates point text without frame bounds; drag creates box text', () => {
     const controller = new TextToolController()
@@ -180,5 +240,34 @@ describe('Type tool point and box creation', () => {
     expect(box?.type).toBe('text')
     expect(box?.type === 'text' && box.textMode).toBe('box')
     expect(box?.type === 'text' && box.bounds).toEqual({ x: 0, y: 0, w: 100, h: 60 })
+  })
+
+  test('clicking an existing text layer edits it on release, not on press', () => {
+    const layer = createTextLayer({
+      content: 'Hello',
+      textMode: 'box',
+      bounds: { x: 0, y: 0, w: 120, h: 40 },
+      transform: { x: 20, y: 30 },
+    })
+    useEditorSessionStore.setState({
+      document: addLayer(createEmptyDocument({ width: 400, height: 300 }), layer),
+      selectedLayerIds: [],
+    })
+    const controller = new TextToolController()
+
+    controller.pointerDown(40, 50, 7)
+    // Pressing must not open the session: the press still runs its default
+    // action, which focuses the viewport and would blur the editor away.
+    expect(useTextToolStore.getState().edit).toBeNull()
+
+    controller.pointerUp(40, 50, 7)
+    expect(useTextToolStore.getState().edit?.layerId).toBe(layer.id)
+    expect(useEditorSessionStore.getState().selectedLayerIds).toEqual([layer.id])
+    // No stray layer was created on top of the one being edited.
+    expect(
+      Object.values(useEditorSessionStore.getState().document.layers).filter(
+        (candidate) => candidate.type === 'text',
+      ),
+    ).toHaveLength(1)
   })
 })

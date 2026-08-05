@@ -28,6 +28,7 @@ import {
   type GoogleFontsMode,
 } from '../../../ui/features/settings/prefs'
 import styles from './FontPicker.module.css'
+import { textEditChromeProps } from './textEditingChrome'
 
 type Props = {
   open: boolean
@@ -346,7 +347,7 @@ export function FontPicker({ open, anchorRef, value, documentScripts = [], onCha
 
   return (
     <PickerSurface open={open} anchorRef={anchorRef} onClose={onClose} title="Font" width={340} ariaLabel="Font picker">
-      <div className={styles.picker}>
+      <div className={styles.picker} {...textEditChromeProps}>
         <header className={styles.header}>
           <input
             value={query}

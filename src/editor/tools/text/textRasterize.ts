@@ -7,10 +7,9 @@ import {
   justifyGapExtra,
   layoutCssFont,
   layoutCssRunFont,
-  layoutRunAtIndex,
   layoutTextLines,
-  layoutTrackingPxBetween,
   lineHeightPx,
+  lineRunSegments,
   measureTextBoundsSync,
   pointTextAlignOffset,
   resolveRunBaselineShift,
@@ -186,36 +185,57 @@ export async function rasterizeTextLayerToBitmap(
       underlineWidth = 0
     }
 
-    for (let charIndex = 0; charIndex < line.text.length; charIndex++) {
-      const absolute = line.start + charIndex
-      const run = layoutRunAtIndex(runs, absolute)
-      if (run) {
-        ctx.font = cssRunFont(run)
-        ctx.fillStyle = run.color
-      }
-      const char = line.text[charIndex]!
+    // Same segmentation the measure uses: whole same-style pieces keep their
+    // kerning, and only tracking / justify gaps force per-glyph placement.
+    const segments = lineRunSegments(runs, layer, line.text, line.start)
+    segments.forEach((segment, segmentIndex) => {
+      const run = segment.run
+      ctx.font = run ? cssRunFont(run) : cssFont(layer)
+      ctx.fillStyle = run?.color ?? layer.color
       const shift = run ? resolveRunBaselineShift(run, layer) : (layer.baselineShift ?? 0)
       const underlined = run ? resolveRunUnderline(run, layer) : layer.underline
-      const charWidth = ctx.measureText(char).width
-      if (underlined) {
-        if (underlineStart == null) {
-          underlineStart = cursor
-          underlineColor = run?.color ?? layer.color
-          underlineSize = run?.fontSize ?? layer.fontSize
-        }
-        underlineWidth += charWidth
-      } else {
-        flushUnderline()
+      const isLastSegment = segmentIndex === segments.length - 1
+
+      const beginUnderline = () => {
+        if (underlineStart != null) return
+        underlineStart = cursor
+        underlineColor = run?.color ?? layer.color
+        underlineSize = run?.fontSize ?? layer.fontSize
       }
-      ctx.fillText(char, cursor, y - shift)
-      cursor += charWidth
-      if (charIndex < line.text.length - 1) {
-        let gap = layoutTrackingPxBetween(runs, layer, absolute)
+
+      const perGlyph = segment.trackingPx !== 0 || gapExtra > 0
+      if (!perGlyph) {
+        const width = ctx.measureText(segment.text).width
+        if (underlined) {
+          beginUnderline()
+          underlineWidth += width
+        } else {
+          flushUnderline()
+        }
+        ctx.fillText(segment.text, cursor, y - shift)
+        cursor += width
+        return
+      }
+
+      for (let index = 0; index < segment.text.length; index++) {
+        const char = segment.text[index]!
+        const charWidth = ctx.measureText(char).width
+        if (underlined) {
+          beginUnderline()
+          underlineWidth += charWidth
+        } else {
+          flushUnderline()
+        }
+        ctx.fillText(char, cursor, y - shift)
+        cursor += charWidth
+        const isLineEnd = isLastSegment && index === segment.text.length - 1
+        if (isLineEnd) continue
+        let gap = segment.trackingPx
         if (gapExtra > 0 && char === ' ') gap += gapExtra
         if (underlined && underlineStart != null) underlineWidth += gap
         cursor += gap
       }
-    }
+    })
     flushUnderline()
   })
 

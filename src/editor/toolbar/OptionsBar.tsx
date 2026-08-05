@@ -43,6 +43,7 @@ import { useGradientToolStore } from '../tools/gradient/gradientToolStore'
 import { documentHistory } from '../session/documentHistory'
 import { detectDocumentScripts } from '../tools/text/googleFonts/scriptDetect'
 import { useTextToolStore } from '../tools/text/textToolStore'
+import { textEditChromeProps } from '../tools/text/textEditingChrome'
 import { useEditorSessionStore } from '../session/EditorSessionStore'
 import { usePaletteStore } from '../color/paletteStore'
 import { useColorStore } from '../color/colorStore'
@@ -179,7 +180,12 @@ export function OptionsBar() {
   const historyUndoLabels = documentHistory.listUndoLabels()
 
   return (
-    <div className={styles.bar} role="toolbar" aria-label="Tool options">
+    <div
+      className={styles.bar}
+      role="toolbar"
+      aria-label="Tool options"
+      {...textEditChromeProps}
+    >
       <span className={styles.toolName}>{cageSession ? 'Cage Transform' : toolName}</span>
       {cageSession ? (
         <div className={styles.textOpts}>

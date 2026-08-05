@@ -21,6 +21,7 @@ import type {
 import { identityTransform } from '../../rendering/contracts'
 import type { RenderChromaConnectivityMask } from '../../rendering/contracts'
 import { composeLayerTransforms } from './composeLayerTransform'
+import { normalizedTextRuns } from '../tools/text/textRuns'
 
 const IDENTITY_TRANSFORM: RenderLayerTransform = identityTransform()
 
@@ -350,7 +351,10 @@ function mapLeafLayer(
       italic: layer.italic,
       underline: layer.underline,
       color: layer.color,
-      runs: layer.runs.map((run) => ({
+      // Normalized: gaps between runs become default-styled runs, so the
+      // renderer can draw the run list verbatim and never drop a character
+      // that no run happens to cover.
+      runs: normalizedTextRuns(layer).map((run) => ({
         start: run.start,
         end: run.end,
         fontFamily: run.fontFamily,

@@ -261,39 +261,52 @@ export function applyTextOptionsToSelected(patch: {
   const layer = document.layers[id]
   if (!layer || layer.type !== 'text') return
   const edit = useTextToolStore.getState().edit
+  const characterPatch: CharacterStylePatch = {
+    ...(patch.fontFamily !== undefined ? { fontFamily: patch.fontFamily } : {}),
+    ...(patch.fontSource !== undefined ? { fontSource: patch.fontSource } : {}),
+    ...(patch.fontSize !== undefined ? { fontSize: patch.fontSize } : {}),
+    ...(patch.fontWeight !== undefined ? { fontWeight: patch.fontWeight } : {}),
+    ...(patch.italic !== undefined ? { italic: patch.italic } : {}),
+    ...(patch.color !== undefined ? { color: patch.color } : {}),
+    ...(patch.underline !== undefined ? { underline: patch.underline } : {}),
+    ...(patch.tracking !== undefined ? { tracking: patch.tracking } : {}),
+    ...(patch.baselineShift !== undefined ? { baselineShift: patch.baselineShift } : {}),
+    ...(patch.horizontalScale !== undefined ? { horizontalScale: patch.horizontalScale } : {}),
+    ...(patch.verticalScale !== undefined ? { verticalScale: patch.verticalScale } : {}),
+    ...(patch.fauxBold !== undefined ? { fauxBold: patch.fauxBold } : {}),
+    ...(patch.fauxItalic !== undefined ? { fauxItalic: patch.fauxItalic } : {}),
+    ...(patch.allCaps !== undefined ? { allCaps: patch.allCaps } : {}),
+    ...(patch.smallCaps !== undefined ? { smallCaps: patch.smallCaps } : {}),
+  }
+  const hasCharacterPatch = Object.keys(characterPatch).length > 0
+  // Character styling lives on the runs, and the renderer draws runs — so a
+  // layer-level patch alone leaves the glyphs on their old font/size/colour.
+  // Whatever is not a specific DOM selection restyles the whole string.
+  const wholeTextRuns = () =>
+    styleTextRange(layer, 0, layer.content.length, characterPatch)
+
   if (edit && edit.layerId === id) {
-    const selection = getTextEditingSelection(id)
-    const characterPatch: CharacterStylePatch = {
-      ...(patch.fontFamily !== undefined ? { fontFamily: patch.fontFamily } : {}),
-      ...(patch.fontSource !== undefined ? { fontSource: patch.fontSource } : {}),
-      ...(patch.fontSize !== undefined ? { fontSize: patch.fontSize } : {}),
-      ...(patch.fontWeight !== undefined ? { fontWeight: patch.fontWeight } : {}),
-      ...(patch.italic !== undefined ? { italic: patch.italic } : {}),
-      ...(patch.color !== undefined ? { color: patch.color } : {}),
-      ...(patch.underline !== undefined ? { underline: patch.underline } : {}),
-      ...(patch.tracking !== undefined ? { tracking: patch.tracking } : {}),
-      ...(patch.baselineShift !== undefined ? { baselineShift: patch.baselineShift } : {}),
-      ...(patch.horizontalScale !== undefined ? { horizontalScale: patch.horizontalScale } : {}),
-      ...(patch.verticalScale !== undefined ? { verticalScale: patch.verticalScale } : {}),
-      ...(patch.fauxBold !== undefined ? { fauxBold: patch.fauxBold } : {}),
-      ...(patch.fauxItalic !== undefined ? { fauxItalic: patch.fauxItalic } : {}),
-      ...(patch.allCaps !== undefined ? { allCaps: patch.allCaps } : {}),
-      ...(patch.smallCaps !== undefined ? { smallCaps: patch.smallCaps } : {}),
-    }
     // A non-collapsed DOM selection receives character styling (including
-    // underline and tracking). At a caret, those become layer typing defaults.
-    // Leading and align stay paragraph/layer scoped.
-    if (selection && selection.start !== selection.end && Object.keys(characterPatch).length) {
+    // underline and tracking). Leading and align stay paragraph/layer scoped.
+    const selection = getTextEditingSelection(id)
+    if (selection && selection.start !== selection.end && hasCharacterPatch) {
       previewTextProps(id, {
         runs: styleTextRange(layer, selection.start, selection.end, characterPatch),
       })
       return
     }
-    previewTextProps(id, patch)
+    previewTextProps(id, {
+      ...patch,
+      ...(hasCharacterPatch ? { runs: wholeTextRuns() } : {}),
+    })
     return
   }
+
   const before = document
-  const after = updateTextLayer(before, id, patch)
+  const after = updateTextLayer(before, id, {
+    ...patch,
+    ...(hasCharacterPatch ? { runs: wholeTextRuns() } : {}),
+  })
   pushMetadata('Edit Text', before, after, `text-props:${id}`, 400)
 }
 

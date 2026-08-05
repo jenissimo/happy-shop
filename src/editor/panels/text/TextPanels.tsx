@@ -23,6 +23,7 @@ import { readGoogleFontsModePref, GOOGLE_FONTS_MODE_CHANGED_EVENT } from '../../
 import { normalizedTextRuns, resolveRunTracking, resolveRunUnderline } from '../../tools/text/textRuns'
 import { useTextToolStore } from '../../tools/text/textToolStore'
 import styles from './TextPanels.module.css'
+import { textEditChromeProps } from '../../tools/text/textEditingChrome'
 
 function sharedValue<T>(fallback: T, values: T[]): T | null {
   if (!values.length) return fallback
@@ -103,7 +104,7 @@ export function CharacterPanel() {
     : layer.underline
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} {...textEditChromeProps}>
       <div className={styles.caption}>
         Character{hasRange ? ` · ${selection.end - selection.start} selected` : ''}
       </div>
@@ -181,7 +182,7 @@ export function ParagraphPanel() {
   const { layer } = useTextTarget()
   if (!layer) return <EmptyTextPanel name="Paragraph" />
   return (
-    <div className={styles.root}>
+    <div className={styles.root} {...textEditChromeProps}>
       <div className={styles.caption}>Paragraph</div>
       <div className={styles.controls}>
         {([

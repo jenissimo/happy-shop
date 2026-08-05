@@ -1027,7 +1027,7 @@ export function ViewportHost({ documentView }: ViewportHostProps) {
           ) : null}
         </div>
       ) : null}
-      <TextEditorOverlay hostRef={hostRef} cameraRef={cameraRef} />
+      <TextEditorOverlay cameraRef={cameraRef} cameraVersion={cameraVersion} />
       {brushMenu ? (
         <BrushContextMenu
           x={brushMenu.x}

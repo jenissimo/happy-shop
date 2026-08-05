@@ -80,6 +80,64 @@ export function layoutTrackingPxBetween(runs: TextRun[], layer: TextLayer, leftI
   return trackingToLetterSpacingPx(resolveRunTracking(left, layer), left.fontSize)
 }
 
+export type LineRunSegment = {
+  text: string
+  /** Absolute content index of the segment's first character. */
+  start: number
+  run: TextRun | undefined
+  /** Extra space after every character of the segment, in px. */
+  trackingPx: number
+}
+
+/**
+ * Split a laid-out line into maximal same-style pieces. Measuring and drawing
+ * a whole piece at once is what keeps kerning (and ligatures) — going glyph by
+ * glyph silently drops both, so the text ends up wider than it renders in the
+ * DOM editor and the viewport.
+ */
+export function lineRunSegments(
+  runs: TextRun[],
+  layer: TextLayer,
+  line: string,
+  absoluteStart: number,
+): LineRunSegment[] {
+  const segments: LineRunSegment[] = []
+  for (let i = 0; i < line.length; i++) {
+    const run = layoutRunAtIndex(runs, absoluteStart + i)
+    const previous = segments.at(-1)
+    if (previous && previous.run === run) {
+      previous.text += line[i]!
+      continue
+    }
+    segments.push({
+      text: line[i]!,
+      start: absoluteStart + i,
+      run,
+      trackingPx: layoutTrackingPxBetween(runs, layer, absoluteStart + i),
+    })
+  }
+  return segments
+}
+
+export function segmentCssFont(segment: LineRunSegment, layer: TextLayer): string {
+  return segment.run ? layoutCssRunFont(segment.run) : layoutCssFont(layer)
+}
+
+/**
+ * Advance of a segment's glyphs, tracking excluded. Tracking forces per-glyph
+ * placement, so it is also measured per glyph — measurement has to mirror how
+ * `rasterizeTextLayerToBitmap` draws, or the bitmap and its box disagree.
+ */
+export function segmentGlyphWidth(
+  ctx: CanvasRenderingContext2D,
+  segment: LineRunSegment,
+): number {
+  if (segment.trackingPx === 0) return ctx.measureText(segment.text).width
+  let width = 0
+  for (const character of segment.text) width += ctx.measureText(character).width
+  return width
+}
+
 function measureLineWidth(
   ctx: CanvasRenderingContext2D,
   layer: TextLayer,
@@ -88,13 +146,17 @@ function measureLineWidth(
   absoluteStart: number,
 ): number {
   if (!line.length) return 0
+  const segments = lineRunSegments(runs, layer, line, absoluteStart)
   let width = 0
-  for (let i = 0; i < line.length; i++) {
-    const run = layoutRunAtIndex(runs, absoluteStart + i)
-    ctx.font = run ? layoutCssRunFont(run) : layoutCssFont(layer)
-    width += ctx.measureText(line[i]!).width
-    if (i < line.length - 1) width += layoutTrackingPxBetween(runs, layer, absoluteStart + i)
-  }
+  segments.forEach((segment, index) => {
+    ctx.font = segmentCssFont(segment, layer)
+    width += segmentGlyphWidth(ctx, segment)
+    // The last character of the line has no gap after it.
+    const gaps = index === segments.length - 1
+      ? segment.text.length - 1
+      : segment.text.length
+    width += segment.trackingPx * gaps
+  })
   return width
 }
 
