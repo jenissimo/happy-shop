@@ -192,6 +192,22 @@ describe('Photoshop default parity', () => {
 })
 
 describe('layer style multi-instance stack', () => {
+  test('an untouched layer gets its slots in canonical paint order', () => {
+    // Array order is paint order and the draft is what OK commits, so ticking
+    // Stroke + Color Overlay has to render Photoshop-style: the overlay paints
+    // the fill, then the stroke goes around it. Seeded the other way round, the
+    // overlay repaints the stroke and a black outline comes out white.
+    const draft = ensureStyleSlots([])
+    const slot = (type: string) => draft.findIndex((fx) => fx.type === type)
+
+    expect(slot('color-overlay')).toBeLessThan(slot('stroke'))
+    expect(slot('pattern-overlay')).toBeLessThan(slot('color-overlay'))
+    expect(slot('satin')).toBeLessThan(slot('inner-glow'))
+    expect(slot('inner-shadow')).toBeLessThan(slot('bevel-emboss'))
+    expect(draft.every((fx) => !fx.enabled)).toBe(true)
+    expect(draft).toHaveLength(STYLE_EFFECT_ORDER.length)
+  })
+
   test('ensureStyleSlots preserves multiple strokes and appends missing types', () => {
     const a = createDefaultEffect('stroke')
     const b = createDefaultEffect('stroke')

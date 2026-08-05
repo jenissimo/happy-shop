@@ -284,13 +284,12 @@ export function ensureStyleSlots(effects: LayerEffect[]): LayerEffect[] {
   const known = effects.filter(
     (e) => isStyleEffectType(e.type) || isContentEffectType(e.type),
   )
-  if (known.length === 0) {
-    return STYLE_EFFECT_ORDER.map((type) => ({
-      ...createDefaultEffect(type),
-      enabled: false,
-    }))
-  }
   const present = new Set(known.map((e) => e.type))
+  // Array order is paint order (ND-EFFECT-STACK-VISION §5), and the draft is
+  // what OK commits — so the slots a user ticks have to arrive already in
+  // canonical order. Seeding them in the dialog's own listing order instead
+  // put Stroke *below* Color Overlay, and the overlay then repainted the
+  // stroke: a black outline came out in the fill colour.
   const next = [...known]
   // Insert missing style placeholders in paint-slot order so positions stay stable.
   for (const type of STYLE_EFFECT_ORDER) {
